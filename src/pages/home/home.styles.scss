@@ -1,0 +1,275 @@
+@import "../../styles/common.styles.scss";
+img {
+  width: 300px;
+}
+.max-width {
+  max-width: 60%;
+}
+
+.custom-btn {
+  background-color: $theme-primary-color;
+  color: #fff;
+  position: relative;
+  left: -10px;
+  padding: 5px 15px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  font-family: "Baloo" serif;
+  font-size: small;
+}
+
+.custom-question-icon {
+  height: 40px;
+  width: 40px;
+  border: 0.5px solid #e3e3e3;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  z-index: 100;
+}
+
+.custom-question-icon i {
+  font-size: xx-large;
+  font-weight: 100;
+}
+
+.head,
+.desc,
+.arabic-desc {
+  color: $theme-primary-color;
+}
+
+.head {
+  font-family: $font-style;
+}
+.desc {
+  font-family: "Mulish" serif;
+}
+.accordian{
+    background: transparent!important;
+    color: white!important;
+    .arrow-color{
+        color: white;
+    }
+    .accordion-sub{
+       ul{
+        li{
+            color: black;
+        }
+       }
+    .MuiCollapse-vertical{
+        background-color: red;
+    }
+}
+}
+.arabic-desc {
+  font-family: "Amiri";
+  text-align: right;
+}
+
+.accordian ::ng-deep .panel-title .btn-link {
+  color: #fff;
+  text-decoration: none;
+}
+
+.accordian ::ng-deep .card {
+  background-color: transparent;
+}
+
+.side-accord-container {
+  background-color: $theme-primary-color;
+  border-radius: 20px;
+  padding: 1em;
+}
+
+.accordian ::ng-deep .panel-title .btn:focus {
+  box-shadow: none !important;
+}
+
+.green {
+  background-color: $theme-green;
+  font-size: $theme-f6;
+  padding: 0px 10px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  margin: 0;
+}
+.l-green {
+  background-color: $theme-l-green;
+  height: 5px;
+}
+
+ul li {
+  color: #fff;
+  list-style-type: none;
+  border-bottom: 1px solid #fff;
+  padding-bottom: 1px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  width: auto;
+}
+
+.custom-details {
+  background-color: #e2e2e2;
+  border-radius: 30px;
+  padding: 2em;
+  margin-top: 3em;
+}
+
+.custom-details-column {
+  border-radius: 15px;
+  background-color: $theme-l-green;
+  padding: 10px;
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+  margin-top: 1em;
+}
+
+.custom-details-column h6 {
+  color: $theme-primary-color;
+  font-weight: bolder;
+  font-size: $theme-f2;
+}
+.custom-details-column div {
+  background-color: $theme-primary-color;
+  font-size: $theme-f3;
+}
+
+.portal-details {
+  border: 3px solid $theme-1-grey;
+  border-radius: $theme-br-sm-5;
+}
+
+.portal-btn {
+  background-color: #fff;
+  border-radius: $theme-br-lg-1;
+}
+
+.portal-input {
+  border-top-right-radius: $theme-br-lg-1;
+  border-bottom-right-radius: $theme-br-lg-1;
+}
+
+.portal-details h6 {
+  color: $theme-primary-color;
+  font-weight: bolder;
+  text-align: center;
+  margin: 1em 0;
+}
+.fsize-2 {
+  font-size: $theme-f1;
+}
+
+// tab-container
+.tab-container {
+  background-color: #eeeeeed9;
+}
+.tab-container ::ng-deep .nav-tabs {
+  margin-top: 3em;
+}
+.tab-container ::ng-deep .nav-tabs .active {
+  border-bottom: 2px solid $theme-primary-color;
+}
+.tab-container ::ng-deep .nav-tabs .nav-item .nav-link {
+  color: $theme-green !important;
+  font-weight: bolder;
+  font-size: $theme-f2;
+}
+// tab-container End
+
+// article colum style
+.article-text {
+  text-align: center;
+  font-size: 2.5em;
+  color: $theme-primary-color;
+  font-weight: bolder;
+}
+.article-col {
+  background-color: $theme-l-green;
+  padding: 10px;
+  border-radius: $theme-br-sm-3;
+  margin: 1em;
+}
+
+.article-col h6 {
+  background-color: $theme-primary-color;
+  padding: 0.4em;
+  color: #fff;
+}
+
+.article-col div {
+  font-size: 10px;
+  background-color: #000;
+  color: #fff;
+}
+//  End
+
+.accordian-wrapper ::ng-deep .card-header {
+  padding: 0 !important;
+}
+
+.accordian-wrapper ::ng-deep .card-body ul {
+  padding: 0 !important;
+}
+
+.madhab-category ul {
+  padding-left: 0.2em !important;
+}
+
+@media only screen and (min-width: 960px) {
+  /* styles for browsers larger than 960px; */
+}
+@media only screen and (min-width: 1440px) {
+  /* styles for browsers larger than 1440px; */
+}
+@media only screen and (min-width: 2000px) {
+  /* for sumo sized (mac) screens */
+}
+
+@media only screen and (max-device-width: 480px) {
+  .article-container {
+    width: 100%;
+  }
+  .article-col {
+    width: 90%;
+    margin: 10px auto;
+  }
+  .max-width {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+}
+@media only screen and (device-width: 768px) {
+  .article-container {
+    width: 100%;
+  }
+  .article-col {
+    width: 90%;
+    margin: 10px auto;
+  }
+  .max-width {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+}
+/* different techniques for iPad screening */
+@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation: portrait) {
+  /* For portrait layouts only */
+}
+
+@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation: landscape) {
+  /* For landscape layouts only */
+}
+.home-page{
+    height: 100vh;
+    .bg-custom {
+      background-repeat: no-repeat;
+      background-size: cover;
+      padding-bottom: 10px;
+      width: 100%;
+      
+    }
+}

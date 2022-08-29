@@ -13,3 +13,30 @@ $error-font-size: 13px;
   color: $error;
   font-size: $error-font-size;
 }
+
+$font-style:'Baloo 2', cursive;
+
+
+$theme-primary-color: #235775;
+$theme-secondary-color: #5e8399;
+$theme-green: #409ea1;
+$theme-l-green: #a3d5d6;
+$theme-1-grey: #99b0bc;
+$theme-f1: 15px;
+$theme-f2: 17px;
+$theme-f3: 19px;
+$theme-f4: 21px;
+$theme-f5: 23px;
+$theme-f6: 25px;
+$theme-f14: 14px;
+$theme-br-sm-1: 5px;
+$theme-br-sm-2: 8px;
+$theme-br-sm-3: 10px;
+$theme-br-sm-4: 12px;
+$theme-br-sm-5: 14px;
+$theme-br-lg-1: 30px;
+$theme-pointer: pointer;
+
+.bg-theme-grey {
+  background-color: $theme-1-grey !important;
+}

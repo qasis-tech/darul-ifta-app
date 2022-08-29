@@ -1,5 +1,4 @@
 import React from "react";
-import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -8,7 +7,6 @@ import BackgroundImage from "../../assets/login_bg.jpg";
 
 import "../../styles/common.styles.scss";
 import "./login.styles.scss";
-import { Typography } from "@mui/material";
 
 const Login = () => {
   return (

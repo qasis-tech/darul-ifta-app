@@ -1,0 +1,108 @@
+.navbar-section{
+
+    .navbar-wrapper-main {
+        position: sticky;
+        top: 0;
+        z-index: 9999;
+        padding: 0.6em 0.2em;
+        .navbar-wrapper {
+          display: flex;
+          justify-content: end;
+        }
+        .navbar-log-wrapper .img-logo {
+          width: 250px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+        
+        .navbar-log-wrapper {
+          display: flex;
+          // justify-content: center;
+          padding: 0;
+        }
+        .min-height {
+          max-height: 25px !important;
+        }
+        
+        .custom-menu {
+          border: 0;
+          border-radius: 5px;
+          box-shadow: 0px 0px 3px 1px #cacaca;
+          margin: 0px 10px;
+          font-weight: 500;
+          color: #5e8399 !important;
+          height: 100%;
+        }
+        .custom-menu a {
+          height: 30px !important;
+        }
+        
+        ul li {
+          cursor: pointer;
+        }
+        
+        ul li a {
+          font-size: small;
+        }
+        
+        form .custom-menu {
+          font-size: smaller !important;
+        }
+        form {
+          height: 100%;
+        }
+        
+        @media only screen and (max-width: 480px) {
+          .navbar-container ::ng-deep .nav-item {
+            margin-top: 8px;
+          }
+        
+          .navbar-container ::ng-deep .nav-item a {
+            padding-left: 5px;
+          }
+        
+          .search-nav {
+            margin: 10px 0 4px 0;
+          }
+        
+          .navbar-wrapper .nav-item .custom-menu {
+            box-shadow: 0px 0px 0px 0px #cacaca;
+            padding: 10px;
+            border-bottom: 1px groove #fefefe;
+            border-radius: 0px;
+          }
+        
+          .img-logo {
+            margin-left: auto;
+            margin-right: auto;
+          }
+          // .navbar-wrapper {
+          //   border-bottom: 1px solid green;
+          // }
+        }
+        @media only screen and (device-width: 768px) {
+          .navbar-container {
+          }
+        }
+        
+        .profile img {
+          width: 45px;
+          height: 45px;
+          border-radius: 100%;
+        }
+        
+        .nav-item a {
+          display: flex;
+          align-items: center;
+        }
+        
+        .navbar {
+          padding: 0;
+        }
+        
+        .navbar-wrapper {
+          display: unset;
+        }
+        
+      }
+}
