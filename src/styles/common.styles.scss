@@ -1,7 +1,15 @@
-.bg-red {
-    background-color: red;
-}
 
-$primary:red;
+
+$primary:#2196f3;
 $white:white;
 $main-font-size:15px;
+
+
+$error: red;
+$error-font-size: 13px;
+
+.error {
+  padding-top: 0.5em;
+  color: $error;
+  font-size: $error-font-size;
+}
