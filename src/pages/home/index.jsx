@@ -11,7 +11,11 @@ import Image1 from "../../assets/Ifta_ayah.svg";
 import LogoImage from "../../assets/ifta-logo.svg";
 import Image2 from "../../assets/Minaret.svg";
 import HeaderComponent from "../../components/Header";
+import FooterComponent from "../../components/Footer";
+import QuestionComponent from "../../components/QuestionContainer";
 import BackgroundImage from "../../assets/webback.png";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 
 import "./home.styles.scss";
 
@@ -111,18 +115,20 @@ const HomePage = () => {
                     <div class="accordian-wrapper">
                       <Accordion class="accordian">
                         <AccordionSummary
-                          expandIcon={<ExpandMoreIcon className="arrow-color"/>}
+                          expandIcon={
+                            <ExpandMoreIcon className="arrow-color" />
+                          }
                           aria-controls="panel1a-content"
                           id="panel1a-header"
                         >
                           <Typography>Accordion 1</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                        <ul class="accordion-sub">
-                        <li>Hanafi Madhab</li>
-                        <li>Shafi Madhab</li>
-                        <li>Common</li>
-                      </ul>
+                          <ul class="accordion-sub">
+                            <li>Hanafi Madhab</li>
+                            <li>Shafi Madhab</li>
+                            <li>Common</li>
+                          </ul>
                         </AccordionDetails>
                       </Accordion>
 
@@ -165,10 +171,25 @@ const HomePage = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="col-md-9 tab-container shadow rounded">
-            <tabset class="">
+              <div class="col-md-9 tab-container shadow rounded">
+                <Tabs
+                  indicatorColor="primary"
+                  textColor="primary"
+                  variant="fullWidth"
+                  aria-label="action tabs example"
+                >
+                  
+                  <Tab className="tab-name" label="All">
+                    
+                  </Tab>
+                  <Tab className="tab-name" label="മലയാളം" />
+                  <Tab  className="tab-name" label="English" />
+                  <Tab className="tab-name" label="اردو"></Tab>
+                  <Tab className="tab-name" label="العربيــــــــــــــــــة"></Tab>
+                </Tabs>
+                  <QuestionComponent/>
+
+                {/* <tabset class="">
               <tab tab1 heading="All" id="0">
                 <app-fatwas-list></app-fatwas-list>
               </tab>
@@ -184,9 +205,12 @@ const HomePage = () => {
               <tab tab4 heading="العربيــــــــــــــــــة" id="3">
                 <app-fatwas-list></app-fatwas-list>
               </tab>
-            </tabset>
+            </tabset> */}
+              </div>
+            </div>
           </div>
         </section>
+        <FooterComponent/>
       </div>
     </div>
   );

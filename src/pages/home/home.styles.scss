@@ -1,6 +1,6 @@
 @import "../../styles/common.styles.scss";
 img {
-  width: 300px;
+  width: 281px;
 }
 .max-width {
   max-width: 60%;
@@ -104,7 +104,6 @@ img {
 ul li {
   color: #fff;
   list-style-type: none;
-  border-bottom: 1px solid #fff;
   padding-bottom: 1px;
   margin-bottom: 10px;
   cursor: pointer;
@@ -265,11 +264,30 @@ ul li {
 }
 .home-page{
     height: 100vh;
+    background-color: #f8f9fa;
+    font-family: $main-font-style;
     .bg-custom {
       background-repeat: no-repeat;
       background-size: cover;
-      padding-bottom: 10px;
       width: 100%;
       
     }
+    .body-section{
+      padding-bottom: 4em;
+    }
+    .tab-name{
+      color: #409ea1!important;
+    font-weight: bolder;
+    font-size: 17px;
+    }
+}
+
+
+.accordian-wrapper {
+  .MuiButtonBase-root,.MuiSvgIcon-root {
+    color: #fff;
+  }
+  .MuiPaper-root {
+background-color: transparent;
+  }
 }

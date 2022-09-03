@@ -9,6 +9,9 @@
           display: flex;
           justify-content: end;
         }
+        .navbar-collapse{
+          justify-content: flex-end;
+        }
         .navbar-log-wrapper .img-logo {
           width: 250px;
           margin-left: auto;
@@ -32,6 +35,12 @@
           font-weight: 500;
           color: #5e8399 !important;
           height: 100%;
+          @media only screen and (max-width: 786px) {
+            box-shadow: 0 0 #cacaca;
+            padding: 10px;
+            border-bottom: 1px groove #fefefe;
+            border-radius: 0;
+          }
         }
         .custom-menu a {
           height: 30px !important;
@@ -73,6 +82,7 @@
           }
         
           .img-logo {
+            width: 190px;
             margin-left: auto;
             margin-right: auto;
           }
