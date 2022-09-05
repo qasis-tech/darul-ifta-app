@@ -1,9 +1,14 @@
-@import "../fonts/baloo.regular.ttf";
+// @import "../assets/fonts/baloo.regular.ttf";
 
-$primary:#2196f3;
-$white:white;
-$main-font-size:15px;
-$main-font-style:"Baloo";
+@font-face {
+  font-family: "baloo";
+  src: url(../assets/fonts/baloo.regular.ttf);
+}
+
+$primary: #2196f3;
+$white: white;
+$main-font-size: 15px;
+$main-font-style: "Baloo";
 
 $error: red;
 $error-font-size: 13px;
@@ -14,8 +19,7 @@ $error-font-size: 13px;
   font-size: $error-font-size;
 }
 
-$font-style:'Baloo 2', cursive;
-
+$font-style: "Baloo 2", cursive;
 
 $theme-primary-color: #235775;
 $theme-secondary-color: #5e8399;

@@ -1,137 +1,138 @@
 @import "../styles/common.styles.scss";
 .footer-section {
-    .logo-img {
-        width: 300px;
-    }
+  //   position: relative;
+  //   bottom: 0;
+  .logo-img {
+    width: 300px;
+  }
 
+  .footer-container {
+    background-color: $theme-primary-color;
+    min-height: 350px;
+    font-family: "Marcellus";
+    font-weight: lighter;
+  }
+
+  .footer-container {
+    padding: 3em 4em 0 4em;
+  }
+
+  .img-logo-desc {
+    color: #fff;
+  }
+
+  .hr-bar {
+    height: 2px;
+    width: 70%;
+    background-color: #fff;
+    margin-bottom: 1em;
+  }
+
+  // useful-links
+  .useful-links {
+    color: #fff;
+  }
+
+  .useful-links ul {
+    padding: 0;
+  }
+
+  .useful-links ul li {
+    list-style-type: none;
+    font-size: $theme-f2;
+  }
+
+  .logo-section {
+    justify-content: center;
+  }
+
+  .app-social-media-section {
+    color: #fff;
+  }
+
+  .app-social-media-section img {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+  }
+
+  .app-store img {
+    min-width: 140px;
+    height: 40px;
+    cursor: pointer;
+  }
+
+  .social-media img {
+    margin-right: 0.8em;
+    cursor: pointer;
+  }
+
+  .identity {
+    background-color: #000;
+    color: #fff;
+    width: 100%;
+    text-align: center;
+    padding: 1em 0.5em;
+    margin: 0;
+    font-family: "Mulish";
+    font-size: 14px;
+    bottom: 0;
+  }
+
+  .identity a {
+    color: #00c5cd;
+    text-decoration: none;
+  }
+
+  .identity a:hover {
+    color: #00f7ff;
+    text-decoration: none;
+  }
+
+  .useful-links ul li {
+    cursor: pointer;
+  }
+
+  @media only screen and (min-width: 960px) {
+    /* styles for browsers larger than 960px; */
+  }
+
+  @media only screen and (min-width: 1440px) {
+    /* styles for browsers larger than 1440px; */
+  }
+
+  @media only screen and (min-width: 2000px) {
+    /* for sumo sized (mac) screens */
+  }
+
+  @media only screen and (max-device-width: 480px) {
     .footer-container {
-        background-color: $theme-primary-color;
-        min-height: 350px;
-        font-family: "Marcellus";
-        font-weight: lighter;
+      padding: 0;
     }
 
-    .footer-container {
-        padding: 3em 4em 0 4em;
-    }
-
-    .img-logo-desc {
-        color: #fff;
+    .logo-section,
+    .useful-links {
+      border-bottom: 1px groove rgb(186, 186, 186);
+      margin: 0.5em 0;
     }
 
     .hr-bar {
-        height: 2px;
-        width: 70%;
-        background-color: #fff;
-        margin-bottom: 1em;
+      width: 100%;
     }
+  }
 
-    // useful-links
-    .useful-links {
-        color: #fff;
+  @media only screen and (device-width: 768px) {
+    .footer-container {
+      padding: 0;
     }
+  }
 
-    .useful-links ul {
-        padding: 0;
-    }
+  /* different techniques for iPad screening */
+  @media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation: portrait) {
+    /* For portrait layouts only */
+  }
 
-    .useful-links ul li {
-        list-style-type: none;
-        font-size: $theme-f2;
-    }
-
-    .logo-section {
-        justify-content: center;
-    }
-
-    .app-social-media-section {
-        color: #fff;
-    }
-
-    .app-social-media-section img {
-        width: 30px;
-        height: 30px;
-        cursor: pointer;
-    }
-
-    .app-store img {
-        min-width: 140px;
-        height: 40px;
-        cursor: pointer;
-    }
-
-    .social-media img {
-        margin-right: 0.8em;
-        cursor: pointer;
-    }
-
-    .identity {
-        background-color: #000;
-        color: #fff;
-        width: 100%;
-        text-align: center;
-        padding: 1em 0.5em;
-        margin: 0;
-        font-family: "Mulish";
-        font-size: 14px;
-        bottom: 0;
-    }
-
-    .identity a {
-        color: #00c5cd;
-        text-decoration: none;
-    }
-
-    .identity a:hover {
-        color: #00f7ff;
-        text-decoration: none;
-    }
-
-    .useful-links ul li {
-        cursor: pointer;
-    }
-
-    @media only screen and (min-width: 960px) {
-        /* styles for browsers larger than 960px; */
-    }
-
-    @media only screen and (min-width: 1440px) {
-        /* styles for browsers larger than 1440px; */
-    }
-
-    @media only screen and (min-width: 2000px) {
-        /* for sumo sized (mac) screens */
-    }
-
-    @media only screen and (max-device-width: 480px) {
-        .footer-container {
-            padding: 0;
-        }
-
-        .logo-section,
-        .useful-links {
-            border-bottom: 1px groove rgb(186, 186, 186);
-            margin: 0.5em 0;
-        }
-
-        .hr-bar {
-            width: 100%;
-        }
-    }
-
-    @media only screen and (device-width: 768px) {
-        .footer-container {
-            padding: 0;
-        }
-    }
-
-    /* different techniques for iPad screening */
-    @media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation: portrait) {
-        /* For portrait layouts only */
-    }
-
-    @media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation: landscape) {
-        /* For landscape layouts only */
-    }
-
+  @media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation: landscape) {
+    /* For landscape layouts only */
+  }
 }

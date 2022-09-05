@@ -1,15 +1,7 @@
-import logo from "./logo.svg";
-import "./App.css";
-import Login from "./pages/login";
-import Home from "./pages/home";
+import CustomRouters from "./routes";
 
 function App() {
-  return (
-    <div className="">
-      {/* <Login /> */}
-      <Home />
-    </div>
-  );
+  return <CustomRouters />;
 }
 
 export default App;

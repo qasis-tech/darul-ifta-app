@@ -3,12 +3,14 @@ import TextField from "@mui/material/TextField";
 import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
 
-import BackgroundImage from "../../assets/login_bg.jpg";
+import BackgroundImage from "../../../assets/login_bg.jpg";
 
-import "../../styles/common.styles.scss";
+import "../../../styles/common.styles.scss";
 import "./login.styles.scss";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   return (
     <section className="login-section">
       <div
@@ -25,13 +27,13 @@ const Login = () => {
             <div className="formDiv">
               <form>
                 <h2>Sign in</h2>
-                <p className="text">
+                {/* <p className="text">
                   {" "}
                   New user?
                   <a href="" className="link-text">
                     Create an account
                   </a>{" "}
-                </p>
+                </p> */}
                 <TextField
                   fullWidth
                   id="standard-basic"
@@ -56,7 +58,7 @@ const Login = () => {
                   </div>
                 </div>
                 <div className="back-btn">
-                  <a href="#" className="text">
+                  <a className="text" onClick={() => navigate("/")}>
                     Back to home
                   </a>
                 </div>

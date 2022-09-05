@@ -1,28 +1,29 @@
 import React from "react";
 import Carousel from "react-bootstrap/Carousel";
+
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
-import Image1 from "../../assets/Ifta_ayah.svg";
-import LogoImage from "../../assets/ifta-logo.svg";
-import Image2 from "../../assets/Minaret.svg";
-import HeaderComponent from "../../components/Header";
-import FooterComponent from "../../components/Footer";
-import QuestionComponent from "../../components/QuestionContainer";
-import BackgroundImage from "../../assets/webback.png";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 
+import Image1 from "../../../assets/Ifta_ayah.svg";
+import LogoImage from "../../../assets/ifta-logo.svg";
+import Image2 from "../../../assets/Minaret.svg";
+import HeaderComponent from "../../../components/Header";
+import FooterComponent from "../../../components/Footer";
+import QuestionComponent from "../../../components/QuestionContainer";
+import BackgroundImage from "../../../assets/webback.png";
+
 import "./home.styles.scss";
 
-const HomePage = () => {
+const HomePage = (props) => {
   return (
     <div className="home-page">
-      <HeaderComponent />
+      {/* <HeaderComponent /> */}
       <div
         class="bg-custom slider-section"
         style={{ backgroundImage: `url(${BackgroundImage})` }}
@@ -178,16 +179,16 @@ const HomePage = () => {
                   variant="fullWidth"
                   aria-label="action tabs example"
                 >
-                  
-                  <Tab className="tab-name" label="All">
-                    
-                  </Tab>
+                  <Tab className="tab-name" label="All"></Tab>
                   <Tab className="tab-name" label="മലയാളം" />
-                  <Tab  className="tab-name" label="English" />
+                  <Tab className="tab-name" label="English" />
                   <Tab className="tab-name" label="اردو"></Tab>
-                  <Tab className="tab-name" label="العربيــــــــــــــــــة"></Tab>
+                  <Tab
+                    className="tab-name"
+                    label="العربيــــــــــــــــــة"
+                  ></Tab>
                 </Tabs>
-                  <QuestionComponent/>
+                <QuestionComponent />
 
                 {/* <tabset class="">
               <tab tab1 heading="All" id="0">
@@ -210,8 +211,9 @@ const HomePage = () => {
             </div>
           </div>
         </section>
-        <FooterComponent/>
+        {props.children}
       </div>
+      <FooterComponent />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-@import "../../styles/common.styles.scss";
+@import "../../../styles/common.styles.scss";
 img {
   width: 281px;
 }
@@ -47,22 +47,22 @@ img {
 .desc {
   font-family: "Mulish" serif;
 }
-.accordian{
-    background: transparent!important;
-    color: white!important;
-    .arrow-color{
-        color: white;
+.accordian {
+  background: transparent !important;
+  color: white !important;
+  .arrow-color {
+    color: white;
+  }
+  .accordion-sub {
+    ul {
+      li {
+        color: black;
+      }
     }
-    .accordion-sub{
-       ul{
-        li{
-            color: black;
-        }
-       }
-    .MuiCollapse-vertical{
-        background-color: red;
+    .MuiCollapse-vertical {
+      background-color: red;
     }
-}
+  }
 }
 .arabic-desc {
   font-family: "Amiri";
@@ -262,32 +262,31 @@ ul li {
 @media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation: landscape) {
   /* For landscape layouts only */
 }
-.home-page{
-    height: 100vh;
-    background-color: #f8f9fa;
-    font-family: $main-font-style;
-    .bg-custom {
-      background-repeat: no-repeat;
-      background-size: cover;
-      width: 100%;
-      
-    }
-    .body-section{
-      padding-bottom: 4em;
-    }
-    .tab-name{
-      color: #409ea1!important;
+.home-page {
+  height: 100vh;
+  background-color: #f8f9fa;
+  font-family: $main-font-style;
+  .bg-custom {
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+  }
+  .body-section {
+    padding-bottom: 4em;
+  }
+  .tab-name {
+    color: #409ea1 !important;
     font-weight: bolder;
     font-size: 17px;
-    }
+  }
 }
 
-
 .accordian-wrapper {
-  .MuiButtonBase-root,.MuiSvgIcon-root {
+  .MuiButtonBase-root,
+  .MuiSvgIcon-root {
     color: #fff;
   }
   .MuiPaper-root {
-background-color: transparent;
+    background-color: transparent;
   }
 }
