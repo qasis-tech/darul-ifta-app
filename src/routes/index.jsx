@@ -43,6 +43,9 @@ import RouterList from "./routerList";
 // import Order from "../pages/user/accounts/order";
 // import ProductList from "../pages/user/productlist";
 import { authCheck } from "./auth";
+import AccountHome from "../pages/user/Accounts/home";
+import AskFatwasForm from "../pages/user/Accounts/askFatwas";
+import Profile from "../pages/user/Accounts/profile";
 
 const CustomRouters = () => {
   const [isUser, setUser] = useState(false);
@@ -61,6 +64,17 @@ const CustomRouters = () => {
         <Route path={RouterList.user.login} element={<UserLoginPage />} />
         <Route path={RouterList.user.askFatwas} element={<AskFatwas />} />
         <Route path={RouterList.user.fatwas} element={<Fatwas />} />
+
+        <Route path={RouterList.user.accountUser} element={<AccountHome />} />
+        <Route
+          path={RouterList.user.accountUserAsk}
+          element={<AskFatwasForm />}
+        />
+        <Route
+          path={RouterList.user.accountUserProfile}
+          element={<Profile />}
+        />
+
         {/*<Route path="register" element={<RegisterPage />} />
         <Route path="resetpassword" element={<ResetPassword />} />
         <Route path="product-details" element={<CustomerProductDetails />} />

@@ -9,6 +9,9 @@ export default {
     HeaderNav: "navbar",
     askFatwas: "/ask-fatwas",
     fatwas: "/fatwas",
+    accountUser: "/user",
+    accountUserProfile: "/user/profile",
+    accountUserAsk: "/user/ask",
   },
   admin: {
     admin: "/admin",

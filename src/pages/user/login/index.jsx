@@ -8,6 +8,7 @@ import BackgroundImage from "../../../assets/login_bg.jpg";
 import "../../../styles/common.styles.scss";
 import "./login.styles.scss";
 import { useNavigate } from "react-router-dom";
+import routerList from "../../../routes/routerList";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -42,7 +43,11 @@ const Login = () => {
                 />
                 <div className="error">Invalid Email Address</div>
                 <div className="signin-btn">
-                  <button className="btn btn-success" type="submit">
+                  <button
+                    className="btn btn-success"
+                    type="submit"
+                    onClick={() => navigate(`${routerList.user.accountUser}`)}
+                  >
                     Continue
                   </button>
                 </div>
