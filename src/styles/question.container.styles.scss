@@ -26,11 +26,16 @@
           border-top: 4px solid #235775;
           margin: 0;
           padding: 1.5em 0;
-          .q-no {
-            background-color: #235775;
-            padding: 7px 15px;
-            color: #fff;
-            border-radius: 5px;
+          .number-btn{
+            @media  screen and (max-width:1000px) {
+              margin-bottom: 1em!important;
+            }
+            .q-no {
+              background-color: #235775;
+              padding: 7px 15px;
+              color: #fff;
+              border-radius: 5px;
+            }
           }
           .w-name{
             h5{

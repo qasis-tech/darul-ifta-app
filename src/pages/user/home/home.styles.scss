@@ -165,17 +165,15 @@ ul li {
 // tab-container
 .tab-container {
   background-color: #eeeeeed9;
-}
-.tab-container ::ng-deep .nav-tabs {
-  margin-top: 3em;
-}
-.tab-container ::ng-deep .nav-tabs .active {
-  border-bottom: 2px solid $theme-primary-color;
-}
-.tab-container ::ng-deep .nav-tabs .nav-item .nav-link {
-  color: $theme-green !important;
-  font-weight: bolder;
-  font-size: $theme-f2;
+  @media screen and (max-width: 1000px) {
+    margin-top: 2em!important;
+    overflow-x: scroll!important;
+  }
+  .MuiTabs-scroller{
+    @media screen and (max-width: 1000px) {
+    overflow-x: scroll!important;
+    }
+  }
 }
 // tab-container End
 
@@ -263,7 +261,6 @@ ul li {
   /* For landscape layouts only */
 }
 .home-page {
-  height: 100vh;
   background-color: #f8f9fa;
   font-family: $main-font-style;
   .bg-custom {
@@ -274,10 +271,44 @@ ul li {
   .body-section {
     padding-bottom: 4em;
   }
-  .tab-name {
-    color: #409ea1 !important;
-    font-weight: bolder;
-    font-size: 17px;
+  .search-btn{
+    margin-top: 1em;
+    .MuiInputLabel-root{
+      font-family: $main-font-style;
+    }
+  }
+  .chip-section{
+    margin-top: 1em;
+    .single-chip{
+      margin-left: 0.5em;
+      color: white;
+      background-color: #409ea1;
+      font-family: $main-font-style;
+    }
+  }
+  .main-tab{
+    margin-top: 1em;
+    .tab-name {
+      // color: #409ea1 !important;
+       //font-weight: bolder!important;
+      // font-size: 17px!important;
+      @media  screen  and (max-width:1000px) {
+        padding: 1em 4em;
+      }
+    }
+    .MuiButtonBase-root{
+      color: #409ea1 !important;
+       font-weight: bolder!important;
+      font-size: 17px!important;
+    }
+    .MuiTab-root.Mui-selected{
+      color: #235775!important;
+      font-weight: bolder;
+      font-size: 17px;
+    }
+    .MuiTabs-indicator{
+      background-color: #235775;
+    }
   }
 }
 

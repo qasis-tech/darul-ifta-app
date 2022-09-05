@@ -68,7 +68,7 @@ const HeaderComponent = () => {
                   </a>
                 </li>
 
-                <li class="nav-item">
+                {/* <li class="nav-item">
                   <form class="d-flex search-nav">
                     <input
                       className="form-control custom-menu"
@@ -84,7 +84,7 @@ const HeaderComponent = () => {
                       <SearchIcon />
                     </button>
                   </form>
-                </li>
+                </li> */}
 
                 <li
                   className="btn-group nav-item"

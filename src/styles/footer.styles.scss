@@ -9,7 +9,7 @@
   .footer-container {
     background-color: $theme-primary-color;
     min-height: 350px;
-    font-family: "Marcellus";
+    font-family:$footer-font-style;
     font-weight: lighter;
   }
 
@@ -39,7 +39,7 @@
 
   .useful-links ul li {
     list-style-type: none;
-    font-size: $theme-f2;
+   font-size: 17px;
   }
 
   .logo-section {

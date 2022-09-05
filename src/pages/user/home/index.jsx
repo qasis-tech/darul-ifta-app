@@ -5,11 +5,18 @@ import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import SearchIcon from "@mui/icons-material/Search";
+import Chip from "@mui/material/Chip";
+import PropTypes from 'prop-types';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import Image1 from "../../../assets/Ifta_ayah.svg";
 import LogoImage from "../../../assets/ifta-logo.svg";
 import Image2 from "../../../assets/Minaret.svg";
@@ -19,8 +26,49 @@ import QuestionComponent from "../../../components/QuestionContainer";
 import BackgroundImage from "../../../assets/webback.png";
 
 import "./home.styles.scss";
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
 
 const HomePage = (props) => {
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const handleDelete = () => {
+    console.info('You clicked the delete icon.');
+  };
   return (
     <div className="home-page">
       {/* <HeaderComponent /> */}
@@ -122,7 +170,7 @@ const HomePage = (props) => {
                           aria-controls="panel1a-content"
                           id="panel1a-header"
                         >
-                          <Typography>Accordion 1</Typography>
+                          <Typography>Faiths & Beliefs</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                           <ul class="accordion-sub">
@@ -173,10 +221,67 @@ const HomePage = (props) => {
                 </div>
               </div>
               <div class="col-md-9 tab-container shadow rounded">
-                <Tabs
+                <div className="row chip-section">
+                  <div className="">
+                    <Chip label="Chip Filled" className="single-chip" onDelete={handleDelete}/>
+                    <Chip label="Chip Filled" className="single-chip" onDelete={handleDelete}/>
+                  </div>
+                </div>
+                <TextField
+                  label="Search"
+                  fullWidth
+                  size="small"
+                  className="search-btn"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton>
+                          <CloseIcon />
+                        </IconButton>
+                        <IconButton>
+                          <SearchIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+                <Box sx={{ width: "100%" }}>
+                  <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                    <Tabs
+                    className="main-tab"
+                      value={value}
+                      onChange={handleChange}
+                      aria-label="basic tabs example"
+                    >
+                      <Tab className="tab-name" label="All" {...a11yProps(0)} />
+                      <Tab label="മലയാളം" {...a11yProps(1)} />
+                      <Tab label="English" {...a11yProps(2)} />
+                      <Tab label="اردو" {...a11yProps(3)} />
+                      <Tab   label="العربيــــــــــــــــــة" {...a11yProps(4)} />
+
+                    </Tabs>
+                  </Box>
+                  <TabPanel value={value} index={0}>
+                    Item One
+                  </TabPanel>
+                  <TabPanel value={value} index={1}>
+                    Item Two
+                  </TabPanel>
+                  <TabPanel value={value} index={2}>
+                    Item Three
+                  </TabPanel>
+                  <TabPanel value={value} index={3}>
+                    Item Four
+                  </TabPanel>
+                  <TabPanel value={value} index={4}>
+                    Item Five
+                  </TabPanel>
+                </Box>
+                {/* <Tabs
                   indicatorColor="primary"
                   textColor="primary"
                   variant="fullWidth"
+                  className="main-tab"
                   aria-label="action tabs example"
                 >
                   <Tab className="tab-name" label="All"></Tab>
@@ -187,26 +292,8 @@ const HomePage = (props) => {
                     className="tab-name"
                     label="العربيــــــــــــــــــة"
                   ></Tab>
-                </Tabs>
+                </Tabs> */}
                 <QuestionComponent />
-
-                {/* <tabset class="">
-              <tab tab1 heading="All" id="0">
-                <app-fatwas-list></app-fatwas-list>
-              </tab>
-              <tab tab1 heading="മലയാളം" id="2">
-                <app-fatwas-list></app-fatwas-list>
-              </tab>
-              <tab tab2 heading="English" id="1">
-                <app-fatwas-list></app-fatwas-list>
-              </tab>
-              <tab tab3 heading="اردو" id="4">
-                <app-fatwas-list></app-fatwas-list>
-              </tab>
-              <tab tab4 heading="العربيــــــــــــــــــة" id="3">
-                <app-fatwas-list></app-fatwas-list>
-              </tab>
-            </tabset> */}
               </div>
             </div>
           </div>

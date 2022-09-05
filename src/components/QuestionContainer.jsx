@@ -12,7 +12,7 @@ const QuestionContainer = () => {
                 <h5>afdftusaudgzh</h5>
             </div>
             <div className="row q-footer">
-                <div className="col-md-3 ">
+                <div className="col-md-3 number-btn">
                     <span className="q-no">Q0564</span>
                 </div>
                 <div className="col-md-3 w-name">
