@@ -1,0 +1,34 @@
+@import "../../../../styles/common.styles.scss";
+.form-section{
+    display: flex;
+    justify-content: center;
+    margin-top: 2em;
+    @media screen and (max-width:1000px) {
+     margin-top: 0;
+    }
+    .form-container{
+        width: 65%;
+        @media screen and (max-width:1000px) {
+            width: 100%;
+        }
+        .row{
+            margin-top: 1em;
+            .col-md-4{
+                @media screen and (max-width:1000px) {
+                    margin-top: 1em;
+                }
+            }
+        }
+        .btn-section{
+            display: flex;
+            justify-content: flex-end;
+            .submit-btn{
+                background-color: $theme-primary-color;
+                width: 30%;
+                @media screen and (max-width:1000px) {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
