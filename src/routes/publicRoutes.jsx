@@ -6,8 +6,8 @@ export default function PublicRouting() {
   const { pathname } = useLocation();
   console.log("location", pathname);
   return (
-    <div style={{ backgroundColor: "#f8f9fa",height:"100vh" }}>
-      {pathname !== "/login" && <HeaderComponent />}
+    <div style={{ backgroundColor: "#f8f9fa", height: "100vh" }}>
+      {pathname !== "/login" && pathname !== "/admin" && <HeaderComponent />}
       <Outlet />
       {/* <FooterComponent /> */}
     </div>
