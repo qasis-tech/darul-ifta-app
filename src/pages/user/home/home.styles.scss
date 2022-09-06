@@ -100,14 +100,16 @@ img {
   background-color: $theme-l-green;
   height: 5px;
 }
+.body-section{
 
-ul li {
-  color: #fff;
-  list-style-type: none;
-  padding-bottom: 1px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  width: auto;
+  ul li {
+    color: #fff;
+    list-style-type: none;
+    padding-bottom: 1px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    width: auto;
+  }
 }
 
 .custom-details {

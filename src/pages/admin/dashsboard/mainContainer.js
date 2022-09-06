@@ -21,7 +21,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import Button from "@mui/material/Button";
 
 import "../../../styles/common.styles.scss";
-import "./mainContainer.styles.scss";
+import "./maincontainer.styles.scss";
 import RouterList from "../../../routes/routerList";
 
 const drawerWidth = 240;

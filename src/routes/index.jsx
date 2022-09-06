@@ -46,7 +46,7 @@ import { authCheck } from "./auth";
 import AccountHome from "../pages/user/Accounts/home";
 import AskFatwasForm from "../pages/user/Accounts/askFatwas";
 import Profile from "../pages/user/Accounts/profile";
-
+import AdminHome from "../pages/admin/dashsboard";
 const CustomRouters = () => {
   const [isUser, setUser] = useState(false);
   const [isAdmin, setAdmin] = useState(false);
@@ -74,6 +74,7 @@ const CustomRouters = () => {
           path={RouterList.user.accountUserProfile}
           element={<Profile />}
         />
+        <Route path="/admin" element={<AdminHome />} />
 
         {/*<Route path="register" element={<RegisterPage />} />
         <Route path="resetpassword" element={<ResetPassword />} />

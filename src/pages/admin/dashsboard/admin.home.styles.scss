@@ -1,0 +1,27 @@
+.admin-home-section{
+    .row{
+        margin-left: 0!important;
+        margin-right: 0!important;
+    }
+    .table-section{
+        margin-top: 2em;
+        .table-row{
+            display: flex;
+            justify-content: center;
+            .MuiTableHead-root{
+                .MuiTableRow-root{
+                    .MuiTableCell-root{
+                        color: black;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    }
+                }
+            }
+            .heading-container{
+                .heading-row{
+                    display: flex;
+                }
+            }
+        }
+    }
+}
