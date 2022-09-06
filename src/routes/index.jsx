@@ -48,6 +48,7 @@ import AskFatwasForm from "../pages/user/Accounts/askFatwas";
 import Profile from "../pages/user/Accounts/profile";
 import AdminHome from "../pages/admin/dashsboard";
 import Dashboard from "../pages/admin/dashsboard";
+import Categories from "../pages/admin/category";
 const CustomRouters = () => {
   const [isUser, setUser] = useState(false);
   const [isAdmin, setAdmin] = useState(false);
@@ -93,7 +94,8 @@ const CustomRouters = () => {
       </Route>
       <Route path="/admin" element={<PrivateRouting />} isAdmin={true}>
         <Route path="/admin" element={<Dashboard />} />
-        {/* <Route path="dashboard" element={<DashboardPage />} />
+        <Route path={RouterList.admin.categoryList} element={<Categories />} />
+        {/*
         <Route
           path={RouterList.admin.categoryList}
           element={<ListCategory />}
