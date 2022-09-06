@@ -31,12 +31,12 @@ function DashboardPage() {
   const location = useLocation();
 
   const [routeList] = useState([
-    { path: RouterList.admin.admin, title: "Dashboard" },
-    { path: RouterList.admin.categoryList, title: "Category" },
-    { path: RouterList.admin.productList, title: "Products" },
-    { path: RouterList.admin.orderList, title: "Orders" },
-    { path: RouterList.admin.stockList, title: "Stocks" },
-    { path: RouterList.admin.userList, title: "Users" },
+    { path: RouterList.admin.admin, title: "HOME" },
+    { path: RouterList.admin.adminfatwas, title: "FATWA" },
+    { path: RouterList.admin.productList, title: "ARTICLE" },
+    { path: RouterList.admin.orderList, title: "CATEGORY" },
+    { path: RouterList.admin.stockList, title: "USER" },
+    { path: RouterList.admin.userList, title: "MUSTAFTHI" },
   ]);
   const getPathName = () =>
     startCase(

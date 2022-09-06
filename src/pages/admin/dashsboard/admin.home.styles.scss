@@ -17,9 +17,22 @@
                     }
                 }
             }
+            .status{
+                background-color: #8bc34a;
+                padding: 0.5em;
+                border-radius: 20px;
+                color: white;
+            }
             .heading-container{
+                margin-top: 1em;
+                padding: 0 1em;
                 .heading-row{
                     display: flex;
+                    h6{
+                        font-size: 20px!important;
+                        text-transform: uppercase;
+                        font-weight: 600;
+                    }
                 }
             }
         }
