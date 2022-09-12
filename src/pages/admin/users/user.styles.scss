@@ -1,0 +1,24 @@
+@import "../../../styles/common.styles.scss";
+.user-section {
+  .user-container {
+    .user-row {
+      display: flex;
+      justify-content: end;
+    }
+  }
+  .user-table-section {
+    margin-top: 2em;
+    .MuiTableHead-root{
+        .MuiTableRow-root{
+            .MuiTableCell-root{
+                color: black;
+            font-weight: 600;
+            text-transform: uppercase;
+            }
+        }
+    }
+    .view-icon{
+        margin-left: 1em;
+    }
+  }
+}

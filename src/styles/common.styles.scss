@@ -81,3 +81,14 @@ $theme-pointer: pointer;
   background-color:$primary!important ;
   text-transform: uppercase;
 }
+.active,.inactive{
+    padding: 0.5em 1em;
+    border-radius: 20px;
+    color: white;
+}
+.active{
+  background-color: green;
+}
+.inactive{
+  background-color: #f32929;
+}
