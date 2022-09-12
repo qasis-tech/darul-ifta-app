@@ -5,6 +5,9 @@
   .MuiDrawer-paper {
     position: inherit !important;
   }
+  .MuiPopover-paper{
+    width: 8%;
+  }
   .MuiDrawer-docked {
     height: 100vh !important;
     .MuiPaper-elevation {

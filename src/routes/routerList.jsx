@@ -21,6 +21,7 @@ export default {
     user:"user",
     category:"category",
     article:"article",
+    addCategories:"addCategories",
     dashboard: "dashboard",
     //categoryList: "categories",
     addCategory: "add-category",
