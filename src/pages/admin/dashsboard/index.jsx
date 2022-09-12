@@ -167,11 +167,11 @@ export default function Dashboard() {
                       <TableCell>Q ID</TableCell>
                       <TableCell>Mustafthi</TableCell>
                       <TableCell>Short Question</TableCell>
-                      <TableCell align="right">Created Date</TableCell>
-                      <TableCell align="right">Category</TableCell>
-                      <TableCell align="right">Madhab</TableCell>
-                      <TableCell align="right">Status</TableCell>
-                      <TableCell align="right">Action</TableCell>
+                      <TableCell>Created Date</TableCell>
+                      <TableCell>Category</TableCell>
+                      <TableCell>Madhab</TableCell>
+                      <TableCell>Status</TableCell>
+                      <TableCell>Action</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -185,11 +185,11 @@ export default function Dashboard() {
                       </TableCell>
                       <TableCell>aaaaa</TableCell>
                       <TableCell>aaaaa</TableCell>
-                      <TableCell align="right">23-07-2021</TableCell>
-                      <TableCell align="right">Social Matters</TableCell>
-                      <TableCell align="right">dddddd</TableCell>
-                      <TableCell align="right"><span className="status">Received</span></TableCell>
-                      <TableCell align="right"><VisibilityIcon className="view-icon"/></TableCell>
+                      <TableCell>23-07-2021</TableCell>
+                      <TableCell>Social Matters</TableCell>
+                      <TableCell>dddddd</TableCell>
+                      <TableCell><span className="status">Received</span></TableCell>
+                      <TableCell><VisibilityIcon className="view-icon"/></TableCell>
                     </TableRow>
                   </TableBody>
                 </Table>
