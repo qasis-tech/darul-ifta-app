@@ -53,7 +53,7 @@ export default function User() {
                   <TableCell>aaaaa</TableCell>
                   <TableCell>1234567890</TableCell>
                   <TableCell>user@gmail.com</TableCell>
-                  <TableCell><span className="active">Active</span></TableCell>
+                  <TableCell><span className="activestatus">Active</span></TableCell>
                   <TableCell>
                     <EditIcon className="edit-icon"/>
                     <VisibilityIcon className="view-icon" />

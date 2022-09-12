@@ -20,6 +20,7 @@ export default {
     musthafthies:"musthafthies",
     user:"user",
     category:"category",
+    article:"article",
     dashboard: "dashboard",
     //categoryList: "categories",
     addCategory: "add-category",

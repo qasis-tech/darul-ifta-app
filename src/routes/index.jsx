@@ -53,6 +53,7 @@ import AdminFatwas from "../pages/admin/fatwas";
 import Musthafthies from "../pages/admin/musthafthies";
 import User from "../pages/admin/users";
 import Category from "../pages/admin/category";
+import Article from "../pages/admin/article";
 const CustomRouters = () => {
   const [isUser, setUser] = useState(false);
   const [isAdmin, setAdmin] = useState(false);
@@ -102,6 +103,7 @@ const CustomRouters = () => {
         <Route path="musthafthies" element={<Musthafthies />} />
         <Route path="user" element={<User />} />
         <Route path="category" element={<Category />} />
+        <Route path="article" element={<Article />} />
 
         <Route path={RouterList.admin.categoryList} element={<Categories />} />
         {/*

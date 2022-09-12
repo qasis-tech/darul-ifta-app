@@ -1,0 +1,25 @@
+@import "../../../styles/common.styles.scss";
+.article-section{
+    .article-container{
+        .article-row{
+            display: flex;
+            justify-content: end;
+        }
+    }
+    .article-table-section{
+        .table-container{
+            .table-row{
+                margin-top: 2em;
+                .MuiTableHead-root{
+                    .MuiTableRow-root{
+                        .MuiTableCell-root{
+                            color: black;
+                        font-weight: 600;
+                        text-transform: uppercase;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

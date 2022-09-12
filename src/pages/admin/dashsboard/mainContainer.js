@@ -33,7 +33,7 @@ function DashboardPage() {
   const [routeList] = useState([
     { path: RouterList.admin.admin, title: "HOME" },
     { path: RouterList.admin.adminfatwas, title: "FATWA" },
-    { path: RouterList.admin.productList, title: "ARTICLE" },
+    { path: RouterList.admin.article, title: "ARTICLE" },
     { path: RouterList.admin.category, title: "CATEGORY" },
     { path: RouterList.admin.user, title: "USER" },
     { path: RouterList.admin.musthafthies, title: "MUSTAFTHI" },
