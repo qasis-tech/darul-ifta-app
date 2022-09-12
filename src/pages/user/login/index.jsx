@@ -40,6 +40,7 @@ const Login = () => {
                   id="standard-basic"
                   label="Email Address"
                   variant="standard"
+                  className="email"
                 />
                 <div className="error">Invalid Email Address</div>
                 <div className="signin-btn">
@@ -53,7 +54,7 @@ const Login = () => {
                 </div>
                 <div class="separator">Or</div>
                 <div className="socialBtn">
-                  <div className="twitter icon text">
+                  <div className="google icon text">
                     <GoogleIcon className="icons-size" />
                     Continue with Google
                   </div>
