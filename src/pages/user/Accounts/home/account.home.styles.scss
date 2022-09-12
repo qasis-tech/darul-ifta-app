@@ -1,39 +1,64 @@
 @import "../../../../styles/common.styles.scss";
-.user-tab-section{
+.user-tab-section {
   @media screen and (max-width: 1000px) {
-    overflow-x: scroll!important;
+    overflow-x: scroll !important;
   }
-  .MuiTabs-scroller{
+  .MuiTabs-scroller {
     @media screen and (max-width: 1000px) {
-    overflow-x: scroll!important;
+      overflow-x: scroll !important;
     }
   }
-    .main-tab{
-        margin-top: 1em;
-        .tab-name {
-          // color: #409ea1 !important;
-           //font-weight: bolder!important;
-          // font-size: 17px!important;
-          @media  screen  and (max-width:1000px) {
-            padding: 1em 4em;
-          }
-        }
-        .MuiTabs-flexContainer{
-            display: flex;
-            justify-content: center;
-        }
-        .MuiButtonBase-root{
-          color: #409ea1 !important;
-           font-weight: bolder!important;
-          font-size: 17px!important;
-        }
-        .MuiTab-root.Mui-selected{
-          color: #235775!important;
-          font-weight: bolder;
-          font-size: 17px;
-        }
-        .MuiTabs-indicator{
-          background-color: #235775;
-        }
+  .main-tab {
+    margin-top: 1em;
+    .tab-name {
+      // color: #409ea1 !important;
+      //font-weight: bolder!important;
+      // font-size: 17px!important;
+      @media screen and (max-width: 1000px) {
+        padding: 1em 4em;
       }
+    }
+    .MuiTabs-flexContainer {
+      display: flex;
+      justify-content: center;
+    }
+    .MuiButtonBase-root {
+      color: #409ea1 !important;
+      font-weight: bolder !important;
+      font-size: 17px !important;
+    }
+    .MuiTab-root.Mui-selected {
+      color: #235775 !important;
+      font-weight: bolder;
+      font-size: 17px;
+    }
+    .MuiTabs-indicator {
+      background-color: #235775;
+    }
+  }
+}
+
+.profile-img span img {
+  position: relative;
+  left: -120px;
+  bottom: -100px;
+  background-color: #fff;
+  border-radius: 100%;
+  padding: 0.1em;
+}
+
+.profile-img,
+.profile-img-1 {
+  width: 200px;
+  height: 200px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ccc;
+  background-color: #ccc;
+}
+
+.profile-img-1 {
+  background-color: #d8d8d8;
 }

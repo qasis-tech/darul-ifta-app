@@ -9,7 +9,7 @@ $primary: #2196f3;
 $white: white;
 $main-font-size: 15px;
 $main-font-style: "Baloo";
-$footer-font-style:"Marcellus";
+$footer-font-style: "Marcellus";
 
 $error: red;
 $error-font-size: 13px;
@@ -44,4 +44,22 @@ $theme-pointer: pointer;
 
 .bg-theme-grey {
   background-color: $theme-1-grey !important;
+}
+
+.questions {
+  background-color: #ff9800;
+  color: #fff;
+}
+
+.published {
+  background-color: #4caf50;
+  color: #fff;
+}
+.pending {
+  background-color: #ffc107;
+  color: #fff;
+}
+.rejected {
+  background-color: #dc3545;
+  color: #fff;
 }
