@@ -17,7 +17,7 @@ import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
-
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import "./admin.home.styles.scss";
 
 export default function Dashboard() {
@@ -132,7 +132,7 @@ export default function Dashboard() {
         </div>
         <div className="table-section">
           <div className="table-row">
-            <div className="col-md-10">
+            <div className="col-md-12">
               <TableContainer component={Paper}>
                 <div className="heading-container">
                   <div className="heading-row">
@@ -161,7 +161,7 @@ export default function Dashboard() {
                     </div>
                   </div>
                 </div>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <Table sx={{ minWidth: 650,marginTop:"1em" }} aria-label="simple table">
                   <TableHead>
                     <TableRow>
                       <TableCell>Q ID</TableCell>
@@ -188,8 +188,8 @@ export default function Dashboard() {
                       <TableCell align="right">23-07-2021</TableCell>
                       <TableCell align="right">Social Matters</TableCell>
                       <TableCell align="right">dddddd</TableCell>
-                      <TableCell align="right"></TableCell>
-                      <TableCell align="right"></TableCell>
+                      <TableCell align="right"><span className="status">Received</span></TableCell>
+                      <TableCell align="right"><VisibilityIcon className="text-primary"/></TableCell>
                     </TableRow>
                   </TableBody>
                 </Table>

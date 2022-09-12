@@ -16,6 +16,7 @@ export default {
   admin: {
     admin: "/admin",
     login: "login",
+    adminfatwas:"adminfatwas",
     dashboard: "dashboard",
     categoryList: "categories",
     addCategory: "add-category",

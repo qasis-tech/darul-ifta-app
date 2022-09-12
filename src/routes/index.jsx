@@ -49,6 +49,7 @@ import Profile from "../pages/user/Accounts/profile";
 import AdminHome from "../pages/admin/dashsboard";
 import Dashboard from "../pages/admin/dashsboard";
 import Categories from "../pages/admin/category";
+import AdminFatwas from "../pages/admin/fatwas";
 const CustomRouters = () => {
   const [isUser, setUser] = useState(false);
   const [isAdmin, setAdmin] = useState(false);
@@ -94,6 +95,8 @@ const CustomRouters = () => {
       </Route>
       <Route path="/admin" element={<PrivateRouting />} isAdmin={true}>
         <Route path="/admin" element={<Dashboard />} />
+        <Route path="adminfatwas" element={<AdminFatwas />} />
+
         <Route path={RouterList.admin.categoryList} element={<Categories />} />
         {/*
         <Route
