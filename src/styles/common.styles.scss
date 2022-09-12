@@ -63,3 +63,21 @@ $theme-pointer: pointer;
   background-color: #dc3545;
   color: #fff;
 }
+
+
+.edit-icon{
+  color: #4caf50;
+}
+.view-icon{
+  color:$primary ;
+}
+.form-btn{
+  color: white;
+  background-color:$primary!important ;
+  text-transform: uppercase;
+}
+.add-btn{
+  color: white;
+  background-color:$primary!important ;
+  text-transform: uppercase;
+}

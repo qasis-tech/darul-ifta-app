@@ -96,7 +96,7 @@ export default function Fatwas() {
             />
           </div>
           <div className="col-md-2">
-            <Button variant="contained" fullWidth>
+            <Button variant="contained" className="form-btn" fullWidth>
               APPLY
             </Button>
           </div>
@@ -166,7 +166,7 @@ export default function Fatwas() {
                     <span className="status">Received</span>
                   </TableCell>
                   <TableCell>
-                    <VisibilityIcon className="text-primary" />
+                    <VisibilityIcon className="view-icon" />
                   </TableCell>
                 </TableRow>
               </TableBody>

@@ -189,7 +189,7 @@ export default function Dashboard() {
                       <TableCell align="right">Social Matters</TableCell>
                       <TableCell align="right">dddddd</TableCell>
                       <TableCell align="right"><span className="status">Received</span></TableCell>
-                      <TableCell align="right"><VisibilityIcon className="text-primary"/></TableCell>
+                      <TableCell align="right"><VisibilityIcon className="view-icon"/></TableCell>
                     </TableRow>
                   </TableBody>
                 </Table>

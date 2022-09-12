@@ -36,7 +36,7 @@ function DashboardPage() {
     { path: RouterList.admin.productList, title: "ARTICLE" },
     { path: RouterList.admin.orderList, title: "CATEGORY" },
     { path: RouterList.admin.stockList, title: "USER" },
-    { path: RouterList.admin.userList, title: "MUSTAFTHI" },
+    { path: RouterList.admin.musthafthies, title: "MUSTAFTHI" },
   ]);
   const getPathName = () =>
     startCase(
