@@ -1,0 +1,40 @@
+@import "../../../styles/common.styles.scss";
+.admin-fatwas-section {
+  .fatwas-container {
+    background-color: #f1f1f178;
+    padding: 2em 0;
+    .fatwas-row {
+      display: flex;
+      justify-content: space-around;
+    }
+    .second-row{
+       margin-top: 1em;
+    }
+  }
+  .table-section{
+    .table-row{
+        display: flex;
+        justify-content: end;
+    }
+  }
+  .main-table-section{
+    margin-top: 2em;
+    .main-table-row{
+        .MuiTableHead-root{
+            .MuiTableRow-root{
+                .MuiTableCell-root{
+                    color: black;
+                font-weight: 600;
+                text-transform: uppercase;
+                }
+            }
+        }
+        .status{
+            background-color: #8bc34a;
+            padding: 0.5em;
+            border-radius: 20px;
+            color: white;
+        }
+    }
+  }
+}
