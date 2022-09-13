@@ -31,6 +31,11 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            .close-button {
+                align-items: center;
+                border: none;
+                color: $primary;
+            }
         }
     }
 }

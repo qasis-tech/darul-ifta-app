@@ -106,11 +106,6 @@ export default function AddUser() {
         </div>
         <div className="btn-section">
           <div className="col-md-1">
-            <Button variant="contained" className="form-btn">
-              <ArrowBackIcon />
-            </Button>
-          </div>
-          <div className="col-md-1">
             <Button variant="contained" className="form-btn" fullWidth>
               SAVE
             </Button>

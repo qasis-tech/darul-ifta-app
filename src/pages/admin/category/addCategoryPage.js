@@ -36,11 +36,6 @@ export default function AddCategories() {
         </div>
         <div className="btn-row">
           <div className="col-md-1">
-            <Button variant="contained" className="form-btn">
-              <ArrowBackIcon />
-            </Button>
-          </div>
-          <div className="col-md-1">
             <Button variant="contained" className="form-btn" fullWidth>
               CREATE
             </Button>

@@ -3,6 +3,7 @@ import TextField from "@mui/material/TextField";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import { Button } from "@mui/material";
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import "../styles/fatwa.add.styles.scss";
 export default function FatwaAddComponent() {
 return(
@@ -63,7 +64,7 @@ return(
       </div>
       <div className="col-md-2 close-section">
         <div className="close-button">
-          <CloseIcon />
+          <HighlightOffIcon />
         </div>
       </div>
     </div>

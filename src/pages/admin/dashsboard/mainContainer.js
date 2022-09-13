@@ -20,7 +20,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import Button from "@mui/material/Button";
-
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -89,10 +89,15 @@ function DashboardPage() {
                 Company Logo
               </Typography>
             </div>
-            <div className="col-md-8">
-              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                {getPathName()}
-              </Typography>
+            <div className="row col-md-8">
+              <div className="col-auto px-0 pointer">
+                <ArrowBackIosIcon onClick={() => navigate(-1)} />
+              </div>
+              <div className="col-auto px-0">
+                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                  {getPathName()}
+                </Typography>
+              </div>
             </div>
             <div className="col-md-2 logout-section">
               {/* <Button
