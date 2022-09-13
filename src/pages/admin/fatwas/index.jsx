@@ -1,4 +1,6 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
@@ -18,6 +20,8 @@ import "./admin.fatwas.styles.scss";
 const top100Films = [{ label: "The Shawshank Redemption", year: 1994 }];
 
 export default function Fatwas() {
+  const navigate=useNavigate();
+
   return (
     <div className="admin-fatwas-section">
       <div className="fatwas-container">
@@ -152,6 +156,7 @@ export default function Fatwas() {
                   sx={{
                     "&:last-child td, &:last-child th": { border: 0 },
                   }}
+                  onClick={() => navigate(`${'/admin/fatwasDetails'}`)} 
                 >
                   <TableCell component="th" scope="row">
                     #1234

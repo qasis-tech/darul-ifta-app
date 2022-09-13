@@ -1,0 +1,36 @@
+@import "./common.styles.scss";
+.show-section{
+    margin-top: 2em;
+    .show-container{
+        .show-row{
+            display: flex;
+            justify-content: space-between;
+            .add-button{
+                display: flex;
+                justify-content: end;
+            }
+        }
+    }
+    .show-table-container{
+        margin-top: 1em;
+        display: flex;
+        .show-table-row{
+            .second-row{
+                display: flex;
+                flex-direction: row;
+                margin-top: 1em;
+                .first-col{
+                    padding-right: 1em;
+                }
+                .second-col{
+                    padding-left: 1em;
+                }
+            }
+        }
+        .close-section{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}

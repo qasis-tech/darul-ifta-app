@@ -24,6 +24,7 @@ export default {
     addCategories:"addCategories",
     addMusthafthies:"addMusthafthies",
     addUser:"addUser",
+    fatwasDetails:"fatwasDetails",
     dashboard: "dashboard",
     //categoryList: "categories",
     addCategory: "add-category",

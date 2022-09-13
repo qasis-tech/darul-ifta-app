@@ -1,0 +1,29 @@
+@import "../../../styles/common.styles.scss";
+.fatwas-details-section{
+    background-color: #f1f1f178;
+    padding: 3em;
+    .fatwas-details-container{
+        .fatwas-details-row{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            .first-col{
+                padding-right: 1em;
+            }
+            .second-col{
+                padding-left: 1em;
+            }
+        }
+        .qshort-section{
+            margin-top: 1.5em;
+        }
+        .written-section{
+            margin-top: 1.5em;
+        }
+        .btn-section{
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4em;
+        }
+    }
+}
