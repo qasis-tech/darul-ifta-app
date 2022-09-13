@@ -56,6 +56,7 @@ import Category from "../pages/admin/category";
 import Article from "../pages/admin/article";
 import AddCategories from "../pages/admin/category/addCategoryPage";
 import AddMusthafthies from "../pages/admin/musthafthies/addMusthafthiesPage";
+import AddUser from "../pages/admin/users/addUserPage";
 const CustomRouters = () => {
   const [isUser, setUser] = useState(false);
   const [isAdmin, setAdmin] = useState(false);
@@ -108,6 +109,7 @@ const CustomRouters = () => {
         <Route path="article" element={<Article />} />
         <Route path="addCategories" element={<AddCategories />} />
         <Route path="addMusthafthies" element={<AddMusthafthies />} />
+        <Route path="addUser" element={<AddUser />} />
 
         <Route path={RouterList.admin.categoryList} element={<Categories />} />
         {/*

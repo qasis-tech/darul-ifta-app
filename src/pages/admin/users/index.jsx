@@ -7,17 +7,20 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { useNavigate } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from '@mui/icons-material/Edit';
 
 import "./user.styles.scss";
 export default function User() {
+  const navigate=useNavigate();
+
   return (
     <div className="user-section">
       <div className="user-container">
         <div className="user-row">
           <div className="col-md-1">
-            <Button variant="contained" className="add-btn" fullWidth>
+            <Button variant="contained" className="add-btn"  onClick={() => navigate(`${'/admin/addUser'}`)} fullWidth>
               ADD
             </Button>
           </div>
