@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
@@ -16,6 +17,8 @@ import Paper from "@mui/material/Paper";
 import EditIcon from '@mui/icons-material/Edit';
 import "./musthafthies.styles.scss";
 export default function Musthafthies() {
+  const navigate=useNavigate();
+
   return (
     <div className="musthafthies-section">
       <div className="musthafthies-container">
@@ -41,7 +44,7 @@ export default function Musthafthies() {
             />
           </div>
           <div className="col-md-1">
-            <Button variant="contained" className="add-btn" fullWidth>
+            <Button variant="contained"  onClick={() => navigate(`${'/admin/addMusthafthies'}`)}  className="add-btn" fullWidth>
               ADD
             </Button>
           </div>

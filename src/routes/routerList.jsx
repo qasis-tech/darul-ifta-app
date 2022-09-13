@@ -22,6 +22,7 @@ export default {
     category:"category",
     article:"article",
     addCategories:"addCategories",
+    addMusthafthies:"addMusthafthies",
     dashboard: "dashboard",
     //categoryList: "categories",
     addCategory: "add-category",
