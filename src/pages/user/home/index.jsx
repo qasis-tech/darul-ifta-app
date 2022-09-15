@@ -1,4 +1,8 @@
 import React from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+
+import { URLS } from "../../../config/urls.config";
 import Carousel from "react-bootstrap/Carousel";
 
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
@@ -60,7 +64,9 @@ function a11yProps(index) {
 }
 
 const HomePage = (props) => {
+
   const [value, setValue] = React.useState(0);
+
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -69,6 +75,32 @@ const HomePage = (props) => {
   const handleDelete = () => {
     console.info('You clicked the delete icon.');
   };
+
+  useEffect(() => {
+    getCatgoryListApi();
+  }, []);
+
+ 
+
+  const getCatgoryListApi=()=>{
+    const token="##"
+    axios
+    .get("http://localhost:1337/category", {
+      headers: {
+        'Authorization':`${token}`,
+        'Content-Type':'application/json'
+      }
+    })
+    .then((res) => {
+      
+     console.log("res category===>>",res)
+    })
+    .catch((err) => {
+     
+      console.log("error category", err);
+    });
+  }
+
   return (
     <div className="home-page">
       {/* <HeaderComponent /> */}
