@@ -2,7 +2,9 @@ import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+
 // import { URLS } from "../../../config/urls.config";
+import{ formatDate} from "../../utils/dateformat";
 import Carousel from "react-bootstrap/Carousel";
 
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
@@ -64,7 +66,11 @@ function a11yProps(index) {
 }
 
 const HomePage = (props) => {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
+  const [categoryData,setCategoryData]=useState([]);
+  const [madhabData,setMadhabData]=useState([]);
+  const[subCategoryData,setSubCategoryData]=useState([])
+  const [questionsData,setQuestionsData]=useState([]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -76,10 +82,21 @@ const HomePage = (props) => {
 
   useEffect(() => {
     getCatgoryListApi();
+    getmadhabListApi();
+    getSubcategoryListApi();
+    getQuestionsApi();
   }, []);
 
-  const getCatgoryListApi = () => {
-    const token = "##";
+  useEffect(() => {
+    if(value)
+   { 
+    getQuestionsApi()
+  }
+  }, [value]);
+
+
+ const getCatgoryListApi = () => {
+  
     axios
       .get("http://localhost:1337/category", {
         headers: {
@@ -88,12 +105,66 @@ const HomePage = (props) => {
         },
       })
       .then((res) => {
-        console.log("res category===>>", res);
+        console.log("res category",res.data)
+       setCategoryData(res.data)
       })
       .catch((err) => {
         console.log("error category", err);
       });
   };
+
+  const getmadhabListApi=()=>{
+    axios
+    .get("http://localhost:1337/madhab", {
+      headers: {
+        // Authorization: `${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .then((res) => {
+      console.log("res mathab",res.data)
+      setMadhabData(res.data)
+    })
+    .catch((err) => {
+      console.log("error madhab", err);
+    });
+
+  }
+  const getSubcategoryListApi=()=>{
+    axios
+    .get("http://localhost:1337/subcategories", {
+      headers: {
+         "Content-Type": "application/json",
+      },
+    })
+    .then((res) => {
+      console.log("res subcategories",res.data)
+      setSubCategoryData(res.data)
+     
+    })
+    .catch((err) => {
+      console.log("error subcategories", err);
+    });
+
+  }
+
+  const getQuestionsApi=()=>{
+    axios
+    .get("http://localhost:1337/questions?limit=10&skip=0", {
+      headers: {
+         "Content-Type": "application/json",
+      },
+    })
+    .then((res) => {
+      console.log("res questions",res.data[0].language.title)
+      setQuestionsData(res.data)
+     
+    })
+    .catch((err) => {
+      console.log("error questions", err);
+    });
+
+  }
 
   return (
     <div className="home-page">
@@ -188,24 +259,34 @@ const HomePage = (props) => {
                   <div class="l-green"></div>
                   <div>
                     <div class="accordian-wrapper">
+                    {categoryData?.map((category)=>{
+                           return(
                       <Accordion class="accordian">
+                       
                         <AccordionSummary
                           expandIcon={
                             <ExpandMoreIcon className="arrow-color" />
                           }
                           aria-controls="panel1a-content"
                           id="panel1a-header"
+                          key={category.id}
                         >
-                          <Typography>Faiths & Beliefs</Typography>
+                         <Typography>{category?.title}</Typography>
                         </AccordionSummary>
-                        <AccordionDetails>
+                         {subCategoryData.map((subcategory)=>{
+                          return(
+                           
+                        <AccordionDetails key={subcategory.id} >
                           <ul class="accordion-sub">
-                            <li>Hanafi Madhab</li>
-                            <li>Shafi Madhab</li>
-                            <li>Common</li>
+                            <li >{subcategory.title}</li>
                           </ul>
                         </AccordionDetails>
+                          )
+                         })}
+                        
                       </Accordion>
+                       )
+                      })}
 
                       {/* <accordion class="accordian">
                         <accordion-group heading="Faiths & Beliefs">
@@ -221,12 +302,16 @@ const HomePage = (props) => {
                       <span class="text-white fs-6">Madhab</span>
                     </div>
                     <div class="l-green"></div>
+
                     <div>
-                      <ul class="mt-2">
-                        <li>Hanafi Madhab</li>
-                        <li>Shafi Madhab</li>
-                        <li>Common</li>
-                      </ul>
+                      {madhabData.map((madhab)=>{
+                         return( 
+                      <ul class="mt-2"
+                      key={madhab.id}>
+                        <li>{madhab?.title}</li>
+                         </ul>
+                       )
+                      })}
                     </div>
                   </div>
                 </div>
@@ -284,7 +369,7 @@ const HomePage = (props) => {
                     <Tabs
                       className="main-tab"
                       value={value}
-                      onChange={handleChange}
+                      onChange={(e)=>handleChange(e)}
                       aria-label="basic tabs example"
                     >
                       <Tab className="tab-name" label="All" {...a11yProps(0)} />
@@ -297,39 +382,35 @@ const HomePage = (props) => {
                       />
                     </Tabs>
                   </Box>
-                  <TabPanel value={value} index={0}>
+                  <TabPanel value={value} index={0} onClick={()=>handleChange("1")}>
                     Item One
                   </TabPanel>
-                  <TabPanel value={value} index={1}>
+                  <TabPanel value={value} index={1}onClick={()=>handleChange("2")}>
                     Item Two
                   </TabPanel>
-                  <TabPanel value={value} index={2}>
+                  <TabPanel value={value} index={2}onClick={()=>handleChange("3")}>
                     Item Three
                   </TabPanel>
-                  <TabPanel value={value} index={3}>
+                  <TabPanel value={value} index={3}onClick={()=>handleChange("4")}>
                     Item Four
                   </TabPanel>
-                  <TabPanel value={value} index={4}>
+                  <TabPanel value={value} index={4}onClick={()=>handleChange("5")}>
                     Item Five
                   </TabPanel>
                 </Box>
-                {/* <Tabs
-                  indicatorColor="primary"
-                  textColor="primary"
-                  variant="fullWidth"
-                  className="main-tab"
-                  aria-label="action tabs example"
-                >
-                  <Tab className="tab-name" label="All"></Tab>
-                  <Tab className="tab-name" label="മലയാളം" />
-                  <Tab className="tab-name" label="English" />
-                  <Tab className="tab-name" label="اردو"></Tab>
-                  <Tab
-                    className="tab-name"
-                    label="العربيــــــــــــــــــة"
-                  ></Tab>
-                </Tabs> */}
-                <QuestionComponent />
+               
+                {questionsData.map((questions)=>{
+                 
+                  return (
+                    <QuestionComponent key={questions.id}
+                    shortquestion={questions.short_question} 
+                    question={questions.question}
+                    questionCount={questions.id}
+                    createdDate={formatDate(questions.createdAt)}
+                    views={questions.views}></QuestionComponent>
+                  )
+                })}
+               
               </div>
             </div>
           </div>
