@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-import { URLS } from "../../../config/urls.config";
+// import { URLS } from "../../../config/urls.config";
 import Carousel from "react-bootstrap/Carousel";
 
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
@@ -16,11 +16,11 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
 import Chip from "@mui/material/Chip";
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import PropTypes from "prop-types";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 import Image1 from "../../../assets/Ifta_ayah.svg";
 import LogoImage from "../../../assets/ifta-logo.svg";
 import Image2 from "../../../assets/Minaret.svg";
@@ -64,42 +64,36 @@ function a11yProps(index) {
 }
 
 const HomePage = (props) => {
-
   const [value, setValue] = React.useState(0);
-
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   const handleDelete = () => {
-    console.info('You clicked the delete icon.');
+    console.info("You clicked the delete icon.");
   };
 
   useEffect(() => {
     getCatgoryListApi();
   }, []);
 
- 
-
-  const getCatgoryListApi=()=>{
-    const token="##"
+  const getCatgoryListApi = () => {
+    const token = "##";
     axios
-    .get("http://localhost:1337/category", {
-      headers: {
-        'Authorization':`${token}`,
-        'Content-Type':'application/json'
-      }
-    })
-    .then((res) => {
-      
-     console.log("res category===>>",res)
-    })
-    .catch((err) => {
-     
-      console.log("error category", err);
-    });
-  }
+      .get("http://localhost:1337/category", {
+        headers: {
+          // Authorization: `${token}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        console.log("res category===>>", res);
+      })
+      .catch((err) => {
+        console.log("error category", err);
+      });
+  };
 
   return (
     <div className="home-page">
@@ -255,8 +249,16 @@ const HomePage = (props) => {
               <div class="col-md-9 tab-container shadow rounded">
                 <div className="row chip-section">
                   <div className="">
-                    <Chip label="Chip Filled" className="single-chip" onDelete={handleDelete}/>
-                    <Chip label="Chip Filled" className="single-chip" onDelete={handleDelete}/>
+                    <Chip
+                      label="Chip Filled"
+                      className="single-chip"
+                      onDelete={handleDelete}
+                    />
+                    <Chip
+                      label="Chip Filled"
+                      className="single-chip"
+                      onDelete={handleDelete}
+                    />
                   </div>
                 </div>
                 <TextField
@@ -280,7 +282,7 @@ const HomePage = (props) => {
                 <Box sx={{ width: "100%" }}>
                   <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                     <Tabs
-                    className="main-tab"
+                      className="main-tab"
                       value={value}
                       onChange={handleChange}
                       aria-label="basic tabs example"
@@ -289,8 +291,10 @@ const HomePage = (props) => {
                       <Tab label="മലയാളം" {...a11yProps(1)} />
                       <Tab label="English" {...a11yProps(2)} />
                       <Tab label="اردو" {...a11yProps(3)} />
-                      <Tab   label="العربيــــــــــــــــــة" {...a11yProps(4)} />
-
+                      <Tab
+                        label="العربيــــــــــــــــــة"
+                        {...a11yProps(4)}
+                      />
                     </Tabs>
                   </Box>
                   <TabPanel value={value} index={0}>
