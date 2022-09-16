@@ -67,32 +67,52 @@ function a11yProps(index) {
 
 const HomePage = (props) => {
   const [value, setValue] = useState(0);
+  const [searchInput, setSearchInput] = useState("");
   const [categoryData,setCategoryData]=useState([]);
   const [madhabData,setMadhabData]=useState([]);
   const[subCategoryData,setSubCategoryData]=useState([])
   const [questionsData,setQuestionsData]=useState([]);
+  const [count, setCount] = useState(0);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
 
   const handleChange = (event, newValue) => {
+    console.log("newvalue",newValue)
     setValue(newValue);
   };
 
   const handleDelete = () => {
     console.info("You clicked the delete icon.");
   };
+  
+  const handleChangePage = (e, newPage) => setPage(newPage);
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+  useEffect(() => {
+    if (searchInput === "") {
+      getQuestionsApi()
+    }
+  }, [searchInput]);
+
+  useEffect(() => {
+    getQuestionsApi()
+  }, [page, rowsPerPage]);
 
   useEffect(() => {
     getCatgoryListApi();
     getmadhabListApi();
-    getSubcategoryListApi();
-    getQuestionsApi();
-  }, []);
-
-  useEffect(() => {
-    if(value)
-   { 
     getQuestionsApi()
-  }
-  }, [value]);
+   }, []);
+
+  // useEffect(() => {
+  // if(value>=1){
+  //   getQuestionsApi() 
+  // }
+  // }, [value]);
 
 
  const getCatgoryListApi = () => {
@@ -130,9 +150,9 @@ const HomePage = (props) => {
     });
 
   }
-  const getSubcategoryListApi=()=>{
+  const getSubcategoryListApi=(id)=>{
     axios
-    .get("http://localhost:1337/subcategories", {
+    .get("http://localhost:1337/subcategories?category_id="+id, {
       headers: {
          "Content-Type": "application/json",
       },
@@ -149,14 +169,20 @@ const HomePage = (props) => {
   }
 
   const getQuestionsApi=()=>{
+   let url= 
+   (value>=1)?
+   `http://localhost:1337/questions?language=${value}`:
+   (searchInput!=="")?`http://localhost:1337/questions/searchquestions?key=${searchInput}&limit=${rowsPerPage}&skip=${
+    page * rowsPerPage
+  }`:`http://localhost:1337/questions?limit=${rowsPerPage}&skip=${page * rowsPerPage}`
     axios
-    .get("http://localhost:1337/questions?limit=10&skip=0", {
+    .get(url, {
       headers: {
          "Content-Type": "application/json",
       },
     })
     .then((res) => {
-      console.log("res questions",res.data[0].language.title)
+      console.log("res questions",res.data)
       setQuestionsData(res.data)
      
     })
@@ -165,6 +191,7 @@ const HomePage = (props) => {
     });
 
   }
+  
 
   return (
     <div className="home-page">
@@ -261,7 +288,7 @@ const HomePage = (props) => {
                     <div class="accordian-wrapper">
                     {categoryData?.map((category)=>{
                            return(
-                      <Accordion class="accordian">
+                      <Accordion class="accordian" onClick={()=> getSubcategoryListApi(category.id)}>
                        
                         <AccordionSummary
                           expandIcon={
@@ -273,7 +300,7 @@ const HomePage = (props) => {
                         >
                          <Typography>{category?.title}</Typography>
                         </AccordionSummary>
-                         {subCategoryData.map((subcategory)=>{
+                         {subCategoryData?.length?subCategoryData?.map((subcategory)=>{
                           return(
                            
                         <AccordionDetails key={subcategory.id} >
@@ -282,7 +309,8 @@ const HomePage = (props) => {
                           </ul>
                         </AccordionDetails>
                           )
-                         })}
+                         }):<div>
+                          no data</div>}
                         
                       </Accordion>
                        )
@@ -351,65 +379,128 @@ const HomePage = (props) => {
                   fullWidth
                   size="small"
                   className="search-btn"
+                  onChange={(e) => setSearchInput(e.target.value)}
+                  value={searchInput}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
-                        <IconButton>
+                        <IconButton  sx={{
+                      visibility: searchInput !== "" ? "visible" : "hidden",
+                    }}
+                    onClick={() => setSearchInput("")}>
                           <CloseIcon />
                         </IconButton>
-                        <IconButton>
+                        <IconButton onClick={() => getQuestionsApi()}>
                           <SearchIcon />
                         </IconButton>
                       </InputAdornment>
                     ),
                   }}
                 />
+                
                 <Box sx={{ width: "100%" }}>
                   <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                     <Tabs
                       className="main-tab"
                       value={value}
-                      onChange={(e)=>handleChange(e)}
+                      onChange={handleChange}
+                      onClick={getQuestionsApi}
                       aria-label="basic tabs example"
                     >
-                      <Tab className="tab-name" label="All" {...a11yProps(0)} />
-                      <Tab label="മലയാളം" {...a11yProps(1)} />
-                      <Tab label="English" {...a11yProps(2)} />
-                      <Tab label="اردو" {...a11yProps(3)} />
+                      <Tab className="tab-name" label="All"  />
+                      <Tab label="English"  />
+                      <Tab label="മലയാളം" />
+                      <Tab label="اردو"  />
                       <Tab
                         label="العربيــــــــــــــــــة"
-                        {...a11yProps(4)}
+                       
                       />
                     </Tabs>
                   </Box>
-                  <TabPanel value={value} index={0} onClick={()=>handleChange("1")}>
-                    Item One
-                  </TabPanel>
-                  <TabPanel value={value} index={1}onClick={()=>handleChange("2")}>
-                    Item Two
-                  </TabPanel>
-                  <TabPanel value={value} index={2}onClick={()=>handleChange("3")}>
-                    Item Three
-                  </TabPanel>
-                  <TabPanel value={value} index={3}onClick={()=>handleChange("4")}>
-                    Item Four
-                  </TabPanel>
-                  <TabPanel value={value} index={4}onClick={()=>handleChange("5")}>
-                    Item Five
-                  </TabPanel>
-                </Box>
-               
-                {questionsData.map((questions)=>{
+                  <TabPanel value={value} index={0} >
+                  {questionsData.map((questions)=>{
                  
-                  return (
+                 return (
                     <QuestionComponent key={questions.id}
                     shortquestion={questions.short_question} 
                     question={questions.question}
                     questionCount={questions.id}
                     createdDate={formatDate(questions.createdAt)}
                     views={questions.views}></QuestionComponent>
+                 
                   )
                 })}
+                  </TabPanel>
+                  <TabPanel value={value} index={1}>
+                  {questionsData.map((questions)=>{
+                 
+                 return (
+                    <QuestionComponent key={questions.id}
+                    shortquestion={questions.short_question} 
+                    question={questions.question}
+                    questionCount={questions.id}
+                    createdDate={formatDate(questions.createdAt)}
+                    views={questions.views}></QuestionComponent>
+                 
+                  )
+                })}
+                  </TabPanel>
+                  <TabPanel value={value} index={2}>
+                  {questionsData.map((questions)=>{
+                 
+                 return (
+                    <QuestionComponent key={questions.id}
+                    shortquestion={questions.short_question} 
+                    question={questions.question}
+                    questionCount={questions.id}
+                    createdDate={formatDate(questions.createdAt)}
+                    views={questions.views}></QuestionComponent>
+                 
+                  )
+                })}
+                  </TabPanel>
+                  <TabPanel value={value} index={3}>
+                  {questionsData.map((questions)=>{
+                 
+                 return (
+                    <QuestionComponent key={questions.id}
+                    shortquestion={questions.short_question} 
+                    question={questions.question}
+                    questionCount={questions.id}
+                    createdDate={formatDate(questions.createdAt)}
+                    views={questions.views}></QuestionComponent>
+                 
+                  )
+                })}
+                  </TabPanel>
+                  <TabPanel value={value} index={4}>
+                  {questionsData.map((questions)=>{
+                 
+                 return (
+                    <QuestionComponent key={questions.id}
+                    shortquestion={questions.short_question} 
+                    question={questions.question}
+                    questionCount={questions.id}
+                    createdDate={formatDate(questions.createdAt)}
+                    views={questions.views}></QuestionComponent>
+                 
+                  )
+                })}
+                  </TabPanel>
+                </Box>
+               
+                {/* {questionsData.map((questions)=>{
+                 
+                 return (
+                    <QuestionComponent key={questions.id}
+                    shortquestion={questions.short_question} 
+                    question={questions.question}
+                    questionCount={questions.id}
+                    createdDate={formatDate(questions.createdAt)}
+                    views={questions.views}></QuestionComponent>
+                 
+                  )
+                })} */}
                
               </div>
             </div>

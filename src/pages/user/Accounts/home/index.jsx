@@ -6,6 +6,7 @@ import DefaultImg1 from "../../../../assets/images/Minaret.svg";
 import SettingsIcon from "@mui/icons-material/Settings";
 import MessageIcon from "@mui/icons-material/Message";
 import { Button, Card } from "@mui/material";
+import DialogComponent from "../../../../components/DialogComponent";
 
 export default function AccountHome() {
   const userDetails = {
@@ -75,9 +76,15 @@ export default function AccountHome() {
                 </Card>
               </div>
               <div className="row">
+              <DialogComponent
+                  title="Confirmation"
+                  msg="Ask Fatwa"
+                  deleteWord="yes" 
+                  notNowWord="no">
                 <Button variant="contained" fullWidth>
-                  Ask Fatwa
-                </Button>
+                 Ask Fatwa
+                 </Button>
+                </DialogComponent>
               </div>
             </div>
           </div>
