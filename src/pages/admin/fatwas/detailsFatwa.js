@@ -3,6 +3,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Button } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import PrintIcon from "@mui/icons-material/Print";
 import FatwaAddComponent from "../../../components/FatwaAddComponent";
 import "./fatwas.details.styles.scss";
 const options = ["Option 1", "Option 2"];
@@ -17,6 +18,21 @@ export default function FatwasDetails() {
 
   return (
     <div className="fatwas-details-section">
+      <div className="fatwa-print-section">
+        <div className="col-md-6">
+          <h6>
+            <span className="id-style"> Q-ID</span>
+            <span>
+              &nbsp;: 553 - KAUZARIYYA : <span>Published</span>
+            </span>
+          </h6>
+        </div>
+        <div className="col-md-6 printer">
+          <Button variant="contained" className="form-btn">
+            <PrintIcon />
+          </Button>
+        </div>
+      </div>
       <div className="fatwas-details-container">
         <div className="fatwas-details-row">
           <div className="col-md-4 first-col">

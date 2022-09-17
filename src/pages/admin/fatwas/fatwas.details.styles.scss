@@ -1,8 +1,20 @@
 @import "../../../styles/common.styles.scss";
 .fatwas-details-section{
-    background-color: #f1f1f178;
-    padding: 3em;
+    .fatwa-print-section{
+        display: flex;
+        .printer{
+            display: flex;
+            justify-content: end;
+        }
+        .id-style{
+            color: $primary;
+            font-weight: 700;
+        }
+    }
     .fatwas-details-container{
+        background-color: #f1f1f178;
+        padding: 3em;
+        margin-top: 1.5em;
         .fatwas-details-row{
             display: flex;
             flex-direction: row;

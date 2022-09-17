@@ -133,7 +133,6 @@ export default function Dashboard() {
         <div className="table-section">
           <div className="table-row">
             <div className="col-md-12">
-              <TableContainer component={Paper}>
                 <div className="heading-container">
                   <div className="heading-row">
                     <div className="col-md-2">
@@ -161,6 +160,7 @@ export default function Dashboard() {
                     </div>
                   </div>
                 </div>
+              <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650,marginTop:"1em" }} aria-label="simple table">
                   <TableHead>
                     <TableRow>
