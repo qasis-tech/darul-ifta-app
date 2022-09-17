@@ -38,13 +38,15 @@
 .MuiModal-root-MuiDialog-root .MuiDialogContent-root{
 padding: 0!important;
 }
-.MuiModal-root-MuiDialog-root .MuiDialog-paper {
+
+.MuiDialog-paper {
     @media screen and (max-width: 1000px) {
     width: 100%!important;
     height: 50%!important;
     margin: 15px!important;
     }
 }
+    
 .MuiPaper-root-MuiDialog-paper{
     @media screen and (max-width: 1000px) {
         margin: 15px!important;
