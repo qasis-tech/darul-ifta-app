@@ -11,6 +11,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
 import { Delete } from "@mui/icons-material";
 import { Alert } from "@mui/material";
+import AskFatwasComponent from "../pages/user/Accounts/askFatwas";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialog-paper": {
@@ -68,11 +69,12 @@ const DialogComponent = (props) => {
           id="customized-dialog-title"
           onClose={handleClose}
         >
-          <Alert severity="warning">{props.title}</Alert>
+          <Alert >{props.title}</Alert>
         </BootstrapDialogTitle>
         <DialogContent dividers>
-          <Typography gutterBottom>{props.msg}</Typography>
-          <Typography gutterBottom></Typography>
+          {props.children}
+          {/* <Typography gutterBottom>{props.msg}</Typography>
+          <Typography gutterBottom></Typography> */}
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>
