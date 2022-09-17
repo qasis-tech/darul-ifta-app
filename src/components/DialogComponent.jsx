@@ -72,9 +72,9 @@ const DialogComponent = (props) => {
           <Alert >{props.title}</Alert>
         </BootstrapDialogTitle>
         <DialogContent dividers>
-          {props.children}
-          {/* <Typography gutterBottom>{props.msg}</Typography>
-          <Typography gutterBottom></Typography> */}
+         <AskFatwasComponent/>
+          <Typography gutterBottom>{props.msg}</Typography>
+          <Typography gutterBottom></Typography>
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>

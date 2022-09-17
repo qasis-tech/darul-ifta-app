@@ -9,6 +9,8 @@ import { Button, Card, DialogContent } from "@mui/material";
 import DialogComponent from "../../../../components/DialogComponent";
 import AskFatwasComponent from "../askFatwas";
 
+
+
 export default function AccountHome() {
   const userDetails = {
     profile_pic: "../../../../assets/images/Minaret.svg",
@@ -78,12 +80,9 @@ export default function AccountHome() {
               </div>
               <div className="row">
               <DialogComponent
-              title="Ask Questions"
-              >
-            
-                 <Button variant="contained" fullWidth>
-                 
-                 Ask Fatwa
+              title="Ask Questions">
+                <Button variant="contained" fullWidth>
+                  Ask Fatwa
                  </Button>
                 </DialogComponent>
               </div>
