@@ -2,12 +2,12 @@
 .form-section{
     display: flex;
     justify-content: center;
-    margin-top: 2em;
+    //margin-top: 2em;
     @media screen and (max-width:1000px) {
      margin-top: 0;
     }
     .form-container{
-        width: 65%;
+        width:100%;
         @media screen and (max-width:1000px) {
             width: 100%;
         }
@@ -24,11 +24,29 @@
             justify-content: flex-end;
             .submit-btn{
                 background-color: $theme-primary-color;
-                width: 30%;
+                width: 100%;
                 @media screen and (max-width:1000px) {
                     width: 100%;
                 }
             }
         }
     }
+}
+.MuiDialogContent-root{
+    padding: 0px 24px!important;
+}
+.MuiModal-root-MuiDialog-root .MuiDialogContent-root{
+padding: 0!important;
+}
+.MuiModal-root-MuiDialog-root .MuiDialog-paper {
+    @media screen and (max-width: 1000px) {
+    width: 100%!important;
+    height: 50%!important;
+    margin: 15px!important;
+    }
+}
+.MuiPaper-root-MuiDialog-paper{
+    @media screen and (max-width: 1000px) {
+        margin: 15px!important;
+        }
 }

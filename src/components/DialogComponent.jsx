@@ -12,7 +12,7 @@ import Typography from "@mui/material/Typography";
 import { Delete } from "@mui/icons-material";
 import { Alert } from "@mui/material";
 import AskFatwasComponent from "../pages/user/Accounts/askFatwas";
-
+import "../pages/user/Accounts/askFatwas/askfatwas.styles.scss";
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialog-paper": {
     width: "30%",
@@ -80,7 +80,7 @@ const DialogComponent = (props) => {
           <Button autoFocus onClick={handleClose}>
             {props.notNowWord}
           </Button>
-          <Button
+          {/* <Button
             variant="contained"
             color="error"
             autoFocus
@@ -90,7 +90,7 @@ const DialogComponent = (props) => {
             }}
           >
             {props.deleteWord}
-          </Button>
+          </Button> */}
         </DialogActions>
       </BootstrapDialog>
     </div>
