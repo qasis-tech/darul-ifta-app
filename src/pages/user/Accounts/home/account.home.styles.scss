@@ -37,6 +37,14 @@
     }
   }
 }
+.profile-1{
+  .btn-section{
+    .submit-btn{
+      background-color: $theme-primary-color;
+      color: $white;
+    }
+  }
+}
 
 .profile-img span img {
   position: relative;

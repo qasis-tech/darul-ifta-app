@@ -16,7 +16,7 @@
   .formWraper {
     display: flex;
     width: 90%;
-    height: 65%;
+    // height: 65%;
     border-radius: 10px;
   }
   .main-div {
@@ -53,7 +53,7 @@
       }
     }
     .link-text {
-      color: $primary;
+      color: #0d66d0;
       text-decoration: none;
       padding-left: 0.5em;
     }
@@ -117,7 +117,7 @@
       }
     }
     .facebook{
-      background-color: $primary;
+      background-color:#0d66d0;
       color: $white;
       font-size: 15px;
       font-weight: 700;

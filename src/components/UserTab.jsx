@@ -74,7 +74,7 @@ export default function UserTab() {
           <span>001</span>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          {/* <AskFatwasComponent /> */}
+          <AskFatwasComponent />
         </TabPanel>
         <TabPanel value={value} index={2}>
           {/* <Profile /> */}
