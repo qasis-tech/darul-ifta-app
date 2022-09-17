@@ -178,6 +178,10 @@
       border-color: #2196f3;
     }
   }
+  .avatar{
+    display: flex;
+    justify-content: end;
+  }
   .signup-link {
     display: none;
     @media screen and (max-width: 1000px) {
