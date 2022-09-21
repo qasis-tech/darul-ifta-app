@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import GoogleLogin from "react-google-login";
+// import GoogleLogin from "react-google-login";
 import { useForm } from "react-hook-form";
 
 import TextField from "@mui/material/TextField";
@@ -31,7 +31,9 @@ const Login = () => {
   } = useForm();
 
   const handleContinue = () => {
-    setScreens("password");
+    
+      setScreens("password")
+
   };
 
   const handleLogin = ({ email, password }) => {
@@ -112,7 +114,7 @@ const Login = () => {
                           required: "Password is required",
                           minLength: {
                             value: 8,
-                            message: "Minimum 8 charecter",
+                            message: "Minimum 8 character",
                           },
                         })}
                       />
@@ -128,7 +130,7 @@ const Login = () => {
                 ></ButtonComponent>
                 <div className="separator">Or</div>
                 <div className="socialBtn">
-                  <GoogleLogin
+                  {/* <GoogleLogin
                     clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
                     buttonText="Login"
                     onSuccess={() => {
@@ -138,7 +140,7 @@ const Login = () => {
                       console.log("Fail");
                     }}
                     cookiePolicy={"single_host_origin"}
-                  />
+                  /> */}
                   {/* <div className="google icon text">
                     <GoogleIcon className="icons-size" />
                     Continue with Google
