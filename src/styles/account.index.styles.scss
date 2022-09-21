@@ -1,0 +1,15 @@
+@import "../styles/common.styles.scss";
+.account-home-container{
+    .row{
+        .col-lg-2{
+            @media screen and(max-width:1000px) {
+                margin-top: 1em;
+            }
+        }
+    }
+    .table-section{
+        @media screen and (max-width:1000px) {
+            overflow-x: scroll;
+        }
+    }
+}

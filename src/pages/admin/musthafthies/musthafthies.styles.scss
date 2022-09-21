@@ -1,0 +1,18 @@
+@import "../../../styles/common.styles.scss";
+.musthafthies-section{
+    .musthafthies-container{
+
+        .musthafthies-row{
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+    .musthafthies-table-section{
+        margin-top: 2em;
+        .musthafthies-table-row{
+            .view-icon{
+                margin-left: 1em;
+            }
+        }
+    }
+}

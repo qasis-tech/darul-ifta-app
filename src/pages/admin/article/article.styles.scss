@@ -1,0 +1,16 @@
+@import "../../../styles/common.styles.scss";
+.article-section{
+    .article-container{
+        .article-row{
+            display: flex;
+            justify-content: end;
+        }
+    }
+    .article-table-section{
+        .table-container{
+            .table-row{
+                margin-top: 2em;
+            }
+        }
+    }
+}

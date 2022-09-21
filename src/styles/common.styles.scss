@@ -1,0 +1,110 @@
+// @import "../assets/fonts/baloo.regular.ttf";
+
+@font-face {
+  font-family: "baloo";
+  src: url(../assets/fonts/baloo.regular.ttf);
+}
+
+$primary: #409ea1;
+$white: white;
+$main-font-size: 15px;
+$main-font-style: "Baloo";
+$footer-font-style: "Marcellus";
+
+$error: red;
+$error-font-size: 13px;
+
+.error {
+  padding-top: 0.5em;
+  color: $error;
+  font-size: $error-font-size;
+}
+
+$font-style: "Baloo 2", cursive;
+
+$theme-primary-color: #235775;
+$theme-secondary-color: #5e8399;
+$theme-green: #409ea1;
+$theme-l-green: #a3d5d6;
+$theme-1-grey: #99b0bc;
+$theme-f1: 15px;
+$theme-f2: 17px;
+$theme-f3: 19px;
+$theme-f4: 21px;
+$theme-f5: 23px;
+$theme-f6: 25px;
+$theme-f14: 14px;
+$theme-br-sm-1: 5px;
+$theme-br-sm-2: 8px;
+$theme-br-sm-3: 10px;
+$theme-br-sm-4: 12px;
+$theme-br-sm-5: 14px;
+$theme-br-lg-1: 30px;
+$theme-pointer: pointer;
+
+.bg-theme-grey {
+  background-color: $theme-1-grey !important;
+}
+
+.questions {
+  background-color: #ff9800;
+  color: #fff;
+}
+
+.published {
+  background-color: #4caf50;
+  color: #fff;
+}
+.pending {
+  background-color: #ffc107;
+  color: #fff;
+}
+.rejected {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+
+.edit-icon{
+  color: #4caf50;
+}
+.view-icon{
+  color:#03a9f4;
+}
+.form-btn{
+  color: white;
+  background-color:$primary!important ;
+  text-transform: uppercase;
+}
+.add-btn{
+  color: white;
+  background-color:#235775!important ;
+  text-transform: uppercase;
+}
+.activestatus,.inactive,.published,.draft{
+    padding: 0.5em 1em;
+    border-radius: 20px;
+    color: white;
+}
+.activestatus,.published{
+  background-color: green;
+}
+.inactive,.draft{
+  background-color: #f32929;
+}
+.MuiTable-root{
+  margin-top: 0!important;
+  .MuiTableHead-root{
+    .MuiTableRow-root{
+        .MuiTableCell-root{
+            color: white;
+            background-color: $primary;
+        font-weight: 600;
+        text-transform: uppercase;
+        }
+    }
+  }
+}
+.css-ivnu1y-MuiPaper-root-MuiAppBar-root{
+  background-color: #235775!important;
+}

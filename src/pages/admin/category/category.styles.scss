@@ -1,0 +1,12 @@
+@import "../../../styles/common.styles.scss";
+.category-section{
+    .category-container{
+        .category-row{
+            display: flex;
+            justify-content: end;
+        }
+    }
+    .category-table-section{
+        margin-top: 2em;
+    }
+}
