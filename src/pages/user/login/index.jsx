@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
+import GoogleLogin from "react-google-login";
+import { useForm } from "react-hook-form";
+
 import TextField from "@mui/material/TextField";
 import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import Avatar from "@mui/material/Avatar";
-import { useForm } from "react-hook-form";
-import { useState } from "react";
-import axios from "axios";
 
+import { URLS } from "../../../config/urls.config";
 import BackgroundImage from "../../../assets/login_bg.jpg";
 
 import "../../../styles/common.styles.scss";
@@ -35,13 +37,13 @@ const Login = () => {
   const handleLogin = ({ email, password }) => {
     let payload = { email: email, password: password };
     axios
-      .post("http://localhost:1337/user/login", payload, {
+      .post(`${URLS.user}${URLS.login}`, payload, {
         "Content-Type": "application/json",
       })
       .then((res) => {
         console.log("res login", res.data);
-        alert(res.data.message);
-        //  navigate(`${routerList.user.accountUser}`)
+        // alert(res.data.message);
+        navigate(`${routerList.user.accountUser}`);
       })
       .catch((err) => {
         console.log("error login", err);
@@ -126,10 +128,21 @@ const Login = () => {
                 ></ButtonComponent>
                 <div className="separator">Or</div>
                 <div className="socialBtn">
-                  <div className="google icon text">
+                  <GoogleLogin
+                    clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+                    buttonText="Login"
+                    onSuccess={() => {
+                      console.log("DOne");
+                    }}
+                    onFailure={() => {
+                      console.log("Fail");
+                    }}
+                    cookiePolicy={"single_host_origin"}
+                  />
+                  {/* <div className="google icon text">
                     <GoogleIcon className="icons-size" />
                     Continue with Google
-                  </div>
+                  </div> */}
                   <div className="facebook icon text">
                     <FacebookIcon className="icons-size " />
                     Continue with Facebook

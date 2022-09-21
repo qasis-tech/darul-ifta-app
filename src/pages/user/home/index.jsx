@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 import { URLS } from "../../../config/urls.config";
@@ -27,8 +27,10 @@ import HeaderComponent from "../../../components/Header";
 import FooterComponent from "../../../components/Footer";
 import QuestionComponent from "../../../components/QuestionContainer";
 import BackgroundImage from "../../../assets/webback.png";
+import { formatDate } from "../../../utils/dateformat";
 
 import "./home.styles.scss";
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -129,7 +131,7 @@ const HomePage = (props) => {
 
   const getmadhabListApi = () => {
     axios
-      .get("http://localhost:1337/madhab", {
+      .get(URLS.madhab, {
         headers: {
           // Authorization: `${token}`,
           "Content-Type": "application/json",
@@ -145,7 +147,7 @@ const HomePage = (props) => {
   };
   const getSubcategoryListApi = (id) => {
     axios
-      .get("http://localhost:1337/subcategories?category_id=" + id, {
+      .get(`${URLS.subcategories}?category_id=${id}`, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -162,14 +164,14 @@ const HomePage = (props) => {
   const getQuestionsApi = () => {
     let url =
       value >= 1
-        ? `http://localhost:1337/questions?language=${value}`
+        ? `${URLS.questions}?language=${value}`
         : searchInput !== ""
-        ? `http://localhost:1337/questions/searchquestions?key=${searchInput}&limit=${rowsPerPage}&skip=${
+        ? `${
+            URLS.questions
+          }/searchquestions?key=${searchInput}&limit=${rowsPerPage}&skip=${
             page * rowsPerPage
           }`
-        : `http://localhost:1337/questions?limit=${rowsPerPage}&skip=${
-            page * rowsPerPage
-          }`;
+        : `${URLS.questions}?limit=${rowsPerPage}&skip=${page * rowsPerPage}`;
     axios
       .get(url, {
         headers: {
@@ -278,38 +280,39 @@ const HomePage = (props) => {
                   <div class="l-green"></div>
                   <div>
                     <div class="accordian-wrapper">
-                      {categoryData?.map((category) => {
-                        return (
-                          <Accordion
-                            class="accordian"
-                            onClick={() => getSubcategoryListApi(category.id)}
-                          >
-                            <AccordionSummary
-                              expandIcon={
-                                <ExpandMoreIcon className="arrow-color" />
-                              }
-                              aria-controls="panel1a-content"
-                              id="panel1a-header"
-                              key={category.id}
+                      {categoryData?.length &&
+                        categoryData?.map((category) => {
+                          return (
+                            <Accordion
+                              class="accordian"
+                              onClick={() => getSubcategoryListApi(category.id)}
                             >
-                              <Typography>{category?.title}</Typography>
-                            </AccordionSummary>
-                            {subCategoryData?.length ? (
-                              subCategoryData?.map((subcategory) => {
-                                return (
-                                  <AccordionDetails key={subcategory.id}>
-                                    <ul class="accordion-sub">
-                                      <li>{subcategory.title}</li>
-                                    </ul>
-                                  </AccordionDetails>
-                                );
-                              })
-                            ) : (
-                              <div>no data</div>
-                            )}
-                          </Accordion>
-                        );
-                      })}
+                              <AccordionSummary
+                                expandIcon={
+                                  <ExpandMoreIcon className="arrow-color" />
+                                }
+                                aria-controls="panel1a-content"
+                                id="panel1a-header"
+                                key={category.id}
+                              >
+                                <Typography>{category?.title}</Typography>
+                              </AccordionSummary>
+                              {subCategoryData?.length ? (
+                                subCategoryData?.map((subcategory) => {
+                                  return (
+                                    <AccordionDetails key={subcategory.id}>
+                                      <ul class="accordion-sub">
+                                        <li>{subcategory.title}</li>
+                                      </ul>
+                                    </AccordionDetails>
+                                  );
+                                })
+                              ) : (
+                                <div>no data</div>
+                              )}
+                            </Accordion>
+                          );
+                        })}
 
                       {/* <accordion class="accordian">
                         <accordion-group heading="Faiths & Beliefs">
@@ -327,13 +330,14 @@ const HomePage = (props) => {
                     <div class="l-green"></div>
 
                     <div>
-                      {madhabData.map((madhab) => {
-                        return (
-                          <ul class="mt-2" key={madhab.id}>
-                            <li>{madhab?.title}</li>
-                          </ul>
-                        );
-                      })}
+                      {madhabData?.length &&
+                        madhabData.map((madhab) => {
+                          return (
+                            <ul class="mt-2" key={madhab.id}>
+                              <li>{madhab?.title}</li>
+                            </ul>
+                          );
+                        })}
                     </div>
                   </div>
                 </div>
@@ -412,74 +416,79 @@ const HomePage = (props) => {
                     </Tabs>
                   </Box>
                   <TabPanel value={value} index={0}>
-                    {questionsData.map((questions) => {
-                      return (
-                        <QuestionComponent
-                          key={questions.id}
-                          shortquestion={questions.short_question}
-                          question={questions.question}
-                          questionCount={questions.id}
-                          createdDate={formatDate(questions.createdAt)}
-                          views={questions.views}
-                        ></QuestionComponent>
-                      );
-                    })}
+                    {questionsData?.length &&
+                      questionsData.map((questions) => {
+                        return (
+                          <QuestionComponent
+                            key={questions.id}
+                            shortquestion={questions.short_question}
+                            question={questions.question}
+                            questionCount={questions.id}
+                            createdDate={formatDate(questions.createdAt)}
+                            views={questions.views}
+                          ></QuestionComponent>
+                        );
+                      })}
                   </TabPanel>
                   <TabPanel value={value} index={1}>
-                    {questionsData.map((questions) => {
-                      return (
-                        <QuestionComponent
-                          key={questions.id}
-                          shortquestion={questions.short_question}
-                          question={questions.question}
-                          questionCount={questions.id}
-                          createdDate={formatDate(questions.createdAt)}
-                          views={questions.views}
-                        ></QuestionComponent>
-                      );
-                    })}
+                    {questionsData?.length &&
+                      questionsData.map((questions) => {
+                        return (
+                          <QuestionComponent
+                            key={questions.id}
+                            shortquestion={questions.short_question}
+                            question={questions.question}
+                            questionCount={questions.id}
+                            createdDate={formatDate(questions.createdAt)}
+                            views={questions.views}
+                          ></QuestionComponent>
+                        );
+                      })}
                   </TabPanel>
                   <TabPanel value={value} index={2}>
-                    {questionsData.map((questions) => {
-                      return (
-                        <QuestionComponent
-                          key={questions.id}
-                          shortquestion={questions.short_question}
-                          question={questions.question}
-                          questionCount={questions.id}
-                          createdDate={formatDate(questions.createdAt)}
-                          views={questions.views}
-                        ></QuestionComponent>
-                      );
-                    })}
+                    {questionsData?.length &&
+                      questionsData.map((questions) => {
+                        return (
+                          <QuestionComponent
+                            key={questions.id}
+                            shortquestion={questions.short_question}
+                            question={questions.question}
+                            questionCount={questions.id}
+                            createdDate={formatDate(questions.createdAt)}
+                            views={questions.views}
+                          ></QuestionComponent>
+                        );
+                      })}
                   </TabPanel>
                   <TabPanel value={value} index={3}>
-                    {questionsData.map((questions) => {
-                      return (
-                        <QuestionComponent
-                          key={questions.id}
-                          shortquestion={questions.short_question}
-                          question={questions.question}
-                          questionCount={questions.id}
-                          createdDate={formatDate(questions.createdAt)}
-                          views={questions.views}
-                        ></QuestionComponent>
-                      );
-                    })}
+                    {questionsData?.length &&
+                      questionsData.map((questions) => {
+                        return (
+                          <QuestionComponent
+                            key={questions.id}
+                            shortquestion={questions.short_question}
+                            question={questions.question}
+                            questionCount={questions.id}
+                            createdDate={formatDate(questions.createdAt)}
+                            views={questions.views}
+                          ></QuestionComponent>
+                        );
+                      })}
                   </TabPanel>
                   <TabPanel value={value} index={4}>
-                    {questionsData.map((questions) => {
-                      return (
-                        <QuestionComponent
-                          key={questions.id}
-                          shortquestion={questions.short_question}
-                          question={questions.question}
-                          questionCount={questions.id}
-                          createdDate={formatDate(questions.createdAt)}
-                          views={questions.views}
-                        ></QuestionComponent>
-                      );
-                    })}
+                    {questionsData?.length &&
+                      questionsData.map((questions) => {
+                        return (
+                          <QuestionComponent
+                            key={questions.id}
+                            shortquestion={questions.short_question}
+                            question={questions.question}
+                            questionCount={questions.id}
+                            createdDate={formatDate(questions.createdAt)}
+                            views={questions.views}
+                          ></QuestionComponent>
+                        );
+                      })}
                   </TabPanel>
                 </Box>
 
