@@ -8,15 +8,6 @@
         .table-row{
             display: flex;
             justify-content: center;
-            .MuiTableHead-root{
-                .MuiTableRow-root{
-                    .MuiTableCell-root{
-                        color: black;
-                    font-weight: 600;
-                    text-transform: uppercase;
-                    }
-                }
-            }
             .status{
                 background-color: #8bc34a;
                 padding: 0.5em;
@@ -24,8 +15,7 @@
                 color: white;
             }
             .heading-container{
-                margin-top: 1em;
-                padding: 0 1em;
+                margin: 1em 0;
                 .heading-row{
                     display: flex;
                     h6{

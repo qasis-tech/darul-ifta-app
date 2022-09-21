@@ -5,7 +5,7 @@
   src: url(../assets/fonts/baloo.regular.ttf);
 }
 
-$primary: #2196f3;
+$primary: #409ea1;
 $white: white;
 $main-font-size: 15px;
 $main-font-style: "Baloo";
@@ -69,7 +69,7 @@ $theme-pointer: pointer;
   color: #4caf50;
 }
 .view-icon{
-  color:$primary ;
+  color:#03a9f4;
 }
 .form-btn{
   color: white;
@@ -78,7 +78,7 @@ $theme-pointer: pointer;
 }
 .add-btn{
   color: white;
-  background-color:$primary!important ;
+  background-color:#235775!important ;
   text-transform: uppercase;
 }
 .activestatus,.inactive,.published,.draft{
@@ -91,4 +91,20 @@ $theme-pointer: pointer;
 }
 .inactive,.draft{
   background-color: #f32929;
+}
+.MuiTable-root{
+  margin-top: 0!important;
+  .MuiTableHead-root{
+    .MuiTableRow-root{
+        .MuiTableCell-root{
+            color: white;
+            background-color: $primary;
+        font-weight: 600;
+        text-transform: uppercase;
+        }
+    }
+  }
+}
+.css-ivnu1y-MuiPaper-root-MuiAppBar-root{
+  background-color: #235775!important;
 }

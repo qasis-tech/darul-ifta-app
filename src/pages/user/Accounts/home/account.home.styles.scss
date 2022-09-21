@@ -37,6 +37,27 @@
     }
   }
 }
+.profile-1{
+  @media screen and (max-width: 1000px) {
+    flex-direction: column;
+  }
+  .details{
+    @media screen and (max-width: 1000px) {
+    justify-content: center;
+    }
+  }
+  .btn-section{
+    .MuiButtonBase-root{
+      width: 100%;
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .submit-btn{
+      background-color: $theme-primary-color;
+      color: $white;
+    }
+  }
+}
 
 .profile-img span img {
   position: relative;

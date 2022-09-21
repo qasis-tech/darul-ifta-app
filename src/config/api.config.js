@@ -5,15 +5,15 @@ axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 // axios.defaults.headers.common["Authorization"] =
 //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTY2MjAwNjE3MCwiZXhwIjoxNjkzNTQyMTcwfQ.6nAZA-Bj2_gQTewAxiZsxmpc6UqLIoroQaBqMiSc0dU";
 
-// axios.interceptors.request.use((req) => {
-//   req.headers.Authorization =
-//     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTY2MjAwNjE3MCwiZXhwIjoxNjkzNTQyMTcwfQ.6nAZA-Bj2_gQTewAxiZsxmpc6UqLIoroQaBqMiSc0dU";
-//   req.headers.Accept = "*/*";
-//   return req;
-// });
+axios.interceptors.request.use((req) => {
+  // req.headers.Authorization =
+  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTY2MjAwNjE3MCwiZXhwIjoxNjkzNTQyMTcwfQ.6nAZA-Bj2_gQTewAxiZsxmpc6UqLIoroQaBqMiSc0dU";
+  // req.headers.Accept = "*/*";
+  return req;
+});
 
 axios.interceptors.response.use((res) => {
-  return res.data;
+  return res;
 });
 
 const useAxios = (url, payload) => {

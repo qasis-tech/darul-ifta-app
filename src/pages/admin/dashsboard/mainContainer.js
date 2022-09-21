@@ -29,7 +29,9 @@ import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-
+import HomeIcon from "@mui/icons-material/Home";
+import ViewListIcon from "@mui/icons-material/ViewList";
+import CategoryIcon from "@mui/icons-material/Category";
 import "../../../styles/common.styles.scss";
 import "./maincontainer.styles.scss";
 import RouterList from "../../../routes/routerList";
@@ -180,7 +182,7 @@ function DashboardPage() {
                 <ListItem key={index} disablePadding>
                   <ListItemButton onClick={() => navigate(item.path)}>
                     <ListItemIcon>
-                      {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                      {index % 2 === 0 ? <HomeIcon /> : <ViewListIcon />}
                     </ListItemIcon>
                     <ListItemText primary={item.title} />
                   </ListItemButton>

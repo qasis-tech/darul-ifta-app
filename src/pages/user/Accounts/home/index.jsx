@@ -5,7 +5,9 @@ import DefaultImg1 from "../../../../assets/images/Minaret.svg";
 
 import SettingsIcon from "@mui/icons-material/Settings";
 import MessageIcon from "@mui/icons-material/Message";
-import { Button, Card } from "@mui/material";
+import { Button, Card, DialogContent } from "@mui/material";
+import DialogComponent from "../../../../components/DialogComponent";
+import AskFatwasComponent from "../askFatwas";
 
 export default function AccountHome() {
   const userDetails = {
@@ -48,7 +50,7 @@ export default function AccountHome() {
             </div>
           </div>
         </div>
-        <div class="col d-flex align-items-center">
+        <div class="col d-flex align-items-center details">
           <div class="">
             <div>
               <h2>{userDetails?.name || "Sabeer Ali"}</h2>
@@ -74,10 +76,12 @@ export default function AccountHome() {
                   Answred : 75
                 </Card>
               </div>
-              <div className="row">
-                <Button variant="contained" fullWidth>
-                  Ask Fatwa
-                </Button>
+              <div className="btn-section">
+                <DialogComponent title="Ask Questions" className="model-section" fullWidth>
+                  <Button variant="contained" className="submit-btn" fullWidth>
+                    Ask Fatwa
+                  </Button>
+                </DialogComponent>
               </div>
             </div>
           </div>
