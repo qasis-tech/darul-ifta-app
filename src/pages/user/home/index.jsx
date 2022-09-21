@@ -1,8 +1,7 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 
-// import { URLS } from "../../../config/urls.config";
+import { URLS } from "../../../config/urls.config";
 import Carousel from "react-bootstrap/Carousel";
 
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
@@ -81,7 +80,7 @@ const HomePage = (props) => {
   const getCatgoryListApi = () => {
     const token = "##";
     axios
-      .get("http://localhost:1337/category", {
+      .get(URLS.category, {
         headers: {
           // Authorization: `${token}`,
           "Content-Type": "application/json",
