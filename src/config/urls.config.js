@@ -5,4 +5,5 @@ export const URLS = {
   madhab: "/madhab",
   subcategories: "/subcategories",
   questions: "/question",
+  signup: "/signup",
 };

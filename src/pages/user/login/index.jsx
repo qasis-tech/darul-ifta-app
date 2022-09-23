@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
+<<<<<<< HEAD
 // import GoogleLogin from "react-google-login";
+=======
+>>>>>>> 77f374d0e2088c267db17577d8d98f88d73f389f
 import { useForm } from "react-hook-form";
+import GoogleLogin from "react-google-login";
 
 import TextField from "@mui/material/TextField";
 import GoogleIcon from "@mui/icons-material/Google";
@@ -16,6 +20,7 @@ import "./login.styles.scss";
 import { useNavigate } from "react-router-dom";
 import routerList from "../../../routes/routerList";
 import ButtonComponent from "../../../components/ButtonComponent";
+import { StoreLocal } from "../../../utils/localStore";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -37,18 +42,41 @@ const Login = () => {
   };
 
   const handleLogin = ({ email, password }) => {
-    let payload = { email: email, password: password };
     axios
-      .post(`${URLS.user}${URLS.login}`, payload, {
-        "Content-Type": "application/json",
-      })
+      .post(
+        `${URLS.user}${URLS.login}`,
+        { email: email, password: password },
+        {
+          "Content-Type": "application/json",
+        }
+      )
       .then((res) => {
         console.log("res login", res.data);
-        // alert(res.data.message);
-        navigate(`${routerList.user.accountUser}`);
+        if (res.data.success && res.data.data) {
+          StoreLocal("@darul-ifta-login-details", res.data.data);
+          navigate(`${routerList.user.accountUser}`);
+        }
       })
       .catch((err) => {
         console.log("error login", err);
+      });
+  };
+
+  const handleRegister = (email) => {
+    axios
+      .post(
+        `${URLS.user}${URLS.signup}`,
+        { email },
+        {
+          "Content-Type": "application/json",
+        }
+      )
+      .then((res) => {
+        console.log("register", res.data);
+        // navigate(`${routerList.user.accountUser}`);
+      })
+      .catch((err) => {
+        console.log("error in Register", err);
       });
   };
 
@@ -130,17 +158,28 @@ const Login = () => {
                 ></ButtonComponent>
                 <div className="separator">Or</div>
                 <div className="socialBtn">
+<<<<<<< HEAD
                   {/* <GoogleLogin
                     clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+=======
+                  <GoogleLogin
+                    clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+>>>>>>> 77f374d0e2088c267db17577d8d98f88d73f389f
                     buttonText="Login"
-                    onSuccess={() => {
-                      console.log("DOne");
+                    onSuccess={(aa) => {
+                      console.log("DOne", aa);
+                      handleRegister(aa?.profileObj?.email);
                     }}
-                    onFailure={() => {
-                      console.log("Fail");
+                    onFailure={(ee) => {
+                      console.log("Fail", ee);
                     }}
+<<<<<<< HEAD
                     cookiePolicy={"single_host_origin"}
                   /> */}
+=======
+                    // cookiePolicy={"single_host_origin"}
+                  />
+>>>>>>> 77f374d0e2088c267db17577d8d98f88d73f389f
                   {/* <div className="google icon text">
                     <GoogleIcon className="icons-size" />
                     Continue with Google
