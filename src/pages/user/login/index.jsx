@@ -1,17 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
-<<<<<<< HEAD
-// import GoogleLogin from "react-google-login";
-=======
->>>>>>> 77f374d0e2088c267db17577d8d98f88d73f389f
-import { useForm } from "react-hook-form";
 import GoogleLogin from "react-google-login";
+import { useForm } from "react-hook-form";
 
-import TextField from "@mui/material/TextField";
+
+import{ TextField,InputAdornment, IconButton} from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import Avatar from "@mui/material/Avatar";
-
 import { URLS } from "../../../config/urls.config";
 import BackgroundImage from "../../../assets/login_bg.jpg";
 
@@ -21,6 +17,8 @@ import { useNavigate } from "react-router-dom";
 import routerList from "../../../routes/routerList";
 import ButtonComponent from "../../../components/ButtonComponent";
 import { StoreLocal } from "../../../utils/localStore";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -94,7 +92,7 @@ const Login = () => {
           </div>
           <div className="main-div">
             <div className="formDiv">
-              <form onSubmit={handleSubmit(handleLogin)}>
+             
                 <h2>Sign in</h2>
                 {/* <p className="text">
                   {" "}
@@ -103,8 +101,10 @@ const Login = () => {
                     Create an account
                   </a>{" "}
                 </p> */}
+                
                 {screens === "email" ? (
                   <>
+                  <form onSubmit={handleSubmit(handleContinue)}>
                     <TextField
                       fullWidth
                       id="standard-basic"
@@ -121,8 +121,14 @@ const Login = () => {
                       })}
                     />
                     <div className="error">{errors?.email?.message}</div>
-                  </>
+                    <div className="signin-btn">
+                    <button className="btn " type="submit">Continue</button>
+                    </div>
+                    
+                   </form>
+                   </>
                 ) : (
+                  <form  onSubmit={handleSubmit(handleLogin)}>
                   <div className="password-row">
                     <div className="col-md-2 avatar">
                       <Avatar
@@ -145,26 +151,34 @@ const Login = () => {
                             message: "Minimum 8 character",
                           },
                         })}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton
+                                onClick={() => setVisible(!isVisible)}
+                                edge="end"
+                              >
+                                {!isVisible ? <VisibilityOff /> : <Visibility />}
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                        }}
                       />
                       <div className="error">{errors?.password?.message}</div>
                     </div>
+                    </div>
+                  <div className="signin-btn">
+                    <button className="btn " type="submit">
+                    Login
+                    </button>
                   </div>
+                  </form>
                 )}
-                <ButtonComponent
-                  label={screens === "email" ? "Continue" : "Login"}
-                  handleClick={() => {
-                    screens === "email" ? handleContinue() : handleSubmit();
-                  }}
-                ></ButtonComponent>
+              
                 <div className="separator">Or</div>
                 <div className="socialBtn">
-<<<<<<< HEAD
-                  {/* <GoogleLogin
-                    clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
-=======
                   <GoogleLogin
-                    clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
->>>>>>> 77f374d0e2088c267db17577d8d98f88d73f389f
+                    clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
                     buttonText="Login"
                     onSuccess={(aa) => {
                       console.log("DOne", aa);
@@ -173,17 +187,12 @@ const Login = () => {
                     onFailure={(ee) => {
                       console.log("Fail", ee);
                     }}
-<<<<<<< HEAD
                     cookiePolicy={"single_host_origin"}
-                  /> */}
-=======
-                    // cookiePolicy={"single_host_origin"}
                   />
->>>>>>> 77f374d0e2088c267db17577d8d98f88d73f389f
-                  {/* <div className="google icon text">
+                  <div className="google icon text">
                     <GoogleIcon className="icons-size" />
                     Continue with Google
-                  </div> */}
+                  </div>
                   <div className="facebook icon text">
                     <FacebookIcon className="icons-size " />
                     Continue with Facebook
@@ -194,7 +203,7 @@ const Login = () => {
                     Back to home
                   </a>
                 </div>
-              </form>
+              
             </div>
           </div>
         </div>
