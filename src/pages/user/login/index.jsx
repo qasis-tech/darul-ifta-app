@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import GoogleLogin from "react-google-login";
 import { useForm } from "react-hook-form";
+import GoogleLogin from "react-google-login";
 
 import TextField from "@mui/material/TextField";
 import GoogleIcon from "@mui/icons-material/Google";
@@ -16,6 +16,7 @@ import "./login.styles.scss";
 import { useNavigate } from "react-router-dom";
 import routerList from "../../../routes/routerList";
 import ButtonComponent from "../../../components/ButtonComponent";
+import { StoreLocal } from "../../../utils/localStore";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -35,18 +36,41 @@ const Login = () => {
   };
 
   const handleLogin = ({ email, password }) => {
-    let payload = { email: email, password: password };
     axios
-      .post(`${URLS.user}${URLS.login}`, payload, {
-        "Content-Type": "application/json",
-      })
+      .post(
+        `${URLS.user}${URLS.login}`,
+        { email: email, password: password },
+        {
+          "Content-Type": "application/json",
+        }
+      )
       .then((res) => {
         console.log("res login", res.data);
-        // alert(res.data.message);
-        navigate(`${routerList.user.accountUser}`);
+        if (res.data.success && res.data.data) {
+          StoreLocal("@darul-ifta-login-details", res.data.data);
+          navigate(`${routerList.user.accountUser}`);
+        }
       })
       .catch((err) => {
         console.log("error login", err);
+      });
+  };
+
+  const handleRegister = (email) => {
+    axios
+      .post(
+        `${URLS.user}${URLS.signup}`,
+        { email },
+        {
+          "Content-Type": "application/json",
+        }
+      )
+      .then((res) => {
+        console.log("register", res.data);
+        // navigate(`${routerList.user.accountUser}`);
+      })
+      .catch((err) => {
+        console.log("error in Register", err);
       });
   };
 
@@ -129,15 +153,16 @@ const Login = () => {
                 <div className="separator">Or</div>
                 <div className="socialBtn">
                   <GoogleLogin
-                    clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+                    clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                     buttonText="Login"
-                    onSuccess={() => {
-                      console.log("DOne");
+                    onSuccess={(aa) => {
+                      console.log("DOne", aa);
+                      handleRegister(aa?.profileObj?.email);
                     }}
-                    onFailure={() => {
-                      console.log("Fail");
+                    onFailure={(ee) => {
+                      console.log("Fail", ee);
                     }}
-                    cookiePolicy={"single_host_origin"}
+                    // cookiePolicy={"single_host_origin"}
                   />
                   {/* <div className="google icon text">
                     <GoogleIcon className="icons-size" />
