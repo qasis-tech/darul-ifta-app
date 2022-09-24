@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 
 import { styled } from "@mui/material/styles";
@@ -13,10 +13,10 @@ import { Delete } from "@mui/icons-material";
 import { Alert } from "@mui/material";
 import AskFatwasComponent from "../pages/user/Accounts/askFatwas";
 import "../pages/user/Accounts/askFatwas/askfatwas.styles.scss";
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+const BootstrapDialog = styled(Dialog)(({ theme, size }) => ({
   "& .MuiDialog-paper": {
-    width: "30%",
-    height: "40%",
+    width: "50%",
+    height: "100%",
   },
   "& .MuiDialogContent-root": {
     padding: theme.spacing(2),
@@ -31,56 +31,69 @@ const BootstrapDialogTitle = (props) => {
 
   return (
     <DialogTitle sx={{ m: 0, p: 0 }} {...other}>
-      {children}
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{
-            position: "absolute",
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null}
+      <div>{children}</div>
+      <div>
+        {onClose ? (
+          <IconButton
+            aria-label="close"
+            onClick={onClose}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        ) : null}
+      </div>
     </DialogTitle>
   );
 };
 const DialogComponent = (props) => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   return (
     <div>
-      <Button onClick={handleClickOpen}>
-        {props.children}
-      </Button>
+      <Button onClick={handleClickOpen}>{props.children}</Button>
       <BootstrapDialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
-        maxWidth="lg"
+        size={props.size}
       >
-        <BootstrapDialogTitle
-          id="customized-dialog-title"
-          onClose={handleClose}
-        >
-          <Alert >{props.title}</Alert>
-        </BootstrapDialogTitle>
+        <DialogTitle>
+          <Typography variant="subtitle1" className="fw-bold">
+            {props.title}
+          </Typography>
+          {/* <Alert>{props.title}</Alert> */}
+          <IconButton
+            aria-label="close"
+            onClick={handleClose}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
         <DialogContent dividers>
-         <AskFatwasComponent/>
           <Typography gutterBottom>{props.msg}</Typography>
           <Typography gutterBottom></Typography>
+          {props.mainComponent}
         </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            {props.notNowWord}
-          </Button>
-          {/* <Button
+        {!props.noBottom ? (
+          <DialogActions>
+            <Button autoFocus onClick={handleClose}>
+              {props.notNowWord}
+            </Button>
+            {/* <Button
             variant="contained"
             color="error"
             autoFocus
@@ -91,7 +104,8 @@ const DialogComponent = (props) => {
           >
             {props.deleteWord}
           </Button> */}
-        </DialogActions>
+          </DialogActions>
+        ) : null}
       </BootstrapDialog>
     </div>
   );

@@ -6,4 +6,6 @@ export const URLS = {
   subcategories: "/subcategories",
   questions: "/question",
   signup: "/signup",
+  googleAuth: "/googleAuth",
+  question: "/question",
 };

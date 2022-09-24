@@ -3,8 +3,7 @@ import axios from "axios";
 import GoogleLogin from "react-google-login";
 import { useForm } from "react-hook-form";
 
-
-import{ TextField,InputAdornment, IconButton} from "@mui/material";
+import { TextField, InputAdornment, IconButton } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import Avatar from "@mui/material/Avatar";
@@ -19,11 +18,13 @@ import ButtonComponent from "../../../components/ButtonComponent";
 import { StoreLocal } from "../../../utils/localStore";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import Loader from "../../../components/common/Loader";
 
 const Login = () => {
   const navigate = useNavigate();
   const [screens, setScreens] = useState("email");
   const [isVisible, setVisible] = useState(false);
+  const [isLoader, setLoader] = useState(false);
   const [email, setEmail] = useState("");
 
   const {
@@ -34,9 +35,7 @@ const Login = () => {
   } = useForm();
 
   const handleContinue = () => {
-    
-      setScreens("password")
-
+    setScreens("password");
   };
 
   const handleLogin = ({ email, password }) => {
@@ -48,10 +47,10 @@ const Login = () => {
           "Content-Type": "application/json",
         }
       )
-      .then((res) => {
-        console.log("res login", res.data);
-        if (res.data.success && res.data.data) {
-          StoreLocal("@darul-ifta-login-details", res.data.data);
+      .then(({ data }) => {
+        console.log("res login", data);
+        if (data.success && data.data) {
+          StoreLocal("@darul-ifta-login-details", data.data);
           navigate(`${routerList.user.accountUser}`);
         }
       })
@@ -60,21 +59,30 @@ const Login = () => {
       });
   };
 
-  const handleRegister = (email) => {
+  const handleRegister = ({ email, googleId, imageUrl, name }) => {
+    setLoader(true);
+    let payload = {
+      email,
+      name,
+      googleId,
+      photoUrl: imageUrl,
+    };
+
     axios
-      .post(
-        `${URLS.user}${URLS.signup}`,
-        { email },
-        {
-          "Content-Type": "application/json",
+      .post(`${URLS.user}${URLS.googleAuth}`, payload, {
+        "Content-Type": "application/json",
+      })
+      .then(({ data }) => {
+        setLoader(false);
+        if (data.success && data.data) {
+          StoreLocal("@darul-ifta-login-details", data.data, () => {
+            navigate(`${routerList.user.accountUser}`);
+          });
         }
-      )
-      .then((res) => {
-        console.log("register", res.data);
-        // navigate(`${routerList.user.accountUser}`);
       })
       .catch((err) => {
-        console.log("error in Register", err);
+        setLoader(false);
+        console.log("error in signin with google", err);
       });
   };
 
@@ -90,99 +98,101 @@ const Login = () => {
               <h2>Welcome Back!</h2>
             </div>
           </div>
-          <div className="main-div">
-            <div className="formDiv">
-             
+          {isLoader ? (
+            <Loader />
+          ) : (
+            <div className="main-div">
+              <div className="formDiv">
                 <h2>Sign in</h2>
-                {/* <p className="text">
-                  {" "}
-                  New user?
-                  <a href="" className="link-text">
-                    Create an account
-                  </a>{" "}
-                </p> */}
-                
+
                 {screens === "email" ? (
                   <>
-                  <form onSubmit={handleSubmit(handleContinue)}>
-                    <TextField
-                      fullWidth
-                      id="standard-basic"
-                      label="Email Address"
-                      variant="standard"
-                      className="email"
-                      {...register("email", {
-                        required: "Email ID is required",
-                        pattern: {
-                          value:
-                            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                          message: "Invalid email Id ( eg: example@mail.com ) ",
-                        },
-                      })}
-                    />
-                    <div className="error">{errors?.email?.message}</div>
-                    <div className="signin-btn">
-                    <button className="btn " type="submit">Continue</button>
-                    </div>
-                    
-                   </form>
-                   </>
-                ) : (
-                  <form  onSubmit={handleSubmit(handleLogin)}>
-                  <div className="password-row">
-                    <div className="col-md-2 avatar">
-                      <Avatar
-                        alt="Remy Sharp"
-                        src="/static/images/avatar/1.jpg"
-                      />
-                    </div>
-                    <div className="col-md-10">
+                    <form onSubmit={handleSubmit(handleContinue)}>
                       <TextField
                         fullWidth
                         id="standard-basic"
-                        label="Password"
+                        label="Email Address"
                         variant="standard"
                         className="email"
-                        type={isVisible ? "text" : "password"}
-                        {...register("password", {
-                          required: "Password is required",
-                          minLength: {
-                            value: 8,
-                            message: "Minimum 8 character",
+                        {...register("email", {
+                          required: "Email ID is required",
+                          pattern: {
+                            value:
+                              /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                            message:
+                              "Invalid email Id ( eg: example@mail.com ) ",
                           },
                         })}
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <IconButton
-                                onClick={() => setVisible(!isVisible)}
-                                edge="end"
-                              >
-                                {!isVisible ? <VisibilityOff /> : <Visibility />}
-                              </IconButton>
-                            </InputAdornment>
-                          ),
-                        }}
                       />
-                      <div className="error">{errors?.password?.message}</div>
+                      <div className="error">{errors?.email?.message}</div>
+                      <div className="signin-btn">
+                        <button className="btn " type="submit">
+                          Continue
+                        </button>
+                      </div>
+                    </form>
+                  </>
+                ) : (
+                  <form onSubmit={handleSubmit(handleLogin)}>
+                    <div className="password-row">
+                      <div className="col-md-2 avatar">
+                        <Avatar
+                          alt="Remy Sharp"
+                          src="/static/images/avatar/1.jpg"
+                        />
+                      </div>
+                      <div className="col-md-10">
+                        <TextField
+                          fullWidth
+                          id="standard-basic"
+                          label="Password"
+                          variant="standard"
+                          className="email"
+                          type={isVisible ? "text" : "password"}
+                          {...register("password", {
+                            required: "Password is required",
+                            minLength: {
+                              value: 8,
+                              message: "Minimum 8 character",
+                            },
+                          })}
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <IconButton
+                                  onClick={() => setVisible(!isVisible)}
+                                  edge="end"
+                                >
+                                  {!isVisible ? (
+                                    <VisibilityOff />
+                                  ) : (
+                                    <Visibility />
+                                  )}
+                                </IconButton>
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                        <div className="error">{errors?.password?.message}</div>
+                      </div>
                     </div>
+                    <div className="signin-btn">
+                      <button className="btn " type="submit">
+                        Login
+                      </button>
                     </div>
-                  <div className="signin-btn">
-                    <button className="btn " type="submit">
-                    Login
-                    </button>
-                  </div>
                   </form>
                 )}
-              
+
                 <div className="separator">Or</div>
+
                 <div className="socialBtn">
                   <GoogleLogin
-                    clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+                    clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                     buttonText="Login"
                     onSuccess={(aa) => {
                       console.log("DOne", aa);
-                      handleRegister(aa?.profileObj?.email);
+                      handleRegister(aa?.profileObj);
                     }}
                     onFailure={(ee) => {
                       console.log("Fail", ee);
@@ -198,14 +208,15 @@ const Login = () => {
                     Continue with Facebook
                   </div>
                 </div>
+
                 <div className="back-btn">
                   <a className="text" onClick={() => navigate("/")}>
                     Back to home
                   </a>
                 </div>
-              
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </section>

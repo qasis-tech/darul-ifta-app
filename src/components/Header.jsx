@@ -10,9 +10,17 @@ import LogoImage from "../assets/logo-main-logo-blue.svg";
 
 import "../styles/header.styles.scss";
 import routerList from "../routes/routerList";
+import { getLocal } from "../utils/localStore";
 
 const HeaderComponent = () => {
   const navigate = useNavigate();
+
+  const handleLogin = () => {
+    if (getLocal()) {
+      navigate(`${routerList.user.accountUser}`);
+    } else navigate(`${routerList.user.login}`);
+  };
+
   return (
     <div className="navbar-section container">
       <Navbar bg="light" expand="lg">
@@ -89,7 +97,7 @@ const HeaderComponent = () => {
                 <li
                   className="btn-group nav-item"
                   dropdown
-                  onClick={() => navigate(`${routerList.user.login}`)}
+                  onClick={handleLogin}
                 >
                   <div className="d-flex justify-content-center align-items-center custom-menu px-3">
                     <PersonIcon />

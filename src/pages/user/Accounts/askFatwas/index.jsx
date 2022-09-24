@@ -1,28 +1,47 @@
-import * as React from "react";
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
-import Button from '@mui/material/Button';
+import React, { useState, useEffect } from "react";
+
+import { TextField, Autocomplete, Button } from "@mui/material";
 
 import "./askfatwas.styles.scss";
+
 export default function AskFatwasComponent() {
+  const [madhabList, setMadhabList] = useState([]);
+  const [categoryList, setCategoryList] = useState([]);
+  const [languageList, setLanguageList] = useState([]);
+
+  useEffect(() => {}, []);
+
   return (
     <div className="form-section">
       <div className="form-container">
         <div className="row">
           <div className="col-md-4">
-            <TextField
+            {/* <TextField
               id="outlined-basic"
               size="small"
               fullWidth
               label="Madhab"
               variant="outlined"
+            /> */}
+
+            <Autocomplete
+              id="outlined-basic"
+              size="small"
+              options={madhabList}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="
+                  Madhab"
+                />
+              )}
             />
           </div>
           <div className="col-md-4">
             <Autocomplete
-              disablePortal
               id="combo-box-demo"
               size="small"
+              options={categoryList}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -34,9 +53,9 @@ export default function AskFatwasComponent() {
           </div>
           <div className="col-md-4">
             <Autocomplete
-              disablePortal
               id="combo-box-demo"
               size="small"
+              options={languageList}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -70,9 +89,11 @@ export default function AskFatwasComponent() {
           </div>
         </div>
         <div className="row">
-            <div className=" btn-section">
-            <Button className="submit-btn" variant="contained">Submit Question</Button>
-            </div>
+          <div className=" btn-section">
+            <Button className="submit-btn" variant="contained">
+              Submit Question
+            </Button>
+          </div>
         </div>
       </div>
     </div>

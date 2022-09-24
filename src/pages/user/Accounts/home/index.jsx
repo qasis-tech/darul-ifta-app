@@ -1,42 +1,69 @@
-import * as React from "react";
-import UserTab from "../../../../components/UserTab";
-import DefaultImg from "../../../../assets/images/google-logo-9808-32x32.ico";
-import DefaultImg1 from "../../../../assets/images/Minaret.svg";
+import React, { useEffect, useState } from "react";
 
+import { Button, Card } from "@mui/material";
+
+import PersonIcon from "@mui/icons-material/Person";
 import SettingsIcon from "@mui/icons-material/Settings";
 import MessageIcon from "@mui/icons-material/Message";
-import { Button, Card, DialogContent } from "@mui/material";
+import DefaultImg1 from "../../../../assets/images/Minaret.svg";
+
+import UserTab from "../../../../components/UserTab";
 import DialogComponent from "../../../../components/DialogComponent";
-import AskFatwasComponent from "../askFatwas";
+import { getLocal } from "../../../../utils/localStore";
+import axios from "axios";
+import AskFatwasComponent from "../../Accounts/askFatwas";
 
 export default function AccountHome() {
-  const userDetails = {
-    profile_pic: "../../../../assets/images/Minaret.svg",
-    phone: "9400720209",
-    name: "Sabeer Ali",
-    email: "sabeer@gmail.com",
+  const [userDetails, setUserDetails] = useState(null);
+  const [dropdownList, setDropdownList] = useState({
+    madhab: [
+      { id: 1, label: "Hanafi", values: "hanafi" },
+      { id: 2, label: "Shafi", values: "shafi" },
+      { id: 3, label: "Other", values: "other" },
+    ],
+    category: [
+      { id: 1, label: "Hanafi", values: "hanafi" },
+      { id: 2, label: "Shafi", values: "shafi" },
+      { id: 3, label: "Other", values: "other" },
+    ],
+  });
+
+  useEffect(() => {
+    getLocalData();
+  }, []);
+
+  const getLocalData = async () => {
+    const data = await getLocal("@darul-ifta-login-details");
+    setUserDetails(data);
   };
+
+  const getAPIs = () => {
+    // axios.get()
+  };
+
   return (
     <>
       <div class="profile-1 d-flex py-1">
         <div class="col d-flex flex-column align-items-center">
           <div class="profile-img">
-            <img class="profile-img" src={DefaultImg1} alt="" />
-            {!userDetails?.profile_pic && (
+            {userDetails?.profile_pic ? (
               <span>
                 <img
-                  src="../../../../assets/images/google-logo-9808-32x32.ico"
-                  alt=""
-                  srcset=""
+                  src={userDetails?.profile_pic + "" + "111"}
+                  class="profile-img"
+                  alt="profile images"
+                  onError={(e) => {
+                    e.target.src = <PersonIcon />;
+                  }}
                 />
               </span>
+            ) : (
+              <img
+                class="profile-img"
+                src={DefaultImg1}
+                alt="Profile default image"
+              />
             )}
-
-            {/* <img
-              class="profile-img-1"
-              src="../../../../assets/images/Minaret.svg"
-              alt=""
-            /> */}
           </div>
           <div class="">
             <div class="row p-3">
@@ -53,32 +80,64 @@ export default function AccountHome() {
         <div class="col d-flex align-items-center details">
           <div class="">
             <div>
-              <h2>{userDetails?.name || "Sabeer Ali"}</h2>
+              <h2>{userDetails?.name || "N/A"}</h2>
             </div>
             <div>
               <h6>
-                {userDetails?.phone && <span>{userDetails?.phone} - </span>}
-                {userDetails?.email}
+                {userDetails?.phone || (
+                  <span className="text-danger">Mobile Number - Not Found</span>
+                )}
+              </h6>
+
+              <h6>
+                {userDetails?.email || (
+                  <span className="text-danger">Email ID - Not Found</span>
+                )}
               </h6>
             </div>
 
             <div>
-              <h6>{userDetails?.address || "No Address - Found"}</h6>
+              <h6>
+                {userDetails?.address || (
+                  <span className="text-danger">Address - Not Found</span>
+                )}
+              </h6>
             </div>
             <div className="row">
               <div className="col-6 ">
-                <Card variant="outlined" sx={{ padding: 1, margin: "5px 0" }}>
-                  Total Fatwas : 100
+                <Card
+                  variant="outlined"
+                  sx={{ padding: 1, margin: "5px 0", textAlign: "center" }}
+                  className="fw-bold"
+                >
+                  Fatwas : 100
                 </Card>
               </div>
               <div className="col">
-                <Card variant="outlined" sx={{ padding: 1, margin: "5px 0" }}>
+                <Card
+                  variant="outlined"
+                  sx={{ padding: 1, margin: "5px 0", textAlign: "center" }}
+                  className="fw-bold"
+                >
                   Answred : 75
                 </Card>
               </div>
+
               <div className="btn-section">
-                <DialogComponent title="Ask Questions" className="model-section" fullWidth>
-                  <Button variant="contained" className="submit-btn" fullWidth>
+                <DialogComponent
+                  title="Ask Questions"
+                  className="model-section"
+                  fullWidth
+                  mainComponent={<AskFatwasComponent />}
+                  noBottom
+                  size="xl"
+                >
+                  <Button
+                    variant="contained"
+                    className="submit-btn"
+                    fullWidth
+                    onClick={getAPIs}
+                  >
                     Ask Fatwa
                   </Button>
                 </DialogComponent>

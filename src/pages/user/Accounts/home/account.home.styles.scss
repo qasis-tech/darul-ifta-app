@@ -11,9 +11,6 @@
   .main-tab {
     margin-top: 1em;
     .tab-name {
-      // color: #409ea1 !important;
-      //font-weight: bolder!important;
-      // font-size: 17px!important;
       @media screen and (max-width: 1000px) {
         padding: 1em 4em;
       }
@@ -37,22 +34,22 @@
     }
   }
 }
-.profile-1{
+.profile-1 {
   @media screen and (max-width: 1000px) {
     flex-direction: column;
   }
-  .details{
+  .details {
     @media screen and (max-width: 1000px) {
-    justify-content: center;
+      justify-content: center;
     }
   }
-  .btn-section{
-    .MuiButtonBase-root{
+  .btn-section {
+    .MuiButtonBase-root {
       width: 100%;
       padding-left: 0;
       padding-right: 0;
     }
-    .submit-btn{
+    .submit-btn {
       background-color: $theme-primary-color;
       color: $white;
     }
@@ -61,8 +58,6 @@
 
 .profile-img span img {
   position: relative;
-  left: -120px;
-  bottom: -100px;
   background-color: #fff;
   border-radius: 100%;
   padding: 0.1em;
