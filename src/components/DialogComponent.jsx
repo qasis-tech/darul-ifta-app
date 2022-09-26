@@ -15,7 +15,7 @@ import AskFatwasComponent from "../pages/user/Accounts/askFatwas";
 import "../pages/user/Accounts/askFatwas/askfatwas.styles.scss";
 const BootstrapDialog = styled(Dialog)(({ theme, size }) => ({
   "& .MuiDialog-paper": {
-    width: "50%",
+    width: "80% !important",
     height: "100%",
   },
   "& .MuiDialogContent-root": {
@@ -26,31 +26,6 @@ const BootstrapDialog = styled(Dialog)(({ theme, size }) => ({
   },
 }));
 
-const BootstrapDialogTitle = (props) => {
-  const { children, onClose, ...other } = props;
-
-  return (
-    <DialogTitle sx={{ m: 0, p: 0 }} {...other}>
-      <div>{children}</div>
-      <div>
-        {onClose ? (
-          <IconButton
-            aria-label="close"
-            onClick={onClose}
-            sx={{
-              position: "absolute",
-              right: 8,
-              top: 8,
-              color: (theme) => theme.palette.grey[500],
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-        ) : null}
-      </div>
-    </DialogTitle>
-  );
-};
 const DialogComponent = (props) => {
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => setOpen(true);
@@ -63,7 +38,6 @@ const DialogComponent = (props) => {
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
-        size={props.size}
       >
         <DialogTitle>
           <Typography variant="subtitle1" className="fw-bold">

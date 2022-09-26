@@ -19,6 +19,8 @@ export default function AskFatwasComponent() {
   const [selectedCategory, setSelectedCategory] = useState([]);
   const [selectedSubcategory, setSelectedSubcategory] = useState([]);
   const [selectedLanguage, setSelectedLanguage] = useState([]);
+  const [userId, setUserId] = useState([]);
+  const [userToken, setUserToken] = useState([]);
   const {
     register,
     handleSubmit,
@@ -28,6 +30,15 @@ export default function AskFatwasComponent() {
   useEffect(() => {
     getCatgoryApi();
     getmadhabApi();
+  }, []);
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("@darul-ifta-login-details"));
+    console.log("user", user);
+    if (user) {
+      setUserId(user._id);
+      setUserToken(user.initial_token);
+    }
   }, []);
 
   const getCatgoryApi = () => {
@@ -80,30 +91,33 @@ export default function AskFatwasComponent() {
     setSelectedLanguage(val);
   };
 
+  // const token =
+  // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlZXRodTkwQGdtYWlsLmNvbSIsImlhdCI6MTY2NDE4NzMzOSwiZXhwIjoxNjkwMTA3MzM5fQ.992ybQeichJTrUDalc5xf3anv7VhFrhfWdWPCtP8KJo";
+
   const handleSubmitQuestion = ({ shortQuestion, question }) => {
-    // let payload = {
-    //   product: selectedStockProduct.name,
-    //   category: selectedStockCategory.label,
-    //   subCategory: selectedStockSubCategory.label,
-    //   quantity: productQuantity,
-    //   unit: selectedUnit.value,
-    // };
-    // axios
-    //   .post(`${URLS.stock}`, payload, {
-    //     "Content-Type": "application/json",
-    //   })
-    //   .then((res) => {
-    //     setLoader(false);
-    //     setStockData(res.data);
-    //     if (res.success) {
-    //       navigate(`${RouterList.admin.admin}/${RouterList.admin.stockList}`);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     setLoader(false);
-    //     setStockData([]);
-    //     console.log("Errors in post stock", err);
-    //   });
+    let payload = {
+      user_id: userId,
+      madhab: selectedMadhab._id,
+      category: selectedCategory._id,
+      subCategory: selectedSubcategory._id,
+      short_question: shortQuestion,
+      question: question,
+      language: selectedLanguage.title,
+    };
+    console.log("payload", payload);
+    axios
+      .post(`${URLS.question}`, payload, {
+        headers: {
+          Authorization: `${userToken}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        console.log("res ask fatwa ===>>", res);
+      })
+      .catch((err) => {
+        console.log("Errors in ask fatwa", err);
+      });
   };
 
   return (
@@ -111,8 +125,8 @@ export default function AskFatwasComponent() {
       <div className="form-section">
         <div className="form-container">
           <div className="row">
-            <div className="col-md-4">
-              {madhabData?.length && (
+            <div className="col-md-3">
+              {madhabData?.length ? (
                 <Autocomplete
                   id="outlined-basic"
                   size="small"
@@ -132,12 +146,12 @@ export default function AskFatwasComponent() {
                     />
                   )}
                 />
-              )}
+              ) : null}
 
               <div className="error">{errors?.madhab?.message}</div>
             </div>
-            <div className="col-md-4">
-              {categoryData?.length && (
+            <div className="col-md-3">
+              {categoryData?.length ? (
                 <Autocomplete
                   id="combo-box-demo"
                   size="small"
@@ -159,13 +173,13 @@ export default function AskFatwasComponent() {
                     />
                   )}
                 />
-              )}
+              ) : null}
 
               <div className="error">{errors?.category?.message}</div>
             </div>
 
             {/* subcategory */}
-            <div className="col-md-4">
+            <div className="col-md-3">
               <Autocomplete
                 options={
                   selectedCategory?.subCategory?.length
@@ -191,7 +205,7 @@ export default function AskFatwasComponent() {
               />
             </div>
 
-            <div className="col-md-4">
+            <div className="col-md-3">
               {languageList?.length && (
                 <Autocomplete
                   id="combo-box-demo"
