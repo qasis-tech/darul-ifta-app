@@ -1,0 +1,15 @@
+@import "../../../../styles/common.styles.scss";
+.question-number-section{
+        .qid{
+            h6{
+                font-family: $font-style;
+                font-size: $theme-f4;
+            }
+            hr{
+                color: black!important;
+                @media screen and(max-width:991px) {
+                    width: 100%;
+                }
+            }
+        }
+}

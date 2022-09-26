@@ -1,0 +1,12 @@
+@import "../../../../styles/common.styles.scss";
+.published-section{
+    background-color: #b1a4917a;
+        .date{
+            .published-date{
+                .pub-date{
+                    font-family: $font-style;
+                    font-size: $theme-f1!important;
+                }
+            }
+        }
+}

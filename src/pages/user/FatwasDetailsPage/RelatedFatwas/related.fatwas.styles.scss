@@ -1,0 +1,39 @@
+@import "../../../../styles/common.styles.scss";
+.related-fatwas-section{
+    background-color: #e5e2dd;
+    @media screen and(max-width:991px) {
+        margin-bottom: 2em;
+    }
+    .main-head{
+        background-color: $theme-primary-color;;
+        .heading{
+            color: $white;
+            text-align: center;
+            padding: 5px;
+            font-family: $font-style;
+            font-size: $theme-f4;
+        }
+    }
+    .sub-details{
+        border: 1px solid $primary;
+        .title{
+            font-size: $theme-f1;
+            font-family: $font-style;
+        }
+        .sub-btn{
+            .col-md-6{
+                width: 50%;
+            }
+            .col-md-6:last-child{
+                display: flex;
+                justify-content: end;
+            }
+            .id-button{
+                background-color: $theme-primary-color;
+                color: $white;
+                font-size: 12px;
+                font-family: $font-style;
+            }
+        }
+    }
+}

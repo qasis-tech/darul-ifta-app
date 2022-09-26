@@ -1,0 +1,28 @@
+@import "../../../../styles/common.styles.scss";
+.written-section{
+    .container{
+        .heading{
+            color: $primary;
+            .main-heading{
+                font-family: $font-style;
+                font-size: $theme-f5;
+            }
+        }
+        .written-desc{
+            text-align: right;
+            font-family: $arabic-font-style;
+        }
+    }
+    .verified-section{
+        .verified-head{
+            color: $primary;
+            font-family: $font-style;
+            font-size: $theme-f5;
+        }
+        .sub{
+            color: $primary;
+            font-family: $font-style;
+            font-size: $theme-f1!important;
+        }
+    }
+}
