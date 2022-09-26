@@ -7,11 +7,18 @@ import { TextField, Autocomplete, Button } from "@mui/material";
 import "./askfatwas.styles.scss";
 
 export default function AskFatwasComponent() {
-  const [madhabList, setMadhabList] = useState([]);
-  const [categoryList, setCategoryList] = useState([]);
-  const [languageList, setLanguageList] = useState([]);
+  const [languageList, setLanguageList] = useState([
+    { id: 1, title: "English" },
+    { id: 2, title: "Malayalam" },
+    { id: 3, title: "Arabic" },
+    { id: 4, title: "Urdu" },
+  ]);
   const [categoryData, setCategoryData] = useState([]);
   const [madhabData, setMadhabData] = useState([]);
+  const [selectedMadhab, setSelectedMadhab] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState([]);
+  const [selectedSubcategory, setSelectedSubcategory] = useState([]);
+  const [selectedLanguage, setSelectedLanguage] = useState([]);
   const {
     register,
     handleSubmit,
@@ -57,8 +64,46 @@ export default function AskFatwasComponent() {
       });
   };
 
-  const handleSubmitQuestion = (data) => {
-    console.log("data", data);
+  const handleMadhab = (e, val) => {
+    setSelectedMadhab(val);
+  };
+
+  const handleCategory = (e, val) => {
+    setSelectedCategory(val);
+  };
+
+  const handleSubCategory = (e, val) => {
+    setSelectedSubcategory(val);
+  };
+
+  const handleLanguage = (e, val) => {
+    setSelectedLanguage(val);
+  };
+
+  const handleSubmitQuestion = ({ shortQuestion, question }) => {
+    // let payload = {
+    //   product: selectedStockProduct.name,
+    //   category: selectedStockCategory.label,
+    //   subCategory: selectedStockSubCategory.label,
+    //   quantity: productQuantity,
+    //   unit: selectedUnit.value,
+    // };
+    // axios
+    //   .post(`${URLS.stock}`, payload, {
+    //     "Content-Type": "application/json",
+    //   })
+    //   .then((res) => {
+    //     setLoader(false);
+    //     setStockData(res.data);
+    //     if (res.success) {
+    //       navigate(`${RouterList.admin.admin}/${RouterList.admin.stockList}`);
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     setLoader(false);
+    //     setStockData([]);
+    //     console.log("Errors in post stock", err);
+    //   });
   };
 
   return (
@@ -67,55 +112,109 @@ export default function AskFatwasComponent() {
         <div className="form-container">
           <div className="row">
             <div className="col-md-4">
-              <Autocomplete
-                id="outlined-basic"
-                size="small"
-                options={madhabList}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="
-                  Madhab"
-                    {...register("madhab", { required: "This is required" })}
-                  />
-                )}
-              />
+              {madhabData?.length && (
+                <Autocomplete
+                  id="outlined-basic"
+                  size="small"
+                  options={madhabData}
+                  getOptionLabel={(option) => option.title || ""}
+                  isOptionEqualToValue={(option, value) =>
+                    option._id === value._id
+                  }
+                  onChange={(e, val) => handleMadhab(e, val)}
+                  value={selectedMadhab}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="
+                    Madhab"
+                      {...register("madhab", { required: "This is required" })}
+                    />
+                  )}
+                />
+              )}
 
               <div className="error">{errors?.madhab?.message}</div>
             </div>
             <div className="col-md-4">
+              {categoryData?.length && (
+                <Autocomplete
+                  id="combo-box-demo"
+                  size="small"
+                  options={categoryData}
+                  getOptionLabel={(option) => option.category || ""}
+                  isOptionEqualToValue={(option, value) =>
+                    option._id === value._id
+                  }
+                  onChange={(e, val) => handleCategory(e, val)}
+                  value={selectedCategory}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="
+                Category"
+                      {...register("category", {
+                        required: "This is required",
+                      })}
+                    />
+                  )}
+                />
+              )}
+
+              <div className="error">{errors?.category?.message}</div>
+            </div>
+
+            {/* subcategory */}
+            <div className="col-md-4">
               <Autocomplete
-                id="combo-box-demo"
-                size="small"
-                options={categoryList}
+                options={
+                  selectedCategory?.subCategory?.length
+                    ? selectedCategory?.subCategory
+                    : []
+                }
+                getOptionLabel={(option) => option.label || ""}
+                isOptionEqualToValue={(option, value) =>
+                  option.label === value.label
+                }
+                onChange={(e, val) => handleSubCategory(e, val)}
+                value={selectedSubcategory}
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    label="
-                Category"
-                    {...register("category", {
+                    label="Subcategory"
+                    size="small"
+                    {...register("SubCategory", {
                       required: "This is required",
                     })}
                   />
                 )}
               />
-
-              <div className="error">{errors?.category?.message}</div>
             </div>
+
             <div className="col-md-4">
-              <Autocomplete
-                id="combo-box-demo"
-                size="small"
-                options={languageList}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="
+              {languageList?.length && (
+                <Autocomplete
+                  id="combo-box-demo"
+                  size="small"
+                  options={languageList}
+                  getOptionLabel={(option) => option.title || ""}
+                  isOptionEqualToValue={(option, value) =>
+                    option.id === value.id
+                  }
+                  onChange={(e, val) => handleLanguage(e, val)}
+                  value={selectedLanguage}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="
               Language"
-                    {...register("language", { required: "This is required" })}
-                  />
-                )}
-              />
+                      {...register("language", {
+                        required: "This is required",
+                      })}
+                    />
+                  )}
+                />
+              )}
               <div className="error">{errors?.language?.message}</div>
             </div>
           </div>
