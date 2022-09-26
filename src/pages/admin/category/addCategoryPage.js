@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
@@ -43,7 +44,6 @@ export default function AddCategories() {
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlZXRodTkwQGdtYWlsLmNvbSIsImlhdCI6MTY2NDAwMTE4NywiZXhwIjoxNjg5OTIxMTg3fQ.5wiCZurHaz4BmYPaQ67Hf3zFMInWcOdSCyUzYo-4YWQ";
 
   const handleCreate = () => {
-    console.log("Ressss", selectedCategory, selectedSubCategory);
     const subCat = selectedSubCategory.map((item) => {
       return {
         label: item,
@@ -52,7 +52,7 @@ export default function AddCategories() {
     });
 
     let payload = { category: selectedCategory.category, subCategory: subCat };
-    console.log("Result 1", payload);
+
     axios
       .post(`${URLS.category}`, payload, {
         headers: {
@@ -68,7 +68,7 @@ export default function AddCategories() {
       });
   };
   const handlesubCategory = (e, val) => setCategoryList(val);
-
+  const navigate = useNavigate();
   return (
     <div className="add-category-section">
       <form onSubmit={handleSubmit(handleCreate)}>
@@ -78,9 +78,9 @@ export default function AddCategories() {
               {categoryList?.length && (
                 <Autocomplete
                   id="tags-filled"
-                  options={categoryList}
-                  getOptionLabel={(option, eee) => option.category}
-                  value={selectedCategory}
+                  options={categoryList?.length ? categoryList : null}
+                  getOptionLabel={(option) => option.category}
+                  value={selectedCategory?.length ? selectedCategory : null}
                   onChange={(e, val) => setSelectedCategory(val)}
                   freeSolo
                   size="small"
@@ -108,15 +108,6 @@ export default function AddCategories() {
               )}
             </div>
             <div className="col-md-12 subcategory">
-              {/* <Autocomplete
-              disablePortal
-              size="small"
-              id="combo-box-demo"
-              options={top100Films}
-              renderInput={(params) => (
-                <TextField {...params} label="Subcategory" />
-              )}
-            /> */}
               <Autocomplete
                 multiple
                 id="tags-filled"
