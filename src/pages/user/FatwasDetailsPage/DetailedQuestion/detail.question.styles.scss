@@ -1,0 +1,14 @@
+@import "../../../../styles/common.styles.scss";
+.detail-question-section{
+    .container{
+        .question-heading{
+            color: $primary;
+            font-family: $font-style;
+            font-size: $theme-f5;
+        }
+        .question{
+            font-family: $malayalam-font-style;
+            font-size: $theme-f4;
+        }
+    }
+}

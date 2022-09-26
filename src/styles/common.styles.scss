@@ -1,8 +1,36 @@
-// @import "../assets/fonts/baloo.regular.ttf";
-
+//English
 @font-face {
   font-family: "baloo";
   src: url(../assets/fonts/baloo.regular.ttf);
+}
+// Arabic
+@font-face {
+  font-family: "Amiri";
+  src: local("Amiri"),
+    url(../assets/fonts/arabic/Amiri-Regular.ttf) format("truetype");
+}
+//Footer
+@font-face {
+  font-family: "Marcellus";
+  src: local("Marcellus"),
+    url(../assets/fonts/englesh/Marcellus-Regular.ttf) format("truetype");
+}
+@font-face {
+  font-family: "Mulish";
+  src: local("Mulish"),
+    url(../assets/fonts/englesh/Mulish-Bold.ttf) format("truetype");
+}
+// Malayalam
+@font-face {
+  font-family: "Gayatri";
+  src: local("Gayatri"),
+    url(../assets/fonts/malayalam/Gayathri-Bold.ttf) format("truetype");
+}
+// URdu
+@font-face {
+  font-family: "Jameela";
+  src: local("Jameela"),
+    url(../assets/fonts/urdu/JameelNooriNastaleeqRegular.ttf) format("truetype");
 }
 
 $primary: #409ea1;
@@ -10,7 +38,8 @@ $white: white;
 $main-font-size: 15px;
 $main-font-style: "Baloo";
 $footer-font-style: "Marcellus";
-
+$malayalam-font-style:"Gayatri";
+$arabic-font-style:"Amiri";
 $error: red;
 $error-font-size: 13px;
 

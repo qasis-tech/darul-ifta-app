@@ -5,6 +5,7 @@ import HomePage from "../pages/user/home";
 import UserLoginPage from "../pages/user/login";
 import AskFatwas from "../pages/user/askFatwas";
 import Fatwas from "../pages/user/fatwas";
+import FatwasDetailsPage from "../pages/user/FatwasDetailsPage";
 
 // import ResetPassword from "../pages/user/resetpassword/forgotPasswordPage";
 // Admin
@@ -75,7 +76,7 @@ const CustomRouters = () => {
         <Route path={RouterList.user.login} element={<UserLoginPage />} />
         <Route path={RouterList.user.askFatwas} element={<AskFatwas />} />
         <Route path={RouterList.user.fatwas} element={<Fatwas />} />
-
+        <Route path={RouterList.user.fatwasDetailsPage} element={<FatwasDetailsPage/>}/>
         <Route path={RouterList.user.accountUser} element={<AccountHome />} />
         <Route
           path={RouterList.user.accountUserAsk}

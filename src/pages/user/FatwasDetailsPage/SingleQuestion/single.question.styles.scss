@@ -1,0 +1,9 @@
+@import "../../../../styles/common.styles.scss";
+.single-question-section{
+        .question{
+            color: $theme-primary-color;
+            font-family: $malayalam-font-style;
+            font-size: $theme-f6;
+            font-weight: 600;
+        }
+}

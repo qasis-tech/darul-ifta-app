@@ -1,0 +1,17 @@
+1 fonts added to darulifta kauzariyya
+To use these fonts on a web page, copy this code into the <head> tag of your HTML.
+<style>
+  @import url("https://use.typekit.net/wvv1tmt.css");
+</style>
+
+The default embed code is simplest to implement and ideal for most websites.
+
+Fonts added:
+Adobe Arabic Regular
+
+font-family: adobe-arabic, sans-serif;
+
+font-weight: 400;
+
+font-style: normal;
+
