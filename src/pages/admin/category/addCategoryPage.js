@@ -11,7 +11,9 @@ import { URLS } from "../../../config/urls.config";
 const top100Films = [{ label: "The Shawshank Redemption", year: 1994 }];
 
 export default function AddCategories() {
-  const [selectedSubcategory, setSelectedSubcategory] = useState([]);
+  const [categoryList, setCategoryList] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState([]);
+  const [selectedSubCategory, setSelectedSubCategory] = useState([]);
   const {
     register,
     handleSubmit,
@@ -29,8 +31,9 @@ export default function AddCategories() {
           "Content-Type": "application/json",
         },
       })
-      .then((res) => {
-        console.log("res category", res);
+      .then(({ data }) => {
+        console.log("res category", data.data);
+        setCategoryList(data.data);
       })
       .catch((err) => {
         console.log("error category", err);
@@ -38,8 +41,18 @@ export default function AddCategories() {
   };
   const token =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlZXRodTkwQGdtYWlsLmNvbSIsImlhdCI6MTY2NDAwMTE4NywiZXhwIjoxNjg5OTIxMTg3fQ.5wiCZurHaz4BmYPaQ67Hf3zFMInWcOdSCyUzYo-4YWQ";
-  const handleCreate = ({ category, subCategory }) => {
-    let payload = { category: category, subCategory: selectedSubcategory };
+
+  const handleCreate = () => {
+    console.log("Ressss", selectedCategory, selectedSubCategory);
+    const subCat = selectedSubCategory.map((item) => {
+      return {
+        label: item,
+        active: true,
+      };
+    });
+
+    let payload = { category: selectedCategory.category, subCategory: subCat };
+    console.log("Result 1", payload);
     axios
       .post(`${URLS.category}`, payload, {
         headers: {
@@ -48,13 +61,13 @@ export default function AddCategories() {
         },
       })
       .then((res) => {
-        console.log("res category", res);
+        console.log("res post category", res);
       })
       .catch((err) => {
         console.log("Error in Category Add", err);
       });
   };
-  const handlesubCategory = (e, val) => setSelectedSubcategory(val);
+  const handlesubCategory = (e, val) => setCategoryList(val);
 
   return (
     <div className="add-category-section">
@@ -62,32 +75,37 @@ export default function AddCategories() {
         <div className="add-category-container">
           <div className="add-category-row">
             <div className="col-md-12">
-              <Autocomplete
-                id="tags-filled"
-                options={top100Films.map((option) => option.label)}
-                freeSolo
-                size="small"
-                renderTags={(value, getTagProps) =>
-                  value.map((option, index) => (
-                    <Chip
+              {categoryList?.length && (
+                <Autocomplete
+                  id="tags-filled"
+                  options={categoryList}
+                  getOptionLabel={(option, eee) => option.category}
+                  value={selectedCategory}
+                  onChange={(e, val) => setSelectedCategory(val)}
+                  freeSolo
+                  size="small"
+                  renderTags={(value, getTagProps) =>
+                    value.map((option, index) => (
+                      <Chip
+                        variant="outlined"
+                        label={option}
+                        size="small"
+                        {...getTagProps({ index })}
+                      />
+                    ))
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
                       variant="outlined"
-                      label={option}
+                      label="Category"
+                      placeholder="Category"
                       size="small"
-                      {...getTagProps({ index })}
+                      {...register("category")}
                     />
-                  ))
-                }
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    variant="outlined"
-                    label="Category"
-                    placeholder="Category"
-                    size="small"
-                    {...register("category")}
-                  />
-                )}
-              />
+                  )}
+                />
+              )}
             </div>
             <div className="col-md-12 subcategory">
               {/* <Autocomplete
@@ -102,10 +120,16 @@ export default function AddCategories() {
               <Autocomplete
                 multiple
                 id="tags-filled"
-                options={top100Films.map((option) => option.label)}
+                options={
+                  selectedCategory?.subCategory?.length
+                    ? selectedCategory?.subCategory?.map(
+                        (option) => option.label
+                      )
+                    : []
+                }
                 freeSolo
-                value={selectedSubcategory}
-                onChange={(e, val) => handlesubCategory(e, val)}
+                value={selectedSubCategory || []}
+                onChange={(e, val) => setSelectedSubCategory(val)}
                 size="small"
                 renderTags={(value, getTagProps) =>
                   value.map((option, index) => (
