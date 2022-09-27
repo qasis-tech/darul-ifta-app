@@ -84,9 +84,11 @@ const HomePage = (props) => {
     } else if (newValue === 2) {
       setLanguage("Malayalam");
     } else if (newValue === 3) {
+      setLanguage("Urdu");
+    } else if (newValue === 4) {
       setLanguage("Arabic");
     } else {
-      setLanguage("Urdu");
+      setLanguage("");
     }
   };
 
@@ -170,14 +172,18 @@ const HomePage = (props) => {
   };
 
   const getQuestionsApi = () => {
-    let url =
-      searchInput !== "" || language !== ""
-        ? `${
-            URLS.question
-          }?search=${searchInput}&language=${language}&limit=${rowsPerPage}&skip=${
-            page * rowsPerPage
-          }`
-        : `${URLS.question}?limit=${rowsPerPage}&skip=${page * rowsPerPage}`;
+    let url = `${URLS.question}?limit=${rowsPerPage}&skip=${
+      page * rowsPerPage
+    }`;
+
+    if (searchInput !== "" && language !== "") {
+      url = `${url}&search=${searchInput}&language=${language}`;
+    } else if (searchInput !== "" && language === "") {
+      url = `${url}&search=${searchInput}`;
+    } else if (searchInput === "" && language !== "") {
+      url = `${url}&language=${language}`;
+    }
+
     axios
       .get(url, {
         headers: {
@@ -424,7 +430,7 @@ const HomePage = (props) => {
                     </Tabs>
                   </Box>
                   <TabPanel value={value} index={0}>
-                    {questionsData?.length &&
+                    {questionsData?.length ? (
                       questionsData.map((questions) => {
                         return (
                           <QuestionComponent
@@ -436,10 +442,13 @@ const HomePage = (props) => {
                             views={questions.views}
                           ></QuestionComponent>
                         );
-                      })}
+                      })
+                    ) : (
+                      <div>NO DATA </div>
+                    )}
                   </TabPanel>
                   <TabPanel value={value} index={1}>
-                    {questionsData?.length &&
+                    {questionsData?.length ? (
                       questionsData.map((questions) => {
                         return (
                           <QuestionComponent
@@ -451,10 +460,13 @@ const HomePage = (props) => {
                             views={questions.views}
                           ></QuestionComponent>
                         );
-                      })}
+                      })
+                    ) : (
+                      <div>NO DATA </div>
+                    )}
                   </TabPanel>
                   <TabPanel value={value} index={2}>
-                    {questionsData?.length &&
+                    {questionsData?.length ? (
                       questionsData.map((questions) => {
                         return (
                           <QuestionComponent
@@ -466,10 +478,13 @@ const HomePage = (props) => {
                             views={questions.views}
                           ></QuestionComponent>
                         );
-                      })}
+                      })
+                    ) : (
+                      <div>NO DATA </div>
+                    )}
                   </TabPanel>
                   <TabPanel value={value} index={3}>
-                    {questionsData?.length &&
+                    {questionsData?.length ? (
                       questionsData.map((questions) => {
                         return (
                           <QuestionComponent
@@ -481,10 +496,13 @@ const HomePage = (props) => {
                             views={questions.views}
                           ></QuestionComponent>
                         );
-                      })}
+                      })
+                    ) : (
+                      <div>NO DATA </div>
+                    )}
                   </TabPanel>
                   <TabPanel value={value} index={4}>
-                    {questionsData?.length &&
+                    {questionsData?.length ? (
                       questionsData.map((questions) => {
                         return (
                           <QuestionComponent
@@ -496,7 +514,10 @@ const HomePage = (props) => {
                             views={questions.views}
                           ></QuestionComponent>
                         );
-                      })}
+                      })
+                    ) : (
+                      <div>NO DATA </div>
+                    )}
                   </TabPanel>
                 </Box>
 
