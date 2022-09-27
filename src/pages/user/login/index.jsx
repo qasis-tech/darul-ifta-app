@@ -126,7 +126,7 @@ const Login = () => {
                       />
                       <div className="error">{errors?.email?.message}</div>
                       <div className="signin-btn">
-                        <button className="btn " type="submit">
+                        <button className="btn" type="submit">
                           Continue
                         </button>
                       </div>
@@ -189,7 +189,7 @@ const Login = () => {
                 <div className="socialBtn">
                   <GoogleLogin
                     clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-                    buttonText="Login"
+                    buttonText="Continue with Google"
                     onSuccess={(aa) => {
                       console.log("DOne", aa);
                       handleRegister(aa?.profileObj);

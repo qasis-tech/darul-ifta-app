@@ -51,7 +51,8 @@ export default function AddCategories() {
       };
     });
 
-    let payload = { category: selectedCategory.category, subCategory: subCat };
+    let payload = { category: selectedCategory?.category, subCategory: subCat };
+    console.log("selectedCategory === ", payload);
 
     axios
       .post(`${URLS.category}`, payload, {
@@ -75,37 +76,41 @@ export default function AddCategories() {
         <div className="add-category-container">
           <div className="add-category-row">
             <div className="col-md-12">
-              {categoryList?.length && (
-                <Autocomplete
-                  id="tags-filled"
-                  options={categoryList?.length ? categoryList : null}
-                  getOptionLabel={(option) => option.category}
-                  value={selectedCategory?.length ? selectedCategory : null}
-                  onChange={(e, val) => setSelectedCategory(val)}
-                  freeSolo
-                  size="small"
-                  renderTags={(value, getTagProps) =>
-                    value.map((option, index) => (
+              <Autocomplete
+                id="tags-filled-1"
+                options={categoryList || ""}
+                getOptionLabel={(option) => option?.category || ""}
+                value={selectedCategory}
+                onChange={(e, val) => setSelectedCategory(val)}
+                onInputChange={(e, val) => {
+                  if (val)
+                    setCategoryList([...categoryList, ...[{ category: val }]]);
+                }}
+                freeSolo
+                size="small"
+                renderTags={(value, getTagProps) =>
+                  value.map((option, index) => {
+                    return (
                       <Chip
                         variant="outlined"
                         label={option}
                         size="small"
                         {...getTagProps({ index })}
                       />
-                    ))
-                  }
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      variant="outlined"
-                      label="Category"
-                      placeholder="Category"
-                      size="small"
-                      {...register("category")}
-                    />
-                  )}
-                />
-              )}
+                    );
+                  })
+                }
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    label="Category"
+                    placeholder="Category"
+                    size="small"
+                    {...register("category")}
+                  />
+                )}
+              />
             </div>
             <div className="col-md-12 subcategory">
               <Autocomplete

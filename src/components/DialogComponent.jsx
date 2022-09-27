@@ -15,8 +15,8 @@ import AskFatwasComponent from "../pages/user/Accounts/askFatwas";
 import "../pages/user/Accounts/askFatwas/askfatwas.styles.scss";
 const BootstrapDialog = styled(Dialog)(({ theme, size }) => ({
   "& .MuiDialog-paper": {
-    width: "80% !important",
-    height: "100%",
+    width: "65%",
+    maxWidth: "100%",
   },
   "& .MuiDialogContent-root": {
     padding: theme.spacing(2),
@@ -80,6 +80,8 @@ const DialogComponent = (props) => {
           </Button> */}
           </DialogActions>
         ) : null}
+
+        {/* </Dialog> */}
       </BootstrapDialog>
     </div>
   );

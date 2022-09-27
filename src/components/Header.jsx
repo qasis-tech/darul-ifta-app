@@ -15,8 +15,10 @@ import { getLocal } from "../utils/localStore";
 const HeaderComponent = () => {
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    if (getLocal()) {
+  const handleLogin = async () => {
+    let loginData = await getLocal();
+    console.log("getLocal()", loginData);
+    if (loginData) {
       navigate(`${routerList.user.accountUser}`);
     } else navigate(`${routerList.user.login}`);
   };

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 import { Button, Card } from "@mui/material";
 
@@ -10,10 +11,14 @@ import DefaultImg1 from "../../../../assets/images/Minaret.svg";
 import UserTab from "../../../../components/UserTab";
 import DialogComponent from "../../../../components/DialogComponent";
 import { getLocal } from "../../../../utils/localStore";
-import axios from "axios";
 import AskFatwasComponent from "../../Accounts/askFatwas";
+import { useNavigate } from "react-router-dom";
+
+import UserProfile from "../profile";
 
 export default function AccountHome() {
+  const navigate = useNavigate();
+
   const [userDetails, setUserDetails] = useState(null);
   const [dropdownList, setDropdownList] = useState({
     madhab: [
@@ -68,7 +73,16 @@ export default function AccountHome() {
           <div class="">
             <div class="row p-3">
               <div className="col pointer">
-                <SettingsIcon />
+                <DialogComponent
+                  title="User Profile"
+                  className="model-section"
+                  fullWidth
+                  mainComponent={<UserProfile />}
+                  noBottom
+                  size="xl"
+                >
+                  <SettingsIcon />
+                </DialogComponent>
               </div>
 
               <div className="col">
