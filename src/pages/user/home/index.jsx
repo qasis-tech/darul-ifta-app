@@ -80,15 +80,15 @@ const HomePage = (props) => {
     console.log("valuess--->>", newValue);
     setValue(newValue);
     if (newValue === 1) {
-      setLanguage("English");
+      getQuestionsApi("English");
     } else if (newValue === 2) {
-      setLanguage("Malayalam");
+      getQuestionsApi("Malayalam");
     } else if (newValue === 3) {
-      setLanguage("Urdu");
+      getQuestionsApi("Urdu");
     } else if (newValue === 4) {
-      setLanguage("Arabic");
+      getQuestionsApi("Arabic");
     } else {
-      setLanguage("");
+      getQuestionsApi();
     }
   };
 
@@ -102,19 +102,19 @@ const HomePage = (props) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  useEffect(() => {
-    if (searchInput === "") {
-      getQuestionsApi();
-    }
-  }, [searchInput]);
+  // useEffect(() => {
+  //   if (searchInput === "") {
+  //     getQuestionsApi();
+  //   }
+  // }, [searchInput]);
 
-  useEffect(() => {
-    getQuestionsApi();
-  }, [page, rowsPerPage]);
+  // useEffect(() => {
+  //   getQuestionsApi();
+  // }, [page, rowsPerPage]);
 
-  useEffect(() => {
-    getQuestionsApi();
-  }, [language]);
+  // useEffect(() => {
+  //   getQuestionsApi();
+  // }, [language]);
 
   useEffect(() => {
     getCatgoryListApi();
@@ -171,7 +171,7 @@ const HomePage = (props) => {
       });
   };
 
-  const getQuestionsApi = () => {
+  const getQuestionsApi = (language) => {
     let url = `${URLS.question}?limit=${rowsPerPage}&skip=${
       page * rowsPerPage
     }`;
@@ -419,7 +419,7 @@ const HomePage = (props) => {
                       className="main-tab"
                       value={value}
                       onChange={handleChange}
-                      onClick={getQuestionsApi}
+                      // onClick={getQuestionsApi}
                       aria-label="basic tabs example"
                     >
                       <Tab className="tab-name" label="All" />
