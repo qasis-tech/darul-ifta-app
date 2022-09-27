@@ -1,4 +1,6 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { URLS } from "../config/urls.config";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -10,6 +12,7 @@ import AskFatwasComponent from "../pages/user/Accounts/askFatwas";
 import Profile from "../pages/user/Accounts/profile";
 import "../pages/user/Accounts/home/account.home.styles.scss";
 import QuestionContainer from "./QuestionContainer";
+import { formatDate } from "../utils/dateformat";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -44,11 +47,33 @@ function a11yProps(index) {
 }
 
 export default function UserTab() {
-  const [value, setValue] = React.useState(0);
-
+  const [value, setValue] = useState(0);
+  const [questionData, setQuestionData] = useState([]);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    getQuestionApi();
+  }, []);
+
+  const getQuestionApi = () => {
+    axios
+      .get(URLS.question, {
+        headers: {
+          // Authorization: `${token}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        console.log("resques2222>>>", res);
+        setQuestionData(res.data.data);
+      })
+      .catch((err) => {
+        console.log("error quesss", err);
+      });
+  };
+
   return (
     <div className="user-tab-section">
       <Box sx={{ width: "100%" }}>
@@ -59,19 +84,29 @@ export default function UserTab() {
             onChange={handleChange}
             aria-label="basic tabs example"
           >
-            <Tab className="tab-name" label="My Questions" {...a11yProps(0)} />
-            <Tab label="Published Fatwas" {...a11yProps(1)} />
-            <Tab label="Pending Fatwas" {...a11yProps(2)} />
-            <Tab label="Rejected Fatwas" {...a11yProps(2)} />
-            {/* <Tab label={<PowerSettingsNewIcon />} {...a11yProps(3)} /> */}
+            <Tab className="tab-name" label="My Questions" />
+            <Tab label="Published Fatwas" />
+            <Tab label="Pending Fatwas" />
+            <Tab label="Rejected Fatwas" />
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
           {/* <AccountHomeComponent/> */}
-          <div className="container">
-            <QuestionContainer />
-          </div>
-          <span>001</span>
+          {questionData.map((question) => {
+            return (
+              <div className="container">
+                <QuestionContainer
+                  shortquestion={question.short_question}
+                  question={question.question}
+                  createdDate={formatDate(question.createdAt)}
+                  views={question.views}
+                  writtenby={question.mufti}
+                />
+              </div>
+            );
+          })}
+
+          {/* <span>001</span> */}
         </TabPanel>
         <TabPanel value={value} index={1}>
           <AskFatwasComponent />

@@ -74,10 +74,20 @@ const HomePage = (props) => {
   const [count, setCount] = useState(0);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [language, setLanguage] = useState([]);
 
   const handleChange = (event, newValue) => {
-    console.log("newvalue", newValue);
+    console.log("valuess--->>", newValue);
     setValue(newValue);
+    if (newValue === 1) {
+      setLanguage("English");
+    } else if (newValue === 2) {
+      setLanguage("Malayalam");
+    } else if (newValue === 3) {
+      setLanguage("Arabic");
+    } else {
+      setLanguage("Urdu");
+    }
   };
 
   const handleDelete = () => {
@@ -101,20 +111,18 @@ const HomePage = (props) => {
   }, [page, rowsPerPage]);
 
   useEffect(() => {
+    getQuestionsApi();
+  }, [language]);
+
+  useEffect(() => {
     getCatgoryListApi();
     getmadhabListApi();
     getQuestionsApi();
   }, []);
 
-  // useEffect(() => {
-  // if(value>=1){
-  //   getQuestionsApi()
-  // }
-  // }, [value]);
-
   const getCatgoryListApi = () => {
     axios
-      .get(URLS.category, {
+      .get(`${URLS.category}`, {
         headers: {
           // Authorization: `${token}`,
           "Content-Type": "application/json",
@@ -122,7 +130,7 @@ const HomePage = (props) => {
       })
       .then((res) => {
         console.log("res category", res.data);
-        setCategoryData(res.data);
+        setCategoryData(res.data.data);
       })
       .catch((err) => {
         console.log("error category", err);
@@ -131,7 +139,7 @@ const HomePage = (props) => {
 
   const getmadhabListApi = () => {
     axios
-      .get(URLS.madhab, {
+      .get(`${URLS.madhab}`, {
         headers: {
           // Authorization: `${token}`,
           "Content-Type": "application/json",
@@ -139,7 +147,7 @@ const HomePage = (props) => {
       })
       .then((res) => {
         console.log("res mathab", res.data);
-        setMadhabData(res.data);
+        setMadhabData(res.data.data);
       })
       .catch((err) => {
         console.log("error madhab", err);
@@ -163,24 +171,22 @@ const HomePage = (props) => {
 
   const getQuestionsApi = () => {
     let url =
-      value >= 1
-        ? `${URLS.questions}?language=${value}`
-        : searchInput !== ""
+      searchInput !== "" || language !== ""
         ? `${
-            URLS.questions
-          }/searchquestions?key=${searchInput}&limit=${rowsPerPage}&skip=${
+            URLS.question
+          }?search=${searchInput}&language=${language}&limit=${rowsPerPage}&skip=${
             page * rowsPerPage
           }`
-        : `${URLS.questions}?limit=${rowsPerPage}&skip=${page * rowsPerPage}`;
+        : `${URLS.question}?limit=${rowsPerPage}&skip=${page * rowsPerPage}`;
     axios
       .get(url, {
         headers: {
           "Content-Type": "application/json",
         },
       })
-      .then((res) => {
-        console.log("res questions", res.data);
-        setQuestionsData(res.data);
+      .then(({ data }) => {
+        console.log("res questions", data.data);
+        setQuestionsData(data.data);
       })
       .catch((err) => {
         console.log("error questions", err);
@@ -285,7 +291,9 @@ const HomePage = (props) => {
                           return (
                             <Accordion
                               class="accordian"
-                              onClick={() => getSubcategoryListApi(category.id)}
+                              onClick={() =>
+                                getSubcategoryListApi(category._id)
+                              }
                             >
                               <AccordionSummary
                                 expandIcon={
@@ -293,16 +301,16 @@ const HomePage = (props) => {
                                 }
                                 aria-controls="panel1a-content"
                                 id="panel1a-header"
-                                key={category.id}
+                                key={category._id}
                               >
-                                <Typography>{category?.title}</Typography>
+                                <Typography>{category?.category}</Typography>
                               </AccordionSummary>
                               {subCategoryData?.length ? (
                                 subCategoryData?.map((subcategory) => {
                                   return (
-                                    <AccordionDetails key={subcategory.id}>
+                                    <AccordionDetails key={subcategory._id}>
                                       <ul class="accordion-sub">
-                                        <li>{subcategory.title}</li>
+                                        <li>{subcategory.label}</li>
                                       </ul>
                                     </AccordionDetails>
                                   );
@@ -333,7 +341,7 @@ const HomePage = (props) => {
                       {madhabData?.length &&
                         madhabData.map((madhab) => {
                           return (
-                            <ul class="mt-2" key={madhab.id}>
+                            <ul class="mt-2" key={madhab._id}>
                               <li>{madhab?.title}</li>
                             </ul>
                           );
@@ -420,7 +428,7 @@ const HomePage = (props) => {
                       questionsData.map((questions) => {
                         return (
                           <QuestionComponent
-                            key={questions.id}
+                            key={questions._id}
                             shortquestion={questions.short_question}
                             question={questions.question}
                             questionCount={questions.id}
@@ -435,7 +443,7 @@ const HomePage = (props) => {
                       questionsData.map((questions) => {
                         return (
                           <QuestionComponent
-                            key={questions.id}
+                            key={questions._id}
                             shortquestion={questions.short_question}
                             question={questions.question}
                             questionCount={questions.id}
@@ -450,7 +458,7 @@ const HomePage = (props) => {
                       questionsData.map((questions) => {
                         return (
                           <QuestionComponent
-                            key={questions.id}
+                            key={questions._id}
                             shortquestion={questions.short_question}
                             question={questions.question}
                             questionCount={questions.id}
@@ -465,7 +473,7 @@ const HomePage = (props) => {
                       questionsData.map((questions) => {
                         return (
                           <QuestionComponent
-                            key={questions.id}
+                            key={questions._id}
                             shortquestion={questions.short_question}
                             question={questions.question}
                             questionCount={questions.id}
@@ -480,7 +488,7 @@ const HomePage = (props) => {
                       questionsData.map((questions) => {
                         return (
                           <QuestionComponent
-                            key={questions.id}
+                            key={questions._id}
                             shortquestion={questions.short_question}
                             question={questions.question}
                             questionCount={questions.id}

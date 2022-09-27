@@ -25,7 +25,7 @@ const Login = () => {
   const [screens, setScreens] = useState("email");
   const [isVisible, setVisible] = useState(false);
   const [isLoader, setLoader] = useState(false);
-  const [email, setEmail] = useState("");
+  const [imgSrc, setImgsrc] = useState([]);
 
   const {
     register,
@@ -34,11 +34,30 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const handleContinue = () => {
-    setScreens("password");
+  const handleContinue = ({ email }) => {
+    setLoader(true);
+    axios
+      .post(
+        `${URLS.user}${URLS.profile_pic}`,
+        { email: email },
+        {
+          "Content-Type": "application/json",
+        }
+      )
+      .then(({ data }) => {
+        console.log("res email", data.data);
+        setLoader(false);
+        setImgsrc(data.data);
+        setScreens("password");
+      })
+      .catch((err) => {
+        setLoader(false);
+        console.log("error login", err);
+      });
   };
 
   const handleLogin = ({ email, password }) => {
+    setLoader(true);
     axios
       .post(
         `${URLS.user}${URLS.login}`,
@@ -48,6 +67,7 @@ const Login = () => {
         }
       )
       .then(({ data }) => {
+        setLoader(false);
         console.log("res login", data);
         if (data.success && data.data) {
           StoreLocal("@darul-ifta-login-details", data.data);
@@ -55,6 +75,7 @@ const Login = () => {
         }
       })
       .catch((err) => {
+        setLoader(false);
         console.log("error login", err);
       });
   };
@@ -98,95 +119,100 @@ const Login = () => {
               <h2>Welcome Back!</h2>
             </div>
           </div>
-          {isLoader ? (
-            <Loader />
-          ) : (
-            <div className="main-div">
-              <div className="formDiv">
-                <h2>Sign in</h2>
 
-                {screens === "email" ? (
-                  <>
-                    <form onSubmit={handleSubmit(handleContinue)}>
-                      <TextField
-                        fullWidth
-                        id="standard-basic"
-                        label="Email Address"
-                        variant="standard"
-                        className="email"
-                        {...register("email", {
-                          required: "Email ID is required",
-                          pattern: {
-                            value:
-                              /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                            message:
-                              "Invalid email Id ( eg: example@mail.com ) ",
-                          },
-                        })}
-                      />
-                      <div className="error">{errors?.email?.message}</div>
-                      <div className="signin-btn">
+          <div className="main-div">
+            <div className="formDiv">
+              <h2>Sign in</h2>
+
+              {screens === "email" ? (
+                <>
+                  <form onSubmit={handleSubmit(handleContinue)}>
+                    <TextField
+                      fullWidth
+                      id="standard-basic"
+                      label="Email Address"
+                      variant="standard"
+                      className="email"
+                      {...register("email", {
+                        required: "Email ID is required",
+                        pattern: {
+                          value:
+                            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                          message: "Invalid email Id ( eg: example@mail.com ) ",
+                        },
+                      })}
+                    />
+                    <div className="error">{errors?.email?.message}</div>
+                    <div className="signin-btn">
+                      {isLoader ? (
+                        <Loader />
+                      ) : (
                         <button className="btn" type="submit">
                           Continue
                         </button>
-                      </div>
-                    </form>
-                  </>
-                ) : (
-                  <form onSubmit={handleSubmit(handleLogin)}>
-                    <div className="password-row">
-                      <div className="col-md-2 avatar">
-                        <Avatar
-                          alt="Remy Sharp"
-                          src="/static/images/avatar/1.jpg"
-                        />
-                      </div>
-                      <div className="col-md-10">
-                        <TextField
-                          fullWidth
-                          id="standard-basic"
-                          label="Password"
-                          variant="standard"
-                          className="email"
-                          type={isVisible ? "text" : "password"}
-                          {...register("password", {
-                            required: "Password is required",
-                            minLength: {
-                              value: 8,
-                              message: "Minimum 8 character",
-                            },
-                          })}
-                          InputProps={{
-                            endAdornment: (
-                              <InputAdornment position="end">
-                                <IconButton
-                                  onClick={() => setVisible(!isVisible)}
-                                  edge="end"
-                                >
-                                  {!isVisible ? (
-                                    <VisibilityOff />
-                                  ) : (
-                                    <Visibility />
-                                  )}
-                                </IconButton>
-                              </InputAdornment>
-                            ),
-                          }}
-                        />
-                        <div className="error">{errors?.password?.message}</div>
-                      </div>
+                      )}
                     </div>
-                    <div className="signin-btn">
+                  </form>
+                </>
+              ) : (
+                <form onSubmit={handleSubmit(handleLogin)}>
+                  <div className="password-row">
+                    <div className="col-md-2 avatar">
+                      <Avatar alt="pro_image" src={imgSrc} />
+                    </div>
+                    <div className="col-md-10">
+                      <TextField
+                        fullWidth
+                        id="standard-basic"
+                        label="Password"
+                        variant="standard"
+                        className="email"
+                        type={isVisible ? "text" : "password"}
+                        {...register("password", {
+                          required: "Password is required",
+                          minLength: {
+                            value: 8,
+                            message: "Minimum 8 character",
+                          },
+                        })}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton
+                                onClick={() => setVisible(!isVisible)}
+                                edge="end"
+                              >
+                                {!isVisible ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                      <div className="error">{errors?.password?.message}</div>
+                    </div>
+                  </div>
+                  <div className="signin-btn">
+                    {isLoader ? (
+                      <Loader />
+                    ) : (
                       <button className="btn " type="submit">
                         Login
                       </button>
-                    </div>
-                  </form>
-                )}
+                    )}
+                  </div>
+                </form>
+              )}
 
-                <div className="separator">Or</div>
+              <div className="separator">Or</div>
 
-                <div className="socialBtn">
+              <div className="socialBtn">
+                {isLoader ? (
+                  <Loader />
+                ) : (
                   <GoogleLogin
                     clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                     buttonText="Continue with Google"
@@ -199,24 +225,24 @@ const Login = () => {
                     }}
                     cookiePolicy={"single_host_origin"}
                   />
-                  <div className="google icon text">
-                    <GoogleIcon className="icons-size" />
-                    Continue with Google
-                  </div>
-                  <div className="facebook icon text">
-                    <FacebookIcon className="icons-size " />
-                    Continue with Facebook
-                  </div>
+                )}
+                <div className="google icon text">
+                  <GoogleIcon className="icons-size" />
+                  Continue with Google
                 </div>
-
-                <div className="back-btn">
-                  <a className="text" onClick={() => navigate("/")}>
-                    Back to home
-                  </a>
+                <div className="facebook icon text">
+                  <FacebookIcon className="icons-size " />
+                  Continue with Facebook
                 </div>
               </div>
+
+              <div className="back-btn">
+                <a className="text" onClick={() => navigate("/")}>
+                  Back to home
+                </a>
+              </div>
             </div>
-          )}
+          </div>
         </div>
       </div>
     </section>

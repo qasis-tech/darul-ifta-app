@@ -81,8 +81,6 @@ export default function AskFatwasComponent() {
         console.log("error madhab", err);
       });
   };
-  // const token =
-  // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlZXRodTkwQGdtYWlsLmNvbSIsImlhdCI6MTY2NDE4NzMzOSwiZXhwIjoxNjkwMTA3MzM5fQ.992ybQeichJTrUDalc5xf3anv7VhFrhfWdWPCtP8KJo";
 
   const handleSubmitQuestion = ({ shortQuestion, question }) => {
     setLoader(true);
@@ -134,13 +132,16 @@ export default function AskFatwasComponent() {
                       {...params}
                       label="
                     Madhab"
-                      {...register("madhab", { required: "This is required" })}
+                      {...register("madhab", {
+                        required: "Madhab is required",
+                      })}
                     />
                   )}
                 />
               ) : null}
-
-              <div className="error">{errors?.madhab?.message}</div>
+              {!selectedMadhab.title ? (
+                <div className="error">{errors?.madhab?.message}</div>
+              ) : null}
             </div>
             <div className="col-md-3">
               {categoryData?.length ? (
@@ -160,14 +161,15 @@ export default function AskFatwasComponent() {
                       label="
                 Category"
                       {...register("category", {
-                        required: "This is required",
+                        required: "Category is required",
                       })}
                     />
                   )}
                 />
               ) : null}
-
-              <div className="error">{errors?.category?.message}</div>
+              {!selectedCategory.category ? (
+                <div className="error">{errors?.category?.message}</div>
+              ) : null}
             </div>
 
             {/* subcategory */}
@@ -190,11 +192,14 @@ export default function AskFatwasComponent() {
                     label="Subcategory"
                     size="small"
                     {...register("SubCategory", {
-                      required: "This is required",
+                      required: "SubCategory is required",
                     })}
                   />
                 )}
               />
+              {!selectedSubcategory.label ? (
+                <div className="error">{errors?.SubCategory?.message}</div>
+              ) : null}
             </div>
 
             <div className="col-md-3">
@@ -215,13 +220,15 @@ export default function AskFatwasComponent() {
                       label="
               Language"
                       {...register("language", {
-                        required: "This is required",
+                        required: "Language is required",
                       })}
                     />
                   )}
                 />
               )}
-              <div className="error">{errors?.language?.message}</div>
+              {!selectedLanguage.title ? (
+                <div className="error">{errors?.language?.message}</div>
+              ) : null}
             </div>
           </div>
           <div className="row">
@@ -232,7 +239,9 @@ export default function AskFatwasComponent() {
                 fullWidth
                 label="Short Question"
                 variant="outlined"
-                {...register("shortQuestion", { required: "This is required" })}
+                {...register("shortQuestion", {
+                  required: "ShortQuestion is required",
+                })}
               />
               <div className="error">{errors?.shortQuestion?.message}</div>
             </div>
@@ -245,7 +254,7 @@ export default function AskFatwasComponent() {
                 multiline
                 fullWidth
                 rows={4}
-                {...register("question", { required: "This is required" })}
+                {...register("question", { required: "Question is required" })}
               />
               <div className="error">{errors?.question?.message}</div>
             </div>

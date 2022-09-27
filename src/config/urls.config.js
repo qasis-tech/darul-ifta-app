@@ -8,4 +8,5 @@ export const URLS = {
   signup: "/signup",
   googleAuth: "/googleAuth",
   question: "/question",
+  profile_pic: "/profile_pic",
 };
