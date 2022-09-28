@@ -20,12 +20,15 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+
 import Image1 from "../../../assets/Ifta_ayah.svg";
 import LogoImage from "../../../assets/ifta-logo.svg";
 import Image2 from "../../../assets/Minaret.svg";
+
 import HeaderComponent from "../../../components/Header";
 import FooterComponent from "../../../components/Footer";
 import QuestionComponent from "../../../components/QuestionContainer";
+import Loader from "../../../components/common/Loader";
 import BackgroundImage from "../../../assets/webback.png";
 import { formatDate } from "../../../utils/dateformat";
 
@@ -69,15 +72,19 @@ const HomePage = (props) => {
   const [searchInput, setSearchInput] = useState("");
   const [categoryData, setCategoryData] = useState([]);
   const [madhabData, setMadhabData] = useState([]);
-  const [subCategoryData, setSubCategoryData] = useState([]);
   const [questionsData, setQuestionsData] = useState([]);
   const [count, setCount] = useState(0);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [language, setLanguage] = useState([]);
+  const [isLoader, setLoader] = useState(false);
+
+  useEffect(() => {
+    getCatgoryListApi();
+    getmadhabListApi();
+    getQuestionsApi();
+  }, []);
 
   const handleChange = (event, newValue) => {
-    console.log("valuess--->>", newValue);
     setValue(newValue);
     if (newValue === 1) {
       getQuestionsApi("English");
@@ -88,7 +95,7 @@ const HomePage = (props) => {
     } else if (newValue === 4) {
       getQuestionsApi("Arabic");
     } else {
-      getQuestionsApi();
+      getQuestionsApi("");
     }
   };
 
@@ -102,76 +109,47 @@ const HomePage = (props) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  // useEffect(() => {
-  //   if (searchInput === "") {
-  //     getQuestionsApi();
-  //   }
-  // }, [searchInput]);
-
-  // useEffect(() => {
-  //   getQuestionsApi();
-  // }, [page, rowsPerPage]);
-
-  // useEffect(() => {
-  //   getQuestionsApi();
-  // }, [language]);
-
-  useEffect(() => {
-    getCatgoryListApi();
-    getmadhabListApi();
-    getQuestionsApi();
-  }, []);
 
   const getCatgoryListApi = () => {
+    setLoader(true);
     axios
       .get(`${URLS.category}`, {
         headers: {
-          // Authorization: `${token}`,
           "Content-Type": "application/json",
         },
       })
       .then((res) => {
+        setLoader(false);
         console.log("res category", res.data);
         setCategoryData(res.data.data);
       })
       .catch((err) => {
+        setLoader(false);
         console.log("error category", err);
       });
   };
 
   const getmadhabListApi = () => {
+    setLoader(true);
     axios
       .get(`${URLS.madhab}`, {
         headers: {
-          // Authorization: `${token}`,
           "Content-Type": "application/json",
         },
       })
       .then((res) => {
+        setLoader(false);
         console.log("res mathab", res.data);
         setMadhabData(res.data.data);
       })
       .catch((err) => {
+        setLoader(false);
         console.log("error madhab", err);
       });
   };
-  const getSubcategoryListApi = (id) => {
-    axios
-      .get(`${URLS.subcategories}?category_id=${id}`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res) => {
-        console.log("res subcategories", res.data);
-        setSubCategoryData(res.data);
-      })
-      .catch((err) => {
-        console.log("error subcategories", err);
-      });
-  };
 
-  const getQuestionsApi = (language) => {
+  const getQuestionsApi = (language = "") => {
+    setLoader(true);
     let url = `${URLS.question}?limit=${rowsPerPage}&skip=${
       page * rowsPerPage
     }`;
@@ -191,10 +169,12 @@ const HomePage = (props) => {
         },
       })
       .then(({ data }) => {
+        setLoader(false);
         console.log("res questions", data.data);
         setQuestionsData(data.data);
       })
       .catch((err) => {
+        setLoader(false);
         console.log("error questions", err);
       });
   };
@@ -291,68 +271,70 @@ const HomePage = (props) => {
                   </div>
                   <div class="l-green"></div>
                   <div>
-                    <div class="accordian-wrapper">
-                      {categoryData?.length &&
-                        categoryData?.map((category) => {
-                          return (
-                            <Accordion
-                              class="accordian"
-                              onClick={() =>
-                                getSubcategoryListApi(category._id)
-                              }
-                            >
-                              <AccordionSummary
-                                expandIcon={
-                                  <ExpandMoreIcon className="arrow-color" />
-                                }
-                                aria-controls="panel1a-content"
-                                id="panel1a-header"
-                                key={category._id}
-                              >
-                                <Typography>{category?.category}</Typography>
-                              </AccordionSummary>
-                              {subCategoryData?.length ? (
-                                subCategoryData?.map((subcategory) => {
-                                  return (
-                                    <AccordionDetails key={subcategory._id}>
-                                      <ul class="accordion-sub">
-                                        <li>{subcategory.label}</li>
-                                      </ul>
-                                    </AccordionDetails>
-                                  );
-                                })
-                              ) : (
-                                <div>no data</div>
-                              )}
-                            </Accordion>
-                          );
-                        })}
+                    {isLoader ? (
+                      <Loader />
+                    ) : (
+                      <div class="accordian-wrapper">
+                        {categoryData?.length &&
+                          categoryData?.map((category) => {
+                            return (
+                              <Accordion class="accordian">
+                                <AccordionSummary
+                                  expandIcon={
+                                    <ExpandMoreIcon className="arrow-color" />
+                                  }
+                                  aria-controls="panel1a-content"
+                                  id="panel1a-header"
+                                  key={category._id}
+                                >
+                                  <Typography>{category?.category}</Typography>
+                                </AccordionSummary>
+                                {category?.subCategory?.length ? (
+                                  category?.subCategory?.map((subcategory) => {
+                                    return (
+                                      <AccordionDetails key={subcategory._id}>
+                                        <ul class="accordion-sub">
+                                          <li>{subcategory.label}</li>
+                                        </ul>
+                                      </AccordionDetails>
+                                    );
+                                  })
+                                ) : (
+                                  <div>no data</div>
+                                )}
+                              </Accordion>
+                            );
+                          })}
 
-                      {/* <accordion class="accordian">
+                        {/* <accordion class="accordian">
                         <accordion-group heading="Faiths & Beliefs">
                           <ul>
                             <li>Islamic Beliefs</li>
                           </ul>
                         </accordion-group>
                       </accordion> */}
-                    </div>
+                      </div>
+                    )}
                   </div>
                   <div class="madhab-category">
                     <div class="green mt-4">
                       <span class="text-white fs-6">Madhab</span>
                     </div>
                     <div class="l-green"></div>
-
-                    <div>
-                      {madhabData?.length &&
-                        madhabData.map((madhab) => {
-                          return (
-                            <ul class="mt-2" key={madhab._id}>
-                              <li>{madhab?.title}</li>
-                            </ul>
-                          );
-                        })}
-                    </div>
+                    {isLoader ? (
+                      <Loader />
+                    ) : (
+                      <div>
+                        {madhabData?.length &&
+                          madhabData.map((madhab) => {
+                            return (
+                              <ul class="mt-2" key={madhab._id}>
+                                <li>{madhab?.title}</li>
+                              </ul>
+                            );
+                          })}
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div class="col custom-details shadow">
@@ -412,127 +394,116 @@ const HomePage = (props) => {
                     ),
                   }}
                 />
-
-                <Box sx={{ width: "100%" }}>
-                  <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                    <Tabs
-                      className="main-tab"
-                      value={value}
-                      onChange={handleChange}
-                      // onClick={getQuestionsApi}
-                      aria-label="basic tabs example"
-                    >
-                      <Tab className="tab-name" label="All" />
-                      <Tab label="English" />
-                      <Tab label="മലയാളം" />
-                      <Tab label="اردو" />
-                      <Tab label="العربيــــــــــــــــــة" />
-                    </Tabs>
+                {isLoader ? (
+                  <Loader />
+                ) : (
+                  <Box sx={{ width: "100%" }}>
+                    <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                      <Tabs
+                        className="main-tab"
+                        value={value}
+                        onChange={handleChange}
+                        aria-label="basic tabs example"
+                      >
+                        <Tab className="tab-name" label="All" />
+                        <Tab label="English" />
+                        <Tab label="മലയാളം" />
+                        <Tab label="اردو" />
+                        <Tab label="العربيــــــــــــــــــة" />
+                      </Tabs>
+                    </Box>
+                    <TabPanel value={value} index={0}>
+                      {questionsData?.length ? (
+                        questionsData.map((questions) => {
+                          return (
+                            <QuestionComponent
+                              key={questions._id}
+                              shortquestion={questions.short_question}
+                              question={questions.question}
+                              questionCount={questions.id}
+                              createdDate={formatDate(questions.createdAt)}
+                              views={questions.views}
+                            ></QuestionComponent>
+                          );
+                        })
+                      ) : (
+                        <div>NO DATA </div>
+                      )}
+                    </TabPanel>
+                    <TabPanel value={value} index={1}>
+                      {questionsData?.length ? (
+                        questionsData.map((questions) => {
+                          return (
+                            <QuestionComponent
+                              key={questions._id}
+                              shortquestion={questions.short_question}
+                              question={questions.question}
+                              questionCount={questions.id}
+                              createdDate={formatDate(questions.createdAt)}
+                              views={questions.views}
+                            ></QuestionComponent>
+                          );
+                        })
+                      ) : (
+                        <div>NO DATA </div>
+                      )}
+                    </TabPanel>
+                    <TabPanel value={value} index={2}>
+                      {questionsData?.length ? (
+                        questionsData.map((questions) => {
+                          return (
+                            <QuestionComponent
+                              key={questions._id}
+                              shortquestion={questions.short_question}
+                              question={questions.question}
+                              questionCount={questions.id}
+                              createdDate={formatDate(questions.createdAt)}
+                              views={questions.views}
+                            ></QuestionComponent>
+                          );
+                        })
+                      ) : (
+                        <div>NO DATA </div>
+                      )}
+                    </TabPanel>
+                    <TabPanel value={value} index={3}>
+                      {questionsData?.length ? (
+                        questionsData.map((questions) => {
+                          return (
+                            <QuestionComponent
+                              key={questions._id}
+                              shortquestion={questions.short_question}
+                              question={questions.question}
+                              questionCount={questions.id}
+                              createdDate={formatDate(questions.createdAt)}
+                              views={questions.views}
+                            ></QuestionComponent>
+                          );
+                        })
+                      ) : (
+                        <div>NO DATA </div>
+                      )}
+                    </TabPanel>
+                    <TabPanel value={value} index={4}>
+                      {questionsData?.length ? (
+                        questionsData.map((questions) => {
+                          return (
+                            <QuestionComponent
+                              key={questions._id}
+                              shortquestion={questions.short_question}
+                              question={questions.question}
+                              questionCount={questions.id}
+                              createdDate={formatDate(questions.createdAt)}
+                              views={questions.views}
+                            ></QuestionComponent>
+                          );
+                        })
+                      ) : (
+                        <div>NO DATA </div>
+                      )}
+                    </TabPanel>
                   </Box>
-                  <TabPanel value={value} index={0}>
-                    {questionsData?.length ? (
-                      questionsData.map((questions) => {
-                        return (
-                          <QuestionComponent
-                            key={questions._id}
-                            shortquestion={questions.short_question}
-                            question={questions.question}
-                            questionCount={questions.id}
-                            createdDate={formatDate(questions.createdAt)}
-                            views={questions.views}
-                          ></QuestionComponent>
-                        );
-                      })
-                    ) : (
-                      <div>NO DATA </div>
-                    )}
-                  </TabPanel>
-                  <TabPanel value={value} index={1}>
-                    {questionsData?.length ? (
-                      questionsData.map((questions) => {
-                        return (
-                          <QuestionComponent
-                            key={questions._id}
-                            shortquestion={questions.short_question}
-                            question={questions.question}
-                            questionCount={questions.id}
-                            createdDate={formatDate(questions.createdAt)}
-                            views={questions.views}
-                          ></QuestionComponent>
-                        );
-                      })
-                    ) : (
-                      <div>NO DATA </div>
-                    )}
-                  </TabPanel>
-                  <TabPanel value={value} index={2}>
-                    {questionsData?.length ? (
-                      questionsData.map((questions) => {
-                        return (
-                          <QuestionComponent
-                            key={questions._id}
-                            shortquestion={questions.short_question}
-                            question={questions.question}
-                            questionCount={questions.id}
-                            createdDate={formatDate(questions.createdAt)}
-                            views={questions.views}
-                          ></QuestionComponent>
-                        );
-                      })
-                    ) : (
-                      <div>NO DATA </div>
-                    )}
-                  </TabPanel>
-                  <TabPanel value={value} index={3}>
-                    {questionsData?.length ? (
-                      questionsData.map((questions) => {
-                        return (
-                          <QuestionComponent
-                            key={questions._id}
-                            shortquestion={questions.short_question}
-                            question={questions.question}
-                            questionCount={questions.id}
-                            createdDate={formatDate(questions.createdAt)}
-                            views={questions.views}
-                          ></QuestionComponent>
-                        );
-                      })
-                    ) : (
-                      <div>NO DATA </div>
-                    )}
-                  </TabPanel>
-                  <TabPanel value={value} index={4}>
-                    {questionsData?.length ? (
-                      questionsData.map((questions) => {
-                        return (
-                          <QuestionComponent
-                            key={questions._id}
-                            shortquestion={questions.short_question}
-                            question={questions.question}
-                            questionCount={questions.id}
-                            createdDate={formatDate(questions.createdAt)}
-                            views={questions.views}
-                          ></QuestionComponent>
-                        );
-                      })
-                    ) : (
-                      <div>NO DATA </div>
-                    )}
-                  </TabPanel>
-                </Box>
-
-                {/* {questionsData.map((questions)=>{
-                 
-                 return (
-                    <QuestionComponent key={questions.id}
-                    shortquestion={questions.short_question} 
-                    question={questions.question}
-                    questionCount={questions.id}
-                    createdDate={formatDate(questions.createdAt)}
-                    views={questions.views}></QuestionComponent>
-                 
-                  )
-                })} */}
+                )}
               </div>
             </div>
           </div>
