@@ -9,4 +9,5 @@ export const URLS = {
   googleAuth: "/googleAuth",
   question: "/question",
   profile_pic: "/profile_pic",
+  generals: "/generals",
 };

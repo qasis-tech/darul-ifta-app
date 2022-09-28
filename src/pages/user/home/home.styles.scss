@@ -50,17 +50,18 @@ img {
 .accordian {
   background: transparent !important;
   color: white !important;
+
   .arrow-color {
     color: white;
   }
-  .accordion-sub {
-    ul {
-      li {
-        color: black;
+  .MuiAccordionDetails-root {
+    .accordion-sub {
+      cursor: pointer;
+      color: #fff !important;
+
+      .MuiCollapse-vertical {
+        background-color: red;
       }
-    }
-    .MuiCollapse-vertical {
-      background-color: red;
     }
   }
 }
@@ -100,13 +101,12 @@ img {
   background-color: $theme-l-green;
   height: 5px;
 }
-.body-section{
-
+.body-section {
   ul li {
     color: #fff;
     list-style-type: none;
-    padding-bottom: 1px;
-    margin-bottom: 10px;
+    // padding-bottom: 1px;
+    // margin-bottom: 10px;
     cursor: pointer;
     width: auto;
   }
@@ -168,12 +168,12 @@ img {
 .tab-container {
   background-color: #eeeeeed9;
   @media screen and (max-width: 1000px) {
-    margin-top: 2em!important;
-    overflow-x: scroll!important;
+    margin-top: 2em !important;
+    overflow-x: scroll !important;
   }
-  .MuiTabs-scroller{
+  .MuiTabs-scroller {
     @media screen and (max-width: 1000px) {
-    overflow-x: scroll!important;
+      overflow-x: scroll !important;
     }
   }
 }
@@ -273,42 +273,45 @@ img {
   .body-section {
     padding-bottom: 4em;
   }
-  .search-btn{
+  .search-btn {
     margin-top: 1em;
-    .MuiInputLabel-root{
+    .MuiInputLabel-root {
       font-family: $main-font-style;
     }
   }
-  .chip-section{
+  .chip-section {
     margin-top: 1em;
-    .single-chip{
+    .single-chip {
       margin-left: 0.5em;
-      color: white;
+      color: white !important;
       background-color: #409ea1;
       font-family: $main-font-style;
+      .MuiSvgIcon-root {
+        color: white !important;
+      }
     }
   }
-  .main-tab{
+  .main-tab {
     margin-top: 1em;
     .tab-name {
       // color: #409ea1 !important;
-       //font-weight: bolder!important;
+      //font-weight: bolder!important;
       // font-size: 17px!important;
-      @media  screen  and (max-width:1000px) {
+      @media screen and (max-width: 1000px) {
         padding: 1em 4em;
       }
     }
-    .MuiButtonBase-root{
+    .MuiButtonBase-root {
       color: #409ea1 !important;
-       font-weight: bolder!important;
-      font-size: 17px!important;
+      font-weight: bolder !important;
+      font-size: 17px !important;
     }
-    .MuiTab-root.Mui-selected{
-      color: #235775!important;
+    .MuiTab-root.Mui-selected {
+      color: #235775 !important;
       font-weight: bolder;
       font-size: 17px;
     }
-    .MuiTabs-indicator{
+    .MuiTabs-indicator {
       background-color: #235775;
     }
   }
