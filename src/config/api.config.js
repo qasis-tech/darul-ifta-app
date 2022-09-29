@@ -2,8 +2,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
-// axios.defaults.headers.common["Authorization"] =
-//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTY2MjAwNjE3MCwiZXhwIjoxNjkzNTQyMTcwfQ.6nAZA-Bj2_gQTewAxiZsxmpc6UqLIoroQaBqMiSc0dU";
+axios.defaults.headers.common["Authorization"] =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTY2MjAwNjE3MCwiZXhwIjoxNjkzNTQyMTcwfQ.6nAZA-Bj2_gQTewAxiZsxmpc6UqLIoroQaBqMiSc0dU";
+axios.defaults.headers.common["Content-Type"] = "application/json";
 
 axios.interceptors.request.use((req) => {
   // req.headers.Authorization =
