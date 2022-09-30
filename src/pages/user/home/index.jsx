@@ -77,6 +77,7 @@ const HomePage = (props) => {
   const [questionsData, setQuestionsData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [isLoader, setLoader] = useState(false);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
