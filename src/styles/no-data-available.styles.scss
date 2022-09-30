@@ -1,0 +1,51 @@
+@import "./common.styles.scss";
+
+.no-data-found {
+  position: absolute;
+  left: 45%;
+  top: 30%;
+  .empty-state {
+    background: #ffffff;
+    border-radius: 4px;
+
+    &__content {
+      padding: 48px;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+
+      .empty-state__icon {
+        width: 200px;
+        height: 200px;
+        display: flex;
+        align-items: center;
+        border-radius: 200px;
+        justify-content: center;
+        background-color: #f7fafc;
+        box-shadow: 0px 2px 1px #e1e3ec;
+
+        img {
+          width: 170px;
+        }
+      }
+
+      .empty-state__message {
+        color: #38a169;
+        font-size: $main-font-size;
+        font-weight: bold;
+        margin-top: 0.85rem;
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  .credit {
+    color: #a2a5b9;
+    font-size: 0.75rem;
+    text-align: center;
+
+    a {
+      color: #444;
+    }
+  }
+}

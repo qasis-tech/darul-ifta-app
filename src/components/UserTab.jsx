@@ -16,6 +16,7 @@ import AccountHomeComponent from "./AccountHomeComponent";
 import { URLS } from "../config/urls.config";
 import { formatDate } from "../utils/dateformat";
 import Loader from "./common/Loader";
+import { getLocal } from "../utils/localStore";
 
 import "../pages/user/Accounts/home/account.home.styles.scss";
 
@@ -56,10 +57,30 @@ export default function UserTab() {
   const [value, setValue] = useState(0);
   const [questionData, setQuestionData] = useState([]);
   const [isLoader, setLoader] = useState(false);
+  const [status, setStatus] = useState(
+    { id: 1, title: "Pending" },
+    { id: 2, title: "Rejected" },
+    { id: 3, title: "Re Submitted" },
+    { id: 4, title: "Received to Darul Ifta" },
+    { id: 5, title: "Assigned Mufti" },
+    { id: 6, title: "Mufti Answered" },
+    { id: 7, title: "Completed Verification" },
+    { id: 8, title: "Published" }
+  );
+  const [userDetails, setUserDetails] = useState(null);
+
+  useEffect(() => {
+    getLocalData();
+  }, []);
 
   useEffect(() => {
     getQuestionApi();
   }, []);
+
+  const getLocalData = async () => {
+    const data = await getLocal("@darul-ifta-login-details");
+    setUserDetails(data);
+  };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -67,8 +88,14 @@ export default function UserTab() {
 
   const getQuestionApi = () => {
     setLoader(true);
+    let url = `${URLS.question}`;
+
+    if (status !== "") {
+      url = `${URLS.question}?status=${status}`;
+    }
+
     axios
-      .get(URLS.question, {
+      .get(url, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -105,30 +132,78 @@ export default function UserTab() {
           </Box>
           <TabPanel value={value} index={0}>
             {/* <AccountHomeComponent/> */}
-            {questionData.map((question) => {
-              return (
-                <div className="container">
+            {questionData?.length ? (
+              questionData.map((question) => {
+                return (
                   <QuestionContainer
+                    key={question._id}
                     shortquestion={question.short_question}
                     question={question.question}
+                    questionCount={question.id}
                     createdDate={formatDate(question.createdAt)}
                     views={question.views}
-                    writtenby={question.mufti}
                   />
-                </div>
-              );
-            })}
-
-            {/* <span>001</span> */}
+                );
+              })
+            ) : (
+              <div>NO DATA </div>
+            )}
           </TabPanel>
           <TabPanel value={value} index={1}>
-            <AskFatwasComponent />
+            {/* <AskFatwasComponent /> */}
+            {/* {questionData?.length ? (
+              questionData.map((question) => {
+                return (
+                  <QuestionContainer
+                    key={question._id}
+                    shortquestion={question.short_question}
+                    question={question.question}
+                    questionCount={question.id}
+                    createdDate={formatDate(question.createdAt)}
+                    views={question.views}
+                  />
+                );
+              })
+            ) : (
+              <div>NO DATA </div>
+            )} */}
           </TabPanel>
           <TabPanel value={value} index={2}>
+            {/* {questionData?.length ? (
+              questionData.map((question) => {
+                return (
+                  <QuestionContainer
+                    key={question._id}
+                    shortquestion={question.short_question}
+                    question={question.question}
+                    questionCount={question.id}
+                    createdDate={formatDate(question.createdAt)}
+                    views={question.views}
+                  />
+                );
+              })
+            ) : (
+              <div>NO DATA </div>
+            )} */}
             {/* <Profile /> */}
           </TabPanel>
           <TabPanel value={value} index={3}>
-            Item Four
+            {/* {questionData?.length ? (
+              questionData.map((question) => {
+                return (
+                  <QuestionContainer
+                    key={question._id}
+                    shortquestion={question.short_question}
+                    question={question.question}
+                    questionCount={question.id}
+                    createdDate={formatDate(question.createdAt)}
+                    views={question.views}
+                  />
+                );
+              })
+            ) : (
+              <div>NO DATA </div>
+            )} */}
           </TabPanel>
         </Box>
       )}
