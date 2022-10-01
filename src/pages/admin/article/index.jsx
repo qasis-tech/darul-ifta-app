@@ -1,4 +1,6 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
 import Button from "@mui/material/Button";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -13,12 +15,13 @@ import Chip from "@mui/material/Chip";
 
 import "./article.styles.scss";
 export default function Article() {
+  const navigate = useNavigate();
   return (
     <div className="article-section">
       <div className="article-container">
         <div className="article-row">
           <div className="col-md-1">
-            <Button variant="contained" className="add-btn" fullWidth>
+            <Button variant="contained"  onClick={() => navigate(`${"/admin/addArticle"}`)} className="add-btn" fullWidth>
               ADD
             </Button>
           </div>

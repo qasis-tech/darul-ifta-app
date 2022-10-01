@@ -59,6 +59,7 @@ import AddCategories from "../pages/admin/category/addCategoryPage";
 import AddMusthafthies from "../pages/admin/musthafthies/addMusthafthiesPage";
 import AddUser from "../pages/admin/users/addUserPage";
 import FatwasDetails from "../pages/admin/fatwas/detailsFatwa";
+import AddArticle from "../pages/admin/article/addArticle";
 const CustomRouters = () => {
   const [isUser, setUser] = useState(false);
   const [isAdmin, setAdmin] = useState(false);
@@ -116,7 +117,7 @@ const CustomRouters = () => {
         <Route path="addMusthafthies" element={<AddMusthafthies />} />
         <Route path="addUser" element={<AddUser />} />
         <Route path="fatwasDetails" element={<FatwasDetails />} />
-
+        <Route path="addArticle" element={<AddArticle />} />
         <Route path={RouterList.admin.categoryList} element={<Categories />} />
         {/*
         <Route
