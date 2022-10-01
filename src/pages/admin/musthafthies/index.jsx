@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
@@ -14,10 +14,35 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import EditIcon from '@mui/icons-material/Edit';
+import EditIcon from "@mui/icons-material/Edit";
 import "./musthafthies.styles.scss";
+import { useState } from "react";
+import axios from "axios";
+import { URLS } from "../../../config/urls.config";
 export default function Musthafthies() {
-  const navigate=useNavigate();
+  const [userType, setUserType] = useState("Mufthi");
+  const [isLoader, setLoader] = useState(false);
+
+  useEffect(() => {
+    getMufthiApi();
+  }, []);
+
+  const getMufthiApi = () => {
+    setLoader(true);
+    axios
+      .get(`${URLS.user}${URLS.signup}?userType=${userType}`, {
+        "Content-Type": "application/json",
+      })
+      .then(({ data }) => {
+        setLoader(false);
+        console.log("res mufthiss1111", data);
+      })
+      .catch((err) => {
+        setLoader(false);
+        console.log("error mufthii--", err);
+      });
+  };
+  const navigate = useNavigate();
 
   return (
     <div className="musthafthies-section">
@@ -44,7 +69,12 @@ export default function Musthafthies() {
             />
           </div>
           <div className="col-md-1">
-            <Button variant="contained"  onClick={() => navigate(`${'/admin/addMusthafthies'}`)}  className="add-btn" fullWidth>
+            <Button
+              variant="contained"
+              onClick={() => navigate(`${"/admin/addMusthafthies"}`)}
+              className="add-btn"
+              fullWidth
+            >
               ADD
             </Button>
           </div>
@@ -79,7 +109,7 @@ export default function Musthafthies() {
                   <TableCell>1234567890</TableCell>
                   <TableCell>user@gmail.com</TableCell>
                   <TableCell>
-                    <EditIcon className="edit-icon"/>
+                    <EditIcon className="edit-icon" />
                     <VisibilityIcon className="view-icon" />
                   </TableCell>
                 </TableRow>

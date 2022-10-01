@@ -1,25 +1,19 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useForm } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import "./adduser.styles.scss";
-import axios from "axios";
-import { URLS } from "../../../config/urls.config";
 
-const top100Films = [{ label: "The Shawshank Redemption", year: 1994 }];
+import "./adduser.styles.scss";
+
+import { URLS } from "../../../config/urls.config";
+import Loader from "../../../components/common/Loader";
 
 export default function AddUser() {
   const [madhabData, setMadhabData] = useState([]);
   const [selectedMadhab, setSelectedMadhab] = useState([]);
-  const [roles, setRoles] = useState([
-    { id: 1, title: "Super Admin" },
-    { id: 2, title: "Mufthi" },
-    { id: 3, title: "Students" },
-    { id: 4, title: "User" },
-  ]);
-  const [selectedRoles, setSelectedRoles] = useState([]);
   const [status, setStatus] = useState([
     { id: 1, title: "Pending" },
     { id: 2, title: "Rejected" },
@@ -31,8 +25,9 @@ export default function AddUser() {
     { id: 8, title: "Published" },
   ]);
   const [selectedStatus, setSelectedStatus] = useState([]);
-  const [userId, setUserId] = useState([]);
   const [userToken, setUserToken] = useState([]);
+  const [roles, setRoles] = useState("User");
+  const [isLoader, setLoader] = useState(false);
 
   const {
     register,
@@ -44,32 +39,31 @@ export default function AddUser() {
     getmadhabApi();
   }, []);
 
-  // useEffect(() => {
-  //   const user = JSON.parse(localStorage.getItem("@darul-ifta-login-details"));
-  //   console.log("user", user);
-  //   if (user) {
-  //     setUserId(user._id);
-  //     setUserToken(user.initial_token);
-  //   }
-  // }, []);
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("@darul-ifta-login-details"));
+    console.log("user", user);
+    if (user) {
+      setUserToken(user.initial_token);
+    }
+  }, []);
 
   const getmadhabApi = () => {
-    // setLoader(true);
+    setLoader(true);
     axios
       .get(URLS.madhab, {
         headers: {
-          // Authorization: `${token}`,
           "Content-Type": "application/json",
         },
       })
       .then((res) => {
-        // setLoader(false);
+        setLoader(false);
         console.log("res madhabb1111==>", res.data);
         setMadhabData(res.data.data);
       })
       .catch((err) => {
-        // setLoader(false);
+        setLoader(false);
         console.log("error madhab", err);
+        setMadhabData([]);
       });
   };
 
@@ -81,26 +75,34 @@ export default function AddUser() {
     password,
     address,
   }) => {
-    const bodyFormData = new FormData();
-    bodyFormData.append("name", name);
-    bodyFormData.append("display_title", displayName);
-    bodyFormData.append("user_type", selectedRoles.title);
-    // bodyFormData.append("name", name);
-    // bodyFormData.append("name", name);
+    setLoader(true);
+    let payload = {
+      email: email,
+      name: name,
+      display_title: displayName,
+      phone: mobileNumber,
+      user_type: roles,
+      madhab: selectedMadhab.title,
+      address: address,
+      user_password: password,
+      user_status: selectedStatus.title,
+    };
 
-    // axios
-    //   .put(`${URLS.user}${URLS.signup}${userId}`,bodyFormData, {
-    //     headers: {
-    //       Authorization: `${userToken}`,
-    //       "Content-Type": "application/json",
-    //     },
-    //   })
-    //   .then((res) => {
-    //     console.log("res user save ===>>", res);
-    //   })
-    //   .catch((err) => {
-    //     console.log("Errors in user save", err);
-    //   });
+    axios
+      .post(`${URLS.user}${URLS.signup}`, payload, {
+        headers: {
+          Authorization: `${userToken}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        setLoader(false);
+        console.log("res user save ===>>", res);
+      })
+      .catch((err) => {
+        setLoader(false);
+        console.log("Errors in user save", err);
+      });
   };
 
   return (
@@ -127,7 +129,7 @@ export default function AddUser() {
                 fullWidth
                 variant="outlined"
                 {...register("displayName", {
-                  required: "DisplayName is required",
+                  required: "Display Name is required",
                 })}
               />
               <div className="error">{errors?.displayName?.message}</div>
@@ -160,7 +162,7 @@ export default function AddUser() {
                 fullWidth
                 variant="outlined"
                 {...register("mobileNumber", {
-                  required: "MobileNumber is required",
+                  required: "Mobile Number is required",
                   pattern: {
                     value:
                       /^(?:(?:\+|0{0,2})91(\s*[\ -]\s*)?|[0]?)?[789]\d{9}|(\d[ -]?){10}\d$/,
@@ -176,6 +178,7 @@ export default function AddUser() {
               <TextField
                 id="outlined-basic"
                 label="Password"
+                type="password"
                 size="small"
                 fullWidth
                 variant="outlined"
@@ -190,33 +193,14 @@ export default function AddUser() {
               <div className="error">{errors?.password?.message}</div>
             </div>
             <div className="col-md-3 second-col">
-              {roles?.length ? (
-                <Autocomplete
-                  disablePortal
-                  id="combo-box-demo"
-                  size="small"
-                  options={roles}
-                  getOptionLabel={(option) => option.title || ""}
-                  isOptionEqualToValue={(option, value) =>
-                    option.id === value.id
-                  }
-                  onChange={(e, val) => setSelectedRoles(val)}
-                  value={selectedRoles}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="
-                    Roles"
-                      {...register("roles", {
-                        required: "Roles is required",
-                      })}
-                    />
-                  )}
-                />
-              ) : null}
-              {!selectedRoles.title ? (
-                <div className="error">{errors?.roles?.message}</div>
-              ) : null}
+              <TextField
+                id="outlined-basic"
+                label="Roles"
+                size="small"
+                fullWidth
+                variant="outlined"
+                defaultValue="User"
+              />
             </div>
             <div className="col-md-3 second-col">
               {madhabData?.length ? (
@@ -293,16 +277,20 @@ export default function AddUser() {
             </div>
           </div>
           <div className="btn-section">
-            <div className="col-md-1">
-              <Button
-                variant="contained"
-                className="form-btn"
-                type="submit"
-                fullWidth
-              >
-                SAVE
-              </Button>
-            </div>
+            {isLoader ? (
+              <Loader />
+            ) : (
+              <div className="col-md-1">
+                <Button
+                  variant="contained"
+                  className="form-btn"
+                  type="submit"
+                  fullWidth
+                >
+                  SAVE
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </form>

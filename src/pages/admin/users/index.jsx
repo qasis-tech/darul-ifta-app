@@ -10,10 +10,15 @@ import {
   TableHead,
   TableRow,
   TableCell,
+  TextField,
   Paper,
+  InputAdornment,
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import SearchIcon from "@mui/icons-material/Search";
 
 import { URLS } from "../../../config/urls.config";
 
@@ -52,6 +57,26 @@ export default function User() {
     <div className="user-section">
       <div className="user-container">
         <div className="user-row">
+          <div className="col-md-5">
+            <TextField
+              label="Search"
+              fullWidth
+              size="small"
+              className="search-btn"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton>
+                      <CloseIcon />
+                    </IconButton>
+                    <IconButton>
+                      <SearchIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </div>
           <div className="col-md-1">
             <Button
               variant="contained"
