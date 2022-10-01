@@ -10,22 +10,24 @@ import SocialComponent from "./Social";
 import "./fatwas.details.styles.scss";
 export default function FatwasDetailsPage() {
   return (
-    <div className="question-details-section">
+    <div className="question-details-section mt-5">
       <div className="container">
         <QuestionNumberComponent />
         <SingleQuestionComponent />
       </div>
       <PublishedDateComponent />
-      <div className="container main-section">
+      <div className="main-section">
         <div className="col">
-          <SocialComponent/>
+          <SocialComponent />
         </div>
-        <div className="col-md-9 details">
-          <DetailedQuestionComponent />
-          <WrittenComponent />
+        <div className="">
+          <div className="col details">
+            <DetailedQuestionComponent />
+            <WrittenComponent />
+          </div>
         </div>
-        <div className="col-md-3 related">
-          <RelatedFatwasComponent/>
+        <div className="col related">
+          <RelatedFatwasComponent />
         </div>
       </div>
       <FooterComponent />

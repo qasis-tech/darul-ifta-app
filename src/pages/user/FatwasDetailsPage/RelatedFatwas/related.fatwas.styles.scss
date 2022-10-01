@@ -1,6 +1,7 @@
 @import "../../../../styles/common.styles.scss";
 .related-fatwas-section{
     background-color: #e5e2dd;
+    cursor: pointer;
     @media screen and(max-width:991px) {
         margin-bottom: 2em;
     }

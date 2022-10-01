@@ -1,12 +1,19 @@
 @import "../../../../styles/common.styles.scss";
 .social-section{
+    cursor: pointer;
     .social-container{
         @media screen  and (max-width:991px) {
             display: flex;
             flex-direction: row;
         }
-        .img{
-            width: 35px;
+        .col{
+            justify-content: end;
+            @media screen  and (max-width:991px) {
+               justify-content: center;
+            }
+            .img{
+                width: 35px;
+            }
         }
     }
 }
