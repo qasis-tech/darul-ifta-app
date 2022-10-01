@@ -156,7 +156,7 @@ export default function Fatwas() {
                     <TextField
                       {...params}
                       label="
-                      Active Status"
+                       Status"
                       {...register("status")}
                     />
                   )}
@@ -185,7 +185,17 @@ export default function Fatwas() {
                     />
                   )}
                 />
-              ) : null}
+              ) : (
+                <Autocomplete
+                  disablePortal
+                  size="small"
+                  id="combo-box-demo"
+                  // options={top100Films}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Madhab" />
+                  )}
+                />
+              )}
             </div>
             <div className="col-md-2">
               {categoryList?.length ? (
@@ -209,7 +219,17 @@ export default function Fatwas() {
                     />
                   )}
                 />
-              ) : null}
+              ) : (
+                <Autocomplete
+                  disablePortal
+                  size="small"
+                  id="combo-box-demo"
+                  // options={top100Films}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Category" />
+                  )}
+                />
+              )}
             </div>
             <div className="col-md-2">
               <Autocomplete
