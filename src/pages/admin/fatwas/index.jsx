@@ -1,29 +1,34 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
-import Button from "@mui/material/Button";
-import InputAdornment from "@mui/material/InputAdornment";
-import IconButton from "@mui/material/IconButton";
-import SearchIcon from "@mui/icons-material/Search";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+import {
+  TextField,
+  Autocomplete,
+  Button,
+  InputAdornment,
+  IconButton,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
+
 import CloseIcon from "@mui/icons-material/Close";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import SearchIcon from "@mui/icons-material/Search";
+
 import "./admin.fatwas.styles.scss";
-import axios from "axios";
+
 import { URLS } from "../../../config/urls.config";
 import NoDataAvailable from "../../../components/NoDataAvailable";
 import { formatDate } from "../../../utils/dateformat";
-
 import Loader from "../../../components/common/Loader";
+
 const top100Films = [{ label: "The Shawshank Redemption", year: 1994 }];
 
 export default function Fatwas() {
@@ -76,11 +81,12 @@ export default function Fatwas() {
       .then((res) => {
         setLoader(false);
         console.log("res question===>>", res);
-        // setQuestionList(data.data);
+        setQuestionList(res.data.data);
       })
       .catch((err) => {
         setLoader(false);
-        console.log("error category", err);
+        console.log("error question", err);
+        setQuestionList([]);
       });
   };
 
@@ -105,6 +111,7 @@ export default function Fatwas() {
   };
 
   const getCatgoryApi = () => {
+    setLoader(true);
     axios
       .get(URLS.category, {
         headers: {
@@ -112,11 +119,14 @@ export default function Fatwas() {
         },
       })
       .then(({ data }) => {
+        setLoader(false);
         console.log("res category", data.data);
         setCategoryList(data.data);
       })
       .catch((err) => {
+        setLoader(false);
         console.log("error category", err);
+        setCategoryList([]);
       });
   };
 
