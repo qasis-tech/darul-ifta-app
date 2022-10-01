@@ -226,10 +226,7 @@ const Login = () => {
                     cookiePolicy={"single_host_origin"}
                   />
                 )}
-                <div className="google icon text">
-                  <GoogleIcon className="icons-size" />
-                  Continue with Google
-                </div>
+
                 <div className="facebook icon text">
                   <FacebookIcon className="icons-size " />
                   Continue with Facebook

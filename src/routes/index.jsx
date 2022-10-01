@@ -76,7 +76,10 @@ const CustomRouters = () => {
         <Route path={RouterList.user.login} element={<UserLoginPage />} />
         <Route path={RouterList.user.askFatwas} element={<AskFatwas />} />
         <Route path={RouterList.user.fatwas} element={<Fatwas />} />
-        <Route path={RouterList.user.fatwasDetailsPage} element={<FatwasDetailsPage/>}/>
+        <Route
+          path={RouterList.user.fatwasDetailsPage}
+          element={<FatwasDetailsPage />}
+        />
         <Route path={RouterList.user.accountUser} element={<AccountHome />} />
         <Route
           path={RouterList.user.accountUserAsk}
