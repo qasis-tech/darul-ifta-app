@@ -1,0 +1,26 @@
+@import "../../../styles/common.styles.scss";
+.add-article-section{
+    background-color: #f1f1f178;
+    padding: 3em;
+    .add-article-container{
+        .add-article-row{
+            display: flex;
+            flex-direction: row;
+            margin-top: 1em;
+            .first-col{
+                padding-right: 1em;
+            }
+            .second-col{
+                padding-left: 1em;
+            }
+        }
+        .file-btn{
+            background-color: $primary;
+        }
+        .btn-section{
+            display: flex;
+            justify-content:end;
+            margin-top: 4em;
+        }
+    }
+}
