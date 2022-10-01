@@ -11,26 +11,26 @@ import "./fatwas.details.styles.scss";
 export default function FatwasDetailsPage() {
   return (
     <div className="question-details-section mt-5">
-      <div className="container">
-        <QuestionNumberComponent />
-        <SingleQuestionComponent />
-      </div>
-      <PublishedDateComponent />
-      <div className="main-section">
-        <div className="col">
-          <SocialComponent />
-        </div>
-        <div className="">
-          <div className="col details">
-            <DetailedQuestionComponent />
-            <WrittenComponent />
-          </div>
-        </div>
-        <div className="col related">
-          <RelatedFatwasComponent />
-        </div>
-      </div>
-      <FooterComponent />
+    <div className="container">
+      <QuestionNumberComponent />
+      <SingleQuestionComponent />
     </div>
+    <PublishedDateComponent />
+    <div className="main-section">
+      <div className="col">
+        <SocialComponent />
+      </div>
+      <div className="">
+        <div className="col details">
+          <DetailedQuestionComponent />
+          <WrittenComponent />
+        </div>
+      </div>
+      <div className="col related">
+        <RelatedFatwasComponent />
+      </div>
+    </div>
+    <FooterComponent />
+  </div>
   );
 }

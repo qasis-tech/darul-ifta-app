@@ -9,6 +9,7 @@
         .question{
             font-family: $malayalam-font-style;
             font-size: $theme-f4;
+            text-align: justify;
             @media screen and(max-width:1020px) {
                 text-align: justify;
             }
