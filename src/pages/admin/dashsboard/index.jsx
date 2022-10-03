@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import QueryBuilderIcon from "@mui/icons-material/QueryBuilder";
@@ -18,11 +18,30 @@ import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import PeopleIcon from "@mui/icons-material/People";
-
 import VisibilityIcon from "@mui/icons-material/Visibility";
+
 import "./admin.home.styles.scss";
+import getQuestionListApi from "../../../services/getQuestionsList";
+import { useState } from "react";
+import Loader from "../../../components/common/Loader";
 
 export default function Dashboard() {
+  const [isLoading, setLoader] = useState(false);
+  const [questionList, setQuestionList] = useState([]);
+
+  const getQuestions = () => {
+    setLoader(true);
+    getQuestionListApi((res) => {
+      console.log("res, loading", res);
+      setQuestionList(res);
+      setLoader(false);
+    });
+  };
+
+  useEffect(() => {
+    getQuestions();
+  }, []);
+
   return (
     <div>
       <div className="admin-home-section">
@@ -245,47 +264,61 @@ export default function Dashboard() {
                   </div>
                 </div>
               </div>
-              <TableContainer component={Paper}>
-                <Table
-                  sx={{ minWidth: 650, marginTop: "1em" }}
-                  aria-label="simple table"
-                >
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Q ID</TableCell>
-                      <TableCell>Mustafthi</TableCell>
-                      <TableCell>Short Question</TableCell>
-                      <TableCell>Created Date</TableCell>
-                      <TableCell>Category</TableCell>
-                      <TableCell>Madhab</TableCell>
-                      <TableCell>Status</TableCell>
-                      <TableCell>Action</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    <TableRow
-                      sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                      }}
-                    >
-                      <TableCell component="th" scope="row">
-                        #1234
-                      </TableCell>
-                      <TableCell>aaaaa</TableCell>
-                      <TableCell>aaaaa</TableCell>
-                      <TableCell>23-07-2021</TableCell>
-                      <TableCell>Social Matters</TableCell>
-                      <TableCell>dddddd</TableCell>
-                      <TableCell>
-                        <span className="status">Received</span>
-                      </TableCell>
-                      <TableCell>
-                        <VisibilityIcon className="view-icon" />
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </TableContainer>
+              {isLoading ? (
+                <Loader />
+              ) : (
+                <TableContainer component={Paper}>
+                  <Table
+                    sx={{ minWidth: 650, marginTop: "1em" }}
+                    aria-label="simple table"
+                  >
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Sl.No</TableCell>
+                        <TableCell>Mustafthi</TableCell>
+                        <TableCell>Short Question</TableCell>
+                        <TableCell>Created Date</TableCell>
+                        <TableCell>Category</TableCell>
+                        <TableCell>Madhab</TableCell>
+                        <TableCell>Status</TableCell>
+                        <TableCell>Action</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {questionList?.data?.length ? (
+                        questionList?.data?.map((items) => {
+                          return (
+                            <TableRow
+                              sx={{
+                                "&:last-child td, &:last-child th": {
+                                  border: 0,
+                                },
+                              }}
+                            >
+                              <TableCell component="th" scope="row">
+                                {items?.slNo || "N/A"}
+                              </TableCell>
+                              <TableCell>{items?.user}</TableCell>
+                              <TableCell>aaaaa</TableCell>
+                              <TableCell>23-07-2021</TableCell>
+                              <TableCell>Social Matters</TableCell>
+                              <TableCell>dddddd</TableCell>
+                              <TableCell>
+                                <span className="status">Received</span>
+                              </TableCell>
+                              <TableCell>
+                                <VisibilityIcon className="view-icon" />
+                              </TableCell>
+                            </TableRow>
+                          );
+                        })
+                      ) : (
+                        <div>no data</div>
+                      )}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              )}
             </div>
           </div>
         </div>

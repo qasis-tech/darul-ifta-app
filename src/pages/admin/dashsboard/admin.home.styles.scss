@@ -50,7 +50,7 @@
             margin: 0 auto -40px;
             border: 3px solid rgba(255, 255, 255, .3);
             border-radius: 100%;
-            color: $theme-primary-color;
+            color: $white;
             transition: all ease-in-out .3s;
 
 
@@ -74,7 +74,7 @@
             justify-content: center;
             align-items: center;
             padding-bottom: 15px;
-            color: $theme-primary-color;
+            color: $white;
             font-weight: 600;
             font-family: $footer-font-style;
             .circle-tile-description {
