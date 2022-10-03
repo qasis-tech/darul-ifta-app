@@ -171,6 +171,14 @@ $theme-pointer: pointer;
       }
     }
   }
+  .MuiTableBody-root{
+    .MuiTableRow-root {
+      .MuiTableCell-root {
+        font-family:$footer-font-style;
+      }
+    }
+
+  }
 }
 .css-ivnu1y-MuiPaper-root-MuiAppBar-root {
   background-color: #235775 !important;
