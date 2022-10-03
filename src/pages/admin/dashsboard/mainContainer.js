@@ -32,6 +32,8 @@ import AdbIcon from "@mui/icons-material/Adb";
 import HomeIcon from "@mui/icons-material/Home";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import CategoryIcon from "@mui/icons-material/Category";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+
 import "../../../styles/common.styles.scss";
 import "./maincontainer.styles.scss";
 import RouterList from "../../../routes/routerList";
@@ -64,11 +66,11 @@ function DashboardPage() {
   const location = useLocation();
 
   const [routeList] = useState([
-    { path: RouterList.admin.admin, title: "HOME" },
+    { path: RouterList.admin.admin, title: "HOME", icon: <DashboardIcon /> },
     { path: RouterList.admin.adminfatwas, title: "FATWA" },
     { path: RouterList.admin.article, title: "ARTICLE" },
     { path: RouterList.admin.category, title: "CATEGORY" },
-    { path: RouterList.admin.user, title: "USER" },
+    { path: RouterList.admin.user, title: "USER", icon: <DashboardIcon /> },
     { path: RouterList.admin.musthafthies, title: "MUSTAFTHI" },
   ]);
   const getPathName = () =>
@@ -178,16 +180,19 @@ function DashboardPage() {
         <div style={{}}>
           <Box sx={{ overflow: "auto" }}>
             <List>
-              {routeList.map((item, index) => (
-                <ListItem key={index} disablePadding>
-                  <ListItemButton onClick={() => navigate(item.path)}>
-                    <ListItemIcon>
-                      {index % 2 === 0 ? <HomeIcon /> : <ViewListIcon />}
-                    </ListItemIcon>
-                    <ListItemText primary={item.title} />
-                  </ListItemButton>
-                </ListItem>
-              ))}
+              {routeList.map((item, index) => {
+                return (
+                  <ListItem key={index} disablePadding>
+                    <ListItemButton onClick={() => navigate(item.path)}>
+                      <ListItemIcon>
+                        {item.icon || <HomeIcon />}
+                        {/* {index % 2 === 0 ? <HomeIcon /> : <ViewListIcon />} */}
+                      </ListItemIcon>
+                      <ListItemText primary={item.title} />
+                    </ListItemButton>
+                  </ListItem>
+                );
+              })}
             </List>
           </Box>
           <Divider />
