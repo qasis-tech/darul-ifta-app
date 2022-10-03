@@ -85,7 +85,7 @@ export default function AskFatwasComponent() {
   const handleSubmitQuestion = ({ shortQuestion, question }) => {
     setLoader(true);
     let payload = {
-      user_id: userId,
+      user: userId,
       madhab: selectedMadhab._id,
       category: selectedCategory._id,
       sub_category: selectedSubcategory._id,

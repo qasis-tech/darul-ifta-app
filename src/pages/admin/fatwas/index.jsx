@@ -336,15 +336,37 @@ export default function Fatwas() {
               )}
             </div>
             <div className="col-md-2">
-              <Autocomplete
-                disablePortal
-                size="small"
-                id="combo-box-demo"
-                options={top100Films}
-                renderInput={(params) => (
-                  <TextField {...params} label="Mustafthi" />
-                )}
-              />
+              {userData?.length ? (
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  size="small"
+                  options={userData}
+                  getOptionLabel={(option) => option.name || ""}
+                  isOptionEqualToValue={(option, value) =>
+                    option._id === value._id
+                  }
+                  onChange={(e, val) => setSelectedUserData(val)}
+                  value={selectedUserData}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="
+                      Mustafthi"
+                      {...register("mustafthi")}
+                    />
+                  )}
+                />
+              ) : (
+                <Autocomplete
+                  disablePortal
+                  size="small"
+                  id="combo-box-demo"
+                  renderInput={(params) => (
+                    <TextField {...params} label="Mustafthi" />
+                  )}
+                />
+              )}
             </div>
             <div className="col-md-2">
               {languageList?.length && (
