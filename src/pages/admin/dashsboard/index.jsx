@@ -17,7 +17,9 @@ import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import PeopleIcon from "@mui/icons-material/People";
+
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import "./admin.home.styles.scss";
 
 export default function Dashboard() {
@@ -25,7 +27,7 @@ export default function Dashboard() {
     <div>
       <div className="admin-home-section">
         <div class="row justify-content-center">
-          <div class="col-lg-2 col-md-2 col-sm-3">
+          {/* <div class="col-lg-2 col-md-2 col-sm-3">
             <div class="card card-stats shadow border roundeded">
               <div class="card-body">
                 <div class="row">
@@ -44,7 +46,43 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
+          </div> */}
+
+          <div class="col-lg-2 col-sm-6">
+            <div class="circle-tile">
+              <a href="#">
+                <div class="circle-tile-heading assMufthi">
+                  <LanguageIcon className="fa" />
+                </div>
+              </a>
+              <div class="circle-tile-content assMufthi">
+                <div class="circle-tile-description text-faded">Mastafthi</div>
+                <div class="circle-tile-number text-faded">
+                  250
+                  <span id="sparklineA"></span>
+                </div>
+              </div>
+            </div>
           </div>
+
+          <div class="col-lg-2 col-sm-6">
+            <div class="circle-tile">
+              <a href="#">
+                <div class="circle-tile-heading published">
+                  <ListAltIcon className="fa" />
+                </div>
+              </a>
+              <div class="circle-tile-content published">
+                <div class="circle-tile-description text-faded">Fatwas</div>
+                <div class="circle-tile-number text-faded">
+                  67
+                  <span id="sparklineA"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 
           <div class="col-lg-2 col-md-2 col-sm-3">
             <div class="card card-stats shadow border roundeded">
               <div class="card-body">
@@ -52,7 +90,6 @@ export default function Dashboard() {
                   <div class="col-5 col-md-4 col-sm-12 d-flex align-items-center">
                     <div class="icon-big text-center">
                       <ListAltIcon className="fs-1" />
-                      {/* <i class="fa fa-list-alt fa-3x" aria-hidden="true"></i> */}
                     </div>
                   </div>
                   <div class="col-7 col-md-8">
@@ -65,15 +102,31 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
+          </div> */}
+
+          <div class="col-lg-2 col-sm-6">
+            <div class="circle-tile">
+              <a href="#">
+                <div class="circle-tile-heading mufthiAns">
+                  <BorderColorIcon className="fa" />
+                </div>
+              </a>
+              <div class="circle-tile-content mufthiAns">
+                <div class="circle-tile-description text-faded">Answered</div>
+                <div class="circle-tile-number text-faded">
+                  2<span id="sparklineA"></span>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="col-lg-2 col-md-2 col-sm-3">
+
+          {/* <div class="col-lg-2 col-md-2 col-sm-3">
             <div class="card card-stats shadow border roundeded">
               <div class="card-body">
                 <div class="row">
                   <div class="col-5 col-md-4 d-flex align-items-center">
                     <div class="icon-big text-center">
                       <BorderColorIcon className="text-success fs-1" />
-                      {/* <i class="fa fa-edit fa-3x text-success"></i> */}
                     </div>
                   </div>
                   <div class="col-7 col-md-8">
@@ -86,15 +139,31 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
+          </div> */}
+
+          <div class="col-lg-2 col-sm-6">
+            <div class="circle-tile">
+              <a href="#">
+                <div class="circle-tile-heading pending">
+                  <QueryBuilderIcon className="fa" />
+                </div>
+              </a>
+              <div class="circle-tile-content pending">
+                <div class="circle-tile-description text-faded">Pendings</div>
+                <div class="circle-tile-number text-faded">
+                  34<span id="sparklineA"></span>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="col-lg-2 col-md-2 col-sm-3">
+
+          {/* <div class="col-lg-2 col-md-2 col-sm-3">
             <div class="card card-stats shadow border roundeded">
               <div class="card-body">
                 <div class="row">
                   <div class="col-5 col-md-4 d-flex align-items-center">
                     <div class="icon-big text-center text-warning">
                       <QueryBuilderIcon className="fs-1 icon-warning" />
-                      {/* <i class="fa fa-clock-o fa-3x icon-warning"></i> */}
                     </div>
                   </div>
                   <div class="col-7 col-md-8">
@@ -107,15 +176,31 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
+          </div> */}
+
+          <div class="col-lg-2 col-sm-6">
+            <div class="circle-tile">
+              <a href="#">
+                <div class="circle-tile-heading rejected">
+                  <CloseIcon className="fa" />
+                </div>
+              </a>
+              <div class="circle-tile-content rejected">
+                <div class="circle-tile-description text-faded">Rejected</div>
+                <div class="circle-tile-number text-faded">
+                  23<span id="sparklineA"></span>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="col-lg-2 col-md-2 col-sm-3">
+
+          {/* <div class="col-lg-2 col-md-2 col-sm-3">
             <div class="card card-stats shadow border roundeded">
               <div class="card-body">
                 <div class="row">
                   <div class="col-5 col-md-4 d-flex align-items-center">
                     <div class="icon-big text-center icon-warning">
                       <CloseIcon className="text-danger fs-1" />
-                      {/* <i class="fa fa-close fa-3x text-danger"></i> */}
                     </div>
                   </div>
                   <div class="col-7 col-md-8">
@@ -128,40 +213,43 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="table-section">
           <div className="table-row">
             <div className="col-md-12">
-                <div className="heading-container">
-                  <div className="heading-row">
-                    <div className="col-md-2">
-                      <h6>Latest Fatwas</h6>
-                    </div>
-                    <div className="col-md-10">
-                      <TextField
-                        label="Search"
-                        fullWidth
-                        size="small"
-                        className="search-btn"
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <IconButton>
-                                <CloseIcon />
-                              </IconButton>
-                              <IconButton>
-                                <SearchIcon />
-                              </IconButton>
-                            </InputAdornment>
-                          ),
-                        }}
-                      />
-                    </div>
+              <div className="heading-container">
+                <div className="heading-row">
+                  <div className="col-md-2">
+                    <h6>Latest Fatwas</h6>
+                  </div>
+                  <div className="col-md-10">
+                    <TextField
+                      label="Search"
+                      fullWidth
+                      size="small"
+                      className="search-btn"
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton>
+                              <CloseIcon />
+                            </IconButton>
+                            <IconButton>
+                              <SearchIcon />
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
                   </div>
                 </div>
+              </div>
               <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650,marginTop:"1em" }} aria-label="simple table">
+                <Table
+                  sx={{ minWidth: 650, marginTop: "1em" }}
+                  aria-label="simple table"
+                >
                   <TableHead>
                     <TableRow>
                       <TableCell>Q ID</TableCell>
@@ -188,8 +276,12 @@ export default function Dashboard() {
                       <TableCell>23-07-2021</TableCell>
                       <TableCell>Social Matters</TableCell>
                       <TableCell>dddddd</TableCell>
-                      <TableCell><span className="status">Received</span></TableCell>
-                      <TableCell><VisibilityIcon className="view-icon"/></TableCell>
+                      <TableCell>
+                        <span className="status">Received</span>
+                      </TableCell>
+                      <TableCell>
+                        <VisibilityIcon className="view-icon" />
+                      </TableCell>
                     </TableRow>
                   </TableBody>
                 </Table>

@@ -1,29 +1,90 @@
-.admin-home-section{
-    .row{
-        margin-left: 0!important;
-        margin-right: 0!important;
+@import "../../../styles/common.styles.scss";
+.admin-home-section {
+    .row {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
     }
-    .table-section{
+
+    .table-section {
         margin-top: 2em;
-        .table-row{
+
+        .table-row {
             display: flex;
             justify-content: center;
-            .status{
+
+            .status {
                 background-color: #8bc34a;
                 padding: 0.5em;
                 border-radius: 20px;
                 color: white;
             }
-            .heading-container{
+
+            .heading-container {
                 margin: 1em 0;
-                .heading-row{
+
+                .heading-row {
                     display: flex;
-                    h6{
-                        font-size: 20px!important;
+
+                    h6 {
+                        font-size: 20px !important;
                         text-transform: uppercase;
                         font-weight: 600;
+                        font-family:$footer-font-style;
                     }
                 }
+            }
+        }
+    }
+
+    // .dark-blue {
+    //     background-color: $primary;
+    // }
+
+    .circle-tile {
+        margin-bottom: 30px;
+
+        .circle-tile-heading {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto -40px;
+            border: 3px solid rgba(255, 255, 255, .3);
+            border-radius: 100%;
+            color: $theme-primary-color;
+            transition: all ease-in-out .3s;
+
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .fa {
+                line-height: 80px;
+                font-size: 45px;
+            }
+            // &:hover {
+            //     background-color:#4fb4b7;
+            // }
+        }
+
+        .circle-tile-content {
+            padding-top: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 15px;
+            color: $theme-primary-color;
+            font-weight: 600;
+            font-family: $footer-font-style;
+            .circle-tile-description {
+                text-transform: uppercase;
+            }
+            .circle-tile-number {
+                padding: 5px 0 15px;
+                font-size: 30px;
+                font-weight: 700;
+                line-height: 1;
             }
         }
     }

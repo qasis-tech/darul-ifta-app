@@ -38,8 +38,8 @@ $white: white;
 $main-font-size: 15px;
 $main-font-style: "Baloo";
 $footer-font-style: "Marcellus";
-$malayalam-font-style:"Gayatri";
-$arabic-font-style:"Amiri";
+$malayalam-font-style: "Gayatri";
+$arabic-font-style: "Amiri";
 $error: red;
 $error-font-size: 13px;
 
@@ -75,65 +75,103 @@ $theme-pointer: pointer;
   background-color: $theme-1-grey !important;
 }
 
-.questions {
-  background-color: #ff9800;
-  color: #fff;
+// .questions {
+//   background-color: #ff9800;
+//   color: #fff;
+// }
+
+// .published {
+//   background-color: #4caf50;
+//   color: #fff;
+// }
+// .pending {
+//   background-color: #ffc107;
+//   color: #fff;
+// }
+// .rejected {
+//   background-color: #dc3545;
+//   color: #fff;
+// }
+
+.edit-icon {
+  color: #4caf50;
+}
+.view-icon {
+  color: #03a9f4;
+}
+.form-btn {
+  color: white;
+  background-color: $primary !important ;
+  text-transform: uppercase;
+}
+.add-btn {
+  color: white;
+  background-color: #235775 !important ;
+  text-transform: uppercase;
+}
+.activestatus,
+.pending,
+.rejected,
+.inactive,
+.published,
+.draft,
+.reSUbmitted,
+.assMufthi,
+.mufthiAns,
+.published {
+  padding: 0.5em 1em;
+  border-radius: 20px;
+  color: white;
+}
+.activestatus {
+  background-color: green;
+}
+.inactive,
+.draft {
+  background-color: #f32929;
 }
 
-.published {
-  background-color: #4caf50;
-  color: #fff;
-}
 .pending {
   background-color: #ffc107;
-  color: #fff;
 }
 .rejected {
   background-color: #dc3545;
-  color: #fff;
+}
+.reSUbmitted {
+  background-color: #e91e63;
+}
+.recievedToDI {
+  background-color: #8bc34a;
+  padding: 5px 8px;
+}
+.assMufthi {
+  background-color: #00bcd4;
+  padding: 5px;
+}
+.mufthiAns {
+  background-color: #009688;
+}
+.completeVerification {
+  background-color: #ff9800;
+}
+.published {
+  background-color: #4caf50;
 }
 
-
-.edit-icon{
-  color: #4caf50;
-}
-.view-icon{
-  color:#03a9f4;
-}
-.form-btn{
-  color: white;
-  background-color:$primary!important ;
-  text-transform: uppercase;
-}
-.add-btn{
-  color: white;
-  background-color:#235775!important ;
-  text-transform: uppercase;
-}
-.activestatus,.inactive,.published,.draft{
-    padding: 0.5em 1em;
-    border-radius: 20px;
-    color: white;
-}
-.activestatus,.published{
-  background-color: green;
-}
-.inactive,.draft{
-  background-color: #f32929;
-}
-.MuiTable-root{
-  margin-top: 0!important;
-  .MuiTableHead-root{
-    .MuiTableRow-root{
-        .MuiTableCell-root{
-            color: white;
-            background-color: $primary;
+.MuiTable-root {
+  margin-top: 0 !important;
+  .MuiTableHead-root {
+    .MuiTableRow-root {
+      .MuiTableCell-root {
+        color: $theme-primary-color;
+        background-color: $primary;
         font-weight: 600;
         text-transform: uppercase;
-        }
+        font-family:$footer-font-style;
+      }
     }
   }
 }
-.css-ivnu1y-MuiPaper-root-MuiAppBar-root{
-  background-color: #235775!important;
+.css-ivnu1y-MuiPaper-root-MuiAppBar-root {
+  background-color: #235775 !important;
 }

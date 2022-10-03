@@ -14,6 +14,23 @@
       height: 100%;
     }
   }
+  .MuiTypography-h6{
+    font-family:$footer-font-style!important;
+  }
+  .MuiList-root{
+    .MuiListItem-root{
+      // &:active,:visited{
+      //   background-color: red;
+      // }
+      .MuiButtonBase-root{
+        .MuiListItemText-root{
+          .MuiTypography-root{
+            font-family:$main-font-style;
+          }
+        }
+      }
+    }
+  }
   .appbar-heading-section {
     padding-left: 0 !important;
     padding-right: 0 !important;

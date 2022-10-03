@@ -33,7 +33,11 @@ import HomeIcon from "@mui/icons-material/Home";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import CategoryIcon from "@mui/icons-material/Category";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-
+import ArticleIcon from "@mui/icons-material/Article";
+import ListAltIcon from "@mui/icons-material/ListAlt";
+import SummarizeIcon from "@mui/icons-material/Summarize";
+import PeopleIcon from "@mui/icons-material/People";
+import ReorderIcon from "@mui/icons-material/Reorder";
 import "../../../styles/common.styles.scss";
 import "./maincontainer.styles.scss";
 import RouterList from "../../../routes/routerList";
@@ -67,11 +71,23 @@ function DashboardPage() {
 
   const [routeList] = useState([
     { path: RouterList.admin.admin, title: "HOME", icon: <DashboardIcon /> },
-    { path: RouterList.admin.adminfatwas, title: "FATWA" },
-    { path: RouterList.admin.article, title: "ARTICLE" },
-    { path: RouterList.admin.category, title: "CATEGORY" },
-    { path: RouterList.admin.user, title: "USER", icon: <DashboardIcon /> },
-    { path: RouterList.admin.musthafthies, title: "MUSTAFTHI" },
+    {
+      path: RouterList.admin.adminfatwas,
+      title: "FATWA",
+      icon: <ListAltIcon />,
+    },
+    { path: RouterList.admin.article, title: "ARTICLE", icon: <ArticleIcon /> },
+    {
+      path: RouterList.admin.category,
+      title: "CATEGORY",
+      icon: <SummarizeIcon />,
+    },
+    { path: RouterList.admin.user, title: "USER", icon: <PeopleIcon /> },
+    {
+      path: RouterList.admin.musthafthies,
+      title: "Mufthi",
+      icon: <ReorderIcon />,
+    },
   ]);
   const getPathName = () =>
     startCase(
