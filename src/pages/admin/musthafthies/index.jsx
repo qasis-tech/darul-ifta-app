@@ -19,9 +19,11 @@ import "./musthafthies.styles.scss";
 import { useState } from "react";
 import axios from "axios";
 import { URLS } from "../../../config/urls.config";
+import NoDataAvailable from "../../../components/NoDataAvailable";
 export default function Musthafthies() {
   const [userType, setUserType] = useState("Mufthi");
   const [isLoader, setLoader] = useState(false);
+  const [mufthiData, setMufthiData] = useState([]);
 
   useEffect(() => {
     getMufthiApi();
@@ -36,10 +38,12 @@ export default function Musthafthies() {
       .then(({ data }) => {
         setLoader(false);
         console.log("res mufthiss1111", data);
+        setMufthiData(data.data);
       })
       .catch((err) => {
         setLoader(false);
         console.log("error mufthii--", err);
+        setMufthiData([]);
       });
   };
   const navigate = useNavigate();
@@ -97,22 +101,31 @@ export default function Musthafthies() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow
-                  sx={{
-                    "&:last-child td, &:last-child th": { border: 0 },
-                  }}
-                >
-                  <TableCell component="th" scope="row">
-                    #1234
-                  </TableCell>
-                  <TableCell>aaaaa</TableCell>
-                  <TableCell>1234567890</TableCell>
-                  <TableCell>user@gmail.com</TableCell>
-                  <TableCell>
-                    <EditIcon className="edit-icon" />
-                    <VisibilityIcon className="view-icon" />
-                  </TableCell>
-                </TableRow>
+                {mufthiData?.length ? (
+                  mufthiData?.map((mufti) => {
+                    return (
+                      <TableRow
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                        key={mufti._id}
+                      >
+                        <TableCell component="th" scope="row">
+                          {mufti._id}
+                        </TableCell>
+                        <TableCell>{mufti.name}</TableCell>
+                        <TableCell>{mufti.phone}</TableCell>
+                        <TableCell>{mufti.email}</TableCell>
+                        <TableCell>
+                          <EditIcon className="edit-icon" />
+                          <VisibilityIcon className="view-icon" />
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })
+                ) : (
+                  <NoDataAvailable />
+                )}
               </TableBody>
             </Table>
           </TableContainer>

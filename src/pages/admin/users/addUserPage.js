@@ -15,14 +15,8 @@ export default function AddUser() {
   const [madhabData, setMadhabData] = useState([]);
   const [selectedMadhab, setSelectedMadhab] = useState([]);
   const [status, setStatus] = useState([
-    { id: 1, title: "Pending" },
-    { id: 2, title: "Rejected" },
-    { id: 3, title: "Re Submitted" },
-    { id: 4, title: "Received to Darul Ifta" },
-    { id: 5, title: "Assigned Mufti" },
-    { id: 6, title: "Mufti Answered" },
-    { id: 7, title: "Completed Verification" },
-    { id: 8, title: "Published" },
+    { id: 1, title: "Actve" },
+    { id: 2, title: "Inactive" },
   ]);
   const [selectedStatus, setSelectedStatus] = useState([]);
   const [userToken, setUserToken] = useState([]);
