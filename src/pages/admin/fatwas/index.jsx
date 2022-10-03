@@ -57,6 +57,10 @@ export default function Fatwas() {
     { id: 4, title: "Urdu" },
   ]);
   const [selectedLanguage, setSelectedLanguage] = useState([]);
+  const [mufthiData, setMufthiData] = useState([]);
+  const [selectedMufthi, setSelectedMufthi] = useState([]);
+  const [userData, setUserData] = useState([]);
+  const [selectedUserData, setSelectedUserData] = useState([]);
 
   const {
     register,
@@ -68,6 +72,8 @@ export default function Fatwas() {
     getQuestionListApi();
     getmadhabApi();
     getCatgoryApi();
+    getMufthiApi();
+    getUserApi();
   }, []);
 
   const getQuestionListApi = () => {
@@ -130,6 +136,41 @@ export default function Fatwas() {
       });
   };
 
+  const getMufthiApi = () => {
+    setLoader(true);
+    axios
+      .get(`${URLS.user}${URLS.signup}?userType=Mufthi`, {
+        "Content-Type": "application/json",
+      })
+      .then(({ data }) => {
+        setLoader(false);
+        console.log("res mufthiss1111", data.data);
+        setMufthiData(data.data);
+      })
+      .catch((err) => {
+        setLoader(false);
+        console.log("error mufthii--", err);
+        setMufthiData([]);
+      });
+  };
+
+  const getUserApi = () => {
+    setLoader(true);
+    axios
+      .get(`${URLS.user}${URLS.signup}?userType=User`, {
+        "Content-Type": "application/json",
+      })
+      .then(({ data }) => {
+        setLoader(false);
+        console.log("res user111", data.data);
+        setUserData(data.data);
+      })
+      .catch((err) => {
+        setLoader(false);
+        console.log("error userr--", err);
+        setUserData([]);
+      });
+  };
   const handleApply = () => {};
 
   const navigate = useNavigate();
@@ -260,15 +301,39 @@ export default function Fatwas() {
           </div>
           <div className="fatwas-row second-row">
             <div className="col-md-2">
-              <Autocomplete
-                disablePortal
-                size="small"
-                id="combo-box-demo"
-                options={top100Films}
-                renderInput={(params) => (
-                  <TextField {...params} label="Mufti" />
-                )}
-              />
+              {mufthiData?.length ? (
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  size="small"
+                  options={mufthiData}
+                  getOptionLabel={(option) => option.name || ""}
+                  isOptionEqualToValue={(option, value) =>
+                    option._id === value._id
+                  }
+                  onChange={(e, val) => {
+                    setSelectedMufthi(val);
+                  }}
+                  value={selectedMufthi}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="
+              Mufthi"
+                      {...register("mufthi")}
+                    />
+                  )}
+                />
+              ) : (
+                <Autocomplete
+                  disablePortal
+                  size="small"
+                  id="combo-box-demo"
+                  renderInput={(params) => (
+                    <TextField {...params} label="Mufthi" />
+                  )}
+                />
+              )}
             </div>
             <div className="col-md-2">
               <Autocomplete
@@ -352,7 +417,7 @@ export default function Fatwas() {
             >
               <TableHead>
                 <TableRow>
-                  <TableCell>Q ID</TableCell>
+                  <TableCell>No</TableCell>
                   <TableCell>Mustafthi</TableCell>
                   <TableCell>Short Question</TableCell>
                   <TableCell>Created Date</TableCell>
@@ -378,16 +443,22 @@ export default function Fatwas() {
                           key={question._id}
                         >
                           <TableCell component="th" scope="row">
-                            {question._id}
+                            {question.slNo}
                           </TableCell>
-                          <TableCell>aaaaa</TableCell>
+                          <TableCell>aaaa</TableCell>
                           <TableCell>{question.short_question}</TableCell>
                           <TableCell>
                             {formatDate(question.createdAt)}
                           </TableCell>
                           <TableCell>{question.category.category}</TableCell>
                           <TableCell>{question.madhab.title}</TableCell>
-                          <TableCell>{question.mufti}</TableCell>
+                          <TableCell>
+                            {questionList?.mufti ? (
+                              <span>{question.mufti}</span>
+                            ) : (
+                              <span>N/A</span>
+                            )}
+                          </TableCell>
                           <TableCell>
                             <span className="status">{question.status}</span>
                           </TableCell>

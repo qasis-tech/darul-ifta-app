@@ -21,14 +21,15 @@ import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
 
 import { URLS } from "../../../config/urls.config";
-
-import "./user.styles.scss";
 import Loader from "../../../components/common/Loader";
 import NoDataAvailable from "../../../components/NoDataAvailable";
+
+import "./user.styles.scss";
 
 export default function User() {
   const [userData, setUserData] = useState([]);
   const [isLoader, setLoader] = useState(false);
+  const [roles, setRoles] = useState("User");
 
   useEffect(() => {
     getUserListApi();
@@ -37,7 +38,7 @@ export default function User() {
   const getUserListApi = () => {
     setLoader(true);
     axios
-      .get(`${URLS.user}${URLS.signup}`, {
+      .get(`${URLS.user}${URLS.signup}?userType=${roles}`, {
         "Content-Type": "application/json",
       })
       .then(({ data }) => {
@@ -123,13 +124,29 @@ export default function User() {
                             <TableCell component="th" scope="row">
                               {user._id}
                             </TableCell>
-                            <TableCell>{user.name}</TableCell>
-                            <TableCell>{user.display_title}</TableCell>
+                            <TableCell>
+                              {user.name === null ? (
+                                <span>N/A</span>
+                              ) : (
+                                <span>{user.name}</span>
+                              )}
+                            </TableCell>
+                            <TableCell>
+                              {user.display_title === null ? (
+                                <span>N/A</span>
+                              ) : (
+                                <span>{user.display_title}</span>
+                              )}
+                            </TableCell>
                             <TableCell>{user.email}</TableCell>
                             <TableCell>
-                              <span className="activestatus">
-                                {user.user_status}
-                              </span>
+                              {user.user_status === null ? (
+                                <span>N/A</span>
+                              ) : (
+                                <span className="activestatus">
+                                  {user.user_status}
+                                </span>
+                              )}
                             </TableCell>
                             <TableCell>
                               <EditIcon className="edit-icon" />
