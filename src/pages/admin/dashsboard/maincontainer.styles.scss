@@ -25,7 +25,9 @@
       .MuiButtonBase-root{
         .MuiListItemText-root{
           .MuiTypography-root{
-            font-family:$main-font-style;
+            font-family:$footer-font-style;
+            text-transform: uppercase;
+            font-weight: 600;
           }
         }
       }
