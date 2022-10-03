@@ -103,11 +103,16 @@ $theme-pointer: pointer;
   color: white;
   background-color: $primary !important ;
   text-transform: uppercase;
+  font-family:$footer-font-style!important;
 }
 .add-btn {
   color: white;
-  background-color: #235775 !important ;
+  background-color: $theme-primary-color !important ;
   text-transform: uppercase;
+  font-family:$footer-font-style!important;
+}
+.MuiChip-label{
+  font-family:$footer-font-style!important;
 }
 .activestatus,
 .pending,
@@ -163,7 +168,7 @@ $theme-pointer: pointer;
   .MuiTableHead-root {
     .MuiTableRow-root {
       .MuiTableCell-root {
-        color: $theme-primary-color;
+        color: $white;
         background-color: $primary;
         font-weight: 600;
         text-transform: uppercase;
