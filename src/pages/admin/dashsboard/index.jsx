@@ -7,7 +7,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import LanguageIcon from "@mui/icons-material/Language";
 import SearchIcon from "@mui/icons-material/Search";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import SnackBar from "../../../components/Snackbar";
+import SnackBar from "../../../components/common/Snackbar";
 import {
   Table,
   TableBody,
@@ -151,7 +151,7 @@ export default function Dashboard() {
                                   setError({
                                     visible: true,
                                     message: "Tetingggg",
-                                    type: "success",
+                                    type: "error",
                                     title: "Test",
                                   })
                                 }
@@ -173,7 +173,7 @@ export default function Dashboard() {
                   >
                     <TableHead>
                       <TableRow>
-                        <TableCell>Q No</TableCell>
+                        <TableCell>Q ID</TableCell>
                         <TableCell>Mustafthi</TableCell>
                         <TableCell>Short Question</TableCell>
                         <TableCell>Created Date</TableCell>
