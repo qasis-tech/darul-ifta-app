@@ -178,7 +178,6 @@ export default function Dashboard() {
                         <TableCell>Category</TableCell>
                         <TableCell>Madhab</TableCell>
                         <TableCell>Status</TableCell>
-                        {/* <TableCell>Action</TableCell> */}
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -193,16 +192,24 @@ export default function Dashboard() {
                                 },
                               }}
                             >
-                              <TableCell component="th" scope="row">
-                                {items?.slNo || "N/A"}
-                              </TableCell>
-                              <TableCell>{items?.user?.name}</TableCell>
-                              <TableCell>{items?.short_question}</TableCell>
+                              <TableCell>{items?.slNo || "N/A"}</TableCell>
                               <TableCell>
-                                {formatDate(items?.createdAt)}
+                                {items?.user?.name || "N/A"}
                               </TableCell>
-                              <TableCell>{items?.category?.category}</TableCell>
-                              <TableCell>{items?.madhab?.title}</TableCell>
+                              <TableCell>
+                                {items?.short_question || "N/A"}
+                              </TableCell>
+                              <TableCell>
+                                {items?.createdAt
+                                  ? formatDate(items?.createdAt)
+                                  : "N/A"}
+                              </TableCell>
+                              <TableCell>
+                                {items?.category?.category || "N/A"}
+                              </TableCell>
+                              <TableCell>
+                                {items?.madhab?.title || "N/A"}
+                              </TableCell>
                               <TableCell>
                                 <span
                                   className={
@@ -216,7 +223,11 @@ export default function Dashboard() {
                           );
                         })
                       ) : (
-                        <NoDataAvailable />
+                        <TableRow>
+                          <TableCell rowSpan={5} colSpan={2}>
+                            <NoDataAvailable />
+                          </TableCell>
+                        </TableRow>
                       )}
                     </TableBody>
                   </Table>
