@@ -13,12 +13,20 @@ import "./addcategory.styles.scss";
 
 import { URLS } from "../../../config/urls.config";
 import Loader from "../../../components/common/Loader";
+import SnackBar from "../../../components/common/Snackbar";
 
 export default function AddCategories() {
   const [categoryList, setCategoryList] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState([]);
   const [selectedSubCategory, setSelectedSubCategory] = useState([]);
   const [isLoading, setLoader] = useState(false);
+  const [errorPopup, setError] = useState({
+    visible: false,
+    message: "",
+    type: "error",
+    title: "",
+  });
+
   const {
     register,
     handleSubmit,
@@ -28,6 +36,16 @@ export default function AddCategories() {
   useEffect(() => {
     getCatgoryApi();
   }, []);
+
+  const handleCloseError = () => {
+    setError({
+      visible: false,
+      message: "",
+      type: "",
+      titile: "",
+    });
+    navigate(-1);
+  };
 
   const getCatgoryApi = () => {
     setLoader(true);
@@ -39,8 +57,8 @@ export default function AddCategories() {
       })
       .then(({ data }) => {
         setLoader(false);
-        console.log("res category", data.data);
-        setCategoryList(data.data);
+        console.log("res category", data);
+        setCategoryList(data);
       })
       .catch((err) => {
         setLoader(false);
@@ -72,11 +90,31 @@ export default function AddCategories() {
       .then((res) => {
         console.log("res post category", res);
         setLoader(false);
-        navigate(-1);
+        if (res?.success) {
+          setError({
+            visible: true,
+            message: res.message,
+            type: "success",
+            title: "Success",
+          });
+        } else {
+          setError({
+            visible: true,
+            message: res.message,
+            type: "warning",
+            title: "Warning",
+          });
+        }
+        // navigate(-1);
       })
       .catch((err) => {
         console.log("Error in Category Add", err);
         setLoader(false);
+        setError({
+          visible: true,
+          message: "Tetingggg",
+          type: "error",
+        });
       });
   };
 
@@ -90,8 +128,8 @@ export default function AddCategories() {
             <div className="col-md-12">
               <Autocomplete
                 id="tags-filled-1"
-                options={categoryList || ""}
-                getOptionLabel={(option) => option?.category || ""}
+                options={categoryList || []}
+                getOptionLabel={(option) => option?.category || []}
                 value={selectedCategory}
                 onChange={(e, val) => setSelectedCategory(val)}
                 onInputChange={(e, val) => {
@@ -185,6 +223,15 @@ export default function AddCategories() {
           </div>
         </div>
       </form>
+      {errorPopup.visible && (
+        <SnackBar
+          visible={errorPopup.visible}
+          message={errorPopup.message}
+          type={errorPopup.type}
+          title={errorPopup.title}
+          onClose={() => handleCloseError()}
+        />
+      )}
     </div>
   );
 }
