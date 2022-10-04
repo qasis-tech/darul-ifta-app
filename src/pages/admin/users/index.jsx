@@ -28,7 +28,7 @@ import "./user.styles.scss";
 
 export default function User() {
   const [userData, setUserData] = useState([]);
-  const [isLoader, setLoader] = useState(false);
+  const [isLoading, setLoader] = useState(false);
   const [roles, setRoles] = useState("User");
   const [searchInput, setSearchInput] = useState("");
 
@@ -115,6 +115,9 @@ export default function User() {
       <div className="user-table-section">
         <div className="user-table-container">
           <div className="user-table-row">
+          {isLoading ? (
+              <Loader skeleton />
+            ) : (
             <TableContainer component={Paper}>
               <Table
                 sx={{ minWidth: 650, marginTop: "1em" }}
@@ -130,9 +133,6 @@ export default function User() {
                     <TableCell>Action</TableCell>
                   </TableRow>
                 </TableHead>
-                {isLoader ? (
-                  <Loader />
-                ) : (
                   <TableBody>
                     {userData.length ? (
                       userData.map((user) => {
@@ -182,9 +182,9 @@ export default function User() {
                       <NoDataAvailable />
                     )}
                   </TableBody>
-                )}
               </Table>
             </TableContainer>
+            )}
           </div>
         </div>
       </div>

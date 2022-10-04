@@ -20,9 +20,10 @@ import { useState } from "react";
 import axios from "axios";
 import { URLS } from "../../../config/urls.config";
 import NoDataAvailable from "../../../components/NoDataAvailable";
+import Loader from "../../../components/common/Loader";
 export default function Musthafthies() {
   const [userType, setUserType] = useState("Mufthi");
-  const [isLoader, setLoader] = useState(false);
+  const [isLoading, setLoader] = useState(false);
   const [mufthiData, setMufthiData] = useState([]);
   const [searchInput, setSearchInput] = useState("");
 
@@ -106,6 +107,9 @@ export default function Musthafthies() {
       </div>
       <div className="musthafthies-table-section">
         <div className="musthafthies-table-row">
+        {isLoading ? (
+              <Loader skeleton />
+            ) : (
           <TableContainer component={Paper}>
             <Table
               sx={{ minWidth: 650, marginTop: "1em" }}
@@ -150,6 +154,7 @@ export default function Musthafthies() {
               </TableBody>
             </Table>
           </TableContainer>
+             )}
         </div>
       </div>
     </div>
