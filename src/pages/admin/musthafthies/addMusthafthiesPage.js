@@ -115,133 +115,149 @@ export default function AddMusthafthies() {
 
   return (
     <div className="add-musthafthies-section">
-      <form onSubmit={handleSubmit(handleSave)}>
-        <div className="add-musthafthies-container">
-          <div className="col-md-12">
-            <TextField
-              id="outlined-basic"
-              label="Name"
-              size="small"
-              fullWidth
-              variant="outlined"
-              {...register("name", { required: "Name is required" })}
-            />
-            <div className="error">{errors?.name?.message}</div>
-          </div>
-          <div className="add-musthafthies-row">
-            <div className="col-md-6 first-col">
+      {isLoader ? (
+        <Loader absolute />
+      ) : (
+        <form onSubmit={handleSubmit(handleSave)}>
+          <div className="add-musthafthies-container">
+            <div className="col-md-12">
               <TextField
                 id="outlined-basic"
-                label="Email"
+                label="Name"
                 size="small"
                 fullWidth
                 variant="outlined"
-                {...register("email", {
-                  required: "Email ID is required",
-                  pattern: {
-                    value:
-                      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                    message: "Invalid email Id ( eg: example@mail.com ) ",
-                  },
-                })}
+                {...register("name", { required: "Name is required" })}
               />
-              <div className="error">{errors?.email?.message}</div>
+              <div className="error">{errors?.name?.message}</div>
             </div>
-            <div className="col-md-6 second-col">
-              <TextField
-                id="outlined-basic"
-                label="Whatsapp Number"
-                size="small"
-                fullWidth
-                variant="outlined"
-                {...register("mobileNumber", {
-                  required: "Mobile Number is required",
-                  pattern: {
-                    value:
-                      /^(?:(?:\+|0{0,2})91(\s*[\ -]\s*)?|[0]?)?[789]\d{9}|(\d[ -]?){10}\d$/,
-                    message: "Invalid MobileNumber ",
-                  },
-                })}
-              />
-              <div className="error">{errors?.mobileNumber?.message}</div>
-            </div>
-          </div>
-          <div className="add-musthafthies-row">
-            <div className="col-md-6 first-col">
-              <TextField
-                id="outlined-basic"
-                type="password"
-                label="Password"
-                size="small"
-                fullWidth
-                variant="outlined"
-                {...register("password", {
-                  required: "Password is required",
-                  minLength: {
-                    value: 8,
-                    message: "Minimum 8 character",
-                  },
-                })}
-              />
-              <div className="error">{errors?.password?.message}</div>
-            </div>
-            <div className="col-md-3 second-col">
-              <TextField
-                id="outlined-basic"
-                label="Roles"
-                size="small"
-                fullWidth
-                variant="outlined"
-                defaultValue="Mufthi"
-              />
-            </div>
-            <div className="col-md-3 second-col">
-              {madhabData?.length ? (
-                <Autocomplete
-                  disablePortal
-                  id="combo-box-demo"
+            <div className="add-musthafthies-row">
+              <div className="col-md-6 first-col">
+                <TextField
+                  id="outlined-basic"
+                  label="Email"
                   size="small"
                   fullWidth
-                  options={madhabData}
-                  getOptionLabel={(option) => option.title || ""}
-                  isOptionEqualToValue={(option, value) =>
-                    option._id === value._id
-                  }
-                  onChange={(e, val) => setSelectedMadhab(val)}
-                  value={selectedMadhab}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="
-                    Madhab"
-                      {...register("madhab", {
-                        required: "Madhab is required",
-                      })}
-                    />
-                  )}
+                  variant="outlined"
+                  {...register("email", {
+                    required: "Email ID is required",
+                    pattern: {
+                      value:
+                        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                      message: "Invalid email Id ( eg: example@mail.com ) ",
+                    },
+                  })}
                 />
-              ) : null}
-              {!selectedMadhab.title ? (
-                <div className="error">{errors?.madhab?.message}</div>
-              ) : null}
+                <div className="error">{errors?.email?.message}</div>
+              </div>
+              <div className="col-md-6 second-col">
+                <TextField
+                  id="outlined-basic"
+                  label="Whatsapp Number"
+                  size="small"
+                  fullWidth
+                  variant="outlined"
+                  {...register("mobileNumber", {
+                    required: "Mobile Number is required",
+                    pattern: {
+                      value:
+                        /^(?:(?:\+|0{0,2})91(\s*[\ -]\s*)?|[0]?)?[789]\d{9}|(\d[ -]?){10}\d$/,
+                      message: "Invalid MobileNumber ",
+                    },
+                  })}
+                />
+                <div className="error">{errors?.mobileNumber?.message}</div>
+              </div>
             </div>
-          </div>
-          <div className="col-md-12 address">
-            <TextField
-              id="outlined-textarea"
-              label="Address"
-              placeholder="Placeholder"
-              fullWidth
-              rows={3}
-              multiline
-              {...register("address", { required: "Address is required" })}
-            />
-            <div className="error">{errors?.address?.message}</div>
-          </div>
-          <div className="btn-section">
-            {isLoader ? (
-              <Loader />
-            ) : (
+            <div className="add-musthafthies-row">
+              <div className="col-md-6 first-col">
+                <TextField
+                  id="outlined-basic"
+                  type="password"
+                  label="Password"
+                  size="small"
+                  fullWidth
+                  variant="outlined"
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: {
+                      value: 8,
+                      message: "Minimum 8 character",
+                    },
+                  })}
+                />
+                <div className="error">{errors?.password?.message}</div>
+              </div>
+              <div className="col-md-3 second-col">
+                <TextField
+                  id="outlined-basic"
+                  label="Roles"
+                  size="small"
+                  fullWidth
+                  variant="outlined"
+                  defaultValue="Mufthi"
+                />
+              </div>
+              <div className="col-md-3 second-col">
+                {madhabData?.length ? (
+                  <Autocomplete
+                    disablePortal
+                    id="combo-box-demo"
+                    size="small"
+                    fullWidth
+                    options={madhabData}
+                    getOptionLabel={(option) => option.title || ""}
+                    isOptionEqualToValue={(option, value) =>
+                      option._id === value._id
+                    }
+                    onChange={(e, val) => setSelectedMadhab(val)}
+                    value={selectedMadhab}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="
+                    Madhab"
+                        {...register("madhab", {
+                          required: "Madhab is required",
+                        })}
+                      />
+                    )}
+                  />
+                ) : (
+                  <Autocomplete
+                    disablePortal
+                    size="small"
+                    id="combo-box-demo"
+                    options={[]}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Madhab"
+                        {...register("madhab", {
+                          required: "Madhab is required",
+                        })}
+                      />
+                    )}
+                  />
+                )}
+                {!selectedMadhab?.title && (
+                  <div className="error">{errors?.madhab?.message}</div>
+                )}
+              </div>
+            </div>
+            <div className="col-md-12 address">
+              <TextField
+                id="outlined-textarea"
+                label="Address"
+                placeholder="Placeholder"
+                fullWidth
+                rows={3}
+                multiline
+                {...register("address", { required: "Address is required" })}
+              />
+              <div className="error">{errors?.address?.message}</div>
+            </div>
+            <div className="btn-section">
               <div className="col-md-1">
                 <Button
                   type="submit"
@@ -252,10 +268,10 @@ export default function AddMusthafthies() {
                   SAVE
                 </Button>
               </div>
-            )}
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+      )}
       {errorPopup.visible && (
         <SnackBar
           visible={errorPopup.visible}
