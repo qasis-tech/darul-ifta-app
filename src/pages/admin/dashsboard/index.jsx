@@ -44,12 +44,15 @@ export default function Dashboard() {
 
   const getGeneralsList = () => {
     setLoader(true);
-    getGeneralsListApi((res, err) => {
-      if (err) {
-        console.log("Errr in get Generals API", err);
-      } else setCounteList(res);
-      setLoader(false);
-    });
+    getGeneralsListApi()
+      .then((res) => {
+        setCounteList(res);
+        setLoader(false);
+      })
+      .catch((err) => {
+        console.error("Err in Generals", err);
+        setLoader(false);
+      });
   };
 
   const getQuestions = (params) => {
@@ -90,31 +93,31 @@ export default function Dashboard() {
               titile="Mustafthi"
               Icon={() => <LanguageIcon className="fa" />}
               style="assMufthi"
-              value={counteList?.musafthi}
+              value={counteList?.musafthi || "N/A"}
             />
             <CountTile
               titile="Fatwas"
               Icon={() => <ListAltIcon className="fa" />}
               style="published"
-              value={counteList?.fatwas}
+              value={counteList?.fatwas || "N/A"}
             />
             <CountTile
               titile="Answered"
               Icon={() => <BorderColorIcon className="fa" />}
               style="mufthiAns"
-              value={counteList?.answered}
+              value={counteList?.answered || "N/A"}
             />
             <CountTile
               titile="Pendings"
               Icon={() => <QueryBuilderIcon className="fa" />}
               style="pending"
-              value={counteList?.pending}
+              value={counteList?.pending || "N/A"}
             />
             <CountTile
               titile="Rejected"
               Icon={() => <CloseIcon className="fa" />}
               style="rejected"
-              value={counteList?.rejected}
+              value={counteList?.rejected || "N/A"}
             />
           </div>
           <div className="table-section">

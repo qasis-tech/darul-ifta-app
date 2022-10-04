@@ -85,19 +85,22 @@ export default function Categories() {
                             }}
                             key={category._id}
                           >
-                            <TableCell>{category.category}</TableCell>
+                            <TableCell>{category?.category}</TableCell>
                             <TableCell>
-                              {category?.subCategory.map((subcategory) => {
-                                return (
-                                  <Chip
-                                    key={subcategory._id}
-                                    label={subcategory.label}
-                                    variant="outlined"
-                                  />
-                                );
-                              })}
+                              {category?.subCategory?.length ? (
+                                category?.subCategory?.map((subcategory) => {
+                                  return (
+                                    <Chip
+                                      key={subcategory._id}
+                                      label={subcategory.label}
+                                      variant="outlined"
+                                    />
+                                  );
+                                })
+                              ) : (
+                                <strong>No Subcategories</strong>
+                              )}
                             </TableCell>
-
                             <TableCell align="center">
                               <EditIcon className="edit-icon" />
                             </TableCell>
