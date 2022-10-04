@@ -35,6 +35,12 @@ export default function Dashboard() {
   const [questionList, setQuestionList] = useState([]);
   const [counteList, setCounteList] = useState(null);
   const [searchInput, setSearchInput] = useState("");
+  const [errorPopup, setError] = useState({
+    visible: false,
+    message: "",
+    type: "error",
+    titile: "",
+  });
 
   const getGeneralsList = () => {
     setLoader(true);
@@ -63,6 +69,15 @@ export default function Dashboard() {
     getQuestions();
     getGeneralsList();
   }, []);
+
+  const handleCloseError = () => {
+    setError({
+      visible: false,
+      message: "",
+      type: "",
+      titile: "",
+    });
+  };
 
   return (
     <div>
@@ -132,7 +147,13 @@ export default function Dashboard() {
                               </IconButton>
                               <IconButton
                                 onClick={() =>
-                                  getQuestions(`?slNo=${searchInput}`)
+                                  // getQuestions(`?slNo=${searchInput}`)
+                                  setError({
+                                    visible: true,
+                                    message: "Tetingggg",
+                                    type: "success",
+                                    title: "Test",
+                                  })
                                 }
                               >
                                 <SearchIcon />
@@ -193,9 +214,6 @@ export default function Dashboard() {
                                   {items?.status}
                                 </span>
                               </TableCell>
-                              {/* <TableCell>
-                                <VisibilityIcon className="view-icon" />
-                              </TableCell> */}
                             </TableRow>
                           );
                         })
@@ -205,7 +223,15 @@ export default function Dashboard() {
                     </TableBody>
                   </Table>
                 </TableContainer>
-                <SnackBar/>
+                {errorPopup.visible && (
+                  <SnackBar
+                    visible={errorPopup.visible}
+                    message={errorPopup.message}
+                    type={errorPopup.type}
+                    title={errorPopup.titile}
+                    onClose={() => handleCloseError()}
+                  />
+                )}
               </div>
             </div>
           </div>
