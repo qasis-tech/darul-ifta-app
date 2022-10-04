@@ -126,7 +126,7 @@ export default function Dashboard() {
                                   visibility:
                                     searchInput !== "" ? "visible" : "hidden",
                                 }}
-                                onClick={() => setSearchInput("")}
+                                onClick={() => getQuestions("")}
                               >
                                 <CloseIcon />
                               </IconButton>
@@ -205,7 +205,7 @@ export default function Dashboard() {
                     </TableBody>
                   </Table>
                 </TableContainer>
-                <SnackBar/>
+                <SnackBar />
               </div>
             </div>
           </div>

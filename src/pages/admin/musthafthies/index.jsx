@@ -24,15 +24,26 @@ export default function Musthafthies() {
   const [userType, setUserType] = useState("Mufthi");
   const [isLoader, setLoader] = useState(false);
   const [mufthiData, setMufthiData] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
     getMufthiApi();
   }, []);
 
+  useEffect(() => {
+    if (searchInput === "") {
+      getMufthiApi();
+    }
+  }, [searchInput]);
+
   const getMufthiApi = () => {
     setLoader(true);
+    let URL =
+      searchInput !== ""
+        ? `${URLS.user}${URLS.signup}?userType=${userType}&search=${searchInput}`
+        : `${URLS.user}${URLS.signup}?userType=${userType}`;
     axios
-      .get(`${URLS.user}${URLS.signup}?userType=${userType}`, {
+      .get(URL, {
         "Content-Type": "application/json",
       })
       .then(({ data }) => {
@@ -57,14 +68,23 @@ export default function Musthafthies() {
               label="Search"
               fullWidth
               size="small"
+              onChange={(e) => setSearchInput(e.target.value)}
+              value={searchInput}
               className="search-btn"
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton>
+                    <IconButton
+                      sx={{
+                        visibility: searchInput !== "" ? "visible" : "hidden",
+                      }}
+                      onClick={() => {
+                        setSearchInput("");
+                      }}
+                    >
                       <CloseIcon />
                     </IconButton>
-                    <IconButton>
+                    <IconButton onClick={() => getMufthiApi()}>
                       <SearchIcon />
                     </IconButton>
                   </InputAdornment>
@@ -105,7 +125,7 @@ export default function Musthafthies() {
                   mufthiData?.map((mufti) => {
                     return (
                       <TableRow
-                      hover
+                        hover
                         sx={{
                           "&:last-child td, &:last-child th": { border: 0 },
                         }}
