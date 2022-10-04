@@ -138,8 +138,23 @@ export default function AskFatwasComponent() {
                     />
                   )}
                 />
-              ) : null}
-              {!selectedMadhab.title ? (
+              ) : (
+                <Autocomplete
+                  size="small"
+                  id="combo-box-demo"
+                  options={[]}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Madhab"
+                      {...register("madhab", {
+                        required: "Madhab is required",
+                      })}
+                    />
+                  )}
+                />
+              )}
+              {!selectedMadhab?.title ? (
                 <div className="error">{errors?.madhab?.message}</div>
               ) : null}
             </div>
@@ -166,45 +181,78 @@ export default function AskFatwasComponent() {
                     />
                   )}
                 />
-              ) : null}
-              {!selectedCategory.category ? (
+              ) : (
+                <Autocomplete
+                  size="small"
+                  id="combo-box-demo"
+                  options={[]}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Category"
+                      {...register("category", {
+                        required: "Category is required",
+                      })}
+                    />
+                  )}
+                />
+              )}
+              {!selectedCategory.category && (
                 <div className="error">{errors?.category?.message}</div>
-              ) : null}
+              )}
             </div>
 
             {/* subcategory */}
             <div className="col-md-3">
-              <Autocomplete
-                options={
-                  selectedCategory?.subCategory?.length
-                    ? selectedCategory?.subCategory
-                    : []
-                }
-                getOptionLabel={(option) => option.label || ""}
-                isOptionEqualToValue={(option, value) =>
-                  option.label === value.label
-                }
-                onChange={(e, val) => setSelectedSubcategory(val)}
-                value={selectedSubcategory}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Subcategory"
-                    size="small"
-                    {...register("SubCategory", {
-                      required: "SubCategory is required",
-                    })}
-                  />
-                )}
-              />
-              {!selectedSubcategory.label ? (
+              {selectedCategory?.subCategory?.length ? (
+                <Autocomplete
+                  options={
+                    selectedCategory?.subCategory?.length
+                      ? selectedCategory?.subCategory
+                      : []
+                  }
+                  getOptionLabel={(option) => option.label || ""}
+                  isOptionEqualToValue={(option, value) =>
+                    option.label === value.label
+                  }
+                  onChange={(e, val) => setSelectedSubcategory(val)}
+                  value={selectedSubcategory}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Subcategory"
+                      size="small"
+                      {...register("SubCategory", {
+                        required: "SubCategory is required",
+                      })}
+                    />
+                  )}
+                />
+              ) : (
+                <Autocomplete
+                  size="small"
+                  id="combo-box-demo"
+                  options={[]}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Subcategory"
+                      {...register("SubCategory", {
+                        required: "SubCategory is required",
+                      })}
+                    />
+                  )}
+                />
+              )}
+              {!selectedSubcategory.label && (
                 <div className="error">{errors?.SubCategory?.message}</div>
-              ) : null}
+              )}
             </div>
 
             <div className="col-md-3">
               {languageList?.length && (
                 <Autocomplete
+                  disablePortal
                   id="combo-box-demo"
                   size="small"
                   options={languageList}
@@ -226,9 +274,9 @@ export default function AskFatwasComponent() {
                   )}
                 />
               )}
-              {!selectedLanguage.title ? (
+              {!selectedLanguage?.title && (
                 <div className="error">{errors?.language?.message}</div>
-              ) : null}
+              )}
             </div>
           </div>
           <div className="row">
