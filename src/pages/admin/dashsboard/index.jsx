@@ -148,13 +148,7 @@ export default function Dashboard() {
                               </IconButton>
                               <IconButton
                                 onClick={() =>
-                                  // getQuestions(`?slNo=${searchInput}`)
-                                  setError({
-                                    visible: true,
-                                    message: "Tetingggg",
-                                    type: "error",
-                                    title: "Test",
-                                  })
+                                  getQuestions(`?slNo=${searchInput}`)
                                 }
                               >
                                 <SearchIcon />
