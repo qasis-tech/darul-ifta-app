@@ -201,7 +201,7 @@ export default function Fatwas() {
             <div className="fatwas-container">
               <div className="fatwas-row">
                 <div className="col-md-2">
-                  {status?.length ? (
+                  {status?.length && (
                     <Autocomplete
                       disablePortal
                       id="status"
@@ -222,7 +222,7 @@ export default function Fatwas() {
                         />
                       )}
                     />
-                  ) : null}
+                  )}
                 </div>
                 <div className="col-md-2">
                   {madhabData?.length ? (
@@ -251,7 +251,7 @@ export default function Fatwas() {
                       disablePortal
                       size="small"
                       id="combo-box-demo"
-                      // options={top100Films}
+                      options={[]}
                       renderInput={(params) => (
                         <TextField {...params} label="Madhab" />
                       )}
@@ -285,7 +285,7 @@ export default function Fatwas() {
                       disablePortal
                       size="small"
                       id="combo-box-demo"
-                      // options={top100Films}
+                      options={[]}
                       renderInput={(params) => (
                         <TextField {...params} label="Category" />
                       )}
@@ -349,6 +349,7 @@ export default function Fatwas() {
                       disablePortal
                       size="small"
                       id="combo-box-demo"
+                      options={[]}
                       renderInput={(params) => (
                         <TextField {...params} label="Mufthi" />
                       )}
@@ -382,6 +383,7 @@ export default function Fatwas() {
                       disablePortal
                       size="small"
                       id="combo-box-demo"
+                      options={[]}
                       renderInput={(params) => (
                         <TextField {...params} label="Mustafthi" />
                       )}
