@@ -111,7 +111,10 @@ function DashboardPage() {
             </div>
             <div className="row col-md-8">
               <div className="col-auto px-0 pointer">
-                <ArrowBackIosIcon onClick={() => navigate(-1)} />
+                {getPathName() !== "Dashboard" && (
+                  <ArrowBackIosIcon onClick={() => navigate(-1)} />
+                )}
+                {}
               </div>
               <div className="col-auto px-0">
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -120,13 +123,6 @@ function DashboardPage() {
               </div>
             </div>
             <div className="col-md-2 logout-section">
-              {/* <Button
-                color="inherit"
-                onClick={() => navigate(`${RouterList.user.login}`)}
-              >
-                Logout
-              </Button> */}
-
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -162,23 +158,6 @@ function DashboardPage() {
             </div>
           </Toolbar>
         </div>
-
-        {/* <div className="row appbar-heading-section">
-          <div className="col-md-2">
-            <Toolbar>
-              <Typography variant="h6" noWrap component="div">
-                Clipped drawer
-              </Typography>
-            </Toolbar>
-          </div>
-          <div className="col-md-10">
-            <Toolbar>
-              <Typography variant="h6" noWrap component="div">
-                Dashboard
-              </Typography>
-            </Toolbar>
-          </div>
-        </div> */}
       </AppBar>
       <Drawer
         variant="permanent"
