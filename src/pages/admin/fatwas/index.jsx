@@ -412,15 +412,27 @@ export default function Fatwas() {
                     />
                   )}
                 </div>
-                <div className="col-md-2">
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    className="form-btn"
-                    fullWidth
-                  >
-                    APPLY
-                  </Button>
+                <div className="col-md-2 d-flex justify-content-between">
+                  <div className="col-md-5">
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      className="form-btn"
+                      fullWidth
+                    >
+                      APPLY
+                    </Button>
+                  </div>
+                  <div className="col-md-5">
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      className="add-btn"
+                      fullWidth
+                    >
+                      CANCEL
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
