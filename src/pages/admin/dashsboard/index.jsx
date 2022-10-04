@@ -173,7 +173,7 @@ export default function Dashboard() {
                   >
                     <TableHead>
                       <TableRow>
-                        <TableCell>Q ID</TableCell>
+                        <TableCell>Q No</TableCell>
                         <TableCell>Mustafthi</TableCell>
                         <TableCell>Short Question</TableCell>
                         <TableCell>Created Date</TableCell>
