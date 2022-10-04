@@ -14,7 +14,7 @@ axios.interceptors.request.use((req) => {
 });
 
 axios.interceptors.response.use((res) => {
-  return res;
+  return res?.data;
 });
 
 const useAxios = (url, payload) => {
