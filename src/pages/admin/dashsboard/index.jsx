@@ -47,20 +47,21 @@ export default function Dashboard() {
 
   const getQuestions = () => {
     setLoader(true);
-    getQuestionListApi((res, err) => {
-      if (err) console.log("Errr in get QUestion API", err);
-
-      setQuestionList(res);
-      setLoader(false);
-    });
+    getQuestionListApi()
+      .then((res) => {
+        setQuestionList(res);
+        setLoader(false);
+      })
+      .catch((err) => {
+        console.log("Errr in get QUestion API", err);
+        setQuestionList([]);
+      });
   };
 
   useEffect(() => {
     getQuestions();
     getGeneralsList();
   }, []);
-
-  console.log("counteList ===", counteList);
 
   return (
     <div>
@@ -153,7 +154,7 @@ export default function Dashboard() {
                         questionList?.data?.map((items) => {
                           return (
                             <TableRow
-                            hover
+                              hover
                               sx={{
                                 "&:last-child td, &:last-child th": {
                                   border: 0,

@@ -76,9 +76,9 @@ export default function Fatwas() {
     getUserApi();
   }, []);
 
-  const getQuestionList = () => {
+  const getQuestionList = (params) => {
     setLoader(true);
-    getQuestionListApi()
+    getQuestionListApi(params)
       .then((res) => {
         setLoader(false);
         setQuestionList(res);
@@ -163,29 +163,18 @@ export default function Fatwas() {
   };
   const handleApply = () => {
     let params = "";
-    if (selectedStatus?.title) {
-      params += `status=${selectedStatus?.title}`;
-    }
-    if (selectedMadhab?.title) {
-      params += `-madhab=${selectedMadhab?.title}`;
-    }
-    if (selectedCategory?.category) {
+    if (selectedStatus?.title) params += `status=${selectedStatus?.title}`;
+    if (selectedMadhab?.title) params += `-madhab=${selectedMadhab?.title}`;
+    if (selectedCategory?.category)
       params += `-category=${selectedCategory?.category}`;
-    }
-    if (selectedSubCategory?.label) {
+    if (selectedSubCategory?.label)
       params += `-subCategory=${selectedSubCategory?.label}`;
-    }
-    if (selectedMufthi?.name) {
-      params += `-userType=${selectedMufthi?.name}`;
-    }
-    if (selectedUserData?.name) {
-      params += `-userType=${selectedUserData?.name}`;
-    }
-    if (selectedLanguage?.title) {
+    if (selectedMufthi?.name) params += `-userType=${selectedMufthi?.name}`;
+    if (selectedUserData?.name) params += `-userType=${selectedUserData?.name}`;
+    if (selectedLanguage?.title)
       params += `-language=${selectedLanguage?.title}`;
-    }
 
-    console.log("22222222222222222", params[0]);
+    console.log("22222222222222222", params);
   };
 
   const navigate = useNavigate();
@@ -475,7 +464,7 @@ export default function Fatwas() {
                       questionList?.data?.map((question) => {
                         return (
                           <TableRow
-                          hover
+                            hover
                             sx={{
                               "&:last-child td, &:last-child th": { border: 0 },
                             }}
