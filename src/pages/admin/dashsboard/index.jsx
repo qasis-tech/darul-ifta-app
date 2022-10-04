@@ -7,7 +7,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import LanguageIcon from "@mui/icons-material/Language";
 import SearchIcon from "@mui/icons-material/Search";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-
+import SnackBar from "../../../components/Snackbar";
 import {
   Table,
   TableBody,
@@ -205,6 +205,7 @@ export default function Dashboard() {
                     </TableBody>
                   </Table>
                 </TableContainer>
+                <SnackBar/>
               </div>
             </div>
           </div>
