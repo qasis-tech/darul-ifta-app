@@ -17,6 +17,7 @@ import { URLS } from "../../../config/urls.config";
 import "./category.styles.scss";
 
 import getCategoryListApi from "../../../services/getCategoryList";
+import Loader from "../../../components/common/Loader";
 
 export default function Categories() {
   const [isLoading, setLoader] = useState(false);
@@ -57,52 +58,54 @@ export default function Categories() {
       <div className="category-table-section">
         <div className="table-container">
           <div className="table-row">
-            <TableContainer component={Paper}>
-              <Table
-                sx={{ minWidth: 650, marginTop: "1em" }}
-                aria-label="simple table"
-              >
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Main category</TableCell>
-                    <TableCell>Subcategory</TableCell>
-                    <TableCell align="center">Action</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {categoryList.map((category) => {
-                    return (
-                      <TableRow
-                        hover
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
-                        key={category._id}
-                      >
-                        <TableCell>{category.category}</TableCell>
+            {isLoading ? (
+              <Loader skeleton />
+            ) : (
+              <TableContainer component={Paper}>
+                <Table
+                  sx={{ minWidth: 650, marginTop: "1em" }}
+                  aria-label="simple table"
+                >
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Main category</TableCell>
+                      <TableCell>Subcategory</TableCell>
+                      <TableCell align="center">Action</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {categoryList?.map((category) => {
+                      return (
+                        <TableRow
+                          hover
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}
+                          key={category._id}
+                        >
+                          <TableCell>{category.category}</TableCell>
+                          <TableCell>
+                            {category?.subCategory.map((subcategory) => {
+                              return (
+                                <Chip
+                                  key={subcategory._id}
+                                  label={subcategory.label}
+                                  variant="outlined"
+                                />
+                              );
+                            })}
+                          </TableCell>
 
-                        <TableCell>
-                          {" "}
-                          {category?.subCategory.map((subcategory) => {
-                            return (
-                              <Chip
-                                key={subcategory._id}
-                                label={subcategory.label}
-                                variant="outlined"
-                              />
-                            );
-                          })}
-                        </TableCell>
-
-                        <TableCell align="center">
-                          <EditIcon className="edit-icon" />
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            </TableContainer>
+                          <TableCell align="center">
+                            <EditIcon className="edit-icon" />
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            )}
           </div>
         </div>
       </div>

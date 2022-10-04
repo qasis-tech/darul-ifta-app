@@ -1,20 +1,24 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { startCase } from "lodash";
+
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import "./addcategory.styles.scss";
 import { Chip } from "@mui/material";
+
+import "./addcategory.styles.scss";
+
 import { URLS } from "../../../config/urls.config";
-const top100Films = [{ label: "The Shawshank Redemption", year: 1994 }];
+import Loader from "../../../components/common/Loader";
 
 export default function AddCategories() {
   const [categoryList, setCategoryList] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState([]);
   const [selectedSubCategory, setSelectedSubCategory] = useState([]);
+  const [isLoading, setLoader] = useState(false);
   const {
     register,
     handleSubmit,
@@ -26,6 +30,7 @@ export default function AddCategories() {
   }, []);
 
   const getCatgoryApi = () => {
+    setLoader(true);
     axios
       .get(URLS.category, {
         headers: {
@@ -33,18 +38,22 @@ export default function AddCategories() {
         },
       })
       .then(({ data }) => {
+        setLoader(false);
         console.log("res category", data.data);
         setCategoryList(data.data);
       })
       .catch((err) => {
+        setLoader(false);
         console.log("error category", err);
       });
   };
+
   const token =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlZXRodTkwQGdtYWlsLmNvbSIsImlhdCI6MTY2NDAwMTE4NywiZXhwIjoxNjg5OTIxMTg3fQ.5wiCZurHaz4BmYPaQ67Hf3zFMInWcOdSCyUzYo-4YWQ";
 
   const handleCreate = () => {
-    const subCat = selectedSubCategory.map((item) => {
+    setLoader(true);
+    const subCat = selectedSubCategory?.map((item) => {
       return {
         label: item,
         active: true,
@@ -53,7 +62,6 @@ export default function AddCategories() {
 
     let payload = { category: selectedCategory?.category, subCategory: subCat };
     console.log("selectedCategory === ", payload);
-
     axios
       .post(`${URLS.category}`, payload, {
         headers: {
@@ -63,13 +71,17 @@ export default function AddCategories() {
       })
       .then((res) => {
         console.log("res post category", res);
+        setLoader(false);
+        navigate(-1);
       })
       .catch((err) => {
         console.log("Error in Category Add", err);
+        setLoader(false);
       });
   };
-  const handlesubCategory = (e, val) => setCategoryList(val);
+
   const navigate = useNavigate();
+
   return (
     <div className="add-category-section">
       <form onSubmit={handleSubmit(handleCreate)}>
@@ -128,7 +140,7 @@ export default function AddCategories() {
                 onChange={(e, val) => setSelectedSubCategory(val)}
                 size="small"
                 renderTags={(value, getTagProps) =>
-                  value.map((option, index) => (
+                  value?.map((option, index) => (
                     <Chip
                       variant="outlined"
                       label={option}
@@ -152,14 +164,18 @@ export default function AddCategories() {
           </div>
           <div className="btn-row">
             <div className="col-md-1">
-              <Button
-                type="submit"
-                variant="contained"
-                className="form-btn"
-                fullWidth
-              >
-                CREATE
-              </Button>
+              {isLoading ? (
+                <Loader height={25} width={25} />
+              ) : (
+                <Button
+                  type="submit"
+                  variant="contained"
+                  className="form-btn"
+                  fullWidth
+                >
+                  {startCase("Create")}
+                </Button>
+              )}
             </div>
           </div>
         </div>
