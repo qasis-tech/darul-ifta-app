@@ -34,6 +34,7 @@ export default function Dashboard() {
   const [isLoading, setLoader] = useState(false);
   const [questionList, setQuestionList] = useState([]);
   const [counteList, setCounteList] = useState(null);
+  const [searchInput, setSearchInput] = useState("");
 
   const getGeneralsList = () => {
     setLoader(true);
@@ -45,9 +46,9 @@ export default function Dashboard() {
     });
   };
 
-  const getQuestions = () => {
+  const getQuestions = (params) => {
     setLoader(true);
-    getQuestionListApi()
+    getQuestionListApi(params)
       .then((res) => {
         setQuestionList(res);
         setLoader(false);
@@ -114,14 +115,26 @@ export default function Dashboard() {
                         label="Question ID"
                         fullWidth
                         size="small"
+                        onChange={(e) => setSearchInput(e.target.value)}
+                        value={searchInput}
                         className="search-btn"
                         InputProps={{
                           endAdornment: (
                             <InputAdornment position="end">
-                              <IconButton>
+                              <IconButton
+                                sx={{
+                                  visibility:
+                                    searchInput !== "" ? "visible" : "hidden",
+                                }}
+                                onClick={() => setSearchInput("")}
+                              >
                                 <CloseIcon />
                               </IconButton>
-                              <IconButton>
+                              <IconButton
+                                onClick={() =>
+                                  getQuestions(`?slNo=${searchInput}`)
+                                }
+                              >
                                 <SearchIcon />
                               </IconButton>
                             </InputAdornment>
