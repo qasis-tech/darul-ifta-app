@@ -34,6 +34,7 @@ export default function Dashboard() {
   const [isLoading, setLoader] = useState(false);
   const [questionList, setQuestionList] = useState([]);
   const [counteList, setCounteList] = useState(null);
+  const [searchInput, setSearchInput] = useState("");
 
   const getGeneralsList = () => {
     setLoader(true);
@@ -45,22 +46,23 @@ export default function Dashboard() {
     });
   };
 
-  const getQuestions = () => {
+  const getQuestions = (params) => {
     setLoader(true);
-    getQuestionListApi((res, err) => {
-      if (err) console.log("Errr in get QUestion API", err);
-
-      setQuestionList(res);
-      setLoader(false);
-    });
+    getQuestionListApi(params)
+      .then((res) => {
+        setQuestionList(res);
+        setLoader(false);
+      })
+      .catch((err) => {
+        console.log("Errr in get QUestion API", err);
+        setQuestionList([]);
+      });
   };
 
   useEffect(() => {
     getQuestions();
     getGeneralsList();
   }, []);
-
-  console.log("counteList ===", counteList);
 
   return (
     <div>
@@ -113,14 +115,26 @@ export default function Dashboard() {
                         label="Question ID"
                         fullWidth
                         size="small"
+                        onChange={(e) => setSearchInput(e.target.value)}
+                        value={searchInput}
                         className="search-btn"
                         InputProps={{
                           endAdornment: (
                             <InputAdornment position="end">
-                              <IconButton>
+                              <IconButton
+                                sx={{
+                                  visibility:
+                                    searchInput !== "" ? "visible" : "hidden",
+                                }}
+                                onClick={() => setSearchInput("")}
+                              >
                                 <CloseIcon />
                               </IconButton>
-                              <IconButton>
+                              <IconButton
+                                onClick={() =>
+                                  getQuestions(`?slNo=${searchInput}`)
+                                }
+                              >
                                 <SearchIcon />
                               </IconButton>
                             </InputAdornment>
@@ -153,7 +167,7 @@ export default function Dashboard() {
                         questionList?.data?.map((items) => {
                           return (
                             <TableRow
-                            hover
+                              hover
                               sx={{
                                 "&:last-child td, &:last-child th": {
                                   border: 0,
