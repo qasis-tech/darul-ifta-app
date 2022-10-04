@@ -7,25 +7,25 @@
       display: flex;
       justify-content: space-around;
     }
-    .second-row{
-       margin-top: 1em;
+    .second-row {
+      margin-top: 1em;
     }
   }
-  .table-section{
-    .table-row{
-        display: flex;
-        justify-content: end;
+  .table-section {
+    .table-row {
+      display: flex;
+      justify-content: end;
     }
   }
-  .main-table-section{
+  .main-table-section {
     margin-top: 2em;
-    .main-table-row{
-        .status{
-            background-color: #8bc34a;
-            padding: 0.5em;
-            border-radius: 20px;
-            color: white;
-        }
+    .main-table-row {
+      .status {
+        background-color: #8bc34a;
+        padding: 0.5em;
+        border-radius: 20px;
+        color: white;
+      }
     }
   }
 }
