@@ -57,7 +57,7 @@ export default function User() {
       .then(({ data }) => {
         setLoader(false);
         console.log("res userss1111", data);
-        setUserData(data.data);
+        setUserData(data);
       })
       .catch((err) => {
         setLoader(false);

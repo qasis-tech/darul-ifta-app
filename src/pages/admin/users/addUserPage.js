@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
@@ -10,18 +11,25 @@ import "./adduser.styles.scss";
 
 import { URLS } from "../../../config/urls.config";
 import Loader from "../../../components/common/Loader";
+import SnackBar from "../../../components/common/Snackbar";
 
 export default function AddUser() {
   const [madhabData, setMadhabData] = useState([]);
   const [selectedMadhab, setSelectedMadhab] = useState([]);
   const [status, setStatus] = useState([
-    { id: 1, title: "Actve" },
+    { id: 1, title: "Active" },
     { id: 2, title: "Inactive" },
   ]);
   const [selectedStatus, setSelectedStatus] = useState([]);
   const [userToken, setUserToken] = useState([]);
   const [roles, setRoles] = useState("User");
   const [isLoader, setLoader] = useState(false);
+  const [errorPopup, setError] = useState({
+    visible: false,
+    message: "",
+    type: "error",
+    title: "",
+  });
 
   const {
     register,
@@ -41,6 +49,16 @@ export default function AddUser() {
     }
   }, []);
 
+  const handleCloseError = () => {
+    setError({
+      visible: false,
+      message: "",
+      type: "",
+      titile: "",
+    });
+    navigate(-1);
+  };
+
   const getmadhabApi = () => {
     setLoader(true);
     axios
@@ -52,7 +70,7 @@ export default function AddUser() {
       .then((res) => {
         setLoader(false);
         console.log("res madhabb1111==>", res.data);
-        setMadhabData(res.data.data);
+        setMadhabData(res.data);
       })
       .catch((err) => {
         setLoader(false);
@@ -92,12 +110,28 @@ export default function AddUser() {
       .then((res) => {
         setLoader(false);
         console.log("res user save ===>>", res);
+        if (res?.success) {
+          setError({
+            visible: true,
+            message: res.message,
+            type: "success",
+            title: "Success",
+          });
+        } else {
+          setError({
+            visible: true,
+            message: res.message,
+            type: "warning",
+            title: "Warning",
+          });
+        }
       })
       .catch((err) => {
         setLoader(false);
         console.log("Errors in user save", err);
       });
   };
+  const navigate = useNavigate();
 
   return (
     <div className="add-user-section">
@@ -288,6 +322,15 @@ export default function AddUser() {
           </div>
         </div>
       </form>
+      {errorPopup.visible && (
+        <SnackBar
+          visible={errorPopup.visible}
+          message={errorPopup.message}
+          type={errorPopup.type}
+          title={errorPopup.title}
+          onClose={() => handleCloseError()}
+        />
+      )}
     </div>
   );
 }
