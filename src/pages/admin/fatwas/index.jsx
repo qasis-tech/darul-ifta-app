@@ -61,6 +61,7 @@ export default function Fatwas() {
   const [selectedMufthi, setSelectedMufthi] = useState([]);
   const [userData, setUserData] = useState([]);
   const [selectedUserData, setSelectedUserData] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
 
   const {
     register,
@@ -132,7 +133,9 @@ export default function Fatwas() {
     setLoader(true);
     axios
       .get(`${URLS.user}${URLS.signup}?userType=Mufthi`, {
-        "Content-Type": "application/json",
+        headers: {
+          "Content-Type": "application/json",
+        },
       })
       .then(({ data }) => {
         setLoader(false);
@@ -149,7 +152,9 @@ export default function Fatwas() {
     setLoader(true);
     axios
       .get(`${URLS.user}${URLS.signup}?userType=User`, {
-        "Content-Type": "application/json",
+        headers: {
+          "Content-Type": "application/json",
+        },
       })
       .then(({ data }) => {
         setLoader(false);
@@ -173,6 +178,7 @@ export default function Fatwas() {
     if (selectedUserData?.name) params += `-userType=${selectedUserData?.name}`;
     if (selectedLanguage?.title)
       params += `-language=${selectedLanguage?.title}`;
+    if (searchInput) params += `-search=${searchInput}`;
 
     if (params[0] === "-") {
       params = params.charAt(0).replace("-", "?") + params.slice(1);
@@ -427,14 +433,24 @@ export default function Fatwas() {
                   label="Search"
                   fullWidth
                   size="small"
+                  onChange={(e) => setSearchInput(e.target.value)}
+                  value={searchInput}
                   className="search-btn"
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
-                        <IconButton>
+                        <IconButton
+                          sx={{
+                            visibility:
+                              searchInput !== "" ? "visible" : "hidden",
+                          }}
+                          onClick={() => setSearchInput("")}
+                        >
                           <CloseIcon />
                         </IconButton>
-                        <IconButton>
+                        <IconButton
+                          onClick={() => handleApply(`?search=${searchInput}`)}
+                        >
                           <SearchIcon />
                         </IconButton>
                       </InputAdornment>
