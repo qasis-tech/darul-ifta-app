@@ -18,6 +18,7 @@ import "./category.styles.scss";
 
 import getCategoryListApi from "../../../services/getCategoryList";
 import Loader from "../../../components/common/Loader";
+import NoDataAvailable from "../../../components/NoDataAvailable";
 
 export default function Categories() {
   const [isLoading, setLoader] = useState(false);
@@ -27,7 +28,7 @@ export default function Categories() {
     setLoader(true);
     getCategoryListApi()
       .then((res) => {
-        setCategoryList(res?.data);
+        setCategoryList(res);
         setLoader(false);
       })
       .catch((err) => {
@@ -74,34 +75,38 @@ export default function Categories() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {categoryList?.map((category) => {
-                      return (
-                        <TableRow
-                          hover
-                          sx={{
-                            "&:last-child td, &:last-child th": { border: 0 },
-                          }}
-                          key={category._id}
-                        >
-                          <TableCell>{category.category}</TableCell>
-                          <TableCell>
-                            {category?.subCategory.map((subcategory) => {
-                              return (
-                                <Chip
-                                  key={subcategory._id}
-                                  label={subcategory.label}
-                                  variant="outlined"
-                                />
-                              );
-                            })}
-                          </TableCell>
+                    {categoryList?.length ? (
+                      categoryList?.map((category) => {
+                        return (
+                          <TableRow
+                            hover
+                            sx={{
+                              "&:last-child td, &:last-child th": { border: 0 },
+                            }}
+                            key={category._id}
+                          >
+                            <TableCell>{category.category}</TableCell>
+                            <TableCell>
+                              {category?.subCategory.map((subcategory) => {
+                                return (
+                                  <Chip
+                                    key={subcategory._id}
+                                    label={subcategory.label}
+                                    variant="outlined"
+                                  />
+                                );
+                              })}
+                            </TableCell>
 
-                          <TableCell align="center">
-                            <EditIcon className="edit-icon" />
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
+                            <TableCell align="center">
+                              <EditIcon className="edit-icon" />
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })
+                    ) : (
+                      <NoDataAvailable />
+                    )}
                   </TableBody>
                 </Table>
               </TableContainer>
