@@ -174,7 +174,13 @@ export default function Fatwas() {
     if (selectedLanguage?.title)
       params += `-language=${selectedLanguage?.title}`;
 
-    console.log("22222222222222222", params);
+    if (params[0] === "-") {
+      params = params.charAt(0).replace("-", "?") + params.slice(1);
+    } else if (params[0] !== "-") {
+      params = "?" + params;
+    }
+    params = params.replace(/-/g, "&");
+    getQuestionList(params);
   };
 
   const navigate = useNavigate();
