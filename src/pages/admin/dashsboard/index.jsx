@@ -130,6 +130,7 @@ export default function Dashboard() {
                         label="Question ID"
                         fullWidth
                         size="small"
+                        type="number"
                         onChange={(e) => setSearchInput(e.target.value)}
                         value={searchInput}
                         className="search-btn"
