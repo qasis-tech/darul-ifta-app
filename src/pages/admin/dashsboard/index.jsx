@@ -141,7 +141,7 @@ export default function Dashboard() {
                                   visibility:
                                     searchInput !== "" ? "visible" : "hidden",
                                 }}
-                                onClick={() => setSearchInput("")}
+                                onClick={() => getQuestions("")}
                               >
                                 <CloseIcon />
                               </IconButton>

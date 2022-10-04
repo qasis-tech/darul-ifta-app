@@ -30,16 +30,29 @@ export default function User() {
   const [userData, setUserData] = useState([]);
   const [isLoader, setLoader] = useState(false);
   const [roles, setRoles] = useState("User");
+  const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
     getUserListApi();
   }, []);
 
+  useEffect(() => {
+    if (searchInput === "") {
+      getUserListApi();
+    }
+  }, [searchInput]);
+
   const getUserListApi = () => {
     setLoader(true);
+    let URL =
+      searchInput !== ""
+        ? `${URLS.user}${URLS.signup}?userType=${roles}&search=${searchInput}`
+        : `${URLS.user}${URLS.signup}?userType=${roles}`;
     axios
-      .get(`${URLS.user}${URLS.signup}?userType=${roles}`, {
-        "Content-Type": "application/json",
+      .get(URL, {
+        headers: {
+          "Content-Type": "application/json",
+        },
       })
       .then(({ data }) => {
         setLoader(false);
@@ -63,14 +76,23 @@ export default function User() {
               label="Search"
               fullWidth
               size="small"
+              onChange={(e) => setSearchInput(e.target.value)}
+              value={searchInput}
               className="search-btn"
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton>
+                    <IconButton
+                      sx={{
+                        visibility: searchInput !== "" ? "visible" : "hidden",
+                      }}
+                      onClick={() => {
+                        setSearchInput("");
+                      }}
+                    >
                       <CloseIcon />
                     </IconButton>
-                    <IconButton>
+                    <IconButton onClick={() => getUserListApi()}>
                       <SearchIcon />
                     </IconButton>
                   </InputAdornment>
@@ -116,7 +138,7 @@ export default function User() {
                       userData.map((user) => {
                         return (
                           <TableRow
-                          hover
+                            hover
                             sx={{
                               "&:last-child td, &:last-child th": { border: 0 },
                             }}
