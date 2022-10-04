@@ -86,16 +86,16 @@ $theme-pointer: pointer;
   color: white;
   background-color: $primary !important ;
   text-transform: uppercase;
-  font-family:$footer-font-style!important;
+  font-family: $footer-font-style !important;
 }
 .add-btn {
   color: white;
   background-color: $theme-primary-color !important ;
   text-transform: uppercase;
-  font-family:$footer-font-style!important;
+  font-family: $footer-font-style !important;
 }
-.MuiChip-label{
-  font-family:$footer-font-style!important;
+.MuiChip-label {
+  font-family: $footer-font-style !important;
 }
 //Status
 
@@ -149,31 +149,34 @@ $theme-pointer: pointer;
 }
 
 //Alerts
-.alert-error,.alert-info,.alert-success,.alert-warning{
-  color: $white!important;
+.alert-error,
+.alert-info,
+.alert-success,
+.alert-warning {
+  color: $white !important;
 }
-.MuiAlert-icon{
-  .MuiSvgIcon-root{
+.MuiAlert-icon {
+  .MuiSvgIcon-root {
     color: $white;
   }
 }
-.MuiSnackbar-root{
-  width: 10%!important;
-  .MuiPaper-root{
+.MuiSnackbar-root {
+  width: 25% !important;
+  .MuiPaper-root {
     width: 100%;
   }
 }
-.alert-error{
-  background-color:#d32f2f!important ;
+.alert-error {
+  background-color: #d32f2f !important ;
 }
-.alert-success{
-  background-color: #2e7d32!important;
+.alert-success {
+  background-color: #2e7d32 !important;
 }
-.alert-warning{
-  background-color: #ed6c02!important;
+.alert-warning {
+  background-color: #ed6c02 !important;
 }
-.alert-info{
-  background-color: #0288d1!important;
+.alert-info {
+  background-color: #0288d1 !important;
 }
 
 //Table
@@ -186,18 +189,17 @@ $theme-pointer: pointer;
         background-color: $primary;
         font-weight: 600;
         text-transform: uppercase;
-        font-family:$footer-font-style;
+        font-family: $footer-font-style;
       }
     }
   }
-  .MuiTableBody-root{
+  .MuiTableBody-root {
     cursor: pointer;
     .MuiTableRow-root {
       .MuiTableCell-root {
-        font-family:$footer-font-style;
+        font-family: $footer-font-style;
       }
     }
-
   }
 }
 .css-ivnu1y-MuiPaper-root-MuiAppBar-root {

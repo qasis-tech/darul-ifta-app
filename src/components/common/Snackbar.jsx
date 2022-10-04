@@ -18,10 +18,10 @@ export default function DirectionSnackbar({
   useEffect(() => {
     if (visible) setOpen(visible);
 
-    // setTimeout(() => {
-    //   setOpen(false);
-    //   onClose();
-    // }, 3000);
+    setTimeout(() => {
+      setOpen(false);
+      onClose();
+    }, 3000);
 
     return () => {
       setOpen(false);
@@ -33,15 +33,15 @@ export default function DirectionSnackbar({
   return (
     <div>
       <Snackbar
-      className="snack-main"
-        // autoHideDuration={3000}
+        className="snack-main"
+        autoHideDuration={3000}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         open={open}
         onClose={() => setOpen(false)}
         key={"top" + "right"}
         TransitionComponent={TransitionUp}
       >
-        <Alert severity={type ? type : "success"} className="alert-success">
+        <Alert severity={type ? type : "success"} className={`alert-${type}`}>
           <AlertTitle>{title ? title : "Error"}</AlertTitle>
           <strong>
             {message || "Something went wrong...! Please try again.!"}
