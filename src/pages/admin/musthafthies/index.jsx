@@ -49,7 +49,7 @@ export default function Musthafthies() {
       .then(({ data }) => {
         setLoader(false);
         console.log("res mufthiss1111", data);
-        setMufthiData(data.data);
+        setMufthiData(data);
       })
       .catch((err) => {
         setLoader(false);

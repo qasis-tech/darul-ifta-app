@@ -6,8 +6,10 @@ import Button from "@mui/material/Button";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import "./addMusthafthies.styles.scss";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { URLS } from "../../../config/urls.config";
 import Loader from "../../../components/common/Loader";
+import SnackBar from "../../../components/common/Snackbar";
 const top100Films = [{ label: "The Shawshank Redemption", year: 1994 }];
 
 export default function AddMusthafthies() {
@@ -16,6 +18,12 @@ export default function AddMusthafthies() {
   const [isLoader, setLoader] = useState(false);
   const [roles, setRoles] = useState("Mufthi");
   const [userToken, setUserToken] = useState([]);
+  const [errorPopup, setError] = useState({
+    visible: false,
+    message: "",
+    type: "error",
+    title: "",
+  });
 
   const {
     register,
@@ -35,6 +43,16 @@ export default function AddMusthafthies() {
     }
   }, []);
 
+  const handleCloseError = () => {
+    setError({
+      visible: false,
+      message: "",
+      type: "",
+      titile: "",
+    });
+    navigate(-1);
+  };
+
   const getmadhabApi = () => {
     setLoader(true);
     axios
@@ -46,7 +64,7 @@ export default function AddMusthafthies() {
       .then((res) => {
         setLoader(false);
         console.log("res madhabb1111==>", res.data);
-        setMadhabData(res.data.data);
+        setMadhabData(res.data);
       })
       .catch((err) => {
         setLoader(false);
@@ -73,11 +91,27 @@ export default function AddMusthafthies() {
       })
       .then((res) => {
         console.log("res user save ===>>", res);
+        if (res?.success) {
+          setError({
+            visible: true,
+            message: res.message,
+            type: "success",
+            title: "Success",
+          });
+        } else {
+          setError({
+            visible: true,
+            message: res.message,
+            type: "warning",
+            title: "Warning",
+          });
+        }
       })
       .catch((err) => {
         console.log("Errors in user save", err);
       });
   };
+  const navigate = useNavigate();
 
   return (
     <div className="add-musthafthies-section">
@@ -222,6 +256,15 @@ export default function AddMusthafthies() {
           </div>
         </div>
       </form>
+      {errorPopup.visible && (
+        <SnackBar
+          visible={errorPopup.visible}
+          message={errorPopup.message}
+          type={errorPopup.type}
+          title={errorPopup.title}
+          onClose={() => handleCloseError()}
+        />
+      )}
     </div>
   );
 }
