@@ -74,24 +74,7 @@ $theme-pointer: pointer;
 .bg-theme-grey {
   background-color: $theme-1-grey !important;
 }
-
-// .questions {
-//   background-color: #ff9800;
-//   color: #fff;
-// }
-
-// .published {
-//   background-color: #4caf50;
-//   color: #fff;
-// }
-// .pending {
-//   background-color: #ffc107;
-//   color: #fff;
-// }
-// .rejected {
-//   background-color: #dc3545;
-//   color: #fff;
-// }
+//Buttons
 
 .edit-icon {
   color: #4caf50;
@@ -114,6 +97,8 @@ $theme-pointer: pointer;
 .MuiChip-label{
   font-family:$footer-font-style!important;
 }
+//Status
+
 .activestatus,
 .pending,
 .rejected,
@@ -163,6 +148,35 @@ $theme-pointer: pointer;
   background-color: #4caf50;
 }
 
+//Alerts
+.alert-error,.alert-info,.alert-success,.alert-warning{
+  color: $white!important;
+}
+.MuiAlert-icon{
+  .MuiSvgIcon-root{
+    color: $white;
+  }
+}
+.MuiSnackbar-root{
+  width: 10%!important;
+  .MuiPaper-root{
+    width: 100%;
+  }
+}
+.alert-error{
+  background-color:#d32f2f!important ;
+}
+.alert-success{
+  background-color: #2e7d32!important;
+}
+.alert-warning{
+  background-color: #ed6c02!important;
+}
+.alert-info{
+  background-color: #0288d1!important;
+}
+
+//Table
 .MuiTable-root {
   margin-top: 0 !important;
   .MuiTableHead-root {

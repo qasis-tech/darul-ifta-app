@@ -152,7 +152,7 @@ export default function Dashboard() {
                                   setError({
                                     visible: true,
                                     message: "Tetingggg",
-                                    type: "error",
+                                    type: "success",
                                     title: "Test",
                                   })
                                 }
