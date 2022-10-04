@@ -84,86 +84,85 @@ export default function Dashboard() {
 
   return (
     <div>
-      {isLoading ? (
-        <Loader absolute />
-      ) : (
-        <div className="admin-home-section">
-          <div class="row justify-content-center">
-            <CountTile
-              titile="Mustafthi"
-              Icon={() => <LanguageIcon className="fa" />}
-              style="assMufthi"
-              value={counteList?.musafthi || "N/A"}
-            />
-            <CountTile
-              titile="Fatwas"
-              Icon={() => <ListAltIcon className="fa" />}
-              style="published"
-              value={counteList?.fatwas || "N/A"}
-            />
-            <CountTile
-              titile="Answered"
-              Icon={() => <BorderColorIcon className="fa" />}
-              style="mufthiAns"
-              value={counteList?.answered || "N/A"}
-            />
-            <CountTile
-              titile="Pendings"
-              Icon={() => <QueryBuilderIcon className="fa" />}
-              style="pending"
-              value={counteList?.pending || "N/A"}
-            />
-            <CountTile
-              titile="Rejected"
-              Icon={() => <CloseIcon className="fa" />}
-              style="rejected"
-              value={counteList?.rejected || "N/A"}
-            />
-          </div>
-          <div className="table-section">
-            <div className="table-row">
-              <div className="col-md-12">
-                <div className="heading-container">
-                  <div className="heading-row">
-                    <div className="col-md-2">
-                      <h6>Latest Fatwas</h6>
-                    </div>
-                    <div className="col-md-10">
-                      <TextField
-                        label="Question ID"
-                        fullWidth
-                        size="small"
-                        type="number"
-                        onChange={(e) => setSearchInput(e.target.value)}
-                        value={searchInput}
-                        className="search-btn"
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <IconButton
-                                sx={{
-                                  visibility:
-                                    searchInput !== "" ? "visible" : "hidden",
-                                }}
-                                onClick={() => getQuestions("")}
-                              >
-                                <CloseIcon />
-                              </IconButton>
-                              <IconButton
-                                onClick={() =>
-                                  getQuestions(`?slNo=${searchInput}`)
-                                }
-                              >
-                                <SearchIcon />
-                              </IconButton>
-                            </InputAdornment>
-                          ),
-                        }}
-                      />
-                    </div>
+      <div className="admin-home-section">
+        <div class="row justify-content-center">
+          <CountTile
+            titile="Mustafthi"
+            Icon={() => <LanguageIcon className="fa" />}
+            style="assMufthi"
+            value={counteList?.musafthi || "N/A"}
+          />
+          <CountTile
+            titile="Fatwas"
+            Icon={() => <ListAltIcon className="fa" />}
+            style="published"
+            value={counteList?.fatwas || "N/A"}
+          />
+          <CountTile
+            titile="Answered"
+            Icon={() => <BorderColorIcon className="fa" />}
+            style="mufthiAns"
+            value={counteList?.answered || "N/A"}
+          />
+          <CountTile
+            titile="Pendings"
+            Icon={() => <QueryBuilderIcon className="fa" />}
+            style="pending"
+            value={counteList?.pending || "N/A"}
+          />
+          <CountTile
+            titile="Rejected"
+            Icon={() => <CloseIcon className="fa" />}
+            style="rejected"
+            value={counteList?.rejected || "N/A"}
+          />
+        </div>
+        <div className="table-section">
+          <div className="table-row">
+            <div className="col-md-12">
+              <div className="heading-container">
+                <div className="heading-row">
+                  <div className="col-md-2">
+                    <h6>Latest Fatwas</h6>
+                  </div>
+                  <div className="col-md-10">
+                    <TextField
+                      label="Question ID"
+                      fullWidth
+                      size="small"
+                      type="number"
+                      onChange={(e) => setSearchInput(e.target.value)}
+                      value={searchInput}
+                      className="search-btn"
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              sx={{
+                                visibility:
+                                  searchInput !== "" ? "visible" : "hidden",
+                              }}
+                              onClick={() => getQuestions("")}
+                            >
+                              <CloseIcon />
+                            </IconButton>
+                            <IconButton
+                              onClick={() =>
+                                getQuestions(`?slNo=${searchInput}`)
+                              }
+                            >
+                              <SearchIcon />
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
                   </div>
                 </div>
-
+              </div>
+              {isLoading ? (
+                <Loader skeleton />
+              ) : (
                 <TableContainer component={Paper}>
                   <Table
                     sx={{ minWidth: 650, marginTop: "1em" }}
@@ -232,20 +231,20 @@ export default function Dashboard() {
                     </TableBody>
                   </Table>
                 </TableContainer>
-                {errorPopup.visible && (
-                  <SnackBar
-                    visible={errorPopup.visible}
-                    message={errorPopup.message}
-                    type={errorPopup.type}
-                    title={errorPopup.titile}
-                    onClose={() => handleCloseError()}
-                  />
-                )}
-              </div>
+              )}
+              {errorPopup.visible && (
+                <SnackBar
+                  visible={errorPopup.visible}
+                  message={errorPopup.message}
+                  type={errorPopup.type}
+                  title={errorPopup.titile}
+                  onClose={() => handleCloseError()}
+                />
+              )}
             </div>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }
