@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
 import Button from "@mui/material/Button";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -9,36 +10,34 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import Chip from "@mui/material/Chip";
 import { URLS } from "../../../config/urls.config";
 
 import "./category.styles.scss";
+
+import getCategoryListApi from "../../../services/getCategoryList";
+
 export default function Categories() {
+  const [isLoading, setLoader] = useState(false);
   const [categoryList, setCategoryList] = useState([]);
 
   useEffect(() => {
-    getCatgoryListApi();
-  }, []);
-
-  const getCatgoryListApi = () => {
-    axios
-      .get(URLS.category, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then(({ data }) => {
-        console.log("res category===>>", data.data);
-        setCategoryList(data.data);
+    setLoader(true);
+    getCategoryListApi()
+      .then((res) => {
+        setCategoryList(res?.data);
+        setLoader(false);
       })
       .catch((err) => {
+        setLoader(false);
         console.log("error category", err);
+        setCategoryList([]);
       });
-  };
+  }, []);
 
   const navigate = useNavigate();
+
   return (
     <div className="category-section">
       <div className="category-container">
@@ -74,7 +73,7 @@ export default function Categories() {
                   {categoryList.map((category) => {
                     return (
                       <TableRow
-                      hover
+                        hover
                         sx={{
                           "&:last-child td, &:last-child th": { border: 0 },
                         }}
