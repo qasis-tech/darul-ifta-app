@@ -145,7 +145,7 @@ export default function Dashboard() {
                         <TableCell>Category</TableCell>
                         <TableCell>Madhab</TableCell>
                         <TableCell>Status</TableCell>
-                        <TableCell>Action</TableCell>
+                        {/* <TableCell>Action</TableCell> */}
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -153,6 +153,7 @@ export default function Dashboard() {
                         questionList?.data?.map((items) => {
                           return (
                             <TableRow
+                            hover
                               sx={{
                                 "&:last-child td, &:last-child th": {
                                   border: 0,
@@ -178,9 +179,9 @@ export default function Dashboard() {
                                   {items?.status}
                                 </span>
                               </TableCell>
-                              <TableCell>
+                              {/* <TableCell>
                                 <VisibilityIcon className="view-icon" />
-                              </TableCell>
+                              </TableCell> */}
                             </TableRow>
                           );
                         })

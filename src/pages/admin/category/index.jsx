@@ -74,6 +74,7 @@ export default function Categories() {
                   {categoryList.map((category) => {
                     return (
                       <TableRow
+                      hover
                         sx={{
                           "&:last-child td, &:last-child th": { border: 0 },
                         }}

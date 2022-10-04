@@ -177,6 +177,7 @@ $theme-pointer: pointer;
     }
   }
   .MuiTableBody-root{
+    cursor: pointer;
     .MuiTableRow-root {
       .MuiTableCell-root {
         font-family:$footer-font-style;

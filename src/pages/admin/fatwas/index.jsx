@@ -475,6 +475,7 @@ export default function Fatwas() {
                       questionList?.data?.map((question) => {
                         return (
                           <TableRow
+                          hover
                             sx={{
                               "&:last-child td, &:last-child th": { border: 0 },
                             }}

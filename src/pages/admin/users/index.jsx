@@ -116,6 +116,7 @@ export default function User() {
                       userData.map((user) => {
                         return (
                           <TableRow
+                          hover
                             sx={{
                               "&:last-child td, &:last-child th": { border: 0 },
                             }}

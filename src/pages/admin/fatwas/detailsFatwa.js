@@ -54,7 +54,26 @@ export default function FatwasDetails() {
               )}
             />
           </div>
-          <div className="col-md-4">
+          <div className="col-md-4 first-col">
+            <Autocomplete
+              size="small"
+              value={value}
+              fullWidth
+              onChange={(event, newValue) => {
+                setValue(newValue);
+              }}
+              inputValue={inputValue}
+              onInputChange={(event, newInputValue) => {
+                setInputValue(newInputValue);
+              }}
+              id="controllable-states-demo"
+              options={options}
+              renderInput={(params) => (
+                <TextField {...params} label="Subcategory" />
+              )}
+            />
+          </div>
+          <div className="col-md-2">
             <Autocomplete
               size="small"
               value={value}
@@ -71,7 +90,7 @@ export default function FatwasDetails() {
               renderInput={(params) => <TextField {...params} label="Madhab" />}
             />
           </div>
-          <div className="col-md-4 second-col">
+          <div className="col-md-2 second-col">
             <Autocomplete
               size="small"
               value={value}

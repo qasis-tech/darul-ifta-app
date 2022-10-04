@@ -105,6 +105,7 @@ export default function Musthafthies() {
                   mufthiData?.map((mufti) => {
                     return (
                       <TableRow
+                      hover
                         sx={{
                           "&:last-child td, &:last-child th": { border: 0 },
                         }}
