@@ -119,10 +119,15 @@ export default function AddCategories() {
                     label="Category"
                     placeholder="Category"
                     size="small"
-                    {...register("category")}
+                    {...register("category", {
+                      required: "Category is required",
+                    })}
                   />
                 )}
               />
+              {!selectedCategory.category ? (
+                <div className="error">{errors?.category?.message}</div>
+              ) : null}
             </div>
             <div className="col-md-12 subcategory">
               <Autocomplete
