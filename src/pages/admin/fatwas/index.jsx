@@ -490,8 +490,8 @@ export default function Fatwas() {
                   </TableHead>
 
                   <TableBody>
-                    {questionList?.data?.length ? (
-                      questionList?.data?.map((question) => {
+                    {questionList?.length ? (
+                      questionList?.map((question) => {
                         return (
                           <TableRow
                             hover
