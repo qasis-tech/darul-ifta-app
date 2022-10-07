@@ -1,72 +1,212 @@
-import React from "react";
-import { TextField, Button } from "@mui/material";
-import Autocomplete from "@mui/material/Autocomplete";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+
+import { TextField, Button, Autocomplete } from "@mui/material";
+
+import { URLS } from "../../../config/urls.config";
+import RouterList from "../../../routes/routerList";
+
 import "./add.article.styles.scss";
-const top100Films = [{ label: "The Shawshank Redemption", year: 1994 }];
+import Loader from "../../../components/common/Loader";
 
 export default function AddArticle() {
+  const [mufthiData, setMufthiData] = useState([]);
+  const [isLoader, setLoader] = useState([]);
+  const [selectedMufthi, setSelectedMufthi] = useState([]);
+  const languageList = [
+    { id: 1, title: "English" },
+    { id: 2, title: "Malayalam" },
+    { id: 3, title: "Arabic" },
+    { id: 4, title: "Urdu" },
+  ];
+  const [selectedLanguage, setSelectedLanguage] = useState([]);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  useEffect(() => {
+    getMufthiApi();
+  }, []);
+
+  const getMufthiApi = () => {
+    setLoader(true);
+    axios
+      .get(`${URLS.user}${URLS.signup}?userType=Mufthi`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then(({ data }) => {
+        setLoader(false);
+        setMufthiData(data);
+      })
+      .catch((err) => {
+        setLoader(false);
+        console.log("error mufthii--", err);
+        setMufthiData([]);
+      });
+  };
+
+  const handleSave = (params) => {
+    setLoader(true);
+    const { mufthi, language, title, articleFile } = params;
+
+    const formData = new FormData();
+    formData.append("mufthi", mufthi);
+    formData.append("language", language);
+    formData.append("title", title);
+    formData.append("articleFile", articleFile[0]);
+
+    axios
+      .post(`${URLS.article}`, formData, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        setLoader(false);
+        console.log("res article", res);
+        if (res.success) {
+          navigate(`${RouterList.admin.admin}/${RouterList.admin.article}`);
+        }
+      })
+      .catch((err) => {
+        setLoader(false);
+        console.log("Error in Article Add", err);
+      });
+  };
+  const navigate = useNavigate();
+
   return (
     <div className="add-article-section">
-      <form>
-        <div className="add-article-container">
-          <div className="add-article-row">
-            <div className="col-md-6 first-col">
-              <Autocomplete
-                disablePortal
-                size="small"
-                id="combo-box-demo"
-                options={top100Films}
-                renderInput={(params) => (
-                  <TextField {...params} label="Mufthi Name" />
+      {isLoader ? (
+        <Loader />
+      ) : (
+        <form onSubmit={handleSubmit(handleSave)}>
+          <div className="add-article-container">
+            <div className="add-article-row">
+              <div className="col-md-6 first-col">
+                {mufthiData?.length ? (
+                  <Autocomplete
+                    disablePortal
+                    id="combo-box-demo"
+                    size="small"
+                    options={mufthiData}
+                    getOptionLabel={(option) => option.name || ""}
+                    isOptionEqualToValue={(option, value) =>
+                      option._id === value._id
+                    }
+                    onChange={(e, val) => {
+                      setSelectedMufthi(val);
+                    }}
+                    value={selectedMufthi}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Mufthi Name"
+                        {...register("mufthi", {
+                          required: "Mufthi Name is required",
+                        })}
+                      />
+                    )}
+                  />
+                ) : (
+                  <Autocomplete
+                    disablePortal
+                    size="small"
+                    id="combo-box-demo"
+                    options={[]}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Mufthi Name"
+                        {...register("mufthi", {
+                          required: "Mufthi Name is required",
+                        })}
+                      />
+                    )}
+                  />
                 )}
+                {!selectedMufthi.name && (
+                  <div className="error">{errors?.mufthi?.message}</div>
+                )}
+              </div>
+              <div className="col-md-6 second-col">
+                {languageList?.length && (
+                  <Autocomplete
+                    disablePortal
+                    id="combo-box-demo"
+                    size="small"
+                    options={languageList}
+                    getOptionLabel={(option) => option.title || ""}
+                    isOptionEqualToValue={(option, value) =>
+                      option.id === value.id
+                    }
+                    onChange={(e, val) => setSelectedLanguage(val)}
+                    value={selectedLanguage}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Language"
+                        {...register("language", {
+                          required: "Language is required",
+                        })}
+                      />
+                    )}
+                  />
+                )}
+                {!selectedLanguage.title && (
+                  <div className="error">{errors?.language?.message}</div>
+                )}
+              </div>
+            </div>
+            <div className="add-article-row">
+              <TextField
+                id="outlined-multiline-flexible"
+                label="Title"
+                multiline
+                fullWidth
+                rows={2}
+                {...register("title", { required: "Title is required" })}
               />
             </div>
-            <div className="col-md-6 second-col">
-              <Autocomplete
-                disablePortal
-                size="small"
-                id="combo-box-demo"
-                options={top100Films}
-                renderInput={(params) => (
-                  <TextField {...params} label="Language" />
-                )}
-              />
-            </div>
-          </div>
-          <div className="add-article-row">
-            <TextField
-              id="outlined-multiline-flexible"
-              label="Title"
-              multiline
-              fullWidth
-              rows={2}
-            />
-          </div>
-          <div className="add-article-row">
-            <Button
-              variant="contained"
-              className="file-btn"
-              fullWidth
-              component="label"
-            >
-              Upload File
-              <input type="file" hidden />
-            </Button>
-          </div>
-          <div className="btn-section">
-            <div className="col-md-1">
+            <div className="error">{errors?.title?.message}</div>
+            <div className="add-article-row">
               <Button
                 variant="contained"
-                className="form-btn"
-                type="submit"
+                className="file-btn"
                 fullWidth
+                component="label"
               >
-                SAVE
+                Upload File
+                <input
+                  type="file"
+                  hidden
+                  {...register("articleFile", { required: "Upload File" })}
+                />
               </Button>
             </div>
+            <div className="error">{errors?.articleFile?.message}</div>
+            <div className="btn-section">
+              <div className="col-md-1">
+                <Button
+                  variant="contained"
+                  className="form-btn"
+                  type="submit"
+                  fullWidth
+                >
+                  SAVE
+                </Button>
+              </div>
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+      )}
     </div>
   );
 }

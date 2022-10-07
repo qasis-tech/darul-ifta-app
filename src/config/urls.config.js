@@ -10,4 +10,5 @@ export const URLS = {
   question: "/question",
   profile_pic: "/profile_pic",
   generals: "/generals",
+  article: "/article",
 };

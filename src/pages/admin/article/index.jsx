@@ -1,27 +1,69 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-import Button from "@mui/material/Button";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+import {
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
+
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import Chip from "@mui/material/Chip";
 
 import "./article.styles.scss";
+
+import { URLS } from "../../../config/urls.config";
+import NoDataAvailable from "../../../components/NoDataAvailable";
+import { formatDate } from "../../../utils/dateformat";
+import Loader from "../../../components/common/Loader";
+
 export default function Article() {
+  const [articleData, setArticleData] = useState([]);
+  const [isLoader, setLoader] = useState([]);
+
+  useEffect(() => {
+    getArticleApi();
+  }, []);
+
+  const getArticleApi = () => {
+    setLoader(true);
+    axios
+      .get(`${URLS.article}`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then(({ data }) => {
+        console.log("res Article", data);
+        setLoader(false);
+        setArticleData(data);
+      })
+      .catch((err) => {
+        setLoader(false);
+        console.log("error article--", err);
+        setArticleData([]);
+      });
+  };
+
   const navigate = useNavigate();
   return (
     <div className="article-section">
       <div className="article-container">
         <div className="article-row">
           <div className="col-md-1">
-            <Button variant="contained"  onClick={() => navigate(`${"/admin/addArticle"}`)} className="add-btn" fullWidth>
+            <Button
+              variant="contained"
+              onClick={() => navigate(`${"/admin/addArticle"}`)}
+              className="add-btn"
+              fullWidth
+            >
               ADD
             </Button>
           </div>
@@ -29,43 +71,61 @@ export default function Article() {
       </div>
       <div className="article-table-section">
         <div className="table-container">
-            <div className="table-row">
-            <TableContainer component={Paper}>
-              <Table
-                sx={{ minWidth: 650, marginTop: "1em" }}
-                aria-label="simple table"
-              >
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Sl.no</TableCell>
-                    <TableCell>Subject</TableCell>
-                    <TableCell>Date of credicted</TableCell>
-                    <TableCell>Date of published</TableCell>
-                    <TableCell>Status</TableCell>
-                    <TableCell  align="center">Action</TableCell>
-
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  <TableRow
-                  hover
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                    }}
-                  >
-                    <TableCell>#123</TableCell>
-                    <TableCell>aaaaa</TableCell>
-                    <TableCell>23-04-2021</TableCell>
-                    <TableCell>23-04-2021</TableCell>
-                    <TableCell><span className="published">Published</span></TableCell>
-                    <TableCell align="center">
-                      <EditIcon className="edit-icon" />
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
-            </div>
+          <div className="table-row">
+            {isLoader ? (
+              <Loader absolute />
+            ) : (
+              <TableContainer component={Paper}>
+                <Table
+                  sx={{ minWidth: 650, marginTop: "1em" }}
+                  aria-label="simple table"
+                >
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Sl.no</TableCell>
+                      <TableCell>Subject</TableCell>
+                      <TableCell>Date of created</TableCell>
+                      <TableCell>Date of published</TableCell>
+                      <TableCell>Status</TableCell>
+                      <TableCell align="center">Action</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {articleData?.length ? (
+                      articleData?.map((article, index) => {
+                        return (
+                          <TableRow
+                            hover
+                            sx={{
+                              "&:last-child td, &:last-child th": { border: 0 },
+                            }}
+                            key={article._id}
+                          >
+                            <TableCell>{index + 1}</TableCell>
+                            <TableCell>{article.title}</TableCell>
+                            <TableCell>
+                              {formatDate(article.createdAt)}
+                            </TableCell>
+                            <TableCell>
+                              {formatDate(article.updatedAt)}
+                            </TableCell>
+                            <TableCell>
+                              <span className="published">Published</span>
+                            </TableCell>
+                            <TableCell align="center">
+                              <EditIcon className="edit-icon" />
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })
+                    ) : (
+                      <NoDataAvailable />
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            )}
+          </div>
         </div>
       </div>
     </div>

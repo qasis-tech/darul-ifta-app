@@ -101,7 +101,7 @@ export default function Fatwas() {
       })
       .then((res) => {
         setLoader(false);
-        setMadhabData(res.data.data);
+        setMadhabData(res.data);
       })
       .catch((err) => {
         setLoader(false);
@@ -120,7 +120,7 @@ export default function Fatwas() {
       })
       .then(({ data }) => {
         setLoader(false);
-        setCategoryList(data.data);
+        setCategoryList(data);
       })
       .catch((err) => {
         setLoader(false);
@@ -139,7 +139,7 @@ export default function Fatwas() {
       })
       .then(({ data }) => {
         setLoader(false);
-        setMufthiData(data.data);
+        setMufthiData(data);
       })
       .catch((err) => {
         setLoader(false);
@@ -158,7 +158,7 @@ export default function Fatwas() {
       })
       .then(({ data }) => {
         setLoader(false);
-        setUserData(data.data);
+        setUserData(data);
       })
       .catch((err) => {
         setLoader(false);
@@ -166,6 +166,7 @@ export default function Fatwas() {
         setUserData([]);
       });
   };
+
   const handleApply = () => {
     let params = "";
     if (selectedStatus?.title) params += `status=${selectedStatus?.title}`;
@@ -174,8 +175,8 @@ export default function Fatwas() {
       params += `-category=${selectedCategory?.category}`;
     if (selectedSubCategory?.label)
       params += `-subCategory=${selectedSubCategory?.label}`;
-    if (selectedMufthi?.name) params += `-userType=${selectedMufthi?.name}`;
-    if (selectedUserData?.name) params += `-userType=${selectedUserData?.name}`;
+    if (selectedMufthi?._id) params += `-muftiId=${selectedMufthi?._id}`;
+    if (selectedUserData?._id) params += `-userid=${selectedUserData?._id}`;
     if (selectedLanguage?.title)
       params += `-language=${selectedLanguage?.title}`;
     if (searchInput) params += `-search=${searchInput}`;
@@ -506,7 +507,7 @@ export default function Fatwas() {
                             <TableCell component="th" scope="row">
                               {question.slNo}
                             </TableCell>
-                            <TableCell>aaaa</TableCell>
+                            <TableCell>{question.user.name}</TableCell>
                             <TableCell>{question.short_question}</TableCell>
                             <TableCell>
                               {formatDate(question.createdAt)}
