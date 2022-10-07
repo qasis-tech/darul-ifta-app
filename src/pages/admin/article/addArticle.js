@@ -132,7 +132,7 @@ export default function AddArticle() {
                     )}
                   />
                 )}
-                {!selectedMufthi.name && (
+                {!selectedMufthi?.name && (
                   <div className="error">{errors?.mufthi?.message}</div>
                 )}
               </div>
@@ -160,7 +160,7 @@ export default function AddArticle() {
                     )}
                   />
                 )}
-                {!selectedLanguage.title && (
+                {!selectedLanguage?.title && (
                   <div className="error">{errors?.language?.message}</div>
                 )}
               </div>

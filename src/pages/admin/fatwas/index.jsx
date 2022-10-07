@@ -205,7 +205,7 @@ export default function Fatwas() {
                     id="status"
                     size="small"
                     options={status}
-                    getOptionLabel={(option) => option.title || ""}
+                    getOptionLabel={(option) => option?.title || ""}
                     isOptionEqualToValue={(option, value) =>
                       option.id === value.id
                     }
@@ -228,12 +228,12 @@ export default function Fatwas() {
                     id="combo-box-demo"
                     size="small"
                     options={madhabData}
-                    getOptionLabel={(option) => option.title || ""}
+                    getOptionLabel={(option) => option?.title || []}
                     isOptionEqualToValue={(option, value) =>
                       option._id === value._id
                     }
                     onChange={(e, val) => setSelectedMadhab(val)}
-                    value={selectedMadhab}
+                    value={selectedMadhab || null}
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -261,12 +261,12 @@ export default function Fatwas() {
                     id="combo-box-demo"
                     size="small"
                     options={categoryList}
-                    getOptionLabel={(option) => option.category || ""}
+                    getOptionLabel={(option) => option?.category || ""}
                     isOptionEqualToValue={(option, value) =>
                       option._id === value._id
                     }
                     onChange={(e, val) => setSelectedCategory(val)}
-                    value={selectedCategory}
+                    value={selectedCategory || null}
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -298,7 +298,7 @@ export default function Fatwas() {
                       ? selectedCategory?.subCategory
                       : []
                   }
-                  getOptionLabel={(option) => option.label || ""}
+                  getOptionLabel={(option) => option?.label || ""}
                   isOptionEqualToValue={(option, value) =>
                     option._id === value._id
                   }
@@ -322,15 +322,15 @@ export default function Fatwas() {
                     disablePortal
                     id="combo-box-demo"
                     size="small"
-                    options={mufthiData}
-                    getOptionLabel={(option) => option.name || ""}
+                    options={mufthiData || null}
+                    getOptionLabel={(option) => option?.name || ""}
                     isOptionEqualToValue={(option, value) =>
                       option._id === value._id
                     }
                     onChange={(e, val) => {
                       setSelectedMufthi(val);
                     }}
-                    value={selectedMufthi}
+                    value={selectedMufthi || null}
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -358,12 +358,12 @@ export default function Fatwas() {
                     id="combo-box-demo"
                     size="small"
                     options={userData}
-                    getOptionLabel={(option) => option.name || ""}
+                    getOptionLabel={(option) => option?.name || ""}
                     isOptionEqualToValue={(option, value) =>
                       option._id === value._id
                     }
                     onChange={(e, val) => setSelectedUserData(val)}
-                    value={selectedUserData}
+                    value={selectedUserData || null}
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -392,7 +392,7 @@ export default function Fatwas() {
                     id="combo-box-demo"
                     size="small"
                     options={languageList}
-                    getOptionLabel={(option) => option.title || ""}
+                    getOptionLabel={(option) => option?.title || ""}
                     isOptionEqualToValue={(option, value) =>
                       option.id === value.id
                     }
