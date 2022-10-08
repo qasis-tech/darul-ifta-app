@@ -30,6 +30,7 @@ import "./home.styles.scss";
 import Slider from "./components/slider";
 import SideNavCategory from "./components/sideNavCategory";
 import VisitorDetails from "./components/visitorDetails";
+import getQuestionListApi from "../../../services/getQuestionsList";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -79,24 +80,57 @@ const HomePage = (props) => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [isLoader, setLoader] = useState(false);
 
+  // const handleChange = (event, newValue) => {
+  //   setValue(newValue);
+  //   if (newValue === 1) {
+  //     setLanguage("English");
+  //     getQuestionsApi();
+  //   } else if (newValue === 2) {
+  //     setLanguage("Malayalam");
+  //     getQuestionsApi();
+  //   } else if (newValue === 3) {
+  //     setLanguage("Urdu");
+  //     getQuestionsApi();
+  //   } else if (newValue === 4) {
+  //     setLanguage("Arabic");
+  //     getQuestionsApi();
+  //   } else {
+  //     setLanguage("");
+  //     getQuestionsApi();
+  //   }
+  // };
+
   const handleChange = (event, newValue) => {
-    setValue(newValue);
-    if (newValue === 1) {
-      setLanguage("English");
-      getQuestionsApi();
-    } else if (newValue === 2) {
-      setLanguage("Malayalam");
-      getQuestionsApi();
-    } else if (newValue === 3) {
-      setLanguage("Urdu");
-      getQuestionsApi();
-    } else if (newValue === 4) {
-      setLanguage("Arabic");
-      getQuestionsApi();
-    } else {
-      setLanguage("");
-      getQuestionsApi();
+    switch (newValue) {
+      case 0:
+        // call api for Tab1
+        // setLanguage("");
+        getQuestionList(`?language=&search=${searchInput}`);
+        break;
+      case 1:
+        // call api for Tab2
+        // setLanguage("English");
+        getQuestionList(`?language=English&search=${searchInput}`);
+        break;
+      case 2:
+        // call api for Tab3
+        // setLanguage("Malayalam");
+        getQuestionList(`?language=Malayalam&search=${searchInput}`);
+        break;
+      case 3:
+        // call api for Tab4
+        // setLanguage("Urdu");
+        getQuestionList(`?language=Urdu&search=${searchInput}`);
+        break;
+      case 4:
+        // call api for Tab5
+        // setLanguage("Arabic");
+        getQuestionList(`?language=English&search=${searchInput}`);
+        break;
+      default:
+        break;
     }
+    setValue(newValue);
   };
 
   const handleDelete = () => {
@@ -111,32 +145,45 @@ const HomePage = (props) => {
   };
 
   useEffect(() => {
-    getQuestionsApi();
+    getQuestionList();
   }, []);
 
   useEffect(() => {
-    if (searchInput === "") getQuestionsApi();
+    if (searchInput === "") getQuestionList(`?language=&search=${searchInput}`);
   }, [searchInput]);
 
-  const getQuestionsApi = () => {
-    let url = `${URLS.question}?limit=${rowsPerPage}&skip=${
-      page * rowsPerPage
-    }`;
+  // const getQuestionsApi = (language="") => {
+  //   let url = `${URLS.question}?limit=${rowsPerPage}&skip=${
+  //     page * rowsPerPage
+  //   }`;
 
-    if (searchInput !== "" && language !== "") {
-      url = `${url}&search=${searchInput}&language=${language}`;
-    } else if (searchInput !== "" && language === "") {
-      url = `${url}&search=${searchInput}`;
-    } else if (searchInput === "" && language !== "") {
-      url = `${url}&language=${language}`;
-    }
+  //   if (searchInput !== "" && language !== "") {
+  //     url = `${url}&search=${searchInput}&language=${language}`;
+  //   } else if (searchInput !== "" && language === "") {
+  //     url = `${url}&search=${searchInput}`;
+  //   } else if (searchInput === "" && language !== "") {
+  //     url = `${url}&language=${language}`;
+  //   }
 
-    axios
-      .get(url)
-      .then(({ data }) => setQuestionsData(data.data))
-      .catch((err) => {
+  //   axios
+  //     .get(url)
+  //     .then(({ data }) => setQuestionsData(data))
+  //     .catch((err) => {
+  //       setLoader(false);
+  //       console.log("error questions", err);
+  //     });
+  // };
+  const getQuestionList = (params) => {
+    setLoader(true);
+    getQuestionListApi(params)
+      .then((res) => {
         setLoader(false);
-        console.log("error questions", err);
+        setQuestionsData(res);
+      })
+      .catch((err) => {
+        console.error("Error in getQuestionListApi", err);
+        setLoader(false);
+        setQuestionsData([]);
       });
   };
 
@@ -204,9 +251,19 @@ const HomePage = (props) => {
                             backgroundColor: "red",
                           }}
                         >
-                          <CloseIcon onClick={() => setSearchInput("")} />
+                          <CloseIcon
+                            onClick={() => {
+                              setSearchInput("");
+                              getQuestionList();
+                            }}
+                          />
                         </IconButton>
-                        <IconButton onClick={getQuestionsApi}>
+                        <IconButton
+                          onClick={() => {
+                            setValue(0);
+                            getQuestionList(`?language=&search=${searchInput}`);
+                          }}
+                        >
                           <SearchIcon />
                         </IconButton>
                       </InputAdornment>
@@ -222,11 +279,14 @@ const HomePage = (props) => {
                       onChange={handleChange}
                       aria-label="basic tabs example"
                     >
-                      <Tab className="tab-name" label="All" />
-                      <Tab label="English" />
-                      <Tab label="മലയാളം" />
-                      <Tab label="اردو" />
-                      <Tab label="العربيــــــــــــــــــة" />
+                      <Tab className="tab-name" label="All" {...a11yProps(0)} />
+                      <Tab label="English" {...a11yProps(1)} />
+                      <Tab label="മലയാളം" {...a11yProps(2)} />
+                      <Tab label="اردو" {...a11yProps(3)} />
+                      <Tab
+                        label="العربيــــــــــــــــــة"
+                        {...a11yProps(4)}
+                      />
                     </Tabs>
                   </Box>
                   <TabPanel value={value} index={0}>
@@ -237,7 +297,7 @@ const HomePage = (props) => {
                             key={questions._id}
                             shortquestion={questions.short_question}
                             question={questions.question}
-                            questionCount={questions.id}
+                            questionCount={questions.slNo}
                             createdDate={formatDate(questions.createdAt)}
                             views={questions.views}
                           />
@@ -255,7 +315,7 @@ const HomePage = (props) => {
                             key={questions._id}
                             shortquestion={questions.short_question}
                             question={questions.question}
-                            questionCount={questions.id}
+                            questionCount={questions.slNo}
                             createdDate={formatDate(questions.createdAt)}
                             views={questions.views}
                           />
@@ -273,7 +333,7 @@ const HomePage = (props) => {
                             key={questions._id}
                             shortquestion={questions.short_question}
                             question={questions.question}
-                            questionCount={questions.id}
+                            questionCount={questions.slNo}
                             createdDate={formatDate(questions.createdAt)}
                             views={questions.views}
                           />
@@ -291,7 +351,7 @@ const HomePage = (props) => {
                             key={questions._id}
                             shortquestion={questions.short_question}
                             question={questions.question}
-                            questionCount={questions.id}
+                            questionCount={questions.slNo}
                             createdDate={formatDate(questions.createdAt)}
                             views={questions.views}
                           />
@@ -309,7 +369,7 @@ const HomePage = (props) => {
                             key={questions._id}
                             shortquestion={questions.short_question}
                             question={questions.question}
-                            questionCount={questions.id}
+                            questionCount={questions.slNo}
                             createdDate={formatDate(questions.createdAt)}
                             views={questions.views}
                           />

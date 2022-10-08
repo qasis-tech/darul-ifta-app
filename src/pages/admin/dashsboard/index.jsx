@@ -142,7 +142,10 @@ export default function Dashboard() {
                                 visibility:
                                   searchInput !== "" ? "visible" : "hidden",
                               }}
-                              onClick={() => getQuestions("")}
+                              onClick={() => {
+                                getQuestions("");
+                                setSearchInput("");
+                              }}
                             >
                               <CloseIcon />
                             </IconButton>
@@ -180,8 +183,8 @@ export default function Dashboard() {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {questionList?.data?.length ? (
-                        questionList?.data?.map((items) => {
+                      {questionList?.length ? (
+                        questionList?.map((items) => {
                           return (
                             <TableRow
                               hover

@@ -45,9 +45,9 @@ const Login = () => {
         }
       )
       .then(({ data }) => {
-        console.log("res email", data.data);
+        console.log("res email", data);
         setLoader(false);
-        setImgsrc(data.data);
+        setImgsrc(data);
         setScreens("password");
       })
       .catch((err) => {
@@ -93,10 +93,11 @@ const Login = () => {
       .post(`${URLS.user}${URLS.googleAuth}`, payload, {
         "Content-Type": "application/json",
       })
-      .then(({ data }) => {
+      .then((res) => {
         setLoader(false);
-        if (data.success && data.data) {
-          StoreLocal("@darul-ifta-login-details", data.data, () => {
+        console.log("data", res.data);
+        if (res.success && res.data) {
+          StoreLocal("@darul-ifta-login-details", res.data, () => {
             navigate(`${routerList.user.accountUser}`);
           });
         }
