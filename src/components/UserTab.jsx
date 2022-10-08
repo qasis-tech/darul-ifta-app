@@ -19,6 +19,7 @@ import Loader from "./common/Loader";
 import { getLocal } from "../utils/localStore";
 
 import "../pages/user/Accounts/home/account.home.styles.scss";
+import NoDataAvailable from "./NoDataAvailable";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -57,43 +58,44 @@ export default function UserTab() {
   const [value, setValue] = useState(0);
   const [questionData, setQuestionData] = useState([]);
   const [isLoader, setLoader] = useState(false);
-  const [status, setStatus] = useState(
-    { id: 1, title: "Pending" },
-    { id: 2, title: "Rejected" },
-    { id: 3, title: "Re Submitted" },
-    { id: 4, title: "Received to Darul Ifta" },
-    { id: 5, title: "Assigned Mufti" },
-    { id: 6, title: "Mufti Answered" },
-    { id: 7, title: "Completed Verification" },
-    { id: 8, title: "Published" }
-  );
-  const [userDetails, setUserDetails] = useState(null);
+
+  const [userDetails, setUserDetails] = useState([]);
+  const [userId, setUserId] = useState("");
 
   useEffect(() => {
     getLocalData();
   }, []);
 
   useEffect(() => {
-    getQuestionApi();
-  }, []);
+    getQuestionApi("");
+  }, [userId]);
 
   const getLocalData = async () => {
     const data = await getLocal("@darul-ifta-login-details");
     setUserDetails(data);
+    setUserId(data._id);
   };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    if (newValue === 1) {
+      getQuestionApi("Published");
+    } else if (newValue === 2) {
+      getQuestionApi("Pending");
+    } else if (newValue === 3) {
+      getQuestionApi("Rejected");
+    } else if (newValue === 0) {
+      getQuestionApi("");
+    }
   };
 
-  const getQuestionApi = () => {
+  const getQuestionApi = (selectedStatus) => {
     setLoader(true);
-    let url = `${URLS.question}`;
+    let url = `${URLS.question}?userid=${userId}`;
 
-    if (status !== "") {
-      url = `${URLS.question}?status=${status}`;
+    if (selectedStatus !== "") {
+      url = `${url}&status=${selectedStatus}`;
     }
-
     axios
       .get(url, {
         headers: {
@@ -103,7 +105,7 @@ export default function UserTab() {
       .then((res) => {
         setLoader(false);
         console.log("resques2222>>>", res);
-        setQuestionData(res.data.data);
+        setQuestionData(res.data);
       })
       .catch((err) => {
         setLoader(false);
@@ -139,7 +141,26 @@ export default function UserTab() {
                     key={question._id}
                     shortquestion={question.short_question}
                     question={question.question}
-                    questionCount={question.id}
+                    questionCount={question.slNo}
+                    createdDate={formatDate(question.createdAt)}
+                    views={question.views}
+                  />
+                );
+              })
+            ) : (
+              <NoDataAvailable />
+            )}
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            {/* <AskFatwasComponent /> */}
+            {questionData?.length ? (
+              questionData.map((question) => {
+                return (
+                  <QuestionContainer
+                    key={question._id}
+                    shortquestion={question.short_question}
+                    question={question.question}
+                    questionCount={question.slNo}
                     createdDate={formatDate(question.createdAt)}
                     views={question.views}
                   />
@@ -149,34 +170,15 @@ export default function UserTab() {
               <div>NO DATA </div>
             )}
           </TabPanel>
-          <TabPanel value={value} index={1}>
-            {/* <AskFatwasComponent /> */}
-            {/* {questionData?.length ? (
-              questionData.map((question) => {
-                return (
-                  <QuestionContainer
-                    key={question._id}
-                    shortquestion={question.short_question}
-                    question={question.question}
-                    questionCount={question.id}
-                    createdDate={formatDate(question.createdAt)}
-                    views={question.views}
-                  />
-                );
-              })
-            ) : (
-              <div>NO DATA </div>
-            )} */}
-          </TabPanel>
           <TabPanel value={value} index={2}>
-            {/* {questionData?.length ? (
+            {questionData?.length ? (
               questionData.map((question) => {
                 return (
                   <QuestionContainer
                     key={question._id}
                     shortquestion={question.short_question}
                     question={question.question}
-                    questionCount={question.id}
+                    questionCount={question.slNo}
                     createdDate={formatDate(question.createdAt)}
                     views={question.views}
                   />
@@ -184,18 +186,18 @@ export default function UserTab() {
               })
             ) : (
               <div>NO DATA </div>
-            )} */}
+            )}
             {/* <Profile /> */}
           </TabPanel>
           <TabPanel value={value} index={3}>
-            {/* {questionData?.length ? (
+            {questionData?.length ? (
               questionData.map((question) => {
                 return (
                   <QuestionContainer
                     key={question._id}
                     shortquestion={question.short_question}
                     question={question.question}
-                    questionCount={question.id}
+                    questionCount={question.slNo}
                     createdDate={formatDate(question.createdAt)}
                     views={question.views}
                   />
@@ -203,7 +205,7 @@ export default function UserTab() {
               })
             ) : (
               <div>NO DATA </div>
-            )} */}
+            )}
           </TabPanel>
         </Box>
       )}

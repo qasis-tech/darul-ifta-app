@@ -133,7 +133,7 @@ const HomePage = (props) => {
 
     axios
       .get(url)
-      .then(({ data }) => setQuestionsData(data.data))
+      .then(({ data }) => setQuestionsData(data))
       .catch((err) => {
         setLoader(false);
         console.log("error questions", err);

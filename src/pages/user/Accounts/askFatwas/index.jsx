@@ -202,7 +202,7 @@ export default function AskFatwasComponent() {
                       )}
                     />
                   )}
-                  {!selectedCategory.category && (
+                  {!selectedCategory?.category && (
                     <div className="error">{errors?.category?.message}</div>
                   )}
                 </div>
