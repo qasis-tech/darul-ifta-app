@@ -115,24 +115,24 @@ export default function User() {
       <div className="user-table-section">
         <div className="user-table-container">
           <div className="user-table-row">
-          {isLoading ? (
+            {isLoading ? (
               <Loader skeleton />
             ) : (
-            <TableContainer component={Paper}>
-              <Table
-                sx={{ minWidth: 650, marginTop: "1em" }}
-                aria-label="simple table"
-              >
-                <TableHead>
-                  <TableRow>
-                    <TableCell>ID</TableCell>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Display Name</TableCell>
-                    <TableCell>Email</TableCell>
-                    <TableCell>Status</TableCell>
-                    <TableCell>Action</TableCell>
-                  </TableRow>
-                </TableHead>
+              <TableContainer component={Paper}>
+                <Table
+                  sx={{ minWidth: 650, marginTop: "1em" }}
+                  aria-label="simple table"
+                >
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>ID</TableCell>
+                      <TableCell>Name</TableCell>
+                      <TableCell>Display Name</TableCell>
+                      <TableCell>Email</TableCell>
+                      <TableCell>Status</TableCell>
+                      <TableCell>Action</TableCell>
+                    </TableRow>
+                  </TableHead>
                   <TableBody>
                     {userData.length ? (
                       userData.map((user) => {
@@ -179,11 +179,15 @@ export default function User() {
                         );
                       })
                     ) : (
-                      <NoDataAvailable />
+                      <TableRow>
+                        <TableCell colSpan={6}>
+                          <NoDataAvailable noStyle />
+                        </TableCell>
+                      </TableRow>
                     )}
                   </TableBody>
-              </Table>
-            </TableContainer>
+                </Table>
+              </TableContainer>
             )}
           </div>
         </div>

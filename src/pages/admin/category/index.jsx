@@ -108,7 +108,11 @@ export default function Categories() {
                         );
                       })
                     ) : (
-                      <NoDataAvailable />
+                      <TableRow>
+                        <TableCell colSpan={3}>
+                          <NoDataAvailable noStyle />
+                        </TableCell>
+                      </TableRow>
                     )}
                   </TableBody>
                 </Table>

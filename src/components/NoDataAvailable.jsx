@@ -3,14 +3,21 @@ import { useNavigate } from "react-router-dom";
 import BackgroundImage from "../assets/images/nodata.png";
 import "../styles/no-data-available.styles.scss";
 
-const NoDataAvailable = ({absolute })  => {
+const NoDataAvailable = ({ absolute, noStyle }) => {
   const navigate = useNavigate();
   return (
-    <div className="no-data-found" style={{
-      position: absolute ? "absolute" : "relative",
-      top: "50%",
-      left: "100%",
-    }}>
+    <div
+      className="no-data-found"
+      style={
+        noStyle
+          ? {}
+          : {
+              position: absolute ? "absolute" : "relative",
+              top: "50%",
+              left: "50%",
+            }
+      }
+    >
       <div className="empty-state">
         <div className="empty-state__content">
           <div className="empty-state__icon">

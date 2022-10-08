@@ -107,54 +107,58 @@ export default function Musthafthies() {
       </div>
       <div className="musthafthies-table-section">
         <div className="musthafthies-table-row">
-        {isLoading ? (
-              <Loader skeleton />
-            ) : (
-          <TableContainer component={Paper}>
-            <Table
-              sx={{ minWidth: 650, marginTop: "1em" }}
-              aria-label="simple table"
-            >
-              <TableHead>
-                <TableRow>
-                  <TableCell>ID</TableCell>
-                  <TableCell>Full Name</TableCell>
-                  <TableCell>Mobile No.</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Action</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {mufthiData?.length ? (
-                  mufthiData?.map((mufti) => {
-                    return (
-                      <TableRow
-                        hover
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
-                        key={mufti._id}
-                      >
-                        <TableCell component="th" scope="row">
-                          {mufti._id}
-                        </TableCell>
-                        <TableCell>{mufti.name}</TableCell>
-                        <TableCell>{mufti.phone}</TableCell>
-                        <TableCell>{mufti.email}</TableCell>
-                        <TableCell>
-                          <EditIcon className="edit-icon" />
-                          <VisibilityIcon className="view-icon" />
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })
-                ) : (
-                  <NoDataAvailable />
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-             )}
+          {isLoading ? (
+            <Loader skeleton />
+          ) : (
+            <TableContainer component={Paper}>
+              <Table
+                sx={{ minWidth: 650, marginTop: "1em" }}
+                aria-label="simple table"
+              >
+                <TableHead>
+                  <TableRow>
+                    <TableCell>ID</TableCell>
+                    <TableCell>Full Name</TableCell>
+                    <TableCell>Mobile No.</TableCell>
+                    <TableCell>Email</TableCell>
+                    <TableCell>Action</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {mufthiData?.length ? (
+                    mufthiData?.map((mufti) => {
+                      return (
+                        <TableRow
+                          hover
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}
+                          key={mufti._id}
+                        >
+                          <TableCell component="th" scope="row">
+                            {mufti._id}
+                          </TableCell>
+                          <TableCell>{mufti.name}</TableCell>
+                          <TableCell>{mufti.phone}</TableCell>
+                          <TableCell>{mufti.email}</TableCell>
+                          <TableCell>
+                            <EditIcon className="edit-icon" />
+                            <VisibilityIcon className="view-icon" />
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })
+                  ) : (
+                    <TableRow>
+                      <TableCell colSpan={5}>
+                        <NoDataAvailable noStyle />
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
         </div>
       </div>
     </div>
