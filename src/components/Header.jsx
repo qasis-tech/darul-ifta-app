@@ -37,17 +37,6 @@ const HeaderComponent = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="">
-              {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown> */}
               <ul className="navbar-nav mb-lg-0">
                 <li
                   className="nav-item"
@@ -62,7 +51,7 @@ const HeaderComponent = () => {
                 </li>
                 <li
                   class="nav-item"
-                  onClick={() => navigate(`${routerList.user.askFatwas}`)}
+                  onClick={() => navigate(`${routerList.user.accountUser}`)}
                 >
                   <a className="nav-link custom-menu" aria-current="page">
                     Ask Question
@@ -77,24 +66,6 @@ const HeaderComponent = () => {
                     Fatwa
                   </a>
                 </li>
-
-                {/* <li class="nav-item">
-                  <form class="d-flex search-nav">
-                    <input
-                      className="form-control custom-menu"
-                      type="search"
-                      placeholder="Search"
-                      aria-label="Search"
-                    />
-
-                    <button
-                      className="btn btn-sm border custom-menu px-2"
-                      type="button"
-                    >
-                      <SearchIcon />
-                    </button>
-                  </form>
-                </li> */}
 
                 <li
                   className="btn-group nav-item"

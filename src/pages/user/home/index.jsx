@@ -289,8 +289,15 @@ const HomePage = (props) => {
                       />
                     </Tabs>
                   </Box>
-                  {false ? (
-                    <div style={{ minHeight: "40vh" }}>
+                  {isLoading ? (
+                    <div
+                      style={{
+                        minHeight: "60vh",
+                        position: "relative",
+                        left: 0,
+                        top: 150,
+                      }}
+                    >
                       <Loader />
                     </div>
                   ) : (

@@ -70,6 +70,8 @@ const CustomRouters = () => {
     setAdmin(isAdmin);
   }, []);
 
+  console.log("isUser,isAdmin", isUser, isAdmin);
+
   return (
     <Routes>
       <Route element={<PublicRouting />}>
