@@ -10,6 +10,7 @@ import {
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { URLS } from "../../../../config/urls.config";
+import NoDataAvailable from "../../../../components/NoDataAvailable";
 
 const SideNavCategory = ({ selectedCategories, categoriesChip }) => {
   const [categoryData, setCategoryData] = useState([]);
@@ -55,7 +56,7 @@ const SideNavCategory = ({ selectedCategories, categoriesChip }) => {
       <div class="l-green"></div>
       <div>
         <div class="accordian-wrapper">
-          {categoryData?.length &&
+          {!!categoryData?.length ? (
             categoryData?.map((category) => {
               return (
                 <Accordion className="accordian">
@@ -93,7 +94,10 @@ const SideNavCategory = ({ selectedCategories, categoriesChip }) => {
                   )}
                 </Accordion>
               );
-            })}
+            })
+          ) : (
+            <NoDataAvailable noStyle text noBg />
+          )}
         </div>
       </div>
       <div class="madhab-category">
@@ -103,10 +107,10 @@ const SideNavCategory = ({ selectedCategories, categoriesChip }) => {
         <div class="l-green"></div>
 
         <div>
-          {madhabData?.length &&
-            madhabData.map((madhab) => {
+          {madhabData?.length ? (
+            madhabData?.map((madhab) => {
               return (
-                <ul class="mt-2" key={madhab._id}>
+                <ul class="mt-2" key={madhab?._id}>
                   <li
                     onClick={() => {
                       categoriesChip.madhab = madhab;
@@ -117,7 +121,10 @@ const SideNavCategory = ({ selectedCategories, categoriesChip }) => {
                   </li>
                 </ul>
               );
-            })}
+            })
+          ) : (
+            <NoDataAvailable noStyle text noBg />
+          )}
         </div>
       </div>
     </div>

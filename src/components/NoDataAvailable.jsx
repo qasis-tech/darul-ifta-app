@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import BackgroundImage from "../assets/images/nodata.png";
 import "../styles/no-data-available.styles.scss";
 
-const NoDataAvailable = ({ absolute, noStyle }) => {
+const NoDataAvailable = ({ absolute, noStyle, text, noBg }) => {
   const navigate = useNavigate();
   return (
     <div
@@ -18,11 +18,16 @@ const NoDataAvailable = ({ absolute, noStyle }) => {
             }
       }
     >
-      <div className="empty-state">
+      <div
+        className="empty-state"
+        style={{ backgroundColor: noBg ? "transparent" : "" }}
+      >
         <div className="empty-state__content">
-          <div className="empty-state__icon">
-            <img src={BackgroundImage} alt="background image" />
-          </div>
+          {!text && (
+            <div className="empty-state__icon">
+              <img src={BackgroundImage} alt="background image" />
+            </div>
+          )}
           <div className="empty-state__message">No Data Available.</div>
         </div>
       </div>

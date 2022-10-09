@@ -26,16 +26,16 @@ const VisitorDetails = () => {
     <div class="col custom-details shadow">
       <div class="custom-details-column">
         <h6>Visitor</h6>
-        <div>{generalDetails?.visitors}</div>
+        <div>{generalDetails?.visitors || "N/A"}</div>
       </div>
 
       <div class="custom-details-column">
         <h6>Total Fatwas</h6>
-        <div>{generalDetails?.fatwas}</div>
+        <div>{generalDetails?.fatwas || "N/A"}</div>
       </div>
       <div class="custom-details-column">
         <h6>Registered Users</h6>
-        <div>{generalDetails?.users}</div>
+        <div>{generalDetails?.users || "N/A"}</div>
       </div>
     </div>
   );

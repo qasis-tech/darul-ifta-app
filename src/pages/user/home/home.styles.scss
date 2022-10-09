@@ -131,12 +131,13 @@ img {
 
 .custom-details-column h6 {
   color: $theme-primary-color;
-  font-weight: bolder;
-  font-size: $theme-f2;
+  // font-weight: 700;
+  font-size: $theme-f1;
 }
 .custom-details-column div {
+  font-weight: 100;
   background-color: $theme-primary-color;
-  font-size: $theme-f3;
+  font-size: $theme-f1;
 }
 
 .portal-details {

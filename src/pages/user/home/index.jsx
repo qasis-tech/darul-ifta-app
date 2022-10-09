@@ -31,6 +31,7 @@ import Slider from "./components/slider";
 import SideNavCategory from "./components/sideNavCategory";
 import VisitorDetails from "./components/visitorDetails";
 import getQuestionListApi from "../../../services/getQuestionsList";
+import NoDataAvailable from "../../../components/NoDataAvailable";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -78,7 +79,7 @@ const HomePage = (props) => {
   const [questionsData, setQuestionsData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [isLoader, setLoader] = useState(false);
+  const [isLoading, setLoader] = useState(false);
 
   // const handleChange = (event, newValue) => {
   //   setValue(newValue);
@@ -248,7 +249,6 @@ const HomePage = (props) => {
                           sx={{
                             visibility:
                               searchInput !== "" ? "visible" : "hidden",
-                            backgroundColor: "red",
                           }}
                         >
                           <CloseIcon
@@ -289,96 +289,104 @@ const HomePage = (props) => {
                       />
                     </Tabs>
                   </Box>
-                  <TabPanel value={value} index={0}>
-                    {questionsData?.length ? (
-                      questionsData.map((questions) => {
-                        return (
-                          <QuestionComponent
-                            key={questions._id}
-                            shortquestion={questions.short_question}
-                            question={questions.question}
-                            questionCount={questions.slNo}
-                            createdDate={formatDate(questions.createdAt)}
-                            views={questions.views}
-                          />
-                        );
-                      })
-                    ) : (
-                      <div>NO DATA </div>
-                    )}
-                  </TabPanel>
-                  <TabPanel value={value} index={1}>
-                    {questionsData?.length ? (
-                      questionsData.map((questions) => {
-                        return (
-                          <QuestionComponent
-                            key={questions._id}
-                            shortquestion={questions.short_question}
-                            question={questions.question}
-                            questionCount={questions.slNo}
-                            createdDate={formatDate(questions.createdAt)}
-                            views={questions.views}
-                          />
-                        );
-                      })
-                    ) : (
-                      <div>NO DATA </div>
-                    )}
-                  </TabPanel>
-                  <TabPanel value={value} index={2}>
-                    {questionsData?.length ? (
-                      questionsData.map((questions) => {
-                        return (
-                          <QuestionComponent
-                            key={questions._id}
-                            shortquestion={questions.short_question}
-                            question={questions.question}
-                            questionCount={questions.slNo}
-                            createdDate={formatDate(questions.createdAt)}
-                            views={questions.views}
-                          />
-                        );
-                      })
-                    ) : (
-                      <div>NO DATA </div>
-                    )}
-                  </TabPanel>
-                  <TabPanel value={value} index={3}>
-                    {questionsData?.length ? (
-                      questionsData.map((questions) => {
-                        return (
-                          <QuestionComponent
-                            key={questions._id}
-                            shortquestion={questions.short_question}
-                            question={questions.question}
-                            questionCount={questions.slNo}
-                            createdDate={formatDate(questions.createdAt)}
-                            views={questions.views}
-                          />
-                        );
-                      })
-                    ) : (
-                      <div>NO DATA </div>
-                    )}
-                  </TabPanel>
-                  <TabPanel value={value} index={4}>
-                    {questionsData?.length ? (
-                      questionsData.map((questions) => {
-                        return (
-                          <QuestionComponent
-                            key={questions._id}
-                            shortquestion={questions.short_question}
-                            question={questions.question}
-                            questionCount={questions.slNo}
-                            createdDate={formatDate(questions.createdAt)}
-                            views={questions.views}
-                          />
-                        );
-                      })
-                    ) : (
-                      <div>NO DATA </div>
-                    )}
-                  </TabPanel>
+                  {false ? (
+                    <div style={{ minHeight: "40vh" }}>
+                      <Loader />
+                    </div>
+                  ) : (
+                    <>
+                      <TabPanel value={value} index={0}>
+                        {questionsData?.length ? (
+                          questionsData.map((questions) => {
+                            return (
+                              <QuestionComponent
+                                key={questions._id}
+                                shortquestion={questions.short_question}
+                                question={questions.question}
+                                questionCount={questions.slNo}
+                                createdDate={formatDate(questions.createdAt)}
+                                views={questions.views}
+                              />
+                            );
+                          })
+                        ) : (
+                          <NoDataAvailable noStyle noBg />
+                        )}
+                      </TabPanel>
+                      <TabPanel value={value} index={1}>
+                        {questionsData?.length ? (
+                          questionsData.map((questions) => {
+                            return (
+                              <QuestionComponent
+                                key={questions._id}
+                                shortquestion={questions.short_question}
+                                question={questions.question}
+                                questionCount={questions.slNo}
+                                createdDate={formatDate(questions.createdAt)}
+                                views={questions.views}
+                              />
+                            );
+                          })
+                        ) : (
+                          <NoDataAvailable noStyle noBg />
+                        )}
+                      </TabPanel>
+                      <TabPanel value={value} index={2}>
+                        {questionsData?.length ? (
+                          questionsData.map((questions) => {
+                            return (
+                              <QuestionComponent
+                                key={questions._id}
+                                shortquestion={questions.short_question}
+                                question={questions.question}
+                                questionCount={questions.slNo}
+                                createdDate={formatDate(questions.createdAt)}
+                                views={questions.views}
+                              />
+                            );
+                          })
+                        ) : (
+                          <NoDataAvailable noStyle noBg />
+                        )}
+                      </TabPanel>
+                      <TabPanel value={value} index={3}>
+                        {questionsData?.length ? (
+                          questionsData.map((questions) => {
+                            return (
+                              <QuestionComponent
+                                key={questions._id}
+                                shortquestion={questions.short_question}
+                                question={questions.question}
+                                questionCount={questions.slNo}
+                                createdDate={formatDate(questions.createdAt)}
+                                views={questions.views}
+                              />
+                            );
+                          })
+                        ) : (
+                          <NoDataAvailable noStyle noBg />
+                        )}
+                      </TabPanel>
+                      <TabPanel value={value} index={4}>
+                        {questionsData?.length ? (
+                          questionsData.map((questions) => {
+                            return (
+                              <QuestionComponent
+                                key={questions._id}
+                                shortquestion={questions.short_question}
+                                question={questions.question}
+                                questionCount={questions.slNo}
+                                createdDate={formatDate(questions.createdAt)}
+                                views={questions.views}
+                              />
+                            );
+                          })
+                        ) : (
+                          <NoDataAvailable noStyle noBg />
+                        )}
+                      </TabPanel>
+                    </>
+                  )}
                 </Box>
               </div>
             </div>
