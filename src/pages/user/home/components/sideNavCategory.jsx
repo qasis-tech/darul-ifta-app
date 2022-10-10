@@ -34,12 +34,7 @@ const SideNavCategory = ({ selectedCategories, categoriesChip }) => {
 
   const getmadhabListApi = () => {
     axios
-      .get(`${URLS.madhab}`, {
-        headers: {
-          // Authorization: `${token}`,
-          "Content-Type": "application/json",
-        },
-      })
+      .get(`${URLS.madhab}`)
       .then((res) => {
         setMadhabData(res.data.data);
       })
@@ -49,13 +44,13 @@ const SideNavCategory = ({ selectedCategories, categoriesChip }) => {
   };
 
   return (
-    <div class="col side-accord-container shadow">
-      <div class="green">
-        <span class="text-white fs-6">Categories</span>
+    <div className="col side-accord-container shadow">
+      <div className="green">
+        <span className="text-white fs-6">Categories</span>
       </div>
-      <div class="l-green"></div>
+      <div className="l-green"></div>
       <div>
-        <div class="accordian-wrapper">
+        <div className="accordian-wrapper">
           {!!categoryData?.length ? (
             categoryData?.map((category) => {
               return (
@@ -100,17 +95,17 @@ const SideNavCategory = ({ selectedCategories, categoriesChip }) => {
           )}
         </div>
       </div>
-      <div class="madhab-category">
-        <div class="green mt-4">
-          <span class="text-white fs-6">Madhab</span>
+      <div className="madhab-category">
+        <div className="green mt-4">
+          <span className="text-white fs-6">Madhab</span>
         </div>
-        <div class="l-green"></div>
+        <div className="l-green"></div>
 
         <div>
           {madhabData?.length ? (
             madhabData?.map((madhab) => {
               return (
-                <ul class="mt-2" key={madhab?._id}>
+                <ul className="mt-2" key={madhab?._id}>
                   <li
                     onClick={() => {
                       categoriesChip.madhab = madhab;

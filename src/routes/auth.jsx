@@ -1,12 +1,11 @@
-import { useNavigate } from "react-router-dom";
-
 const authCheck = () => {
-  let loginDatas = localStorage.getItem("LoginDatas");
+  let loginDatas = localStorage.getItem("@darul-ifta-user-login-details");
+  console.log("loginDatas", loginDatas);
   if (loginDatas) {
     let jsonData = JSON.parse(loginDatas);
-    if (jsonData?.role === "user") {
+    if (jsonData?.user_type === "User") {
       return { isUser: true, isAdmin: false };
-    } else {
+    } else if (jsonData?.user_type === "admin") {
       return { isUser: false, isAdmin: true };
     }
   } else {

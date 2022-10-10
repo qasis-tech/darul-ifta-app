@@ -38,13 +38,11 @@ export default function AccountHome() {
   }, []);
 
   const getLocalData = async () => {
-    const data = await getLocal("@darul-ifta-login-details");
+    const data = await getLocal("@darul-ifta-user-login-details");
     setUserDetails(data);
   };
 
-  const getAPIs = () => {
-    // axios.get()
-  };
+  const getAPIs = () => {};
 
   return (
     <>

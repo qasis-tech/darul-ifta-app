@@ -1,9 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import Slide from "@mui/material/Slide";
-import { Alert, AlertTitle } from "@mui/material";
-import { useEffect } from "react";
-import { useState } from "react";
+import { Alert, AlertTitle, Divider, Grow } from "@mui/material";
 import "../../styles/common.styles.scss";
 
 export default function DirectionSnackbar({
@@ -16,38 +14,50 @@ export default function DirectionSnackbar({
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if (visible) setOpen(visible);
-
-    setTimeout(() => {
-      setOpen(false);
-      onClose();
-    }, 3000);
+    if (visible) {
+      setOpen(visible);
+    }
 
     return () => {
       setOpen(false);
     };
   }, [visible]);
 
-  const TransitionUp = (props) => <Slide {...props} direction="up" />;
+  useEffect(() => {
+    setTimeout(() => {
+      setOpen(false);
+      onClose();
+    }, 3500);
+  }, []);
+
+  const TransitionUp = (props) => <Grow {...props} timeout={1000} />;
 
   return (
     <div>
-      <Snackbar
-        className="snack-main"
-        autoHideDuration={3000}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        open={open}
-        onClose={() => setOpen(false)}
-        key={"top" + "right"}
-        TransitionComponent={TransitionUp}
-      >
-        <Alert severity={type ? type : "success"} className={`alert-${type}`}>
-          <AlertTitle>{title ? title : "Error"}</AlertTitle>
-          <strong>
-            {message || "Something went wrong...! Please try again.!"}
-          </strong>
-        </Alert>
-      </Snackbar>
+      {open && (
+        <Snackbar
+          className="snack-main shadow"
+          autoHideDuration={3500}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          open={open}
+          onClose={() => {
+            setOpen(false);
+            onClose();
+          }}
+          key={"top" + "right"}
+          TransitionComponent={TransitionUp}
+        >
+          <Alert severity={type ? type : "error"} className={`alert-${type}`}>
+            {/* <AlertTitle className="fw-bold">
+              {title ? title : "Warning"}
+            </AlertTitle> */}
+            <Divider />
+            <strong>
+              {message || "Something went wrong...! Please try again.!"}
+            </strong>
+          </Alert>
+        </Snackbar>
+      )}
     </div>
   );
 }

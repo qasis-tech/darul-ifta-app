@@ -36,7 +36,9 @@ export default function AskFatwasComponent() {
   }, []);
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("@darul-ifta-login-details"));
+    const user = JSON.parse(
+      localStorage.getItem("@darul-ifta-user-login-details")
+    );
     console.log("user", user);
     if (user) {
       setUserId(user._id);

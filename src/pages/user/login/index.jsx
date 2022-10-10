@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import GoogleLogin from "react-google-login";
 import { useForm } from "react-hook-form";
+import { connect } from "react-redux";
 
 import { TextField, InputAdornment, IconButton } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
@@ -19,13 +20,21 @@ import { StoreLocal } from "../../../utils/localStore";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Loader from "../../../components/common/Loader";
+import SnackBar from "../../../components/common/Snackbar";
+import { addUserLoginDetails } from "../../../redux/actions";
 
-const Login = () => {
+const Login = (props) => {
   const navigate = useNavigate();
   const [screens, setScreens] = useState("email");
   const [isVisible, setVisible] = useState(false);
-  const [isLoader, setLoader] = useState(false);
+  const [isLoading, setLoader] = useState(false);
   const [imgSrc, setImgsrc] = useState([]);
+  const [errorPopup, setErrorPopup] = useState({
+    visible: false,
+    message: "",
+    type: "error",
+    title: "",
+  });
 
   const {
     register,
@@ -34,21 +43,45 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
+  const setError = (value) => {
+    setErrorPopup(value);
+    setTimeout(() => {
+      setErrorPopup({
+        visible: false,
+        message: "",
+        type: "error",
+        title: "",
+      });
+    }, 3500);
+  };
+
+  const handleCloseError = () => {
+    setError({
+      ...errorPopup,
+      visible: false,
+      message: "",
+      type: "",
+      titile: "",
+    });
+  };
+
   const handleContinue = ({ email }) => {
     setLoader(true);
     axios
-      .post(
-        `${URLS.user}${URLS.profile_pic}`,
-        { email: email },
-        {
-          "Content-Type": "application/json",
-        }
-      )
-      .then(({ data }) => {
-        console.log("res email", data);
+      .post(`${URLS.user}${URLS.profile_pic}`, { email })
+      .then((res) => {
+        console.log("res email", res);
         setLoader(false);
-        setImgsrc(data);
-        setScreens("password");
+        if (res?.success) {
+          setImgsrc(res?.data);
+          setScreens("password");
+        } else {
+          setError({
+            visible: true,
+            message: res.message,
+            type: "error",
+          });
+        }
       })
       .catch((err) => {
         setLoader(false);
@@ -70,8 +103,10 @@ const Login = () => {
         setLoader(false);
         console.log("res login", data);
         if (data.success && data.data) {
-          StoreLocal("@darul-ifta-login-details", data.data);
-          navigate(`${routerList.user.accountUser}`);
+          StoreLocal("@darul-ifta-user-login-details", data.data, () => {
+            props.addUserLoginDetails(data.data);
+            navigate(`${routerList.user.accountUser}`);
+          });
         }
       })
       .catch((err) => {
@@ -95,16 +130,17 @@ const Login = () => {
       })
       .then((res) => {
         setLoader(false);
-        console.log("data", res.data);
-        if (res.success && res.data) {
-          StoreLocal("@darul-ifta-login-details", res.data, () => {
+        console.log("Res in Continue Wirth Google", res);
+        if (res?.success && res?.data) {
+          StoreLocal("@darul-ifta-user-login-details", res.data, () => {
+            props.addUserLoginDetails(res.data);
             navigate(`${routerList.user.accountUser}`);
           });
         }
       })
       .catch((err) => {
         setLoader(false);
-        console.log("error in signin with google", err);
+        console.error("error in signin with google", err);
       });
   };
 
@@ -145,9 +181,7 @@ const Login = () => {
                     />
                     <div className="error">{errors?.email?.message}</div>
                     <div className="signin-btn">
-                      {isLoader ? (
-                        <Loader />
-                      ) : (
+                      {!isLoading && (
                         <button className="btn" type="submit">
                           Continue
                         </button>
@@ -197,9 +231,7 @@ const Login = () => {
                     </div>
                   </div>
                   <div className="signin-btn">
-                    {isLoader ? (
-                      <Loader />
-                    ) : (
+                    {!isLoading && (
                       <button className="btn " type="submit">
                         Login
                       </button>
@@ -211,27 +243,28 @@ const Login = () => {
               <div className="separator">Or</div>
 
               <div className="socialBtn">
-                {isLoader ? (
+                {isLoading ? (
                   <Loader />
                 ) : (
-                  <GoogleLogin
-                    clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-                    buttonText="Continue with Google"
-                    onSuccess={(aa) => {
-                      console.log("DOne", aa);
-                      handleRegister(aa?.profileObj);
-                    }}
-                    onFailure={(ee) => {
-                      console.log("Fail", ee);
-                    }}
-                    cookiePolicy={"single_host_origin"}
-                  />
-                )}
+                  <>
+                    <GoogleLogin
+                      clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                      buttonText="Continue with Google"
+                      onSuccess={(aa) => {
+                        handleRegister(aa?.profileObj);
+                      }}
+                      onFailure={(ee) => {
+                        console.log("Fail", ee);
+                      }}
+                      cookiePolicy={"single_host_origin"}
+                    />
 
-                <div className="facebook icon text">
-                  <FacebookIcon className="icons-size " />
-                  Continue with Facebook
-                </div>
+                    {/* <div className="facebook icon text">
+                      <FacebookIcon className="icons-size " />
+                      Continue with Facebook
+                    </div> */}
+                  </>
+                )}
               </div>
 
               <div className="back-btn">
@@ -243,8 +276,23 @@ const Login = () => {
           </div>
         </div>
       </div>
+
+      <SnackBar
+        visible={errorPopup.visible}
+        message={errorPopup.message}
+        type={errorPopup.type}
+        title={errorPopup.title}
+        onClose={() => handleCloseError()}
+      />
     </section>
   );
 };
 
-export default Login;
+const mapStateToProps = (state) => ({
+  ...state,
+});
+const mapDispatchToProps = (dispatch) => ({
+  addUserLoginDetails: (payload) => dispatch(addUserLoginDetails(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

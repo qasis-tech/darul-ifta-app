@@ -71,7 +71,7 @@ export default function UserTab() {
   }, [userId]);
 
   const getLocalData = async () => {
-    const data = await getLocal("@darul-ifta-login-details");
+    const data = await getLocal("@darul-ifta-user-login-details");
     setUserDetails(data);
     setUserId(data._id);
   };

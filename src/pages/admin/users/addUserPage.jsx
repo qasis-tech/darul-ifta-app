@@ -42,7 +42,9 @@ export default function AddUser() {
   }, []);
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("@darul-ifta-login-details"));
+    const user = JSON.parse(
+      localStorage.getItem("@darul-ifta-user-login-details")
+    );
     console.log("user", user);
     if (user) {
       setUserToken(user.initial_token);

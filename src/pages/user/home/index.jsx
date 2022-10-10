@@ -11,6 +11,7 @@ import {
   Tab,
   Typography,
   Box,
+  Button,
 } from "@mui/material";
 
 import CloseIcon from "@mui/icons-material/Close";
@@ -32,6 +33,10 @@ import SideNavCategory from "./components/sideNavCategory";
 import VisitorDetails from "./components/visitorDetails";
 import getQuestionListApi from "../../../services/getQuestionsList";
 import NoDataAvailable from "../../../components/NoDataAvailable";
+
+import { connect } from "react-redux";
+import { addUserLoginDetails } from "../../../redux/actions";
+import { getLocal } from "../../../utils/localStore";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -81,26 +86,6 @@ const HomePage = (props) => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [isLoading, setLoader] = useState(false);
 
-  // const handleChange = (event, newValue) => {
-  //   setValue(newValue);
-  //   if (newValue === 1) {
-  //     setLanguage("English");
-  //     getQuestionsApi();
-  //   } else if (newValue === 2) {
-  //     setLanguage("Malayalam");
-  //     getQuestionsApi();
-  //   } else if (newValue === 3) {
-  //     setLanguage("Urdu");
-  //     getQuestionsApi();
-  //   } else if (newValue === 4) {
-  //     setLanguage("Arabic");
-  //     getQuestionsApi();
-  //   } else {
-  //     setLanguage("");
-  //     getQuestionsApi();
-  //   }
-  // };
-
   const handleChange = (event, newValue) => {
     switch (newValue) {
       case 0:
@@ -147,33 +132,15 @@ const HomePage = (props) => {
 
   useEffect(() => {
     getQuestionList();
+    getLocal().then((res) => {
+      props.addUserLoginDetails(res);
+    });
   }, []);
 
   useEffect(() => {
     if (searchInput === "") getQuestionList(`?language=&search=${searchInput}`);
   }, [searchInput]);
 
-  // const getQuestionsApi = (language="") => {
-  //   let url = `${URLS.question}?limit=${rowsPerPage}&skip=${
-  //     page * rowsPerPage
-  //   }`;
-
-  //   if (searchInput !== "" && language !== "") {
-  //     url = `${url}&search=${searchInput}&language=${language}`;
-  //   } else if (searchInput !== "" && language === "") {
-  //     url = `${url}&search=${searchInput}`;
-  //   } else if (searchInput === "" && language !== "") {
-  //     url = `${url}&language=${language}`;
-  //   }
-
-  //   axios
-  //     .get(url)
-  //     .then(({ data }) => setQuestionsData(data))
-  //     .catch((err) => {
-  //       setLoader(false);
-  //       console.log("error questions", err);
-  //     });
-  // };
   const getQuestionList = (params) => {
     setLoader(true);
     getQuestionListApi(params)
@@ -190,15 +157,23 @@ const HomePage = (props) => {
 
   return (
     <div className="home-page">
+      {/* <Button
+        variant="outlined"
+        onClick={() => {
+          props.addUserLoginDetails({ name: "sabeer Ali", age: 25 });
+        }}
+      >
+        add
+      </Button> */}
       <div
-        class="bg-custom slider-section"
+        className="bg-custom slider-section"
         style={{ backgroundImage: `url(${BackgroundImage})` }}
       >
         <Slider />
         <section className="body-section">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-3">
+          <div className="container">
+            <div className="row">
+              <div className="col-md-3">
                 <SideNavCategory
                   categoriesChip={categoriesChip}
                   selectedCategories={(e) => {
@@ -208,7 +183,7 @@ const HomePage = (props) => {
                 />
                 <VisitorDetails />
               </div>
-              <div class="col-md-9 tab-container shadow rounded">
+              <div className="col-md-9 tab-container shadow rounded">
                 <div className="row chip-section">
                   <div className="">
                     {!!categoriesChip?.category && (
@@ -405,4 +380,11 @@ const HomePage = (props) => {
     </div>
   );
 };
-export default HomePage;
+const mapStateToProps = (state) => ({
+  ...state,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  addUserLoginDetails: (payload) => dispatch(addUserLoginDetails(payload)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

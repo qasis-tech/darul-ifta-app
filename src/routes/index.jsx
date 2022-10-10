@@ -60,7 +60,11 @@ import AddMusthafthies from "../pages/admin/musthafthies/addMusthafthiesPage";
 import AddUser from "../pages/admin/users/addUserPage";
 import FatwasDetails from "../pages/admin/fatwas/detailsFatwa";
 import AddArticle from "../pages/admin/article/addArticle";
-const CustomRouters = () => {
+import UserAccountRouting from "./userAccounts";
+import { connect } from "react-redux";
+
+const CustomRouters = (props) => {
+  console.log("props in ROutes ===", props);
   const [isUser, setUser] = useState(false);
   const [isAdmin, setAdmin] = useState(false);
 
@@ -70,7 +74,7 @@ const CustomRouters = () => {
     setAdmin(isAdmin);
   }, []);
 
-  console.log("isUser,isAdmin", isUser, isAdmin);
+  console.log("isUser,isAdmin in Routes", isUser, isAdmin);
 
   return (
     <Routes>
@@ -83,30 +87,24 @@ const CustomRouters = () => {
           path={RouterList.user.fatwasDetailsPage}
           element={<FatwasDetailsPage />}
         />
-        <Route path={RouterList.user.accountUser} element={<AccountHome />} />
         <Route
-          path={RouterList.user.accountUserAsk}
-          element={<AskFatwasForm />}
-        />
-        <Route
-          path={RouterList.user.accountUserProfile}
-          element={<Profile />}
-        />
-        <Route path="/admin" element={<AdminHome />} />
-
-        {/*<Route path="register" element={<RegisterPage />} />
-        <Route path="resetpassword" element={<ResetPassword />} />
-        <Route path="product-details" element={<CustomerProductDetails />} />
-        <Route path="cart" element={<CartPage />} />
-        <Route path="profile" element={<Profile />} />
-        <Route path="order" element={<Order />} />
-        <Route path="order-details" element={<OrderDetails />} />
-        <Route path="payments" element={<Payment />} />
-        <Route path="productlist" element={<ProductList />} />
-        <Route path="whishlist" element={<WhishList />} />
-        <Route path={RouterList.user.about} element={<AboutUs />} />
-        <Route path={RouterList.user.contact} element={<ContactUs />} />
-        <Route path="navbar" element={<HeaderNav />} /> */}
+          path={RouterList.user.accountUser}
+          element={<UserAccountRouting />}
+        >
+          <Route
+            index
+            path={RouterList.user.accountUser}
+            element={<AccountHome />}
+          />
+          <Route
+            path={RouterList.user.accountUserAsk}
+            element={<AskFatwasForm />}
+          />
+          <Route
+            path={RouterList.user.accountUserProfile}
+            element={<Profile />}
+          />
+        </Route>
       </Route>
       <Route path="/admin" element={<PrivateRouting />} isAdmin={true}>
         <Route path="/admin" element={<Dashboard />} />
@@ -121,28 +119,6 @@ const CustomRouters = () => {
         <Route path="fatwasDetails" element={<FatwasDetails />} />
         <Route path="addArticle" element={<AddArticle />} />
         <Route path={RouterList.admin.categoryList} element={<Categories />} />
-        {/*
-        <Route
-          path={RouterList.admin.categoryList}
-          element={<ListCategory />}
-        />
-        <Route path={RouterList.admin.addCategory} element={<AddCategory />} />
-        <Route path="category-details/:id" element={<Categorydetails />} />
-        <Route path={RouterList.admin.productList} element={<ListProduct />} />
-        <Route path="add-products" element={<AddProduct />} />
-        <Route path="product-details/:id" element={<ProductDetails />} />
-        <Route path="stocks" element={<StockList />} />
-        <Route path="add-stock" element={<AddStock />} />
-        <Route
-          path={RouterList.admin.stockDetails}
-          element={<StockDetails />}
-        />
-        <Route path="users" element={<UserList />} />
-        <Route path={RouterList.admin.addUser} element={<AddUser />} />
-        <Route path="users-details/:id" element={<UserDetails />} />
-        <Route path="add-user" element={<AddUser />} />
-        <Route path="order-details/:id" element={<OrderDetails />} />
-        <Route path={RouterList.admin.orderList} element={<OrderList />} /> */}
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
@@ -150,4 +126,8 @@ const CustomRouters = () => {
   );
 };
 
-export default CustomRouters;
+const mapStateToProps = (state) => ({
+  ...state,
+});
+
+export default connect(mapStateToProps)(CustomRouters);
