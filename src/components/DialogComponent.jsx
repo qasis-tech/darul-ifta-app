@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Button from "@mui/material/Button";
+import { Button } from "@mui/material";
 
 import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
@@ -9,7 +9,6 @@ import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
-import { Delete } from "@mui/icons-material";
 import { Alert } from "@mui/material";
 import AskFatwasComponent from "../pages/user/Accounts/askFatwas";
 import "../pages/user/Accounts/askFatwas/askfatwas.styles.scss";
@@ -27,6 +26,7 @@ const BootstrapDialog = styled(Dialog)(({ theme, size }) => ({
 }));
 
 const DialogComponent = (props) => {
+  console.log("props title 2", props.title2);
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -43,7 +43,7 @@ const DialogComponent = (props) => {
           <Typography variant="subtitle1" className="fw-bold">
             {props.title}
           </Typography>
-          {/* <Alert>{props.title}</Alert> */}
+
           <IconButton
             aria-label="close"
             onClick={handleClose}
@@ -57,7 +57,13 @@ const DialogComponent = (props) => {
             <CloseIcon />
           </IconButton>
         </DialogTitle>
-        <DialogContent dividers>
+        {props?.title2 && (
+          <Alert severity="warning" className="alert-warning">
+            Only verified user can ask questions.please complete profile.
+            Thanks.
+          </Alert>
+        )}
+        <DialogContent dividers sx={{}}>
           <Typography gutterBottom>{props.msg}</Typography>
           <Typography gutterBottom></Typography>
           {props.mainComponent}

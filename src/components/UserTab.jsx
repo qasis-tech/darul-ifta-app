@@ -3,10 +3,7 @@ import axios from "axios";
 
 import PropTypes from "prop-types";
 
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
+import { Tabs, Tab, Typography, Box } from "@mui/material";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 
 import AskFatwasComponent from "../pages/user/Accounts/askFatwas";
@@ -17,9 +14,9 @@ import { URLS } from "../config/urls.config";
 import { formatDate } from "../utils/dateformat";
 import Loader from "./common/Loader";
 import { getLocal } from "../utils/localStore";
+import NoDataAvailable from "./NoDataAvailable";
 
 import "../pages/user/Accounts/home/account.home.styles.scss";
-import NoDataAvailable from "./NoDataAvailable";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -57,24 +54,17 @@ function a11yProps(index) {
 export default function UserTab() {
   const [value, setValue] = useState(0);
   const [questionData, setQuestionData] = useState([]);
-  const [isLoader, setLoader] = useState(false);
+  const [isLoading, setLoader] = useState(false);
 
   const [userDetails, setUserDetails] = useState([]);
-  const [userId, setUserId] = useState("");
 
   useEffect(() => {
-    getLocalData();
+    getLocal().then((res) => setUserDetails(res));
   }, []);
 
-  useEffect(() => {
-    getQuestionApi("");
-  }, [userId]);
-
-  const getLocalData = async () => {
-    const data = await getLocal("@darul-ifta-user-login-details");
-    setUserDetails(data);
-    setUserId(data._id);
-  };
+  // useEffect(() => {
+  //   getQuestionApi("");
+  // }, [userId]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -91,20 +81,14 @@ export default function UserTab() {
 
   const getQuestionApi = (selectedStatus) => {
     setLoader(true);
-    let url = `${URLS.question}?userid=${userId}`;
-
+    let url = `${URLS.question}?userid=${userDetails?._id}`;
     if (selectedStatus !== "") {
       url = `${url}&status=${selectedStatus}`;
     }
     axios
-      .get(url, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      .get(url)
       .then((res) => {
         setLoader(false);
-        console.log("resques2222>>>", res);
         setQuestionData(res.data);
       })
       .catch((err) => {
@@ -115,100 +99,101 @@ export default function UserTab() {
 
   return (
     <div className="user-tab-section">
-      {isLoader ? (
-        <Loader />
-      ) : (
-        <Box sx={{ width: "100%" }}>
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <Tabs
-              className="main-tab"
-              value={value}
-              onChange={handleChange}
-              aria-label="basic tabs example"
-            >
-              <Tab className="tab-name" label="My Questions" />
-              <Tab label="Published Fatwas" />
-              <Tab label="Pending Fatwas" />
-              <Tab label="Rejected Fatwas" />
-            </Tabs>
-          </Box>
-          <TabPanel value={value} index={0}>
-            {/* <AccountHomeComponent/> */}
-            {questionData?.length ? (
-              questionData.map((question) => {
-                return (
-                  <QuestionContainer
-                    key={question._id}
-                    shortquestion={question.short_question}
-                    question={question.question}
-                    questionCount={question.slNo}
-                    createdDate={formatDate(question.createdAt)}
-                    views={question.views}
-                  />
-                );
-              })
-            ) : (
-              <NoDataAvailable />
-            )}
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            {/* <AskFatwasComponent /> */}
-            {questionData?.length ? (
-              questionData.map((question) => {
-                return (
-                  <QuestionContainer
-                    key={question._id}
-                    shortquestion={question.short_question}
-                    question={question.question}
-                    questionCount={question.slNo}
-                    createdDate={formatDate(question.createdAt)}
-                    views={question.views}
-                  />
-                );
-              })
-            ) : (
-              <div>NO DATA </div>
-            )}
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            {questionData?.length ? (
-              questionData.map((question) => {
-                return (
-                  <QuestionContainer
-                    key={question._id}
-                    shortquestion={question.short_question}
-                    question={question.question}
-                    questionCount={question.slNo}
-                    createdDate={formatDate(question.createdAt)}
-                    views={question.views}
-                  />
-                );
-              })
-            ) : (
-              <div>NO DATA </div>
-            )}
-            {/* <Profile /> */}
-          </TabPanel>
-          <TabPanel value={value} index={3}>
-            {questionData?.length ? (
-              questionData.map((question) => {
-                return (
-                  <QuestionContainer
-                    key={question._id}
-                    shortquestion={question.short_question}
-                    question={question.question}
-                    questionCount={question.slNo}
-                    createdDate={formatDate(question.createdAt)}
-                    views={question.views}
-                  />
-                );
-              })
-            ) : (
-              <div>NO DATA </div>
-            )}
-          </TabPanel>
+      <Box sx={{ width: "100%" }}>
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Tabs
+            className="main-tab"
+            value={value}
+            onChange={handleChange}
+            aria-label="basic tabs example"
+          >
+            <Tab className="tab-name" label="My Questions" />
+            <Tab label="Published Fatwas" />
+            <Tab label="Pending Fatwas" />
+            <Tab label="Rejected Fatwas" />
+          </Tabs>
         </Box>
-      )}
+        {isLoading ? (
+          <div style={{ minHeight: 300 }} className="d-flex align-items-center">
+            <Loader />
+          </div>
+        ) : (
+          <>
+            <TabPanel value={value} index={0}>
+              {questionData?.length ? (
+                questionData.map((question) => {
+                  return (
+                    <QuestionContainer
+                      key={question._id}
+                      shortquestion={question.short_question}
+                      question={question.question}
+                      questionCount={question.slNo}
+                      createdDate={formatDate(question.createdAt)}
+                      views={question.views}
+                    />
+                  );
+                })
+              ) : (
+                <NoDataAvailable noStyle noBg />
+              )}
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+              {questionData?.length ? (
+                questionData.map((question) => {
+                  return (
+                    <QuestionContainer
+                      key={question._id}
+                      shortquestion={question.short_question}
+                      question={question.question}
+                      questionCount={question.slNo}
+                      createdDate={formatDate(question.createdAt)}
+                      views={question.views}
+                    />
+                  );
+                })
+              ) : (
+                <NoDataAvailable noStyle noBg />
+              )}
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+              {questionData?.length ? (
+                questionData.map((question) => {
+                  return (
+                    <QuestionContainer
+                      key={question._id}
+                      shortquestion={question.short_question}
+                      question={question.question}
+                      questionCount={question.slNo}
+                      createdDate={formatDate(question.createdAt)}
+                      views={question.views}
+                    />
+                  );
+                })
+              ) : (
+                <NoDataAvailable noStyle noBg />
+              )}
+            </TabPanel>
+            <TabPanel value={value} index={3}>
+              {questionData?.length ? (
+                questionData.map((question) => {
+                  return (
+                    <QuestionContainer
+                      key={question._id}
+                      shortquestion={question.short_question}
+                      question={question.question}
+                      questionCount={question.slNo}
+                      createdDate={formatDate(question.createdAt)}
+                      views={question.views}
+                    />
+                  );
+                })
+              ) : (
+                <NoDataAvailable noStyle noBg />
+              )}
+            </TabPanel>
+          </>
+        )}
+      </Box>
     </div>
   );
 }

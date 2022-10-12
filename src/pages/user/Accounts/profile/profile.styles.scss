@@ -1,29 +1,28 @@
 @import "../../../../styles/common.styles.scss";
-.profile-section{
-    margin-top: 2em;
-    display: flex;
-    justify-content: center;
-    margin-top: 2em;
-    .profile-container{
-        width: 65%;
-        @media screen and (max-width:1000px) {
-            width: 100%;
-        }
-        .row{
-            margin-top: 1em;
-            @media screen and (max-width:1000px) {
-                margin-top: 0;
-            }
-            .col-md-6{
-                @media screen and (max-width:1000px) {
-                    margin-top: 1em;
-                }
-            }
-            .col-md-12{
-                @media screen and (max-width:1000px) {
-                    margin-top: 1em;
-                }
-            }
-        }
+.profile-section {
+  display: flex;
+  justify-content: center;
+  margin: 1em 0;
+  .profile-container {
+    width: 70%;
+    @media screen and (max-width: 1000px) {
+      width: 100%;
     }
+    .row {
+      margin-top: 1em;
+      @media screen and (max-width: 1000px) {
+        margin-top: 0;
+      }
+      .col-md-6 {
+        @media screen and (max-width: 1000px) {
+          margin-top: 1em;
+        }
+      }
+      .col-md-12 {
+        @media screen and (max-width: 1000px) {
+          margin-top: 1em;
+        }
+      }
+    }
+  }
 }
