@@ -9,12 +9,13 @@ import Loader from "../../../../components/common/Loader";
 import "./askfatwas.styles.scss";
 
 export default function AskFatwasComponent() {
-  const [languageList, setLanguageList] = useState([
+  const languageList = [
     { id: 1, title: "English" },
     { id: 2, title: "Malayalam" },
     { id: 3, title: "Arabic" },
     { id: 4, title: "Urdu" },
-  ]);
+  ];
+
   const [categoryData, setCategoryData] = useState([]);
   const [madhabData, setMadhabData] = useState([]);
   const [selectedMadhab, setSelectedMadhab] = useState([]);
@@ -36,7 +37,9 @@ export default function AskFatwasComponent() {
   }, []);
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("@darul-ifta-login-details"));
+    const user = JSON.parse(
+      localStorage.getItem("@darul-ifta-user-login-details")
+    );
     console.log("user", user);
     if (user) {
       setUserId(user._id);
@@ -66,16 +69,10 @@ export default function AskFatwasComponent() {
   const getmadhabApi = () => {
     setLoader(true);
     axios
-      .get(URLS.madhab, {
-        headers: {
-          // Authorization: `${token}`,
-          "Content-Type": "application/json",
-        },
-      })
+      .get(URLS.madhab)
       .then((res) => {
         setLoader(false);
         setMadhabData(res.data);
-        console.log("ress", res);
       })
       .catch((err) => {
         setLoader(false);
@@ -98,7 +95,6 @@ export default function AskFatwasComponent() {
       .post(`${URLS.question}`, payload, {
         headers: {
           Authorization: `${userToken}`,
-          "Content-Type": "application/json",
         },
       })
       .then((res) => {
@@ -178,8 +174,7 @@ export default function AskFatwasComponent() {
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          label="
-                Category"
+                          label="Category"
                           {...register("category", {
                             required: "Category is required",
                           })}
@@ -206,7 +201,6 @@ export default function AskFatwasComponent() {
                     <div className="error">{errors?.category?.message}</div>
                   )}
                 </div>
-
                 {/* subcategory */}
                 <div className="col-md-3">
                   {selectedCategory?.subCategory?.length ? (
@@ -263,8 +257,7 @@ export default function AskFatwasComponent() {
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          label="
-              Language"
+                          label="Language"
                           {...register("language", {
                             required: "Language is required",
                           })}

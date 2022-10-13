@@ -10,6 +10,7 @@ export default {
     askFatwas: "/ask-fatwas",
     fatwas: "/fatwas",
     accountUser: "/user",
+    accountUserHome: "/user/home",
     accountUserProfile: "/user/profile",
     accountUserAsk: "/user/ask",
     fatwasDetailsPage: "/FatwasDetailsPage",

@@ -85,7 +85,7 @@ export default function Dashboard() {
   return (
     <div>
       <div className="admin-home-section">
-        <div class="row justify-content-center">
+        <div className="row justify-content-center">
           <CountTile
             titile="Mustafthi"
             Icon={() => <LanguageIcon className="fa" />}

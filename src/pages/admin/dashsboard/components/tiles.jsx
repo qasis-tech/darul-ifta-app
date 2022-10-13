@@ -1,14 +1,14 @@
 const CountTile = ({ Icon, titile, value, style }) => (
-  <div class="col-lg-2 col-sm-6 main-tile">
-    <div class="circle-tile">
+  <div className="col-lg-2 col-sm-6 main-tile">
+    <div className="circle-tile">
       <a href="#">
-        <div class={`circle-tile-heading ${style}`}>
+        <div className={`circle-tile-heading ${style}`}>
           <Icon />
         </div>
       </a>
-      <div class={`circle-tile-content ${style}`}>
-        <div class="circle-tile-description text-faded">{titile}</div>
-        <div class="circle-tile-number text-faded">
+      <div className={`circle-tile-content ${style}`}>
+        <div className="circle-tile-description text-faded">{titile}</div>
+        <div className="circle-tile-number text-faded">
           {value}
           <span id="sparklineA"></span>
         </div>

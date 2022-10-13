@@ -1,50 +1,31 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { connect } from "react-redux";
 
 import { Button, Card } from "@mui/material";
 
 import PersonIcon from "@mui/icons-material/Person";
 import SettingsIcon from "@mui/icons-material/Settings";
 import MessageIcon from "@mui/icons-material/Message";
+
 import DefaultImg1 from "../../../../assets/images/Minaret.svg";
 
 import UserTab from "../../../../components/UserTab";
 import DialogComponent from "../../../../components/DialogComponent";
 import { getLocal } from "../../../../utils/localStore";
 import AskFatwasComponent from "../../Accounts/askFatwas";
-import { useNavigate } from "react-router-dom";
 
 import UserProfile from "../profile";
 
-export default function AccountHome() {
-  const navigate = useNavigate();
-
+const AccountHome = ({ userLoginDetails }) => {
   const [userDetails, setUserDetails] = useState(null);
-  const [dropdownList, setDropdownList] = useState({
-    madhab: [
-      { id: 1, label: "Hanafi", values: "hanafi" },
-      { id: 2, label: "Shafi", values: "shafi" },
-      { id: 3, label: "Other", values: "other" },
-    ],
-    category: [
-      { id: 1, label: "Hanafi", values: "hanafi" },
-      { id: 2, label: "Shafi", values: "shafi" },
-      { id: 3, label: "Other", values: "other" },
-    ],
-  });
 
   useEffect(() => {
-    getLocalData();
+    getLocal().then((res) => setUserDetails(res));
   }, []);
 
-  const getLocalData = async () => {
-    const data = await getLocal("@darul-ifta-login-details");
-    setUserDetails(data);
-  };
+  const getAPIs = () => {};
 
-  const getAPIs = () => {
-    // axios.get()
-  };
+  console.log("props === > 001", userLoginDetails);
 
   return (
     <>
@@ -54,7 +35,7 @@ export default function AccountHome() {
             {userDetails?.profile_pic ? (
               <span>
                 <img
-                  src={userDetails?.profile_pic + "" + "111"}
+                  src={userDetails?.profile_pic}
                   class="profile-img"
                   alt="profile images"
                   onError={(e) => {
@@ -75,6 +56,7 @@ export default function AccountHome() {
               <div className="col pointer">
                 <DialogComponent
                   title="User Profile"
+                  title2="user must completed profile then only permission to ask question"
                   className="model-section"
                   fullWidth
                   mainComponent={<UserProfile />}
@@ -122,7 +104,7 @@ export default function AccountHome() {
                 <Card
                   variant="outlined"
                   sx={{ padding: 1, margin: "5px 0", textAlign: "center" }}
-                  className="fw-bold"
+                  className="fw-bold shadow border-0"
                 >
                   Fatwas : 100
                 </Card>
@@ -131,7 +113,7 @@ export default function AccountHome() {
                 <Card
                   variant="outlined"
                   sx={{ padding: 1, margin: "5px 0", textAlign: "center" }}
-                  className="fw-bold"
+                  className="fw-bold shadow border-0"
                 >
                   Answred : 75
                 </Card>
@@ -139,19 +121,25 @@ export default function AccountHome() {
 
               <div className="btn-section">
                 <DialogComponent
-                  title="Ask Questions"
+                  title={
+                    userLoginDetails?.profileComplete === "Incomplete"
+                      ? "User Profile"
+                      : "Ask Questions"
+                  }
+                  title2={userLoginDetails?.profileComplete === "Incomplete"}
                   className="model-section"
                   fullWidth
-                  mainComponent={<AskFatwasComponent />}
+                  mainComponent={
+                    userLoginDetails?.profileComplete === "Incomplete" ? (
+                      <UserProfile />
+                    ) : (
+                      <AskFatwasComponent />
+                    )
+                  }
                   noBottom
                   size="xl"
                 >
-                  <Button
-                    variant="contained"
-                    className="submit-btn"
-                    fullWidth
-                    onClick={getAPIs}
-                  >
+                  <Button variant="contained" className="submit-btn" fullWidth>
                     Ask Fatwa
                   </Button>
                 </DialogComponent>
@@ -164,4 +152,10 @@ export default function AccountHome() {
       <UserTab />
     </>
   );
-}
+};
+
+const mapStateToProps = (state) => ({
+  ...state,
+});
+
+export default connect(mapStateToProps)(AccountHome);

@@ -4,12 +4,17 @@ import { useEffect, useState } from "react";
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.headers.common["Authorization"] =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTY2MjAwNjE3MCwiZXhwIjoxNjkzNTQyMTcwfQ.6nAZA-Bj2_gQTewAxiZsxmpc6UqLIoroQaBqMiSc0dU";
-axios.defaults.headers.common["Content-Type"] = "application/json";
+// axios.defaults.headers.common["Content-Type"] = "application/json";
 
 axios.interceptors.request.use((req) => {
-  // req.headers.Authorization =
-  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTY2MjAwNjE3MCwiZXhwIjoxNjkzNTQyMTcwfQ.6nAZA-Bj2_gQTewAxiZsxmpc6UqLIoroQaBqMiSc0dU";
-  // req.headers.Accept = "*/*";
+  if (req?.headers["Content-Type"]) {
+    req.headers["Content-Type"] = req.headers["Content-Type"];
+    req.headers.common["Content-Type"] = req.headers["Content-Type"];
+  } else {
+    req.headers["Content-Type"] = "application/json";
+    req.headers.common["Content-Type"] = "application/json";
+  }
+
   return req;
 });
 

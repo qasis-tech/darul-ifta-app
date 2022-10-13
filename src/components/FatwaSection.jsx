@@ -63,17 +63,17 @@ const FatwaSection = () => {
   return (
     <div className="home-page">
       <section className="body-section">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-3">
-              <div class="col side-accord-container shadow">
-                <div class="green">
-                  <span class="text-white fs-6">Categories</span>
+        <div className="container">
+          <div className="row">
+            <div className="col-md-3">
+              <div className="col side-accord-container shadow">
+                <div className="green">
+                  <span className="text-white fs-6">Categories</span>
                 </div>
-                <div class="l-green"></div>
+                <div className="l-green"></div>
                 <div>
-                  <div class="accordian-wrapper">
-                    <Accordion class="accordian">
+                  <div className="accordian-wrapper">
+                    <Accordion className="accordian">
                       <AccordionSummary
                         expandIcon={<ExpandMoreIcon className="arrow-color" />}
                         aria-controls="panel1a-content"
@@ -82,7 +82,7 @@ const FatwaSection = () => {
                         <Typography>Faiths & Beliefs</Typography>
                       </AccordionSummary>
                       <AccordionDetails>
-                        <ul class="accordion-sub">
+                        <ul className="accordion-sub">
                           <li>Hanafi Madhab</li>
                           <li>Shafi Madhab</li>
                           <li>Common</li>
@@ -90,7 +90,7 @@ const FatwaSection = () => {
                       </AccordionDetails>
                     </Accordion>
 
-                    {/* <accordion class="accordian">
+                    {/* <accordion className="accordian">
                       <accordion-group heading="Faiths & Beliefs">
                         <ul>
                           <li>Islamic Beliefs</li>
@@ -99,13 +99,13 @@ const FatwaSection = () => {
                     </accordion> */}
                   </div>
                 </div>
-                <div class="madhab-category">
-                  <div class="green mt-4">
-                    <span class="text-white fs-6">Madhab</span>
+                <div className="madhab-category">
+                  <div className="green mt-4">
+                    <span className="text-white fs-6">Madhab</span>
                   </div>
-                  <div class="l-green"></div>
+                  <div className="l-green"></div>
                   <div>
-                    <ul class="mt-2">
+                    <ul className="mt-2">
                       <li>Hanafi Madhab</li>
                       <li>Shafi Madhab</li>
                       <li>Common</li>
@@ -113,23 +113,23 @@ const FatwaSection = () => {
                   </div>
                 </div>
               </div>
-              <div class="col custom-details shadow">
-                <div class="custom-details-column">
+              <div className="col custom-details shadow">
+                <div className="custom-details-column">
                   <h6>Visitor</h6>
                   <div>100</div>
                 </div>
 
-                <div class="custom-details-column">
+                <div className="custom-details-column">
                   <h6>Total Fatwas</h6>
                   <div>100</div>
                 </div>
-                <div class="custom-details-column">
+                <div className="custom-details-column">
                   <h6>Registered Users</h6>
                   <div>100</div>
                 </div>
               </div>
             </div>
-            <div class="col-md-9 tab-container shadow rounded">
+            <div className="col-md-9 tab-container shadow rounded">
               <div className="row chip-section">
                 <div className="">
                   <Chip

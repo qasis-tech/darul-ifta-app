@@ -23,17 +23,17 @@ const VisitorDetails = () => {
       });
   };
   return (
-    <div class="col custom-details shadow">
-      <div class="custom-details-column">
+    <div className="col custom-details shadow">
+      <div className="custom-details-column">
         <h6>Visitor</h6>
         <div>{generalDetails?.visitors || "N/A"}</div>
       </div>
 
-      <div class="custom-details-column">
+      <div className="custom-details-column">
         <h6>Total Fatwas</h6>
         <div>{generalDetails?.fatwas || "N/A"}</div>
       </div>
-      <div class="custom-details-column">
+      <div className="custom-details-column">
         <h6>Registered Users</h6>
         <div>{generalDetails?.users || "N/A"}</div>
       </div>

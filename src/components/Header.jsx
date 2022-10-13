@@ -50,7 +50,7 @@ const HeaderComponent = () => {
                   </a>
                 </li>
                 <li
-                  class="nav-item"
+                  className="nav-item"
                   onClick={() => navigate(`${routerList.user.accountUser}`)}
                 >
                   <a className="nav-link custom-menu" aria-current="page">
