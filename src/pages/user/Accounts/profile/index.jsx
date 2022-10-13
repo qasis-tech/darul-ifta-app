@@ -50,7 +50,7 @@ export default function Profile() {
       type: "",
       titile: "",
     });
-    navigate(-1);
+    // navigate(-1);
   };
 
   const handleUserUpdate = ({ mobileNumber, madhab, address }) => {

@@ -7,7 +7,8 @@ export default function QuestionNumber({ data }) {
       <div className="col-md-12 py-1 qid">
         <h6>
           Question ID : QID-{data?.slNo || "N/A"} / Madhab :{" "}
-          {data?.madhab?.title || "N/A"} / Category : Miscellaneous
+          {data?.madhab?.title || "N/A"} / Category :{" "}
+          {data?.category?.category || "N/A"}
         </h6>
         <hr />
       </div>

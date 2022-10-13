@@ -19,17 +19,17 @@ export default function FatwasDetailsPage() {
     <div className="question-details-section mt-5">
       <div className="container">
         <QuestionNumberComponent data={data} />
-        <SingleQuestionComponent />
+        <SingleQuestionComponent data={data} />
       </div>
-      <PublishedDateComponent />
+      <PublishedDateComponent data={data} />
       <div className=" d-flex">
         <div className="container main-section">
           <div className="col">
             <SocialComponent />
           </div>
           <div className="col-md-10 details">
-            <DetailedQuestionComponent />
-            <WrittenComponent />
+            <DetailedQuestionComponent data={data} />
+            <WrittenComponent data={data} />
           </div>
           <div className="col-md-2 related">
             <RelatedFatwasComponent />
@@ -38,22 +38,5 @@ export default function FatwasDetailsPage() {
       </div>
       <FooterComponent />
     </div>
-    //   <PublishedDateComponent />
-    //   <div className="main-section">
-    //     <div className="col">
-    //       <SocialComponent />
-    //     </div>
-    //     <div className="">
-    //       <div className="col details">
-    //         <DetailedQuestionComponent />
-    //         <WrittenComponent />
-    //       </div>
-    //     </div>
-    //     <div className="col related">
-    //       <RelatedFatwasComponent />
-    //     </div>
-    //   </div>
-    //   <FooterComponent />
-    // </div>
   );
 }
