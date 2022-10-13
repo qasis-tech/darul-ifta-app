@@ -76,6 +76,13 @@ const HeaderComponent = () => {
                     <PersonIcon />
                   </div>
                 </li>
+                <li
+                  className="nav-item"
+                >
+                  <a className="nav-link custom-menu" aria-current="page">
+                    Logout
+                  </a>
+                </li>
               </ul>
             </Nav>
           </Navbar.Collapse>
