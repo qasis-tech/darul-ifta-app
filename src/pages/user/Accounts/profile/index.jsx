@@ -50,7 +50,7 @@ export default function Profile() {
       type: "",
       titile: "",
     });
-    navigate(`${routerList.user.accountUser}`);
+    navigate(-1);
   };
 
   const handleUserUpdate = ({ mobileNumber, madhab, address }) => {
