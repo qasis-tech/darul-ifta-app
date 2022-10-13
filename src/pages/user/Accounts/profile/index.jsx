@@ -6,17 +6,19 @@ import "./profile.styles.scss";
 
 import { getLocal } from "../../../../utils/localStore";
 import getmadhabList from "../../../../services/getMadhabList";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { URLS } from "../../../../config/urls.config";
 import axios from "axios";
 import SnackBar from "../../../../components/common/Snackbar";
 import { useNavigate } from "react-router-dom";
 import routerList from "../../../../routes/routerList";
+import Loader from "../../../../components/common/Loader";
 
 export default function Profile() {
   const [userDetails, setUserDetails] = useState(null);
   const [madbahList, setMadbahList] = useState([]);
   const [selectedMadhab, setSelectedMadhab] = useState([]);
+  const [isLoading, setLoader] = useState(false);
   const [errorPopup, setError] = useState({
     visible: false,
     message: "",
@@ -41,8 +43,6 @@ export default function Profile() {
     setUserDetails(temp);
   };
 
-  console.log("userDetails==>", userDetails);
-
   const handleCloseError = () => {
     setError({
       visible: false,
@@ -54,6 +54,7 @@ export default function Profile() {
   };
 
   const handleUserUpdate = ({ mobileNumber, madhab, address }) => {
+    setLoader(true);
     const formData = new FormData();
     formData.append("phone", mobileNumber);
     formData.append("madhab", madhab);
@@ -69,6 +70,7 @@ export default function Profile() {
         },
       })
       .then((res) => {
+        setLoader(false);
         console.log("res profile edit puttt==>", res);
         if (res?.success) {
           setError({
@@ -87,6 +89,7 @@ export default function Profile() {
         }
       })
       .catch((err) => {
+        setLoader(false);
         console.error("Error in profile edit", err);
       });
   };
@@ -95,111 +98,117 @@ export default function Profile() {
 
   return (
     <div>
-      <form onSubmit={handleSubmit(handleUserUpdate)}>
-        <div className="profile-section">
-          <div className="profile-container">
-            <div className="row">
-              <div className="col-md-6 ">
-                <TextField
-                  id="outlined-basic"
-                  size="small"
-                  fullWidth
-                  label="Name"
-                  variant="outlined"
-                  InputLabelProps={{ shrink: userDetails?.name }}
-                  value={userDetails?.name || ""}
-                  onChange={(e) => handleUserDetails(e.target.value, "name")}
-                />
-              </div>
-              <div className="col-md-6">
-                <TextField
-                  id="outlined-basic"
-                  size="small"
-                  fullWidth
-                  label="Email"
-                  variant="outlined"
-                  InputLabelProps={{ shrink: userDetails?.email }}
-                  value={userDetails?.email}
-                  disabled
-                />
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-6">
-                <TextField
-                  id="phone"
-                  type="number"
-                  label="Mobile Number"
-                  size="small"
-                  variant="outlined"
-                  fullWidth
-                  onChange={(e) => handleUserDetails(e.target.value, "phone")}
-                  {...register("mobileNumber", {
-                    required: "Mobile Number is required",
-                    pattern: {
-                      value:
-                        /^(?:(?:\+|0{0,2})91(\s*[\ -]\s*)?|[0]?)?[789]\d{9}|(\d[ -]?){10}\d$/,
-                      message: "Invalid mobile number",
-                    },
-                  })}
-                />
-                <div className="error">{errors?.mobileNumber?.message}</div>
-              </div>
-              <div className="col-md-6">
-                {!!madbahList?.length && (
-                  <Autocomplete
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <form onSubmit={handleSubmit(handleUserUpdate)}>
+          <div className="profile-section">
+            <div className="profile-container">
+              <div className="row">
+                <div className="col-md-6 ">
+                  <TextField
                     id="outlined-basic"
                     size="small"
-                    options={madbahList}
-                    getOptionLabel={(option) => option.title || ""}
-                    isOptionEqualToValue={(option, value) =>
-                      option._id === value._id
-                    }
-                    onChange={(e, val) => setSelectedMadhab(val)}
-                    value={selectedMadhab}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Madhab"
-                        {...register("madhab", {
-                          required: "Madhab is required",
-                        })}
-                      />
-                    )}
+                    fullWidth
+                    label="Name"
+                    variant="outlined"
+                    InputLabelProps={{ shrink: userDetails?.name }}
+                    value={userDetails?.name || ""}
+                    onChange={(e) => handleUserDetails(e.target.value, "name")}
                   />
-                )}
-                {!selectedMadhab?.title && (
-                  <div className="error">{errors?.madhab?.message}</div>
-                )}
+                </div>
+                <div className="col-md-6">
+                  <TextField
+                    id="outlined-basic"
+                    size="small"
+                    fullWidth
+                    label="Email"
+                    variant="outlined"
+                    InputLabelProps={{ shrink: userDetails?.email }}
+                    value={userDetails?.email}
+                    disabled
+                  />
+                </div>
               </div>
-            </div>
-            <div className="row">
-              <div className="col-md-12">
-                <TextField
-                  id="outlined-multiline-static"
-                  label="Address "
-                  multiline
-                  fullWidth
-                  rows={4}
-                  {...register("address", { required: "Address is required" })}
-                />
-                <div className="error">{errors?.address?.message}</div>
+              <div className="row">
+                <div className="col-md-6">
+                  <TextField
+                    id="phone"
+                    type="number"
+                    label="Mobile Number"
+                    size="small"
+                    variant="outlined"
+                    fullWidth
+                    onChange={(e) => handleUserDetails(e.target.value, "phone")}
+                    {...register("mobileNumber", {
+                      required: "Mobile Number is required",
+                      pattern: {
+                        value:
+                          /^(?:(?:\+|0{0,2})91(\s*[\ -]\s*)?|[0]?)?[789]\d{9}|(\d[ -]?){10}\d$/,
+                        message: "Invalid mobile number",
+                      },
+                    })}
+                  />
+                  <div className="error">{errors?.mobileNumber?.message}</div>
+                </div>
+                <div className="col-md-6">
+                  {!!madbahList?.length && (
+                    <Autocomplete
+                      id="outlined-basic"
+                      size="small"
+                      options={madbahList}
+                      getOptionLabel={(option) => option.title || ""}
+                      isOptionEqualToValue={(option, value) =>
+                        option._id === value._id
+                      }
+                      onChange={(e, val) => setSelectedMadhab(val)}
+                      value={selectedMadhab}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Madhab"
+                          {...register("madhab", {
+                            required: "Madhab is required",
+                          })}
+                        />
+                      )}
+                    />
+                  )}
+                  {!selectedMadhab?.title && (
+                    <div className="error">{errors?.madhab?.message}</div>
+                  )}
+                </div>
               </div>
-            </div>
-            <div className="row my-3">
-              <div className="btn-section d-flex justify-content-center">
-                <Button
-                  type="submit"
-                  className="submit-btn"
-                  variant="contained"
-                >
-                  Update Profile
-                </Button>
+              <div className="row">
+                <div className="col-md-12">
+                  <TextField
+                    id="outlined-multiline-static"
+                    label="Address "
+                    multiline
+                    fullWidth
+                    rows={4}
+                    {...register("address", {
+                      required: "Address is required",
+                    })}
+                  />
+                  <div className="error">{errors?.address?.message}</div>
+                </div>
+              </div>
+              <div className="row my-3">
+                <div className="btn-section d-flex justify-content-center">
+                  <Button
+                    type="submit"
+                    className="submit-btn"
+                    variant="contained"
+                  >
+                    Update Profile
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </form>
+        </form>
+      )}
       {errorPopup.visible && (
         <SnackBar
           visible={errorPopup.visible}
