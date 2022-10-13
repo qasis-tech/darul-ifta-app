@@ -288,6 +288,7 @@ const HomePage = (props) => {
                                 questionCount={questions.slNo}
                                 createdDate={formatDate(questions.createdAt)}
                                 views={questions.views}
+                                data={questions}
                               />
                             );
                           })
@@ -301,6 +302,7 @@ const HomePage = (props) => {
                             return (
                               <QuestionComponent
                                 key={questions._id}
+                                id={questions?._id}
                                 shortquestion={questions.short_question}
                                 question={questions.question}
                                 questionCount={questions.slNo}

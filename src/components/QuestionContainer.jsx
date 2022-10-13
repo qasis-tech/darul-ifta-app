@@ -2,12 +2,17 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import URLS from "../routes/routerList";
 import "../styles/question.container.styles.scss";
+
 const QuestionContainer = (props) => {
   const navigate = useNavigate();
   return (
     <section
       className="question-section"
-      onClick={() => navigate(`${URLS.user.fatwasDetailsPage}`)}
+      onClick={() =>
+        navigate(`${URLS.user.fatwasDetailsPage}`, {
+          state: { data: props.data },
+        })
+      }
     >
       <div className="question-container">
         <div className="row">
