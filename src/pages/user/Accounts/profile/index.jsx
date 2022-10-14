@@ -96,6 +96,7 @@ export default function Profile() {
   };
 
   const navigate = useNavigate();
+  console.log("userdetails", userDetails);
 
   return (
     <div>
@@ -169,6 +170,7 @@ export default function Profile() {
                       }
                       onChange={(e, val) => setSelectedMadhab(val)}
                       value={selectedMadhab}
+                      defaultValue={userDetails.madhab}
                       renderInput={(params) => (
                         <TextField
                           {...params}

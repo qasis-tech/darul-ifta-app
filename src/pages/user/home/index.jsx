@@ -87,25 +87,41 @@ const HomePage = (props) => {
   const [isLoading, setLoader] = useState(false);
 
   const handleChange = (event, newValue) => {
+    setSearchInput("");
     switch (newValue) {
       case 0:
-        getQuestionList(`?language=&search=${searchInput}`);
+        if (searchInput !== "") {
+          getQuestionList(`?search=${searchInput}`);
+        } else getQuestionList();
         break;
       case 1:
-        getQuestionList(`?language=English&search=${searchInput}`);
+        if (searchInput !== "") {
+          getQuestionList(`?language=English&search=${searchInput}`);
+        } else getQuestionList(`?language=English`);
+
         break;
       case 2:
-        getQuestionList(`?language=Malayalam&search=${searchInput}`);
+        if (searchInput !== "") {
+          getQuestionList(`?language=Malayalam&search=${searchInput}`);
+        } else getQuestionList(`?language=Malayalam`);
+
         break;
       case 3:
-        getQuestionList(`?language=Urdu&search=${searchInput}`);
+        if (searchInput !== "") {
+          getQuestionList(`?language=Urdu&search=${searchInput}`);
+        } else getQuestionList(`?language=Urdu`);
+
         break;
       case 4:
-        getQuestionList(`?language=Arabic&search=${searchInput}`);
+        if (searchInput !== "") {
+          getQuestionList(`?language=Arabic&search=${searchInput}`);
+        } else getQuestionList(`?language=Arabic`);
+
         break;
       default:
         break;
     }
+
     setValue(newValue);
   };
 
@@ -128,7 +144,19 @@ const HomePage = (props) => {
   }, []);
 
   useEffect(() => {
-    if (searchInput === "") getQuestionList(`?language=&search=${searchInput}`);
+    if (searchInput === "") {
+      if (value === 0) {
+        getQuestionList();
+      } else if (value === 1) {
+        getQuestionList(`?language=English`);
+      } else if (value === 2) {
+        getQuestionList(`?language=Malayalam`);
+      } else if (value === 3) {
+        getQuestionList(`?language=Urdu`);
+      } else if (value === 4) {
+        getQuestionList(`?language=Arabic`);
+      }
+    }
   }, [searchInput]);
 
   const getQuestionList = (params) => {
@@ -225,8 +253,25 @@ const HomePage = (props) => {
                         </IconButton>
                         <IconButton
                           onClick={() => {
-                            setValue(0);
-                            getQuestionList(`?language=&search=${searchInput}`);
+                            if (value === 0) {
+                              getQuestionList(`?search=${searchInput}`);
+                            } else if (value === 1) {
+                              getQuestionList(
+                                `?language=English&search=${searchInput}`
+                              );
+                            } else if (value === 2) {
+                              getQuestionList(
+                                `?language=Malayalam&search=${searchInput}`
+                              );
+                            } else if (value === 3) {
+                              getQuestionList(
+                                `?language=Urdu&search=${searchInput}`
+                              );
+                            } else if (value === 4) {
+                              getQuestionList(
+                                `?language=Arabic&search=${searchInput}`
+                              );
+                            }
                           }}
                         >
                           <SearchIcon />
