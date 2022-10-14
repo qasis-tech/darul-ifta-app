@@ -1,13 +1,17 @@
+import moment from "moment";
 import React from "react";
 import QuestionNumberComponent from "../QuestionNumber";
 import "./publishedDate.styles.scss";
-export default function PublishedDate() {
+export default function PublishedDate({ data }) {
   return (
     <div className="published-section">
       <div className="col-md-12 py-1 date">
         <div className="container">
           <div className="published-date">
-            <span className="pub-date">Published Date : 20/10/2022 Monday</span>
+            <span className="pub-date">
+              Published Date :{" "}
+              {moment(data?.updatedAt).format("MM/DD/YYYY,dddd") || "N/A"}
+            </span>
           </div>
         </div>
       </div>

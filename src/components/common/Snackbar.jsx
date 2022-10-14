@@ -17,20 +17,18 @@ export default function DirectionSnackbar({
     if (visible) {
       setOpen(visible);
     }
-
-    return () => {
-      setOpen(false);
-    };
   }, [visible]);
 
   useEffect(() => {
-    setTimeout(() => {
-      setOpen(false);
-      onClose();
-    }, 3500);
+    // setTimeout(() => {
+    //   setOpen(false);
+    //   onClose();
+    // }, 3500);
   }, []);
 
-  const TransitionUp = (props) => <Grow {...props} timeout={1000} />;
+  const TransitionUp = (props) => (
+    <Grow {...props} timeout={1000} unmountOnExit />
+  );
 
   return (
     <div>
@@ -48,9 +46,6 @@ export default function DirectionSnackbar({
           TransitionComponent={TransitionUp}
         >
           <Alert severity={type ? type : "error"} className={`alert-${type}`}>
-            {/* <AlertTitle className="fw-bold">
-              {title ? title : "Warning"}
-            </AlertTitle> */}
             <Divider />
             <strong>
               {message || "Something went wrong...! Please try again.!"}

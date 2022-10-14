@@ -2,12 +2,17 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import URLS from "../routes/routerList";
 import "../styles/question.container.styles.scss";
+
 const QuestionContainer = (props) => {
   const navigate = useNavigate();
   return (
     <section
       className="question-section"
-      onClick={() => navigate(`${URLS.user.fatwasDetailsPage}`)}
+      onClick={() =>
+        navigate(`${URLS.user.fatwasDetailsPage}`, {
+          state: { data: props.data },
+        })
+      }
     >
       <div className="question-container">
         <div className="row">
@@ -22,7 +27,7 @@ const QuestionContainer = (props) => {
               <span className="q-no">Q{props.questionCount}</span>
             </div>
             <div className="col-md-3 w-name">
-              <h5>Written By:{props.writtenby}</h5>
+              <h5>Written By:{props.writtenby || "N/A"}</h5>
             </div>
             <div className="col-md-3">
               <h5>Date:{props.createdDate}</h5>

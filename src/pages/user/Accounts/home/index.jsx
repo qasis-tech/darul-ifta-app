@@ -18,6 +18,7 @@ import UserProfile from "../profile";
 
 const AccountHome = ({ userLoginDetails }) => {
   const [userDetails, setUserDetails] = useState(null);
+  const [showImage, setShowImage] = useState(true);
 
   useEffect(() => {
     getLocal().then((res) => setUserDetails(res));
@@ -25,22 +26,26 @@ const AccountHome = ({ userLoginDetails }) => {
 
   const getAPIs = () => {};
 
-  console.log("props === > 001", userLoginDetails);
+  console.log("userdetailss--->", userDetails);
+  const handleImageError = (e) => {
+    setShowImage(false);
+  };
 
   return (
     <>
       <div class="profile-1 d-flex py-1">
         <div class="col d-flex flex-column align-items-center">
           <div class="profile-img">
-            {userDetails?.profile_pic ? (
+            {showImage ? (
               <span>
                 <img
                   src={userDetails?.profile_pic}
                   class="profile-img"
                   alt="profile images"
-                  onError={(e) => {
-                    e.target.src = <PersonIcon />;
-                  }}
+                  // onError={(e) => {
+                  //   e.target.src = <PersonIcon />;
+                  // }}
+                  onError={handleImageError}
                 />
               </span>
             ) : (
