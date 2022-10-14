@@ -25,7 +25,7 @@ const SideNavCategory = ({ selectedCategories, categoriesChip }) => {
     axios
       .get(`${URLS.category}`)
       .then((res) => {
-        setCategoryData(res.data.data);
+        setCategoryData(res.data);
       })
       .catch((err) => {
         console.log("error category", err);
@@ -36,7 +36,7 @@ const SideNavCategory = ({ selectedCategories, categoriesChip }) => {
     axios
       .get(`${URLS.madhab}`)
       .then((res) => {
-        setMadhabData(res.data.data);
+        setMadhabData(res.data);
       })
       .catch((err) => {
         console.log("error madhab", err);

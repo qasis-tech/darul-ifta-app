@@ -27,7 +27,7 @@ const QuestionContainer = (props) => {
               <span className="q-no">Q{props.questionCount}</span>
             </div>
             <div className="col-md-3 w-name">
-              <h5>Written By:{props.writtenby}</h5>
+              <h5>Written By:{props.writtenby || "N/A"}</h5>
             </div>
             <div className="col-md-3">
               <h5>Date:{props.createdDate}</h5>
