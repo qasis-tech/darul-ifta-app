@@ -11,6 +11,7 @@ import LogoImage from "../assets/logo-main-logo-blue.svg";
 import "../styles/header.styles.scss";
 import routerList from "../routes/routerList";
 import { getLocal } from "../utils/localStore";
+import { authLogout } from "../routes/auth";
 
 const HeaderComponent = () => {
   const navigate = useNavigate();
@@ -78,6 +79,7 @@ const HeaderComponent = () => {
                 </li>
                 <li
                   className="nav-item"
+                  onClick={() =>authLogout(()=>navigate(`${routerList.user.login}`))}
                 >
                   <a className="nav-link custom-menu" aria-current="page">
                     Logout

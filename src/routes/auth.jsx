@@ -14,7 +14,7 @@ const authCheck = () => {
 };
 
 const authLogout = (cb) => {
-  localStorage.removeItem("LoginDatas");
+  localStorage.removeItem("@darul-ifta-user-login-details");
   if (cb) cb();
 };
 
