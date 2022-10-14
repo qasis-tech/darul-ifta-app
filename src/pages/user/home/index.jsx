@@ -89,29 +89,19 @@ const HomePage = (props) => {
   const handleChange = (event, newValue) => {
     switch (newValue) {
       case 0:
-        // call api for Tab1
-        // setLanguage("");
         getQuestionList(`?language=&search=${searchInput}`);
         break;
       case 1:
-        // call api for Tab2
-        // setLanguage("English");
         getQuestionList(`?language=English&search=${searchInput}`);
         break;
       case 2:
-        // call api for Tab3
-        // setLanguage("Malayalam");
         getQuestionList(`?language=Malayalam&search=${searchInput}`);
         break;
       case 3:
-        // call api for Tab4
-        // setLanguage("Urdu");
         getQuestionList(`?language=Urdu&search=${searchInput}`);
         break;
       case 4:
-        // call api for Tab5
-        // setLanguage("Arabic");
-        getQuestionList(`?language=English&search=${searchInput}`);
+        getQuestionList(`?language=Arabic&search=${searchInput}`);
         break;
       default:
         break;
@@ -279,15 +269,15 @@ const HomePage = (props) => {
                     <>
                       <TabPanel value={value} index={0}>
                         {questionsData?.length ? (
-                          questionsData.map((questions) => {
+                          questionsData?.map((questions) => {
                             return (
                               <QuestionComponent
-                                key={questions._id}
-                                shortquestion={questions.short_question}
-                                question={questions.question}
-                                questionCount={questions.slNo}
-                                createdDate={formatDate(questions.createdAt)}
-                                views={questions.views}
+                                key={questions?._id}
+                                shortquestion={questions?.short_question}
+                                question={questions?.question}
+                                questionCount={questions?.slNo}
+                                createdDate={formatDate(questions?.createdAt)}
+                                views={questions?.views}
                                 data={questions}
                               />
                             );
@@ -298,16 +288,17 @@ const HomePage = (props) => {
                       </TabPanel>
                       <TabPanel value={value} index={1}>
                         {questionsData?.length ? (
-                          questionsData.map((questions) => {
+                          questionsData?.map((questions) => {
                             return (
                               <QuestionComponent
-                                key={questions._id}
+                                key={questions?._id}
                                 id={questions?._id}
-                                shortquestion={questions.short_question}
-                                question={questions.question}
-                                questionCount={questions.slNo}
-                                createdDate={formatDate(questions.createdAt)}
-                                views={questions.views}
+                                shortquestion={questions?.short_question}
+                                question={questions?.question}
+                                questionCount={questions?.slNo}
+                                createdDate={formatDate(questions?.createdAt)}
+                                views={questions?.views}
+                                data={questions}
                               />
                             );
                           })
@@ -320,12 +311,13 @@ const HomePage = (props) => {
                           questionsData.map((questions) => {
                             return (
                               <QuestionComponent
-                                key={questions._id}
-                                shortquestion={questions.short_question}
-                                question={questions.question}
-                                questionCount={questions.slNo}
-                                createdDate={formatDate(questions.createdAt)}
-                                views={questions.views}
+                                key={questions?._id}
+                                shortquestion={questions?.short_question}
+                                question={questions?.question}
+                                questionCount={questions?.slNo}
+                                createdDate={formatDate(questions?.createdAt)}
+                                views={questions?.views}
+                                data={questions}
                               />
                             );
                           })
@@ -335,15 +327,16 @@ const HomePage = (props) => {
                       </TabPanel>
                       <TabPanel value={value} index={3}>
                         {questionsData?.length ? (
-                          questionsData.map((questions) => {
+                          questionsData?.map((questions) => {
                             return (
                               <QuestionComponent
-                                key={questions._id}
-                                shortquestion={questions.short_question}
-                                question={questions.question}
-                                questionCount={questions.slNo}
-                                createdDate={formatDate(questions.createdAt)}
-                                views={questions.views}
+                                key={questions?._id}
+                                shortquestion={questions?.short_question}
+                                question={questions?.question}
+                                questionCount={questions?.slNo}
+                                createdDate={formatDate(questions?.createdAt)}
+                                views={questions?.views}
+                                data={questions}
                               />
                             );
                           })
@@ -353,15 +346,16 @@ const HomePage = (props) => {
                       </TabPanel>
                       <TabPanel value={value} index={4}>
                         {questionsData?.length ? (
-                          questionsData.map((questions) => {
+                          questionsData?.map((questions) => {
                             return (
                               <QuestionComponent
-                                key={questions._id}
-                                shortquestion={questions.short_question}
-                                question={questions.question}
-                                questionCount={questions.slNo}
-                                createdDate={formatDate(questions.createdAt)}
-                                views={questions.views}
+                                key={questions?._id}
+                                shortquestion={questions?.short_question}
+                                question={questions?.question}
+                                questionCount={questions?.slNo}
+                                createdDate={formatDate(questions?.createdAt)}
+                                views={questions?.views}
+                                data={questions}
                               />
                             );
                           })

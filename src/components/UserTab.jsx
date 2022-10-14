@@ -89,7 +89,8 @@ export default function UserTab() {
       .get(url)
       .then((res) => {
         setLoader(false);
-        setQuestionData(res.data);
+        setQuestionData(res?.data);
+        console.log("11111111111", res);
       })
       .catch((err) => {
         setLoader(false);
@@ -130,6 +131,7 @@ export default function UserTab() {
                       questionCount={question.slNo}
                       createdDate={formatDate(question.createdAt)}
                       views={question.views}
+                      data={question}
                     />
                   );
                 })
@@ -148,6 +150,7 @@ export default function UserTab() {
                       questionCount={question.slNo}
                       createdDate={formatDate(question.createdAt)}
                       views={question.views}
+                      data={question}
                     />
                   );
                 })
@@ -157,7 +160,7 @@ export default function UserTab() {
             </TabPanel>
             <TabPanel value={value} index={2}>
               {questionData?.length ? (
-                questionData.map((question) => {
+                questionData?.map((question) => {
                   return (
                     <QuestionContainer
                       key={question._id}
@@ -166,6 +169,7 @@ export default function UserTab() {
                       questionCount={question.slNo}
                       createdDate={formatDate(question.createdAt)}
                       views={question.views}
+                      data={question}
                     />
                   );
                 })
@@ -184,6 +188,7 @@ export default function UserTab() {
                       questionCount={question.slNo}
                       createdDate={formatDate(question.createdAt)}
                       views={question.views}
+                      data={question}
                     />
                   );
                 })
