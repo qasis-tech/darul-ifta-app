@@ -13,8 +13,8 @@ import UserTab from "../../../../components/UserTab";
 import DialogComponent from "../../../../components/DialogComponent";
 import { getLocal } from "../../../../utils/localStore";
 import AskFatwasComponent from "../../Accounts/askFatwas";
-import IconButton from '@mui/material/IconButton';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import IconButton from "@mui/material/IconButton";
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import UserProfile from "../profile";
 import "./account.home.styles.scss";
 const AccountHome = ({ userLoginDetails }) => {
@@ -131,7 +131,7 @@ const AccountHome = ({ userLoginDetails }) => {
                   sx={{ padding: 1, margin: "5px 0", textAlign: "center" }}
                   className="fw-bold shadow border-0"
                 >
-                  Answred : 75
+                  Answered : 75
                 </Card>
               </div>
 

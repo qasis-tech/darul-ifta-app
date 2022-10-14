@@ -30,6 +30,7 @@ export default function Profile() {
     register,
     handleSubmit,
     formState: { errors },
+    trigger,
   } = useForm();
 
   useEffect(() => {
@@ -48,7 +49,7 @@ export default function Profile() {
       visible: false,
       message: "",
       type: "",
-      titile: "",
+      title: "",
     });
     // navigate(-1);
   };
@@ -133,21 +134,26 @@ export default function Profile() {
               <div className="row">
                 <div className="col-md-6">
                   <TextField
-                    id="phone"
-                    type="number"
+                    id="outlined-basic"
                     label="Mobile Number"
                     size="small"
                     variant="outlined"
                     fullWidth
-                    onChange={(e) => handleUserDetails(e.target.value, "phone")}
+                    value={userDetails?.phone || ""}
+                    // onChange={(e) => handleUserDetails(e.target.value, "phone")}
                     {...register("mobileNumber", {
-                      required: "Mobile Number is required",
+                      required: "Mobile Number is Required",
                       pattern: {
                         value:
-                          /^(?:(?:\+|0{0,2})91(\s*[\ -]\s*)?|[0]?)?[789]\d{9}|(\d[ -]?){10}\d$/,
-                        message: "Invalid mobile number",
+                          /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
+                        message: "Invalid Mobile Number",
                       },
+                      onChange: (e) =>
+                        handleUserDetails(e.target.value, "phone"),
                     })}
+                    onKeyUp={() => {
+                      trigger("mobileNumber");
+                    }}
                   />
                   <div className="error">{errors?.mobileNumber?.message}</div>
                 </div>
@@ -187,8 +193,14 @@ export default function Profile() {
                     multiline
                     fullWidth
                     rows={4}
+                    value={userDetails?.address || ""}
+                    // onChange={(e) =>
+                    //   handleUserDetails(e.target.value, "address")
+                    // }
                     {...register("address", {
                       required: "Address is required",
+                      onChange: (e) =>
+                        handleUserDetails(e.target.value, "address"),
                     })}
                   />
                   <div className="error">{errors?.address?.message}</div>
