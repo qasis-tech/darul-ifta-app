@@ -1,6 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import URLS from "../routes/routerList";
+import Button from '@mui/material/Button';
+
 import "../styles/question.container.styles.scss";
 
 const QuestionContainer = (props) => {
@@ -23,7 +25,7 @@ const QuestionContainer = (props) => {
             <h5>{props.question}</h5>
           </div>
           <div className="row q-footer">
-            <div className="col-md-3 number-btn">
+            <div className="col-md-1 number-btn">
               <span className="q-no">Q{props.questionCount}</span>
             </div>
             <div className="col-md-3 w-name">
@@ -32,8 +34,11 @@ const QuestionContainer = (props) => {
             <div className="col-md-3">
               <h5>Date:{props.createdDate}</h5>
             </div>
-            <div className="col-md-3">
+            <div className="col-md-2">
               <h5>Views:{props.views}</h5>
+            </div>
+            <div className="col-md-2">
+            <Button variant="text">Edit</Button>
             </div>
           </div>
         </div>

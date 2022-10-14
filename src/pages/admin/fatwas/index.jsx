@@ -487,6 +487,8 @@ export default function Fatwas() {
                       <TableCell>Madhab</TableCell>
                       <TableCell>Mufthi</TableCell>
                       <TableCell>Status</TableCell>
+                      <TableCell>Action</TableCell>
+
                     </TableRow>
                   </TableHead>
 

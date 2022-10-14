@@ -13,9 +13,10 @@ import UserTab from "../../../../components/UserTab";
 import DialogComponent from "../../../../components/DialogComponent";
 import { getLocal } from "../../../../utils/localStore";
 import AskFatwasComponent from "../../Accounts/askFatwas";
-
+import IconButton from '@mui/material/IconButton';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import UserProfile from "../profile";
-
+import "./account.home.styles.scss";
 const AccountHome = ({ userLoginDetails }) => {
   const [userDetails, setUserDetails] = useState(null);
   const [showImage, setShowImage] = useState(true);
@@ -72,8 +73,18 @@ const AccountHome = ({ userLoginDetails }) => {
                 </DialogComponent>
               </div>
 
-              <div className="col">
+              <div className="col d-flex align-items-center">
                 <MessageIcon />
+              </div>
+              <div className="col">
+                <IconButton
+                  color="primary"
+                  aria-label="upload picture"
+                  component="label"
+                >
+                  <input hidden accept="image/*" type="file" />
+                  <PhotoCamera />
+                </IconButton>
               </div>
             </div>
           </div>
