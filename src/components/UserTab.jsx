@@ -15,7 +15,7 @@ import { formatDate } from "../utils/dateformat";
 import Loader from "./common/Loader";
 import { getLocal } from "../utils/localStore";
 import NoDataAvailable from "./NoDataAvailable";
-
+import getQuestionListApi from "../services/getQuestionsList";
 import "../pages/user/Accounts/home/account.home.styles.scss";
 
 function TabPanel(props) {
@@ -58,10 +58,33 @@ export default function UserTab() {
 
   const [userDetails, setUserDetails] = useState([]);
 
-  useEffect(() => {
-    getLocal().then((res) => setUserDetails(res));
-  }, []);
+  // useEffect(() => {
+  //   getLocal().then((res) => setUserDetails(res));
+  // }, []);
 
+  useEffect(() => {
+    // getQuestionList();
+    getLocal().then((res) => {
+      setUserDetails(res)
+      getQuestionList(`?userid=${res._id}`);
+      // props.addUserLoginDetails(res);
+    });
+  }, []);
+  const getQuestionList = (params) => {
+    setLoader(true);
+    getQuestionListApi(params)
+      .then((res) => {
+        setLoader(false);
+        setQuestionData(res);
+        // getQuestionList(`?userid`)
+      })
+      .catch((err) => {
+        console.error("Error in getQuestionListApi", err);
+        setLoader(false);
+        setQuestionData([]);
+      });
+  };
+console.log("data===>",userDetails._id)
   // useEffect(() => {
   //   getQuestionApi("");
   // }, [userId]);
@@ -69,34 +92,34 @@ export default function UserTab() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
     if (newValue === 1) {
-      getQuestionApi("Published");
+      getQuestionList(`Published=${userDetails._id}`);
     } else if (newValue === 2) {
-      getQuestionApi("Pending");
+      getQuestionList("Pending");
     } else if (newValue === 3) {
-      getQuestionApi("Rejected");
+      getQuestionList("Rejected");
     } else if (newValue === 0) {
-      getQuestionApi("");
+      getQuestionList(`?userid=${userDetails._id}`);
     }
   };
 
-  const getQuestionApi = (selectedStatus) => {
-    setLoader(true);
-    let url = `${URLS.question}?userid=${userDetails?._id}`;
-    if (selectedStatus !== "") {
-      url = `${url}&status=${selectedStatus}`;
-    }
-    axios
-      .get(url)
-      .then((res) => {
-        setLoader(false);
-        setQuestionData(res?.data);
-        console.log("11111111111", res);
-      })
-      .catch((err) => {
-        setLoader(false);
-        console.log("error quesss", err);
-      });
-  };
+  // const getQuestionApi = (selectedStatus) => {
+  //   setLoader(true);
+  //   let url = `${URLS.question}?userid=${userDetails?._id}`;
+  //   if (selectedStatus !== "") {
+  //     url = `${url}&status=${selectedStatus}`;
+  //   }
+  //   axios
+  //     .get(url)
+  //     .then((res) => {
+  //       setLoader(false);
+  //       setQuestionData(res?.data);
+  //       console.log("11111111111", res);
+  //     })
+  //     .catch((err) => {
+  //       setLoader(false);
+  //       console.log("error quesss", err);
+  //     });
+  // };
 
   return (
     <div className="user-tab-section">
