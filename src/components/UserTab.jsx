@@ -92,11 +92,11 @@ console.log("data===>",userDetails._id)
   const handleChange = (event, newValue) => {
     setValue(newValue);
     if (newValue === 1) {
-      getQuestionList(`Published=${userDetails._id}`);
+      getQuestionList(`?status=Published&userid=${userDetails._id}`);
     } else if (newValue === 2) {
-      getQuestionList("Pending");
+      getQuestionList(`?status=Published&userid=${userDetails._id}`);
     } else if (newValue === 3) {
-      getQuestionList("Rejected");
+      getQuestionList(`?status=Rejected&userid=${userDetails._id}`);
     } else if (newValue === 0) {
       getQuestionList(`?userid=${userDetails._id}`);
     }
