@@ -20,6 +20,7 @@ import "./account.home.styles.scss";
 const AccountHome = ({ userLoginDetails }) => {
   const [userDetails, setUserDetails] = useState(null);
   const [showImage, setShowImage] = useState(true);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     getLocal().then((res) => setUserDetails(res));
@@ -30,6 +31,11 @@ const AccountHome = ({ userLoginDetails }) => {
   console.log("userdetailss--->", userDetails);
   const handleImageError = (e) => {
     setShowImage(false);
+  };
+
+  const getCount = (c) => {
+    console.log("countttt===>>>", c);
+    setCount(c);
   };
 
   return (
@@ -122,7 +128,7 @@ const AccountHome = ({ userLoginDetails }) => {
                   sx={{ padding: 1, margin: "5px 0", textAlign: "center" }}
                   className="fw-bold shadow border-0"
                 >
-                  Fatwas : 100
+                  Fatwas : {count || "N/A"}
                 </Card>
               </div>
               <div className="col">
@@ -165,7 +171,7 @@ const AccountHome = ({ userLoginDetails }) => {
         </div>
       </div>
 
-      <UserTab />
+      <UserTab getData={getCount} />
     </>
   );
 };

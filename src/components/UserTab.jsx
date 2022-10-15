@@ -52,9 +52,10 @@ function a11yProps(index) {
   };
 }
 
-const UserTab = (props) => {
-  console.log("props in TABSsssssssssssssss", props.generals);
+const UserTab = ({ getData }) => {
+  // console.log("props in TABSsssssssssssssss", props.generals);
   const [value, setValue] = useState(0);
+  const [count, setCount] = useState(0);
   const [questionData, setQuestionData] = useState([]);
   const [isLoading, setLoader] = useState(false);
 
@@ -73,7 +74,7 @@ const UserTab = (props) => {
       .then((res) => {
         setLoader(false);
         setQuestionData(res);
-        console.log("res", res);
+        getData(res.length);
       })
       .catch((err) => {
         console.error("Error in getQuestionListApi", err);
@@ -91,7 +92,7 @@ const UserTab = (props) => {
     if (newValue === 1) {
       getQuestionList(`?status=Published&userid=${userDetails._id}`);
     } else if (newValue === 2) {
-      getQuestionList(`?status=Published&userid=${userDetails._id}`);
+      getQuestionList(`?status=Pending&userid=${userDetails._id}`);
     } else if (newValue === 3) {
       getQuestionList(`?status=Rejected&userid=${userDetails._id}`);
     } else if (newValue === 0) {
