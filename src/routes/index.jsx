@@ -116,7 +116,7 @@ const CustomRouters = (props) => {
         <Route path="addCategories" element={<AddCategories />} />
         <Route path="addMusthafthies" element={<AddMusthafthies />} />
         <Route path="addUser" element={<AddUser />} />
-        <Route path="fatwasDetails" element={<FatwasDetails />} />
+        <Route path="fatwasDetails/:id" element={<FatwasDetails />} />
         <Route path="addArticle" element={<AddArticle />} />
         <Route path={RouterList.admin.categoryList} element={<Categories />} />
       </Route>

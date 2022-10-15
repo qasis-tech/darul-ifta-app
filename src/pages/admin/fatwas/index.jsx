@@ -81,6 +81,15 @@ export default function Fatwas() {
     setLoader(true);
     getQuestionListApi(params)
       .then((res) => {
+        // if (res?.success) {
+        //   setSelectedMadhab("");
+        //   setSelectedStatus("");
+        //   setSelectedCategory("");
+        //   setSelectedSubCategory("");
+        //   setSelectedLanguage("");
+        //   setSelectedMufthi("");
+        //   setSelectedUserData("");
+        // }
         setLoader(false);
         setQuestionList(res);
       })
@@ -488,7 +497,6 @@ export default function Fatwas() {
                       <TableCell>Mufthi</TableCell>
                       <TableCell>Status</TableCell>
                       <TableCell>Action</TableCell>
-
                     </TableRow>
                   </TableHead>
 

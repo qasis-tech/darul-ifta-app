@@ -5,17 +5,58 @@ import { Button } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import PrintIcon from "@mui/icons-material/Print";
 import FatwaAddComponent from "../../../components/FatwaAddComponent";
+import getQuestionListApi from "../../../services/getQuestionsList";
 import "./fatwas.details.styles.scss";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useState } from "react";
+import getCategoryListApi from "../../../services/getCategoryList";
 const options = ["Option 1", "Option 2"];
 
 export default function FatwasDetails() {
-  const [value, setValue] = React.useState(options[0]);
-  const [inputValue, setInputValue] = React.useState("");
+  const [value, setValue] = useState(options[0]);
+  const [inputValue, setInputValue] = useState("");
+  const [questionList, setQuestionList] = useState();
+  const [categoryData, setCategoryData] = useState([]);
+  const [isLoading, setLoader] = useState(false);
+  const { id } = useParams();
+
+  useEffect(() => {
+    getQuestions(`/${id}`);
+    getCategory();
+  }, []);
 
   const handleChange = (event) => {
     setValue(event.target.value);
   };
 
+  const getQuestions = (params) => {
+    setLoader(true);
+    getQuestionListApi(params)
+      .then((res) => {
+        console.log("res fatwa detail page ", res);
+        setQuestionList(res);
+        setLoader(false);
+      })
+      .catch((err) => {
+        console.log("Errr in get QUestion API", err);
+        setQuestionList([]);
+      });
+  };
+  const getCategory = () => {
+    setLoader(true);
+    getCategoryListApi()
+      .then((res) => {
+        console.log("res Category ", res);
+        setCategoryData(res);
+        setLoader(false);
+      })
+      .catch((err) => {
+        console.log("Errr in get Category API", err);
+        setCategoryData([]);
+        setLoader(false);
+      });
+  };
   return (
     <div className="fatwas-details-section">
       <div className="fatwa-print-section">
