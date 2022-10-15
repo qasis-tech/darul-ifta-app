@@ -35,7 +35,7 @@ import getQuestionListApi from "../../../services/getQuestionsList";
 import NoDataAvailable from "../../../components/NoDataAvailable";
 
 import { connect } from "react-redux";
-import { addUserLoginDetails } from "../../../redux/actions";
+import { addUserLoginDetails, addGeneralDetails } from "../../../redux/actions";
 import { getLocal } from "../../../utils/localStore";
 
 function TabPanel(props) {
@@ -427,5 +427,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   addUserLoginDetails: (payload) => dispatch(addUserLoginDetails(payload)),
+  addGeneralDetails: (payload) => dispatch(addGeneralDetails(payload)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

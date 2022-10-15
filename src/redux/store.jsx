@@ -1,7 +1,7 @@
 import { createStore } from "redux";
 import rotateReducer from "./reducers";
 
-function configureStore(state = { userLoginDetails: null }) {
+function configureStore(state = { userLoginDetails: null, generals: null }) {
   return createStore(rotateReducer, state);
 }
 

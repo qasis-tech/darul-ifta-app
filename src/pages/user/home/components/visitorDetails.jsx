@@ -1,8 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
 import { URLS } from "../../../../config/urls.config";
+import { addGeneralDetails } from "../../../../redux/actions";
 
-const VisitorDetails = () => {
+const VisitorDetails = (props) => {
+  console.log("111111111111111111111111111111", props);
   const [generalDetails, setGeneralDetails] = useState(null);
   useEffect(() => {
     getGeneralList();
@@ -17,6 +20,7 @@ const VisitorDetails = () => {
       })
       .then(({ data }) => {
         setGeneralDetails(data.data);
+        props.addGeneralDetails(data);
       })
       .catch((err) => {
         console.log("error generals", err);
@@ -40,4 +44,11 @@ const VisitorDetails = () => {
     </div>
   );
 };
-export default VisitorDetails;
+const mapStateToProps = (state) => ({
+  ...state,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  addGeneralDetails: (payload) => dispatch(addGeneralDetails(payload)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(VisitorDetails);

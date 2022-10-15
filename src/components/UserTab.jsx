@@ -17,6 +17,7 @@ import { getLocal } from "../utils/localStore";
 import NoDataAvailable from "./NoDataAvailable";
 import getQuestionListApi from "../services/getQuestionsList";
 import "../pages/user/Accounts/home/account.home.styles.scss";
+import { connect } from "react-redux";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -51,32 +52,28 @@ function a11yProps(index) {
   };
 }
 
-export default function UserTab() {
+const UserTab = (props) => {
+  console.log("props in TABSsssssssssssssss", props.generals);
   const [value, setValue] = useState(0);
   const [questionData, setQuestionData] = useState([]);
   const [isLoading, setLoader] = useState(false);
 
   const [userDetails, setUserDetails] = useState([]);
 
-  // useEffect(() => {
-  //   getLocal().then((res) => setUserDetails(res));
-  // }, []);
-
   useEffect(() => {
-    // getQuestionList();
     getLocal().then((res) => {
-      setUserDetails(res)
+      setUserDetails(res);
       getQuestionList(`?userid=${res._id}`);
-      // props.addUserLoginDetails(res);
     });
   }, []);
+
   const getQuestionList = (params) => {
     setLoader(true);
     getQuestionListApi(params)
       .then((res) => {
         setLoader(false);
         setQuestionData(res);
-        // getQuestionList(`?userid`)
+        console.log("res", res);
       })
       .catch((err) => {
         console.error("Error in getQuestionListApi", err);
@@ -84,7 +81,7 @@ export default function UserTab() {
         setQuestionData([]);
       });
   };
-console.log("data===>",userDetails._id)
+  console.log("data===>", userDetails._id);
   // useEffect(() => {
   //   getQuestionApi("");
   // }, [userId]);
@@ -224,4 +221,10 @@ console.log("data===>",userDetails._id)
       </Box>
     </div>
   );
-}
+};
+
+const mapStateToProp = (state) => ({
+  ...state,
+});
+
+export default connect(mapStateToProp)(UserTab);
