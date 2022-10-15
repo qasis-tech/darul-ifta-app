@@ -5,6 +5,7 @@ import { TextField, Autocomplete, Button } from "@mui/material";
 
 import { URLS } from "../../../../config/urls.config";
 import Loader from "../../../../components/common/Loader";
+import SnackBar from "../../../../components/common/Snackbar";
 
 import "./askfatwas.styles.scss";
 
@@ -25,10 +26,18 @@ export default function AskFatwasComponent() {
   const [userId, setUserId] = useState([]);
   const [userToken, setUserToken] = useState([]);
   const [isLoading, setLoader] = useState(true);
+  const [errorPopup, setError] = useState({
+    visible: false,
+    message: "",
+    type: "error",
+    title: "",
+  });
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    resetField,
   } = useForm();
 
   useEffect(() => {
@@ -47,6 +56,15 @@ export default function AskFatwasComponent() {
     }
   }, []);
 
+  const handleCloseError = () => {
+    setError({
+      visible: false,
+      message: "",
+      type: "",
+      title: "",
+    });
+    // navigate(-1);
+  };
   const getCatgoryApi = () => {
     setLoader(true);
     axios
@@ -58,7 +76,7 @@ export default function AskFatwasComponent() {
       })
       .then((res) => {
         setLoader(false);
-        setCategoryData(res.data);
+        setCategoryData(res?.data);
       })
       .catch((err) => {
         setLoader(false);
@@ -72,7 +90,7 @@ export default function AskFatwasComponent() {
       .get(URLS.madhab)
       .then((res) => {
         setLoader(false);
-        setMadhabData(res.data);
+        setMadhabData(res?.data);
       })
       .catch((err) => {
         setLoader(false);
@@ -100,6 +118,27 @@ export default function AskFatwasComponent() {
       .then((res) => {
         setLoader(false);
         console.log("res ask fatwa ===>>", res);
+        if (res?.success) {
+          setSelectedCategory("");
+          setSelectedMadhab("");
+          setSelectedSubcategory("");
+          setSelectedLanguage("");
+          resetField("shortQuestion");
+          resetField("question");
+          setError({
+            visible: true,
+            message: res.message,
+            type: "success",
+            title: "Success",
+          });
+        } else {
+          setError({
+            visible: true,
+            message: res.message,
+            type: "warning",
+            title: "Warning",
+          });
+        }
       })
       .catch((err) => {
         setLoader(false);
@@ -314,6 +353,15 @@ export default function AskFatwasComponent() {
             </div>
           </div>
         </form>
+      )}
+      {errorPopup.visible && (
+        <SnackBar
+          visible={errorPopup.visible}
+          message={errorPopup.message}
+          type={errorPopup.type}
+          title={errorPopup.title}
+          onClose={() => handleCloseError()}
+        />
       )}
     </div>
   );
