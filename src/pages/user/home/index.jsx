@@ -125,9 +125,7 @@ const HomePage = (props) => {
     setValue(newValue);
   };
 
-  const handleDelete = () => {
-    console.info("You clicked the delete icon.");
-  };
+  const handleDelete = () => console.info("You clicked the delete icon.");
 
   const handleChangePage = (e, newPage) => setPage(newPage);
 
@@ -167,22 +165,14 @@ const HomePage = (props) => {
         setQuestionsData(res);
       })
       .catch((err) => {
-        console.error("Error in getQuestionListApi", err);
         setLoader(false);
+        console.error("Error in getQuestionListApi", err);
         setQuestionsData([]);
       });
   };
 
   return (
     <div className="home-page">
-      {/* <Button
-        variant="outlined"
-        onClick={() => {
-          props.addUserLoginDetails({ name: "sabeer Ali", age: 25 });
-        }}
-      >
-        add
-      </Button> */}
       <div
         className="bg-custom slider-section"
         style={{ backgroundImage: `url(${BackgroundImage})` }}
@@ -195,7 +185,6 @@ const HomePage = (props) => {
                 <SideNavCategory
                   categoriesChip={categoriesChip}
                   selectedCategories={(e) => {
-                    console.log("Selected Categories", e);
                     setCategoriesChip(e);
                   }}
                 />
@@ -300,15 +289,8 @@ const HomePage = (props) => {
                     </Tabs>
                   </Box>
                   {isLoading ? (
-                    <div
-                      style={{
-                        minHeight: "60vh",
-                        position: "relative",
-                        left: 0,
-                        top: 150,
-                      }}
-                    >
-                      <Loader />
+                    <div>
+                      <Loader skeleton layers={2} />
                     </div>
                   ) : (
                     <>
@@ -421,6 +403,7 @@ const HomePage = (props) => {
     </div>
   );
 };
+
 const mapStateToProps = (state) => ({
   ...state,
 });

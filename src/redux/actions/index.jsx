@@ -8,7 +8,6 @@ export const addUserLoginDetails = (data) => {
 };
 
 export const addGeneralDetails = (data) => {
-  console.log("IN addGeneralDetails", data);
   return {
     type: ADD_GENERAL_DETAILS,
     data: data,

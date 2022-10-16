@@ -64,17 +64,9 @@ import UserAccountRouting from "./userAccounts";
 import { connect } from "react-redux";
 
 const CustomRouters = (props) => {
-  console.log("props in ROutes ===", props);
-  const [isUser, setUser] = useState(false);
-  const [isAdmin, setAdmin] = useState(false);
-
   useEffect(() => {
     const { isUser, isAdmin } = authCheck();
-    setUser(isUser);
-    setAdmin(isAdmin);
   }, []);
-
-  console.log("isUser,isAdmin in Routes", isUser, isAdmin);
 
   return (
     <Routes>
@@ -116,7 +108,10 @@ const CustomRouters = (props) => {
         <Route path="addCategories" element={<AddCategories />} />
         <Route path="addMusthafthies" element={<AddMusthafthies />} />
         <Route path="addUser" element={<AddUser />} />
-        <Route path="fatwasDetails/:id" element={<FatwasDetails />} />
+        <Route
+          path={RouterList.admin.fatwasDetails}
+          element={<FatwasDetails />}
+        />
         <Route path="addArticle" element={<AddArticle />} />
         <Route path={RouterList.admin.categoryList} element={<Categories />} />
       </Route>

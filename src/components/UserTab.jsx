@@ -1,23 +1,17 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import { Tabs, Tab, Typography, Box } from "@mui/material";
-import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 
-import AskFatwasComponent from "../pages/user/Accounts/askFatwas";
-import Profile from "../pages/user/Accounts/profile";
 import QuestionContainer from "./QuestionContainer";
-import AccountHomeComponent from "./AccountHomeComponent";
-import { URLS } from "../config/urls.config";
 import { formatDate } from "../utils/dateformat";
 import Loader from "./common/Loader";
 import { getLocal } from "../utils/localStore";
 import NoDataAvailable from "./NoDataAvailable";
 import getQuestionListApi from "../services/getQuestionsList";
+
 import "../pages/user/Accounts/home/account.home.styles.scss";
-import { connect } from "react-redux";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -45,27 +39,14 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
-
-const UserTab = ({ getData }) => {
-  // console.log("props in TABSsssssssssssssss", props.generals);
+const UserTab = ({ getData, userLoginDetails }) => {
   const [value, setValue] = useState(0);
   const [count, setCount] = useState(0);
   const [questionData, setQuestionData] = useState([]);
   const [isLoading, setLoader] = useState(false);
 
-  const [userDetails, setUserDetails] = useState([]);
-
   useEffect(() => {
-    getLocal().then((res) => {
-      setUserDetails(res);
-      getQuestionList(`?userid=${res._id}`);
-    });
+    getQuestionList(`?userid=${userLoginDetails?._id}`);
   }, []);
 
   const getQuestionList = (params) => {
@@ -82,7 +63,6 @@ const UserTab = ({ getData }) => {
         setQuestionData([]);
       });
   };
-  console.log("data===>", userDetails._id);
   // useEffect(() => {
   //   getQuestionApi("");
   // }, [userId]);
@@ -90,34 +70,15 @@ const UserTab = ({ getData }) => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
     if (newValue === 1) {
-      getQuestionList(`?status=Published&userid=${userDetails._id}`);
+      getQuestionList(`?status=Published&userid=${userLoginDetails?._id}`);
     } else if (newValue === 2) {
-      getQuestionList(`?status=Pending&userid=${userDetails._id}`);
+      getQuestionList(`?status=Pending&userid=${userLoginDetails?._id}`);
     } else if (newValue === 3) {
-      getQuestionList(`?status=Rejected&userid=${userDetails._id}`);
+      getQuestionList(`?status=Rejected&userid=${userLoginDetails?._id}`);
     } else if (newValue === 0) {
-      getQuestionList(`?userid=${userDetails._id}`);
+      getQuestionList(`?userid=${userLoginDetails?._id}`);
     }
   };
-
-  // const getQuestionApi = (selectedStatus) => {
-  //   setLoader(true);
-  //   let url = `${URLS.question}?userid=${userDetails?._id}`;
-  //   if (selectedStatus !== "") {
-  //     url = `${url}&status=${selectedStatus}`;
-  //   }
-  //   axios
-  //     .get(url)
-  //     .then((res) => {
-  //       setLoader(false);
-  //       setQuestionData(res?.data);
-  //       console.log("11111111111", res);
-  //     })
-  //     .catch((err) => {
-  //       setLoader(false);
-  //       console.log("error quesss", err);
-  //     });
-  // };
 
   return (
     <div className="user-tab-section">
@@ -136,8 +97,8 @@ const UserTab = ({ getData }) => {
           </Tabs>
         </Box>
         {isLoading ? (
-          <div style={{ minHeight: 300 }} className="d-flex align-items-center">
-            <Loader />
+          <div className="w-100 px-5">
+            <Loader skeleton />
           </div>
         ) : (
           <>

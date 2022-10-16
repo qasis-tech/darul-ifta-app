@@ -1,7 +1,30 @@
 import { CircularProgress, Skeleton, Box } from "@mui/material";
 
-export default function Loader({ height, width, absolute, skeleton, color }) {
+export default function Loader({
+  height,
+  width,
+  absolute,
+  skeleton,
+  color,
+  layers,
+}) {
   if (skeleton) {
+    if (layers > 1) {
+      return (
+        <>
+          <Box>
+            <Skeleton height={150} />
+            <Skeleton animation="wave" height={60} />
+            <Skeleton height={40} />
+          </Box>
+          <Box>
+            <Skeleton height={150} />
+            <Skeleton animation="wave" height={60} />
+            <Skeleton height={40} />
+          </Box>
+        </>
+      );
+    }
     return (
       <Box>
         <Skeleton height={100} />

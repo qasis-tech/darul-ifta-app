@@ -3,40 +3,27 @@ import { connect } from "react-redux";
 
 import { Button, Card } from "@mui/material";
 
-import PersonIcon from "@mui/icons-material/Person";
 import SettingsIcon from "@mui/icons-material/Settings";
 import MessageIcon from "@mui/icons-material/Message";
+import IconButton from "@mui/material/IconButton";
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
 
 import DefaultImg1 from "../../../../assets/images/Minaret.svg";
 
 import UserTab from "../../../../components/UserTab";
 import DialogComponent from "../../../../components/DialogComponent";
-import { getLocal } from "../../../../utils/localStore";
 import AskFatwasComponent from "../../Accounts/askFatwas";
-import IconButton from "@mui/material/IconButton";
-import PhotoCamera from "@mui/icons-material/PhotoCamera";
+
 import UserProfile from "../profile";
 import "./account.home.styles.scss";
+
 const AccountHome = ({ userLoginDetails }) => {
-  const [userDetails, setUserDetails] = useState(null);
   const [showImage, setShowImage] = useState(true);
   const [count, setCount] = useState(0);
+  const [closePopup, setClosePopup] = useState(true);
 
-  useEffect(() => {
-    getLocal().then((res) => setUserDetails(res));
-  }, []);
-
-  const getAPIs = () => {};
-
-  console.log("userdetailss--->", userDetails);
-  const handleImageError = (e) => {
-    setShowImage(false);
-  };
-
-  const getCount = (c) => {
-    console.log("countttt===>>>", c);
-    setCount(c);
-  };
+  const handleImageError = (e) => setShowImage(false);
+  const getCount = (c) => setCount(c);
 
   return (
     <>
@@ -46,12 +33,9 @@ const AccountHome = ({ userLoginDetails }) => {
             {showImage ? (
               <span>
                 <img
-                  src={userDetails?.profile_pic}
+                  src={userLoginDetails?.profile_pic}
                   class="profile-img"
                   alt="profile images"
-                  // onError={(e) => {
-                  //   e.target.src = <PersonIcon />;
-                  // }}
                   onError={handleImageError}
                 />
               </span>
@@ -71,11 +55,12 @@ const AccountHome = ({ userLoginDetails }) => {
                   title2="user must completed profile then only permission to ask question"
                   className="model-section"
                   fullWidth
-                  mainComponent={<UserProfile />}
+                  mainComponent={<UserProfile closePopup={setClosePopup} />}
                   noBottom
                   size="xl"
+                  close={closePopup}
                 >
-                  <SettingsIcon />
+                  <SettingsIcon onClick={() => closePopup(false)} />
                 </DialogComponent>
               </div>
 
@@ -98,17 +83,17 @@ const AccountHome = ({ userLoginDetails }) => {
         <div class="col d-flex align-items-center details">
           <div class="">
             <div>
-              <h2>{userDetails?.name || "N/A"}</h2>
+              <h2>{userLoginDetails?.name || "N/A"}</h2>
             </div>
             <div>
               <h6>
-                {userDetails?.phone || (
+                {userLoginDetails?.phone || (
                   <span className="text-danger">Mobile Number - Not Found</span>
                 )}
               </h6>
 
               <h6>
-                {userDetails?.email || (
+                {userLoginDetails?.email || (
                   <span className="text-danger">Email ID - Not Found</span>
                 )}
               </h6>
@@ -116,7 +101,7 @@ const AccountHome = ({ userLoginDetails }) => {
 
             <div>
               <h6>
-                {userDetails?.address || (
+                {userLoginDetails?.address || (
                   <span className="text-danger">Address - Not Found</span>
                 )}
               </h6>
@@ -153,15 +138,21 @@ const AccountHome = ({ userLoginDetails }) => {
                   fullWidth
                   mainComponent={
                     userLoginDetails?.profileComplete === "Incomplete" ? (
-                      <UserProfile />
+                      <UserProfile closePopup={setClosePopup} />
                     ) : (
                       <AskFatwasComponent />
                     )
                   }
                   noBottom
                   size="xl"
+                  close={closePopup}
                 >
-                  <Button variant="contained" className="submit-btn" fullWidth>
+                  <Button
+                    variant="contained"
+                    className="submit-btn"
+                    fullWidth
+                    onClick={() => setClosePopup(false)}
+                  >
                     Ask Fatwa
                   </Button>
                 </DialogComponent>
@@ -170,7 +161,6 @@ const AccountHome = ({ userLoginDetails }) => {
           </div>
         </div>
       </div>
-
       <UserTab getData={getCount} />
     </>
   );

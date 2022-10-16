@@ -1,8 +1,15 @@
 import { createStore } from "redux";
-import rotateReducer from "./reducers";
+import rootReducer from "./reducers";
+import storage from "redux-persist/lib/storage";
+import { persistReducer, persistStore } from "redux-persist";
 
-function configureStore(state = { userLoginDetails: null, generals: null }) {
-  return createStore(rotateReducer, state);
-}
+const persistConfig = {
+  key: "root",
+  storage,
+};
 
-export default configureStore;
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+let store = createStore(persistedReducer);
+let persistor = persistStore(store);
+export { store, persistor };

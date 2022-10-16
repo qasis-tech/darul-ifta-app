@@ -73,7 +73,7 @@ export default function Article() {
         <div className="table-container">
           <div className="table-row">
             {isLoader ? (
-              <Loader absolute />
+              <Loader skeleton />
             ) : (
               <TableContainer component={Paper}>
                 <Table
@@ -119,7 +119,11 @@ export default function Article() {
                         );
                       })
                     ) : (
-                      <NoDataAvailable />
+                      <TableRow>
+                        <TableCell colSpan={3}>
+                          <NoDataAvailable />
+                        </TableCell>
+                      </TableRow>
                     )}
                   </TableBody>
                 </Table>

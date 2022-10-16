@@ -1,46 +1,48 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { connect } from "react-redux";
-import { URLS } from "../../../../config/urls.config";
 import { addGeneralDetails } from "../../../../redux/actions";
+import getGeneralsListApi from "../../../../services/getGeneralList";
+import Loader from "../../../../components/common/Loader";
 
 const VisitorDetails = (props) => {
-  console.log("111111111111111111111111111111", props);
-  const [generalDetails, setGeneralDetails] = useState(null);
-  useEffect(() => {
-    getGeneralList();
-  }, []);
+  const [isLoading, setLoader] = useState(false);
+  const { visitors, fatwas, musafthi } = props.generals;
 
-  const getGeneralList = () => {
-    axios
-      .get(`${URLS.generals}`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then(({ data }) => {
-        setGeneralDetails(data.data);
-        props.addGeneralDetails(data);
+  useEffect(() => {
+    setLoader(true);
+    getGeneralsListApi()
+      .then((res) => {
+        setLoader(false);
+        props.addGeneralDetails(res);
       })
       .catch((err) => {
+        setLoader(false);
         console.log("error generals", err);
       });
-  };
+  }, []);
+
   return (
     <div className="col custom-details shadow">
-      <div className="custom-details-column">
-        <h6>Visitor</h6>
-        <div>{generalDetails?.visitors || "N/A"}</div>
-      </div>
+      {isLoading ? (
+        <Loader skeleton />
+      ) : (
+        <>
+          <div className="custom-details-column">
+            <h6>Visitor</h6>
+            <div>{visitors || "N/A"}</div>
+          </div>
 
-      <div className="custom-details-column">
-        <h6>Total Fatwas</h6>
-        <div>{generalDetails?.fatwas || "N/A"}</div>
-      </div>
-      <div className="custom-details-column">
-        <h6>Registered Users</h6>
-        <div>{generalDetails?.users || "N/A"}</div>
-      </div>
+          <div className="custom-details-column">
+            <h6>Total Fatwas</h6>
+            <div>{fatwas || "N/A"}</div>
+          </div>
+          <div className="custom-details-column">
+            <h6>Registered Users</h6>
+            <div>{musafthi || "N/A"}</div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
