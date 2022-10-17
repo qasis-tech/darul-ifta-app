@@ -94,7 +94,7 @@ console.log("data===>",userDetails._id)
     if (newValue === 1) {
       getQuestionList(`?status=Published&userid=${userDetails._id}`);
     } else if (newValue === 2) {
-      getQuestionList(`?status=Published&userid=${userDetails._id}`);
+      getQuestionList(`?status=Pending&userid=${userDetails._id}`);
     } else if (newValue === 3) {
       getQuestionList(`?status=Rejected&userid=${userDetails._id}`);
     } else if (newValue === 0) {
