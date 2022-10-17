@@ -7,7 +7,6 @@ import Loader from "../../../../components/common/Loader";
 
 const VisitorDetails = (props) => {
   const [isLoading, setLoader] = useState(false);
-  const { visitors, fatwas, musafthi } = props.generals;
 
   useEffect(() => {
     setLoader(true);
@@ -30,16 +29,16 @@ const VisitorDetails = (props) => {
         <>
           <div className="custom-details-column">
             <h6>Visitor</h6>
-            <div>{visitors || "N/A"}</div>
+            <div>{props?.generals?.visitors || "N/A"}</div>
           </div>
 
           <div className="custom-details-column">
             <h6>Total Fatwas</h6>
-            <div>{fatwas || "N/A"}</div>
+            <div>{props?.generals?.fatwas || "N/A"}</div>
           </div>
           <div className="custom-details-column">
             <h6>Registered Users</h6>
-            <div>{musafthi || "N/A"}</div>
+            <div>{props?.generals?.musafthi || "N/A"}</div>
           </div>
         </>
       )}
