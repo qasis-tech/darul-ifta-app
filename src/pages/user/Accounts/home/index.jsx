@@ -20,7 +20,7 @@ import "./account.home.styles.scss";
 const AccountHome = ({ userLoginDetails }) => {
   const [showImage, setShowImage] = useState(true);
   const [count, setCount] = useState(0);
-  const [closePopup, setClosePopup] = useState(true);
+  const [closePopup, setClosePopup] = useState(false);
 
   const handleImageError = (e) => setShowImage(false);
   const getCount = (c) => setCount(c);
@@ -60,7 +60,7 @@ const AccountHome = ({ userLoginDetails }) => {
                   size="xl"
                   close={closePopup}
                 >
-                  <SettingsIcon onClick={() => closePopup(false)} />
+                  <SettingsIcon />
                 </DialogComponent>
               </div>
 

@@ -1,15 +1,13 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Button } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import PrintIcon from "@mui/icons-material/Print";
 import FatwaAddComponent from "../../../components/FatwaAddComponent";
 import getQuestionListApi from "../../../services/getQuestionsList";
 import "./fatwas.details.styles.scss";
-import { useParams } from "react-router-dom";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useParams, useLocation } from "react-router-dom";
+
 import getCategoryListApi from "../../../services/getCategoryList";
 const options = ["Option 1", "Option 2"];
 
@@ -20,6 +18,9 @@ export default function FatwasDetails() {
   const [categoryData, setCategoryData] = useState([]);
   const [isLoading, setLoader] = useState(false);
   const { id } = useParams();
+
+  const location = useLocation();
+  console.log("location =========== ", location);
 
   useEffect(() => {
     getQuestions(`/${id}`);

@@ -198,7 +198,8 @@ export default function Dashboard() {
                               }}
                               onClick={() =>
                                 navigate(
-                                  `${"/admin/fatwasDetails"}/${items._id}`
+                                  `${"/admin/fatwasDetails"}/${items._id}`,
+                                  { state: items }
                                 )
                               }
                             >

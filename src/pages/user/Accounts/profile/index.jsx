@@ -34,7 +34,7 @@ const Profile = ({ closePopup, userLoginDetails }) => {
   } = useForm();
 
   useEffect(() => {
-    getLocal().then((res) => setUserDetails(res));
+    setUserDetails(userLoginDetails);
     getmadhabList().then((res) => setMadbahList(res));
   }, []);
 
@@ -72,6 +72,7 @@ const Profile = ({ closePopup, userLoginDetails }) => {
       })
       .then((res) => {
         setLoader(false);
+
         if (res?.success) {
           setError({
             visible: true,
@@ -96,7 +97,7 @@ const Profile = ({ closePopup, userLoginDetails }) => {
 
   return (
     <div>
-      {isLoading ? (
+      {isLoading || errorPopup.visible ? (
         <Loader />
       ) : (
         <form onSubmit={handleSubmit(handleUserUpdate)}>
