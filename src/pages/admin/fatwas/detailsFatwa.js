@@ -37,6 +37,7 @@ export default function FatwasDetails() {
   const [selectedMufthiVerified, setSelectedMufthiVerified] = useState([]);
   const [isLoading, setLoader] = useState(false);
   const [closePopup, setClosePopup] = useState(false);
+  const [subCategoryData, setSubCategory] = useState([]);
 
   const {
     register,
@@ -49,6 +50,7 @@ export default function FatwasDetails() {
 
   useEffect(() => {
     getCategory();
+    getSubcategory();
     getMadhab();
     getMufthiApi();
     setSelectedCategory(state?.category[0]);
@@ -93,6 +95,24 @@ export default function FatwasDetails() {
       });
   };
 
+  const getSubcategory = () => {
+    setLoader(true);
+    axios
+      .get(`${URLS.subcategory}`)
+      .then((res) => {
+        setLoader(false);
+        console.log("res subcategory", res?.data);
+        const temp = res?.data?.map((subcat) => {
+          return subcat.subCategory;
+        });
+        setSubCategory(temp);
+      })
+      .catch((err) => {
+        setLoader(false);
+        console.log("error mufthii--", err);
+      });
+  };
+
   const getMadhab = () => {
     setLoader(true);
     getmadhabList()
@@ -127,45 +147,46 @@ export default function FatwasDetails() {
   );
 
   const handleAccept = () => {
-    setLoader(true);
+    // setLoader(true);
     console.log("state inside put api", state);
-    let payload = {
-      madhab: state?.madhab?._id,
-      category: state?.category?._id,
-      sub_category: state?.sub_category,
-      short_question: state?.short_question,
-      question: state?.question,
-      language: state?.language,
-      status: "Received to Darul Ifta",
-      answer: state?.answer,
-      reference: state?.reference,
-      answered_date: state?.answered_date,
-      verified_date: state?.verified_date,
-      answered_by: state?.answered_by,
-      verified_by: state?.verified_by,
-      mufti: state?.mufti,
-      verifier: state?.verifier,
-      reject_by: state?.reject_by,
-      mufti_answered: state?.mufti_answered,
-      reject_reason: state?.reject_reason,
-    };
-    axios
-      .put(`${URLS.question}/${state._id}`, payload, {
-        headers: {
-          "content-type": "application/json",
-        },
-      })
-      .then((res) => {
-        setLoader(false);
-        console.log("res put accept api", res);
-        if (res?.success) {
-          navigate(-1);
-        }
-      })
-      .catch((err) => {
-        setLoader(false);
-        console.error("Error in profile edit", err);
-      });
+    console.log("subcategory detailss====>", subCategoryData);
+    // let payload = {
+    //   madhab: state?.madhab?._id,
+    //   category: state?.category?._id,
+    //   sub_category: state?.sub_category,
+    //   short_question: state?.short_question,
+    //   question: state?.question,
+    //   language: state?.language,
+    //   status: "Received to Darul Ifta",
+    //   answer: state?.answer,
+    //   reference: state?.reference,
+    //   answered_date: state?.answered_date,
+    //   verified_date: state?.verified_date,
+    //   answered_by: state?.answered_by,
+    //   verified_by: state?.verified_by,
+    //   mufti: state?.mufti,
+    //   verifier: state?.verifier,
+    //   reject_by: state?.reject_by,
+    //   mufti_answered: state?.mufti_answered,
+    //   reject_reason: state?.reject_reason,
+    // };
+    // axios
+    //   .put(`${URLS.question}/${state._id}`, payload, {
+    //     headers: {
+    //       "content-type": "application/json",
+    //     },
+    //   })
+    //   .then((res) => {
+    //     setLoader(false);
+    //     console.log("res put accept api", res);
+    //     if (res?.success) {
+    //       navigate(-1);
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     setLoader(false);
+    //     console.error("Error in profile edit", err);
+    //   });
   };
 
   const handlePublish = () => {};
@@ -234,19 +255,15 @@ export default function FatwasDetails() {
                   size="small"
                   fullWidth
                   multiple
-                  options={
-                    selectedCategory?.subCategory?.length
-                      ? selectedCategory?.subCategory
-                      : []
-                  }
+                  options={subCategoryData || null}
                   getOptionLabel={(option) => option?.label}
                   isOptionEqualToValue={(option, value) =>
                     option?._id === value?._id
                   }
-                  onChange={(event, newValue) => {
-                    setSelectedSubCategory(newValue);
-                  }}
-                  value={selectedSubCategory}
+                  // onChange={(event, newValue) => {
+                  //   setSelectedSubCategory(newValue);
+                  // }}
+                  // value={selectedSubCategory}
                   renderInput={(params) => (
                     <TextField {...params} label="Subcategory" />
                   )}
