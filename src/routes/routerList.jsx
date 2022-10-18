@@ -27,7 +27,7 @@ export default {
     addCategories: "addCategories",
     addMusthafthies: "addMusthafthies",
     addUser: "addUser",
-    fatwasDetails: "fatwasDetails/:id",
+    fatwasDetails: "fatwasDetails",
     dashboard: "dashboard",
   },
 };

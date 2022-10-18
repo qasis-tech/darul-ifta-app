@@ -1,23 +1,19 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
-import { Button } from "@mui/material";
+import { useLocation } from "react-router-dom";
+
+import { Button, TextField, Autocomplete } from "@mui/material";
+
 import PrintIcon from "@mui/icons-material/Print";
 import FatwaAddComponent from "../../../components/FatwaAddComponent";
-import getQuestionListApi from "../../../services/getQuestionsList";
-import "./fatwas.details.styles.scss";
-import { useParams, useLocation } from "react-router-dom";
 import getCategoryListApi from "../../../services/getCategoryList";
 import getmadhabList from "../../../services/getMadhabList";
 import { URLS } from "../../../config/urls.config";
 
-const options = ["Option 1", "Option 2"];
+import "./fatwas.details.styles.scss";
 
 export default function FatwasDetails() {
-  const [value, setValue] = useState(options[0]);
-  const [inputValue, setInputValue] = useState("");
   const [categoryData, setCategoryData] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
@@ -46,15 +42,20 @@ export default function FatwasDetails() {
   } = useForm();
 
   const { state } = useLocation();
+  console.log("state ===>", state);
 
   useEffect(() => {
     getCategory();
     getMadhab();
     getMufthiApi();
-    setSelectedCategory(state.category);
-    setSelectedSubCategory({ label: state.sub_category, active: true, id: "" });
-    setSelectedMadhab(state.madhab);
-    setSelectedLanguage({ id: "", title: state.language });
+    setSelectedCategory(state?.category);
+    setSelectedSubCategory({
+      label: state?.sub_category,
+      active: true,
+      id: "",
+    });
+    setSelectedMadhab(state?.madhab);
+    setSelectedLanguage({ id: "", title: state?.language });
     setShortQuestion(state?.short_question);
     setLongQuestion(state?.question);
     setSelectedMufthi(state?.mufti || "N/A");
@@ -62,23 +63,18 @@ export default function FatwasDetails() {
     setAnswer(state?.answer || "N/A");
   }, []);
 
-  const handleChangeShort_Question = (event) => {
+  const handleChangeShort_Question = (event) =>
     setShortQuestion(event.target.value);
-  };
 
-  const handleChangeLongQuestion = (event) => {
+  const handleChangeLongQuestion = (event) =>
     setLongQuestion(event.target.value);
-  };
 
-  const handleChangeAnswer = (event) => {
-    setAnswer(event.target.value);
-  };
+  const handleChangeAnswer = (event) => setAnswer(event.target.value);
 
   const getCategory = () => {
     setLoader(true);
     getCategoryListApi()
       .then((res) => {
-        console.log("res Category ", res);
         setCategoryData(res);
         setLoader(false);
       })
@@ -93,7 +89,6 @@ export default function FatwasDetails() {
     setLoader(true);
     getmadhabList()
       .then((res) => {
-        console.log("res madhab1111111 ", res);
         setMadhabData(res);
         setLoader(false);
       })
@@ -107,14 +102,9 @@ export default function FatwasDetails() {
   const getMufthiApi = () => {
     setLoader(true);
     axios
-      .get(`${URLS.user}${URLS.signup}?userType=Mufthi`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      .get(`${URLS.user}${URLS.signup}?userType=Mufthi`)
       .then(({ data }) => {
         setLoader(false);
-        console.log("res mufthi", data);
         setMufthiData(data);
       })
       .catch((err) => {
@@ -124,20 +114,23 @@ export default function FatwasDetails() {
       });
   };
 
-  const mufthiVerified = mufthiData.filter((obj) => {
-    return obj?._id !== selectedMufthi?._id;
-  });
+  const mufthiVerified = mufthiData.filter(
+    (obj) => obj?._id !== selectedMufthi?._id
+  );
 
   const handlePublish = () => {};
+
+  console.log("state", state);
 
   return (
     <div className="fatwas-details-section">
       <div className="fatwa-print-section">
         <div className="col-md-6">
           <h6>
-            <span className="id-style"> Q-ID</span>
+            <span className="id-style">QID : {state?.slNo}</span>
             <span>
-              &nbsp;: 553 - KAUZARIYYA : <span>Published</span>
+              : - {state?.category?.category}({state?.sub_category}) -{" "}
+              <span>{state?.status}</span>
             </span>
           </h6>
         </div>
@@ -161,9 +154,9 @@ export default function FatwasDetails() {
                   }}
                   id="controllable-states-demo"
                   options={categoryData}
-                  getOptionLabel={(option) => option?.category || ""}
+                  getOptionLabel={(option) => option?.category}
                   isOptionEqualToValue={(option, value) =>
-                    option._id === value._id
+                    option?._id === value?._id
                   }
                   renderInput={(params) => (
                     <TextField
@@ -191,9 +184,9 @@ export default function FatwasDetails() {
                     ? selectedCategory?.subCategory
                     : []
                 }
-                getOptionLabel={(option) => option?.label || ""}
+                getOptionLabel={(option) => option?.label}
                 isOptionEqualToValue={(option, value) =>
-                  option._id === value._id
+                  option?._id === value?._id
                 }
                 onChange={(event, newValue) => {
                   setSelectedSubCategory(newValue);
@@ -216,9 +209,9 @@ export default function FatwasDetails() {
                   }}
                   id="controllable-states-demo"
                   options={madhabData}
-                  getOptionLabel={(option) => option?.title || ""}
+                  getOptionLabel={(option) => option?.title}
                   isOptionEqualToValue={(option, value) =>
-                    option._id === value._id
+                    option?._id === value?._id
                   }
                   renderInput={(params) => (
                     <TextField
@@ -247,9 +240,9 @@ export default function FatwasDetails() {
                   }}
                   id="controllable-states-demo"
                   options={languageList}
-                  getOptionLabel={(option) => option?.title || ""}
+                  getOptionLabel={(option) => option?.title}
                   isOptionEqualToValue={(option, value) =>
-                    option.id === value.id
+                    option?.id === value?.id
                   }
                   renderInput={(params) => (
                     <TextField
