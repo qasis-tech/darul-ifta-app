@@ -18,7 +18,7 @@ import RejectedReasonSection from "./components/RejectedReasonSection";
 
 export default function FatwasDetails() {
   const [categoryData, setCategoryData] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
   const [madhabData, setMadhabData] = useState([]);
   const [selectedMadhab, setSelectedMadhab] = useState("");
@@ -51,12 +51,16 @@ export default function FatwasDetails() {
     getCategory();
     getMadhab();
     getMufthiApi();
-    setSelectedCategory(state?.category);
-    setSelectedSubCategory({
-      label: state?.sub_category,
-      active: true,
-      id: "",
-    });
+    setSelectedCategory(state?.category[0]);
+    setSelectedSubCategory(
+      state?.sub_category[
+        {
+          label: state?.sub_category,
+          active: true,
+          id: "",
+        }
+      ]
+    );
     setSelectedMadhab(state?.madhab);
     setSelectedLanguage({ id: "", title: state?.language });
     setShortQuestion(state?.short_question);
@@ -196,11 +200,11 @@ export default function FatwasDetails() {
                 {categoryData?.length && (
                   <Autocomplete
                     size="small"
-                    value={selectedCategory || null}
                     fullWidth
+                    value={selectedCategory}
                     onChange={(event, newValue) => {
                       console.log("newValue", newValue);
-                      setSelectedCategory(newValue);
+                      // setSelectedCategory(newValue);
                     }}
                     id="controllable-states-demo"
                     options={categoryData || null}
@@ -229,6 +233,7 @@ export default function FatwasDetails() {
                   id="controllable-states-demo"
                   size="small"
                   fullWidth
+                  multiple
                   options={
                     selectedCategory?.subCategory?.length
                       ? selectedCategory?.subCategory
