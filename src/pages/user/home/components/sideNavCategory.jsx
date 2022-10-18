@@ -11,10 +11,12 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { URLS } from "../../../../config/urls.config";
 import NoDataAvailable from "../../../../components/NoDataAvailable";
+import Loader from "../../../../components/common/Loader";
 
 const SideNavCategory = ({ selectedCategories, categoriesChip }) => {
   const [categoryData, setCategoryData] = useState([]);
   const [madhabData, setMadhabData] = useState([]);
+  const [isloading, setLoader] = useState(false);
 
   useEffect(() => {
     getCatgoryListApi();
@@ -22,23 +24,29 @@ const SideNavCategory = ({ selectedCategories, categoriesChip }) => {
   }, []);
 
   const getCatgoryListApi = () => {
+    setLoader(true);
     axios
       .get(`${URLS.category}`)
       .then((res) => {
+        setLoader(false);
         setCategoryData(res.data);
       })
       .catch((err) => {
+        setLoader(false);
         console.log("error category", err);
       });
   };
 
   const getmadhabListApi = () => {
+    setLoader(true);
     axios
       .get(`${URLS.madhab}`)
       .then((res) => {
+        setLoader(false);
         setMadhabData(res.data);
       })
       .catch((err) => {
+        setLoader(false);
         console.log("error madhab", err);
       });
   };
@@ -51,10 +59,12 @@ const SideNavCategory = ({ selectedCategories, categoriesChip }) => {
       <div className="l-green"></div>
       <div>
         <div className="accordian-wrapper">
-          {!!categoryData?.length ? (
+          {isloading ? (
+            <Loader skeleton />
+          ) : !!categoryData?.length ? (
             categoryData?.map((category) => {
               return (
-                <Accordion className="accordian">
+                <Accordion className="accordian" key={category?._id}>
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon className="arrow-color" />}
                     aria-controls="panel1a-content"
@@ -102,7 +112,9 @@ const SideNavCategory = ({ selectedCategories, categoriesChip }) => {
         <div className="l-green"></div>
 
         <div>
-          {madhabData?.length ? (
+          {isloading ? (
+            <Loader skeleton />
+          ) : madhabData?.length ? (
             madhabData?.map((madhab) => {
               return (
                 <ul className="mt-2" key={madhab?._id}>

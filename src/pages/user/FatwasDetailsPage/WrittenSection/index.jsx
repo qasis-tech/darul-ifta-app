@@ -1,14 +1,16 @@
-import { Typography } from "@mui/material";
 import React from "react";
+
+import { Typography } from "@mui/material";
+
 import "./written.styles.scss";
+
 export default function WrittenSection({ data }) {
   return (
     <div className="written-section mt-4">
       <div className="container">
         <div className="col-md-12 heading">
           <Typography variant="h6" className="main-heading">
-            Written By : Mufti {""}
-            {data?.mufti || "N/A"}, Kerala
+            Written By : {data?.mufti || "N/A"}
           </Typography>
         </div>
         <div className="col-md-12 my-2">
@@ -18,14 +20,14 @@ export default function WrittenSection({ data }) {
       <div className="container verified-section py-4 ">
         <div className="col-md-12">
           <Typography variant="h6" className="verified-head">
-            Verified By :
+            Verified By : {data?.verified_by || "N/A"}
           </Typography>
         </div>
-        <div className="col-md-12">
+        {/* <div className="col-md-12">
           <Typography variant="h6" className="sub">
             {data?.verified_by || "N/A"}
           </Typography>
-        </div>
+        </div> */}
       </div>
     </div>
   );

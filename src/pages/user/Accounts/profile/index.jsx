@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { set, useForm } from "react-hook-form";
+import { connect } from "react-redux";
 
 import { Autocomplete, Button, TextField } from "@mui/material";
 
-import "./profile.styles.scss";
-
 import { getLocal } from "../../../../utils/localStore";
 import getmadhabList from "../../../../services/getMadhabList";
-import { set, useForm } from "react-hook-form";
+
 import { URLS } from "../../../../config/urls.config";
-import axios from "axios";
 import SnackBar from "../../../../components/common/Snackbar";
-import { useNavigate } from "react-router-dom";
-import routerList from "../../../../routes/routerList";
 import Loader from "../../../../components/common/Loader";
 
-export default function Profile() {
+import "./profile.styles.scss";
+
+const Profile = ({ closePopup, userLoginDetails }) => {
   const [userDetails, setUserDetails] = useState(null);
   const [madbahList, setMadbahList] = useState([]);
   const [selectedMadhab, setSelectedMadhab] = useState([]);
@@ -34,7 +34,7 @@ export default function Profile() {
   } = useForm();
 
   useEffect(() => {
-    getLocal().then((res) => setUserDetails(res));
+    setUserDetails(userLoginDetails);
     getmadhabList().then((res) => setMadbahList(res));
   }, []);
 
@@ -51,7 +51,7 @@ export default function Profile() {
       type: "",
       title: "",
     });
-    // navigate(-1);
+    closePopup(true);
   };
 
   const handleUserUpdate = ({ mobileNumber, madhab, address }) => {
@@ -72,7 +72,7 @@ export default function Profile() {
       })
       .then((res) => {
         setLoader(false);
-        console.log("res profile edit puttt==>", res);
+
         if (res?.success) {
           setError({
             visible: true,
@@ -95,12 +95,9 @@ export default function Profile() {
       });
   };
 
-  const navigate = useNavigate();
-  console.log("userdetails", userDetails);
-
   return (
     <div>
-      {isLoading ? (
+      {isLoading || errorPopup.visible ? (
         <Loader />
       ) : (
         <form onSubmit={handleSubmit(handleUserUpdate)}>
@@ -141,7 +138,6 @@ export default function Profile() {
                     variant="outlined"
                     fullWidth
                     value={userDetails?.phone || ""}
-                    // onChange={(e) => handleUserDetails(e.target.value, "phone")}
                     {...register("mobileNumber", {
                       required: "Mobile Number is Required",
                       pattern: {
@@ -196,9 +192,6 @@ export default function Profile() {
                     fullWidth
                     rows={4}
                     value={userDetails?.address || ""}
-                    // onChange={(e) =>
-                    //   handleUserDetails(e.target.value, "address")
-                    // }
                     {...register("address", {
                       required: "Address is required",
                       onChange: (e) =>
@@ -234,4 +227,9 @@ export default function Profile() {
       )}
     </div>
   );
-}
+};
+
+const mapStateToProps = (state) => ({
+  ...state,
+});
+export default connect(mapStateToProps)(Profile);

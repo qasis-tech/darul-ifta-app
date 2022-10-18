@@ -79,7 +79,9 @@ const HeaderComponent = () => {
                 </li>
                 <li
                   className="nav-item"
-                  onClick={() =>authLogout(()=>navigate(`${routerList.user.login}`))}
+                  onClick={() =>
+                    authLogout(() => navigate(`${routerList.user.home}`))
+                  }
                 >
                   <a className="nav-link custom-menu" aria-current="page">
                     Logout

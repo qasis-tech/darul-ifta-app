@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 
 import { styled } from "@mui/material/styles";
@@ -11,7 +11,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
 import { Alert } from "@mui/material";
 import AskFatwasComponent from "../pages/user/Accounts/askFatwas";
+
 import "../pages/user/Accounts/askFatwas/askfatwas.styles.scss";
+
 const BootstrapDialog = styled(Dialog)(({ theme, size }) => ({
   "& .MuiDialog-paper": {
     width: "65%",
@@ -26,10 +28,17 @@ const BootstrapDialog = styled(Dialog)(({ theme, size }) => ({
 }));
 
 const DialogComponent = (props) => {
-  console.log("props title 2", props.title2);
+  const { close } = props;
+  console.log("props title 2", close);
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  useEffect(() => {
+    if (close) {
+      handleClose();
+    }
+  }, [close]);
 
   return (
     <div>

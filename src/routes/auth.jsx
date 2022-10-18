@@ -1,6 +1,5 @@
 const authCheck = () => {
   let loginDatas = localStorage.getItem("@darul-ifta-user-login-details");
-  console.log("loginDatas", loginDatas);
   if (loginDatas) {
     let jsonData = JSON.parse(loginDatas);
     if (jsonData?.user_type === "User") {

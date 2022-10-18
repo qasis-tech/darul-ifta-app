@@ -29,6 +29,7 @@ import { formatDate } from "../../../utils/dateformat";
 import NoDataAvailable from "../../../components/NoDataAvailable";
 import CountTile from "./components/tiles";
 import getGeneralsListApi from "../../../services/getGeneralList";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   const [isLoading, setLoader] = useState(false);
@@ -81,6 +82,8 @@ export default function Dashboard() {
       titile: "",
     });
   };
+
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -193,6 +196,12 @@ export default function Dashboard() {
                                   border: 0,
                                 },
                               }}
+                              onClick={() =>
+                                navigate(
+                                  `${"/admin/fatwasDetails"}/${items._id}`,
+                                  { state: items }
+                                )
+                              }
                             >
                               <TableCell>{items?.slNo || "N/A"}</TableCell>
                               <TableCell>
