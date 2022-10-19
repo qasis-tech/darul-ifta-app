@@ -37,6 +37,7 @@ const Profile = ({ closePopup, userLoginDetails }) => {
   useEffect(() => {
     setUserDetails(userLoginDetails);
     getmadhabList().then((res) => setMadbahList(res));
+    setValue("name", userLoginDetails?.name);
     setSelectedMadhab({
       createdAt: "",
       title: userLoginDetails?.madhab,
@@ -122,9 +123,15 @@ const Profile = ({ closePopup, userLoginDetails }) => {
                     label="Name"
                     variant="outlined"
                     InputLabelProps={{ shrink: userDetails?.name }}
-                    value={userDetails?.name || ""}
-                    onChange={(e) => handleUserDetails(e.target.value, "name")}
+                    // value={userDetails?.name || ""}
+                    // onChange={(e) => handleUserDetails(e.target.value, "name")}
+                    {...register("name", {
+                      required: "Name is required",
+                      onChange: (e) =>
+                        handleUserDetails(e.target.value, "name"),
+                    })}
                   />
+                  <div className="error">{errors?.name?.message}</div>
                 </div>
                 <div className="col-md-6">
                   <TextField
@@ -158,9 +165,9 @@ const Profile = ({ closePopup, userLoginDetails }) => {
                       onChange: (e) =>
                         handleUserDetails(e.target.value, "phone"),
                     })}
-                    onKeyUp={() => {
-                      trigger("mobileNumber");
-                    }}
+                    // onKeyUp={() => {
+                    //   trigger("mobileNumber");
+                    // }}
                   />
 
                   <div className="error">{errors?.mobileNumber?.message}</div>
@@ -176,7 +183,7 @@ const Profile = ({ closePopup, userLoginDetails }) => {
                         option._id === value._id
                       }
                       onChange={(e, val) => setSelectedMadhab(val)}
-                      value={selectedMadhab}
+                      value={selectedMadhab || null}
                       // defaultValue={userDetails.madhab}
                       renderInput={(params) => (
                         <TextField
