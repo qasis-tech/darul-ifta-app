@@ -56,13 +56,10 @@ const RejectedReasonSection = ({ state }) => {
 
   const handleRejectReason = ({ reason }) => {
     setLoader(true);
-    state?.category?.map((cat) => {
-      console.log("1111111111======>", cat);
-    });
 
     let payload = {
-      madhab: state?.madhab?._id,
-      category: state?.category?._id,
+      madhab: state?.madhab,
+      category: state?.category,
       sub_category: state?.sub_category,
       short_question: state?.short_question,
       question: state?.question,
@@ -89,6 +86,9 @@ const RejectedReasonSection = ({ state }) => {
       .then((res) => {
         setLoader(false);
         console.log("res put accept api", res);
+        setSelectedRejectedReason("");
+        setSelectedMufthi("");
+
         // if (res?.success) {
         //   navigate(-1);
         // }
