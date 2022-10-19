@@ -12,4 +12,5 @@ export const URLS = {
   generals: "/generals",
   article: "/article",
   subcategory: "/subcategory",
+  visitors: "/visitors",
 };

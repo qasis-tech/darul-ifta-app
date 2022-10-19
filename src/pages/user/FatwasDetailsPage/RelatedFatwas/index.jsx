@@ -1,42 +1,78 @@
 import { Chip, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { URLS } from "../../../../config/urls.config";
+import getQuestionListApi from "../../../../services/getQuestionsList";
 import "./related.fatwas.styles.scss";
-export default function RelatedFatwas() {
+
+import routerList from "../../../../routes/routerList";
+export default function RelatedFatwas({ data }) {
+  const [questionList, setQuestionList] = useState([]);
+  const [isLoader, setLoader] = useState(false);
+
+  const subCategoryLabel = data?.sub_category?.map((sub) => {
+    return sub?.label;
+  });
+  const tempSubCategory = encodeURIComponent(subCategoryLabel);
+
+  useEffect(() => {
+    getQuestionList(`?subCategory=${tempSubCategory}`);
+  }, []);
+
+  const getQuestionList = (params) => {
+    setLoader(true);
+    getQuestionListApi(params)
+      .then((res) => {
+        setLoader(false);
+        setQuestionList(res);
+      })
+      .catch((err) => {
+        console.error("Error in getQuestionListApi", err);
+        setLoader(false);
+        setQuestionList([]);
+      });
+  };
+
+  const filteredQuestionList = questionList.filter(
+    (obj) => obj?._id !== data?._id
+  );
+
+  const sliceQuestionList = filteredQuestionList.slice(0, 3);
+  const navigate = useNavigate();
+
   return (
     <div className="related-fatwas-section mt-3 pb-2">
       <div className="related-fatwas-container">
         <div className="col-md-12 main-head">
           <Typography className="heading">Related Fatwas</Typography>
         </div>
-        <div className="container">
-          <div className="col-md-12 sub-details my-3  py-2 px-2">
-            <Typography className="title">
-              Is it Fathiha Compulsory for Jamath Namaz
-            </Typography>
-            <div className="row d-flex sub-btn justify-content-between mt-2 pb-1">
-              <div className="col-md-6">
-                <Chip label="QID:000123" className="id-button" />
-              </div>
-              <div className="col-md-6">
-                <Chip label="ReadMore" className="id-button" />
-              </div>
-            </div>
-          </div>
-
-          <div className="col-md-12 sub-details my-3  py-2 px-2">
-            <Typography className="title">
-              Is it Fathiha Compulsory for Jamath Namaz
-            </Typography>
-            <div className="row d-flex sub-btn justify-content-between mt-2 pb-1">
-              <div className="col-md-6">
-                <Chip label="QID:000123" className="id-button" />
-              </div>
-              <div className="col-md-6">
-                <Chip label="ReadMore" className="id-button" />
+        {sliceQuestionList?.map((slicedques) => {
+          return (
+            <div key={slicedques?._id} className="container">
+              <div className="col-md-12 sub-details my-3  py-2 px-2">
+                <Typography className="title">
+                  {slicedques?.short_question}
+                </Typography>
+                <div className="row d-flex sub-btn justify-content-between mt-2 pb-1">
+                  <div className="col-md-6">
+                    <Chip label={slicedques._id} className="id-button" />
+                  </div>
+                  <div className="col-md-6">
+                    <Chip
+                      label="ReadMore"
+                      className="id-button"
+                      onClick={() =>
+                        navigate(`${routerList.user.fatwasDetailsPage}`, {
+                          state: { data: slicedques },
+                        })
+                      }
+                    />
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+          );
+        })}
       </div>
     </div>
   );

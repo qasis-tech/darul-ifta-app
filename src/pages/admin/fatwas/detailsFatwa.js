@@ -3,7 +3,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
-import { Button, TextField, Autocomplete } from "@mui/material";
+import { Button, TextField, Autocomplete, Chip } from "@mui/material";
 
 import PrintIcon from "@mui/icons-material/Print";
 import FatwaAddComponent from "../../../components/FatwaAddComponent";
@@ -19,7 +19,7 @@ import RejectedReasonSection from "./components/RejectedReasonSection";
 export default function FatwasDetails() {
   const [categoryData, setCategoryData] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedSubCategory, setSelectedSubCategory] = useState("");
+  const [selectedSubCategory, setSelectedSubCategory] = useState([]);
   const [madhabData, setMadhabData] = useState([]);
   const [selectedMadhab, setSelectedMadhab] = useState("");
   const languageList = [
@@ -54,15 +54,7 @@ export default function FatwasDetails() {
     getMadhab();
     getMufthiApi();
     setSelectedCategory(state?.category[0]);
-    setSelectedSubCategory(
-      state?.sub_category[
-        {
-          label: state?.sub_category,
-          active: true,
-          id: "",
-        }
-      ]
-    );
+    // setSelectedSubCategory(state?.sub_category);
     setSelectedMadhab(state?.madhab);
     setSelectedLanguage({ id: "", title: state?.language });
     setShortQuestion(state?.short_question);
@@ -193,6 +185,7 @@ export default function FatwasDetails() {
 
   const navigate = useNavigate();
 
+  console.log("Selected subcategory", selectedSubCategory);
   return (
     <div className="fatwas-details-section">
       <div className="fatwa-print-section">
@@ -250,24 +243,37 @@ export default function FatwasDetails() {
               </div>
 
               <div className="col-md-4 first-col">
-                <Autocomplete
-                  id="controllable-states-demo"
-                  size="small"
-                  fullWidth
-                  multiple
-                  options={subCategoryData || null}
-                  getOptionLabel={(option) => option?.label}
-                  isOptionEqualToValue={(option, value) =>
-                    option?._id === value?._id
-                  }
-                  // onChange={(event, newValue) => {
-                  //   setSelectedSubCategory(newValue);
-                  // }}
-                  // value={selectedSubCategory}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Subcategory" />
-                  )}
-                />
+                {subCategoryData?.length && (
+                  <Autocomplete
+                    id="controllable-states-demo"
+                    size="small"
+                    fullWidth
+                    multiple
+                    options={subCategoryData || null}
+                    getOptionLabel={(option) => option?.label}
+                    isOptionEqualToValue={(option, value) =>
+                      option?._id === value?._id
+                    }
+                    // onChange={(event, newValue) => {
+                    //   console.log("newvalue", newValue);
+                    //   setSelectedSubCategory(newValue);
+                    // }}
+                    // value={selectedSubCategory || null}
+                    // renderTags={(value, getTagProps) =>
+                    //   value?.map((option, index) => (
+                    //     <Chip
+                    //       variant="outlined"
+                    //       label={option}
+                    //       size="small"
+                    //       {...getTagProps({ index })}
+                    //     />
+                    //   ))
+                    // }
+                    renderInput={(params) => (
+                      <TextField {...params} label="Subcategory" />
+                    )}
+                  />
+                )}
               </div>
               <div className="col-md-2">
                 {madhabData?.length && (
@@ -413,7 +419,7 @@ export default function FatwasDetails() {
                         options={mufthiVerified || ""}
                         getOptionLabel={(option) => option?.name || ""}
                         isOptionEqualToValue={(option, value) =>
-                          option._id === value._id
+                          option?._id === value?._id
                         }
                         renderInput={(params) => (
                           <TextField {...params} label="Verified By" />

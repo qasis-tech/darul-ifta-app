@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import URLS from "../routes/routerList";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 
 import "../styles/question.container.styles.scss";
 
@@ -36,9 +36,6 @@ const QuestionContainer = (props) => {
             </div>
             <div className="col-md-2">
               <h5>Views:{props.views}</h5>
-            </div>
-            <div className="col-md-2">
-            <Button variant="text">Edit</Button>
             </div>
           </div>
         </div>

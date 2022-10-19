@@ -139,6 +139,7 @@ const HomePage = (props) => {
     getLocal().then((res) => {
       props.addUserLoginDetails(res);
     });
+    getVisitorApi();
   }, []);
 
   useEffect(() => {
@@ -156,6 +157,20 @@ const HomePage = (props) => {
       }
     }
   }, [searchInput]);
+
+  const getVisitorApi = () => {
+    setLoader(true);
+    axios
+      .get(URLS.visitors)
+      .then((res) => {
+        setLoader(false);
+        console.log("res visitors==>", res);
+      })
+      .catch((err) => {
+        setLoader(false);
+        console.log("error visitors", err);
+      });
+  };
 
   const getQuestionList = (params) => {
     setLoader(true);
