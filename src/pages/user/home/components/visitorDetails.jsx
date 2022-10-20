@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { addGeneralDetails } from "../../../../redux/actions";
 import getGeneralsListApi from "../../../../services/getGeneralList";
 import Loader from "../../../../components/common/Loader";
+import { URLS } from "../../../../config/urls.config";
 
 const VisitorDetails = (props) => {
   const [isLoading, setLoader] = useState(false);

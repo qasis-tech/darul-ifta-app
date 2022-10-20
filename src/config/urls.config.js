@@ -11,4 +11,6 @@ export const URLS = {
   profile_pic: "/profile_pic",
   generals: "/generals",
   article: "/article",
+  subcategory: "/subcategory",
+  visitors: "/visitors",
 };

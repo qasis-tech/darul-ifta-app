@@ -32,7 +32,7 @@ export default function FatwasDetailsPage() {
             <WrittenComponent data={data} />
           </div>
           <div className="col-md-2 related">
-            <RelatedFatwasComponent />
+            <RelatedFatwasComponent data={data} />
           </div>
         </div>
       </div>

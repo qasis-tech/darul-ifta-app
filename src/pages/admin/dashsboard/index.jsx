@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
@@ -20,7 +21,6 @@ import {
   InputAdornment,
   IconButton,
 } from "@mui/material";
-
 import "./admin.home.styles.scss";
 
 import getQuestionListApi from "../../../services/getQuestionsList";
@@ -29,7 +29,6 @@ import { formatDate } from "../../../utils/dateformat";
 import NoDataAvailable from "../../../components/NoDataAvailable";
 import CountTile from "./components/tiles";
 import getGeneralsListApi from "../../../services/getGeneralList";
-import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   const [isLoading, setLoader] = useState(false);
@@ -42,6 +41,10 @@ export default function Dashboard() {
     type: "error",
     titile: "",
   });
+  useEffect(() => {
+    getQuestions();
+    getGeneralsList();
+  }, []);
 
   const getGeneralsList = () => {
     setLoader(true);
@@ -69,11 +72,6 @@ export default function Dashboard() {
       });
   };
 
-  useEffect(() => {
-    getQuestions();
-    getGeneralsList();
-  }, []);
-
   const handleCloseError = () => {
     setError({
       visible: false,
@@ -82,9 +80,7 @@ export default function Dashboard() {
       titile: "",
     });
   };
-
   const navigate = useNavigate();
-
   return (
     <div>
       <div className="admin-home-section">
@@ -197,10 +193,9 @@ export default function Dashboard() {
                                 },
                               }}
                               onClick={() =>
-                                navigate(
-                                  `${"/admin/fatwasDetails"}/${items._id}`,
-                                  { state: items }
-                                )
+                                navigate(`${"/admin/fatwasDetails"}`, {
+                                  state: items,
+                                })
                               }
                             >
                               <TableCell>{items?.slNo || "N/A"}</TableCell>
@@ -235,7 +230,7 @@ export default function Dashboard() {
                         })
                       ) : (
                         <TableRow>
-                          <TableCell rowSpan={5} colSpan={2}>
+                          <TableCell colSpan={3}>
                             <NoDataAvailable />
                           </TableCell>
                         </TableRow>

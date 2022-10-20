@@ -37,5 +37,21 @@
             justify-content: end;
             margin-top: 4em;
         }
+        .fatwabutton{
+            display: flex;
+            justify-content: end;
+            margin-top: 1em;
+            .accept-section{
+                display: flex;
+                align-items: center;
+                align-content: centers;
+                .accept-btn{
+                    margin-right: 15px;
+                }
+            }
+            .rejected{
+                background-color: #dc3545!important;
+            }
+        }
     }
 }

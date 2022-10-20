@@ -31,11 +31,22 @@ const Profile = ({ closePopup, userLoginDetails }) => {
     handleSubmit,
     formState: { errors },
     trigger,
+    setValue,
   } = useForm();
 
   useEffect(() => {
     setUserDetails(userLoginDetails);
     getmadhabList().then((res) => setMadbahList(res));
+    setValue("name", userLoginDetails?.name);
+    setSelectedMadhab({
+      createdAt: "",
+      title: userLoginDetails?.madhab,
+      updatedAt: "",
+      __v: 0,
+      _id: "",
+    });
+    setValue("mobileNumber", userLoginDetails?.phone);
+    setValue("address", userLoginDetails?.address);
   }, []);
 
   const handleUserDetails = (val, field) => {
@@ -54,18 +65,18 @@ const Profile = ({ closePopup, userLoginDetails }) => {
     closePopup(true);
   };
 
-  const handleUserUpdate = ({ mobileNumber, madhab, address }) => {
+  const handleUserUpdate = ({ mobileNumber, address }) => {
     setLoader(true);
     const formData = new FormData();
     formData.append("phone", mobileNumber);
-    formData.append("madhab", madhab);
+    formData.append("madhab", selectedMadhab?.title);
     formData.append("address", address);
-    formData.append("name", userDetails.name);
-    formData.append("user_type", userDetails.user_type);
-    formData.append("user_status", userDetails.user_status);
+    formData.append("name", userLoginDetails?.name);
+    formData.append("user_type", userLoginDetails?.user_type);
+    formData.append("user_status", userLoginDetails?.user_status);
 
     axios
-      .put(`${URLS.user}${URLS.signup}/${userDetails._id}`, formData, {
+      .put(`${URLS.user}${URLS.signup}/${userLoginDetails._id}`, formData, {
         headers: {
           "content-type": "multipart/form-data",
         },
@@ -112,9 +123,15 @@ const Profile = ({ closePopup, userLoginDetails }) => {
                     label="Name"
                     variant="outlined"
                     InputLabelProps={{ shrink: userDetails?.name }}
-                    value={userDetails?.name || ""}
-                    onChange={(e) => handleUserDetails(e.target.value, "name")}
+                    // value={userDetails?.name || ""}
+                    // onChange={(e) => handleUserDetails(e.target.value, "name")}
+                    {...register("name", {
+                      required: "Name is required",
+                      onChange: (e) =>
+                        handleUserDetails(e.target.value, "name"),
+                    })}
                   />
+                  <div className="error">{errors?.name?.message}</div>
                 </div>
                 <div className="col-md-6">
                   <TextField
@@ -137,7 +154,7 @@ const Profile = ({ closePopup, userLoginDetails }) => {
                     size="small"
                     variant="outlined"
                     fullWidth
-                    value={userDetails?.phone || ""}
+                    // value={userDetails?.phone || ""}
                     {...register("mobileNumber", {
                       required: "Mobile Number is Required",
                       pattern: {
@@ -148,10 +165,11 @@ const Profile = ({ closePopup, userLoginDetails }) => {
                       onChange: (e) =>
                         handleUserDetails(e.target.value, "phone"),
                     })}
-                    onKeyUp={() => {
-                      trigger("mobileNumber");
-                    }}
+                    // onKeyUp={() => {
+                    //   trigger("mobileNumber");
+                    // }}
                   />
+
                   <div className="error">{errors?.mobileNumber?.message}</div>
                 </div>
                 <div className="col-md-6">
@@ -165,8 +183,8 @@ const Profile = ({ closePopup, userLoginDetails }) => {
                         option._id === value._id
                       }
                       onChange={(e, val) => setSelectedMadhab(val)}
-                      value={selectedMadhab}
-                      defaultValue={userDetails.madhab}
+                      value={selectedMadhab || null}
+                      // defaultValue={userDetails.madhab}
                       renderInput={(params) => (
                         <TextField
                           {...params}
@@ -191,13 +209,14 @@ const Profile = ({ closePopup, userLoginDetails }) => {
                     multiline
                     fullWidth
                     rows={4}
-                    value={userDetails?.address || ""}
+                    // value={userDetails?.address || ""}
                     {...register("address", {
                       required: "Address is required",
                       onChange: (e) =>
                         handleUserDetails(e.target.value, "address"),
                     })}
                   />
+
                   <div className="error">{errors?.address?.message}</div>
                 </div>
               </div>
