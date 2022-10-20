@@ -140,7 +140,7 @@ const AccountHome = ({ userLoginDetails }) => {
                     userLoginDetails?.profileComplete === "Incomplete" ? (
                       <UserProfile closePopup={setClosePopup} />
                     ) : (
-                      <AskFatwasComponent />
+                      <AskFatwasComponent closePopup={setClosePopup} />
                     )
                   }
                   noBottom

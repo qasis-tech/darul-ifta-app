@@ -8,8 +8,10 @@ import Loader from "../../../../components/common/Loader";
 import SnackBar from "../../../../components/common/Snackbar";
 
 import "./askfatwas.styles.scss";
+import { PropaneSharp } from "@mui/icons-material";
 
-export default function AskFatwasComponent() {
+export default function AskFatwasComponent({ closePopup }) {
+  console.log("props===>>>>>>>>>>", closePopup);
   const languageList = [
     { id: 1, title: "English" },
     { id: 2, title: "Malayalam" },
@@ -63,6 +65,7 @@ export default function AskFatwasComponent() {
       type: "",
       title: "",
     });
+    closePopup(true);
     // navigate(-1);
   };
   const getCatgoryApi = () => {
@@ -148,7 +151,7 @@ export default function AskFatwasComponent() {
 
   return (
     <div>
-      {isLoading ? (
+      {isLoading || errorPopup?.visible ? (
         <Loader />
       ) : (
         <form onSubmit={handleSubmit(handleSubmitQuestion)}>

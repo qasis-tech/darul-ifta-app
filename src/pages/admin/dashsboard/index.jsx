@@ -77,7 +77,7 @@ export default function Dashboard() {
       visible: false,
       message: "",
       type: "",
-      titile: "",
+      title: "",
     });
   };
   const navigate = useNavigate();
@@ -211,7 +211,7 @@ export default function Dashboard() {
                                   : "N/A"}
                               </TableCell>
                               <TableCell>
-                                {items?.category?.category || "N/A"}
+                                {items?.category[0]?.category || "N/A"}
                               </TableCell>
                               <TableCell>
                                 {items?.madhab?.title || "N/A"}
@@ -219,7 +219,25 @@ export default function Dashboard() {
                               <TableCell>
                                 <span
                                   className={
-                                    items?.status === "Pending" ? "pending" : ""
+                                    items?.status === "Pending"
+                                      ? "pending"
+                                      : items?.status === "Rejected"
+                                      ? "rejected"
+                                      : items?.status === "Re Submitted"
+                                      ? "reSUbmitted"
+                                      : items?.status ===
+                                        "Received to Darul Ifta"
+                                      ? "recievedToDI"
+                                      : items?.status === "Assigned Mufti"
+                                      ? "assMufthi"
+                                      : items?.status === "Mufti Answered"
+                                      ? "mufthiAns"
+                                      : items?.status ===
+                                        "Completed Verification"
+                                      ? "completeVerification"
+                                      : items?.status === "Published"
+                                      ? "published"
+                                      : ""
                                   }
                                 >
                                   {items?.status}

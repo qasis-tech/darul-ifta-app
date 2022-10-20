@@ -48,13 +48,17 @@ export default function FatwasDetails() {
   const { state } = useLocation();
   console.log("state ===>", state);
 
+  const stateSubcategory = state?.sub_category?.map((subC) => {
+    return subC?.label;
+  });
+
   useEffect(() => {
     getCategory();
     getSubcategory();
     getMadhab();
     getMufthiApi();
     setSelectedCategory(state?.category[0]);
-    // setSelectedSubCategory(state?.sub_category);
+    setSelectedSubCategory(state?.sub_category);
     setSelectedMadhab(state?.madhab);
     setSelectedLanguage({ id: "", title: state?.language });
     setShortQuestion(state?.short_question);
@@ -139,53 +143,50 @@ export default function FatwasDetails() {
   );
 
   const handleAccept = () => {
-    // setLoader(true);
-    console.log("state inside put api", state);
-    console.log("subcategory detailss====>", subCategoryData);
-    // let payload = {
-    //   madhab: state?.madhab?._id,
-    //   category: state?.category?._id,
-    //   sub_category: state?.sub_category,
-    //   short_question: state?.short_question,
-    //   question: state?.question,
-    //   language: state?.language,
-    //   status: "Received to Darul Ifta",
-    //   answer: state?.answer,
-    //   reference: state?.reference,
-    //   answered_date: state?.answered_date,
-    //   verified_date: state?.verified_date,
-    //   answered_by: state?.answered_by,
-    //   verified_by: state?.verified_by,
-    //   mufti: state?.mufti,
-    //   verifier: state?.verifier,
-    //   reject_by: state?.reject_by,
-    //   mufti_answered: state?.mufti_answered,
-    //   reject_reason: state?.reject_reason,
-    // };
-    // axios
-    //   .put(`${URLS.question}/${state._id}`, payload, {
-    //     headers: {
-    //       "content-type": "application/json",
-    //     },
-    //   })
-    //   .then((res) => {
-    //     setLoader(false);
-    //     console.log("res put accept api", res);
-    //     if (res?.success) {
-    //       navigate(-1);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     setLoader(false);
-    //     console.error("Error in profile edit", err);
-    //   });
+    setLoader(true);
+    let payload = {
+      madhab: state?.madhab,
+      category: state?.category,
+      sub_category: state?.sub_category,
+      short_question: state?.short_question,
+      question: state?.question,
+      language: state?.language,
+      status: "Received to Darul Ifta",
+      answer: state?.answer,
+      reference: state?.reference,
+      answered_date: state?.answered_date,
+      verified_date: state?.verified_date,
+      answered_by: state?.answered_by,
+      verified_by: state?.verified_by,
+      mufti: state?.mufti,
+      verifier: state?.verifier,
+      reject_by: state?.reject_by,
+      mufti_answered: state?.mufti_answered,
+      reject_reason: state?.reject_reason,
+    };
+    axios
+      .put(`${URLS.question}/${state._id}`, payload, {
+        headers: {
+          "content-type": "application/json",
+        },
+      })
+      .then((res) => {
+        setLoader(false);
+        console.log("res put accept api", res);
+        if (res?.success) {
+          navigate(-1);
+        }
+      })
+      .catch((err) => {
+        setLoader(false);
+        console.error("Error in profile edit", err);
+      });
   };
 
   const handlePublish = () => {};
 
   const navigate = useNavigate();
 
-  console.log("Selected subcategory", selectedSubCategory);
   return (
     <div className="fatwas-details-section">
       <div className="fatwa-print-section">
@@ -193,7 +194,7 @@ export default function FatwasDetails() {
           <h6>
             <span className="id-style">QID : {state?.slNo}</span>
             <span>
-              : - {state?.category?.category}({state?.sub_category}) -{" "}
+              : - {state?.category[0]?.category}({stateSubcategory}) -{" "}
               <span>{state?.status}</span>
             </span>
           </h6>
@@ -218,7 +219,7 @@ export default function FatwasDetails() {
                     value={selectedCategory}
                     onChange={(event, newValue) => {
                       console.log("newValue", newValue);
-                      // setSelectedCategory(newValue);
+                      setSelectedCategory(newValue);
                     }}
                     id="controllable-states-demo"
                     options={categoryData || null}
@@ -254,21 +255,11 @@ export default function FatwasDetails() {
                     isOptionEqualToValue={(option, value) =>
                       option?._id === value?._id
                     }
-                    // onChange={(event, newValue) => {
-                    //   console.log("newvalue", newValue);
-                    //   setSelectedSubCategory(newValue);
-                    // }}
-                    // value={selectedSubCategory || null}
-                    // renderTags={(value, getTagProps) =>
-                    //   value?.map((option, index) => (
-                    //     <Chip
-                    //       variant="outlined"
-                    //       label={option}
-                    //       size="small"
-                    //       {...getTagProps({ index })}
-                    //     />
-                    //   ))
-                    // }
+                    onChange={(event, newValue) => {
+                      console.log("newvalue", newValue);
+                      setSelectedSubCategory(newValue);
+                    }}
+                    value={selectedSubCategory || null}
                     renderInput={(params) => (
                       <TextField {...params} label="Subcategory" />
                     )}

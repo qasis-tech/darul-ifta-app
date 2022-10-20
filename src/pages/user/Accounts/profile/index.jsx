@@ -5,16 +5,17 @@ import { connect } from "react-redux";
 
 import { Autocomplete, Button, TextField } from "@mui/material";
 
-import { getLocal } from "../../../../utils/localStore";
 import getmadhabList from "../../../../services/getMadhabList";
 
 import { URLS } from "../../../../config/urls.config";
 import SnackBar from "../../../../components/common/Snackbar";
 import Loader from "../../../../components/common/Loader";
+import { addUserLoginDetails } from "../../../../redux/actions";
+import { StoreLocal } from "../../../../utils/localStore";
 
 import "./profile.styles.scss";
 
-const Profile = ({ closePopup, userLoginDetails }) => {
+const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
   const [userDetails, setUserDetails] = useState(null);
   const [madbahList, setMadbahList] = useState([]);
   const [selectedMadhab, setSelectedMadhab] = useState([]);
@@ -60,18 +61,18 @@ const Profile = ({ closePopup, userLoginDetails }) => {
       visible: false,
       message: "",
       type: "",
-      title: "",
+      titile: "",
     });
     closePopup(true);
   };
 
-  const handleUserUpdate = ({ mobileNumber, address }) => {
+  const handleUserUpdate = ({ mobileNumber, address, name }) => {
     setLoader(true);
     const formData = new FormData();
     formData.append("phone", mobileNumber);
     formData.append("madhab", selectedMadhab?.title);
     formData.append("address", address);
-    formData.append("name", userLoginDetails?.name);
+    formData.append("name", name);
     formData.append("user_type", userLoginDetails?.user_type);
     formData.append("user_status", userLoginDetails?.user_status);
 
@@ -91,6 +92,10 @@ const Profile = ({ closePopup, userLoginDetails }) => {
             type: "success",
             title: "Success",
           });
+
+          StoreLocal("@darul-ifta-user-login-details", res.data, () => {
+            addUserLoginDetails(res.data);
+          });
         } else {
           setError({
             visible: true,
@@ -108,7 +113,7 @@ const Profile = ({ closePopup, userLoginDetails }) => {
 
   return (
     <div>
-      {isLoading || errorPopup.visible ? (
+      {isLoading || errorPopup?.visible ? (
         <Loader />
       ) : (
         <form onSubmit={handleSubmit(handleUserUpdate)}>
@@ -251,4 +256,8 @@ const Profile = ({ closePopup, userLoginDetails }) => {
 const mapStateToProps = (state) => ({
   ...state,
 });
-export default connect(mapStateToProps)(Profile);
+const mapDispatchToProps = (dispatch) => ({
+  addUserLoginDetails: (payload) => dispatch(addUserLoginDetails(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
