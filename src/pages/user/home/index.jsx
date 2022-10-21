@@ -80,7 +80,7 @@ const HomePage = (props) => {
     subcategory: null,
     madhab: null,
   });
-
+  // const [isLoggedOut, setLoggedOut] = useState(true);
   const [questionsData, setQuestionsData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -188,6 +188,7 @@ const HomePage = (props) => {
 
   return (
     <div className="home-page">
+      {/* {isLoggedOut?onclick=() => setLoggedOut:(!isLoggedOut)} */}
       <div
         className="bg-custom slider-section"
         style={{ backgroundImage: `url(${BackgroundImage})` }}
