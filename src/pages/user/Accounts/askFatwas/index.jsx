@@ -11,7 +11,7 @@ import "./askfatwas.styles.scss";
 import { PropaneSharp } from "@mui/icons-material";
 
 export default function AskFatwasComponent({ closePopup }) {
-  console.log("props===>>>>>>>>>>", closePopup);
+  console.log("props===>>>>>>>>>>");
   const languageList = [
     { id: 1, title: "English" },
     { id: 2, title: "Malayalam" },
@@ -66,17 +66,12 @@ export default function AskFatwasComponent({ closePopup }) {
       title: "",
     });
     closePopup(true);
-    // navigate(-1);
   };
+
   const getCatgoryApi = () => {
     setLoader(true);
     axios
-      .get(URLS.category, {
-        headers: {
-          // Authorization: `${token}`,
-          "Content-Type": "application/json",
-        },
-      })
+      .get(URLS.category)
       .then((res) => {
         setLoader(false);
         setCategoryData(res?.data);
@@ -152,7 +147,9 @@ export default function AskFatwasComponent({ closePopup }) {
   return (
     <div>
       {isLoading || errorPopup?.visible ? (
-        <Loader />
+        <div className="mb-5">
+          <Loader skeleton />
+        </div>
       ) : (
         <form onSubmit={handleSubmit(handleSubmitQuestion)}>
           <div className="form-section">

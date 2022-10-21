@@ -29,7 +29,6 @@ const BootstrapDialog = styled(Dialog)(({ theme, size }) => ({
 
 const DialogComponent = (props) => {
   const { close } = props;
-  console.log("props title 2", close);
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);

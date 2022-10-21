@@ -96,7 +96,7 @@ const HomePage = (props) => {
       parms = `${parms}&subCategory=${props?.homeFilter?.category?.label}`;
     }
     if (props?.homeFilter?.madhab?.title) {
-      parms = `${parms}&subCategory=${props?.homeFilter?.madhab?.title}`;
+      parms = `${parms}&madhab=${props?.homeFilter?.madhab?.title}`;
     }
     getQuestionList(parms);
     setValue(newValue);

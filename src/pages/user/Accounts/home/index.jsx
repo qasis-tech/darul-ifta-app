@@ -13,15 +13,70 @@ import DefaultImg1 from "../../../../assets/images/Minaret.svg";
 import UserTab from "../../../../components/UserTab";
 import DialogComponent from "../../../../components/DialogComponent";
 import AskFatwasComponent from "../../Accounts/askFatwas";
+import { StoreLocal } from "../../../../utils/localStore";
 
 import UserProfile from "../profile";
 import "./account.home.styles.scss";
+import axios from "axios";
+import { URLS } from "../../../../config/urls.config";
 
 const AccountHome = ({ userLoginDetails }) => {
+  console.log("userLoginDetails", userLoginDetails);
   const [showImage, setShowImage] = useState(true);
   const [questionCount, setquestionCount] = useState(0);
   const [answerCount, setAnswerCount] = useState(0);
   const [closePopup, setClosePopup] = useState(false);
+  const [userDetails, setUserDetails] = useState(null);
+
+  useEffect(() => {
+    setUserDetails(userLoginDetails);
+  }, []);
+
+  const getFileObj = async (file) => {
+    console.log("file", file);
+    let result = await fetch(file)
+      .then((r) => r.blob())
+      .then((blobFile) => {
+        let imageName = file.split("/").pop();
+        let fileExt = imageName.split(".").pop();
+        return new File([blobFile], `${imageName}`, {
+          type: `image/${fileExt}`,
+        });
+      });
+    return result;
+  };
+
+  const handleUserDetails = (val, field) => {
+    const temp = { ...userDetails };
+    temp[`${field}`] = val;
+    setUserDetails(temp);
+
+    const formData = new FormData();
+    formData.append("name", userLoginDetails?.name);
+    formData.append("display_title", userLoginDetails?.display_title);
+    formData.append("user_type", userLoginDetails?.user_type);
+    formData.append("user_status", userLoginDetails?.user_status);
+    formData.append("username", userLoginDetails?.username);
+    formData.append("phone", userLoginDetails?.phone);
+    formData.append("madhab", userLoginDetails?.madhab);
+    formData.append("address", userLoginDetails?.address);
+    formData.append("street_address", userLoginDetails?.address);
+    formData.append("pin_code", userLoginDetails?.pin_code);
+    formData.append("profile_pic", val[0]);
+
+    axios
+      .put(`${URLS.user}${URLS.signup}/${userLoginDetails._id}`, formData, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        console.log("resputtt image file==>", res);
+      })
+      .catch((err) => {
+        console.error("Error in image edit", err);
+      });
+  };
 
   const handleImageError = (e) => setShowImage(false);
   const getQuestionCount = (c) => {
@@ -31,6 +86,7 @@ const AccountHome = ({ userLoginDetails }) => {
   const getAnswerCount = (c) => {
     setAnswerCount(c);
   };
+
   return (
     <>
       <div class="profile-1 d-flex py-1">
@@ -58,7 +114,11 @@ const AccountHome = ({ userLoginDetails }) => {
               <div className="col pointer">
                 <DialogComponent
                   title="User Profile"
-                  title2="user must completed profile then only permission to ask question"
+                  title2={
+                    userLoginDetails?.profileComplete === "Completed"
+                      ? ""
+                      : "user must completed profile then only permission to ask question"
+                  }
                   className="model-section"
                   fullWidth
                   mainComponent={<UserProfile closePopup={setClosePopup} />}
@@ -79,7 +139,14 @@ const AccountHome = ({ userLoginDetails }) => {
                   aria-label="upload picture"
                   component="label"
                 >
-                  <input hidden accept="image/*" type="file" />
+                  <input
+                    hidden
+                    accept="image/*"
+                    type="file"
+                    onChange={(e) =>
+                      handleUserDetails(e.target.files, "profile_pic")
+                    }
+                  />
                   <PhotoCamera />
                 </IconButton>
               </div>
