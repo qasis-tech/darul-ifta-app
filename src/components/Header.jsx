@@ -12,8 +12,24 @@ import "../styles/header.styles.scss";
 import routerList from "../routes/routerList";
 import { getLocal } from "../utils/localStore";
 import { authLogout } from "../routes/auth";
+import Snackbar from "../components/common/Snackbar";
 
-const HeaderComponent = () => {
+const HeaderComponent = (closePopup) => {
+  const [errorPopup, setError] = useState({
+    visible: false,
+    message: "",
+    title: "",
+  });
+  const [isLoggedOut, setLoggedOut] = useState(true);
+  const handleCloseError = () => {
+    setError({
+      visible: false,
+      message: "",
+      type: "sucess",
+      titile: "",
+    });
+    closePopup(true);
+  };
   const navigate = useNavigate();
 
   const handleLogin = async () => {
@@ -23,7 +39,6 @@ const HeaderComponent = () => {
       navigate(`${routerList.user.accountUser}`);
     } else navigate(`${routerList.user.login}`);
   };
-
   return (
     <div className="navbar-section container">
       <Navbar bg="light" expand="lg">
@@ -67,7 +82,6 @@ const HeaderComponent = () => {
                     Fatwa
                   </a>
                 </li>
-
                 <li
                   className="btn-group nav-item"
                   dropdown
@@ -80,18 +94,41 @@ const HeaderComponent = () => {
                 <li
                   className="nav-item"
                   onClick={() =>
-                    authLogout(() => navigate(`${routerList.user.home}`))
+                    authLogout(() => {
+                      navigate(`${routerList.user.home}`);
+                      setError({
+                        visible: true,
+                        message: "logged out sucessfully",
+                        type: "success",
+                        // title: "Success",
+                      });
+                    })
                   }
                 >
-                  <a className="nav-link custom-menu" aria-current="page">
-                    Logout
-                  </a>
+                  {isLoggedOut ? (
+                    <a
+                      className="nav-link custom-menu"
+                      aria-current="page"
+                      onClick={() => setLoggedOut(!isLoggedOut)}
+                    >
+                      Logout
+                    </a>
+                  ) : null}
                 </li>
               </ul>
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      {errorPopup.visible && (
+        <Snackbar
+          visible={errorPopup.visible}
+          message={errorPopup.message}
+          type={errorPopup.type}
+          title={errorPopup.title}
+          onClose={() => handleCloseError()}
+        />
+      )}
     </div>
   );
 };
