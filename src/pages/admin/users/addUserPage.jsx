@@ -16,10 +16,17 @@ import Loader from "../../../components/common/Loader";
 import SnackBar from "../../../components/common/Snackbar";
 
 const profileSchema = yup.object().shape({
+  name: yup.string().required("Name is required"),
+  madhab: yup.string().required("Madhab is required"),
+  address: yup.string().required("Address is required"),
+  email: yup.string().required("Email is required"),
+  displayName: yup.string().required("Display Name is required"),
+  password: yup.string().required("Password is required"),
+  status: yup.string().required("Status is required"),
   mobileNumber: yup
-      .string()
-      .phone("IN", true, "Mobile Number is invalid")
-      .required(),
+    .string()
+    .phone("IN", true, "Mobile Number is invalid")
+    .required(),
 });
 export default function AddUser() {
   const [madhabData, setMadhabData] = useState([]);
@@ -212,11 +219,6 @@ export default function AddUser() {
                     variant="outlined"
                     {...register("mobileNumber", {
                       required: "Mobile Number is required",
-                      // pattern: {
-                      //   value:
-                      //     /^(?:(?:\+|0{0,2})91(\s*[\ -]\s*)?|[0]?)?[789]\d{9}|(\d[ -]?){10}\d$/,
-                      //   message: "Invalid mobile number",
-                      // },
                     })}
                   />
                   <div className="error">{errors?.mobileNumber?.message}</div>
@@ -246,6 +248,7 @@ export default function AddUser() {
                     id="outlined-basic"
                     label="Roles"
                     size="small"
+                    disabled={true}
                     fullWidth
                     variant="outlined"
                     defaultValue="User"

@@ -460,12 +460,15 @@ export default function Fatwas() {
                         sx={{
                           visibility: searchInput !== "" ? "visible" : "hidden",
                         }}
-                        onClick={() => setSearchInput("")}
+                        onClick={() =>{getQuestionList(""); setSearchInput("")}}
                       >
                         <CloseIcon />
                       </IconButton>
                       <IconButton
-                        onClick={() => handleApply(`?search=${searchInput}`)}
+                        // onClick={() => handleApply(`?search=${searchInput}`)}
+                        onClick={() =>
+                          getQuestionList(`?search=${searchInput}`)
+                        }
                       >
                         <SearchIcon />
                       </IconButton>
@@ -532,7 +535,32 @@ export default function Fatwas() {
                               )}
                             </TableCell>
                             <TableCell>
-                              <span className="status">{question.status}</span>
+                            <span
+                                  className={
+                                    question?.status === "Pending"
+                                      ? "pending"
+                                      : question?.status === "Rejected"
+                                      ? "rejected"
+                                      : question?.status === "Re Submitted"
+                                      ? "reSUbmitted"
+                                      : question?.status ===
+                                        "Received to Darul Ifta"
+                                      ? "recievedToDI"
+                                      : question?.status === "Assigned Mufti"
+                                      ? "assMufthi"
+                                      : question?.status === "Mufti Answered"
+                                      ? "mufthiAns"
+                                      : question?.status ===
+                                        "Completed Verification"
+                                      ? "completeVerification"
+                                      : question?.status === "Published"
+                                      ? "published"
+                                      : ""
+                                  }
+                                >
+                                  {question?.status}
+                                </span>
+                              {/* <span className="status">{question.status}</span> */}
                             </TableCell>
                             <TableCell>
                               <VisibilityIcon className="view-icon" />

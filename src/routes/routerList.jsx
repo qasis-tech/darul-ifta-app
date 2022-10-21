@@ -25,7 +25,7 @@ export default {
     article: "article",
     addArticle: "addArticle",
     addCategories: "addCategories",
-    addMusthafthies: "addMusthafthies",
+    addMufthi: "addMufthi",
     addUser: "addUser",
     fatwasDetails: "fatwasDetails",
     dashboard: "dashboard",

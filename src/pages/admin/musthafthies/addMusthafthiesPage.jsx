@@ -10,9 +10,26 @@ import { useNavigate } from "react-router-dom";
 import { URLS } from "../../../config/urls.config";
 import Loader from "../../../components/common/Loader";
 import SnackBar from "../../../components/common/Snackbar";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import "yup-phone";
 const top100Films = [{ label: "The Shawshank Redemption", year: 1994 }];
 
-export default function AddMusthafthies() {
+const profileSchema = yup.object().shape({
+  name: yup.string().required("Name is required"),
+  madhab: yup.string().required("Madhab is required"),
+  address: yup.string().required("Address is required"),
+  email: yup.string().required("Email is required"),
+  displayName: yup.string().required("Display Name is required"),
+  password: yup.string().required("Password is required"),
+  status: yup.string().required("Status is required"),
+  mobileNumber: yup
+    .string()
+    .phone("IN", true, "Mobile Number is invalid")
+    .required(),
+});
+
+export default function AddMufthi() {
   const [madhabData, setMadhabData] = useState([]);
   const [selectedMadhab, setSelectedMadhab] = useState([]);
   const [isLoader, setLoader] = useState(false);
@@ -29,7 +46,9 @@ export default function AddMusthafthies() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    resolver: yupResolver(profileSchema),
+  });
 
   useEffect(() => {
     getmadhabApi();
@@ -161,11 +180,6 @@ export default function AddMusthafthies() {
                   variant="outlined"
                   {...register("mobileNumber", {
                     required: "Mobile Number is required",
-                    pattern: {
-                      value:
-                        /^(?:(?:\+|0{0,2})91(\s*[\ -]\s*)?|[0]?)?[789]\d{9}|(\d[ -]?){10}\d$/,
-                      message: "Invalid MobileNumber ",
-                    },
                   })}
                 />
                 <div className="error">{errors?.mobileNumber?.message}</div>
@@ -195,6 +209,7 @@ export default function AddMusthafthies() {
                   id="outlined-basic"
                   label="Roles"
                   size="small"
+                  disabled={true}
                   fullWidth
                   variant="outlined"
                   defaultValue="Mufthi"

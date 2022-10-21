@@ -96,7 +96,7 @@ export default function Musthafthies() {
           <div className="col-md-1">
             <Button
               variant="contained"
-              onClick={() => navigate(`${"/admin/addMusthafthies"}`)}
+              onClick={() => navigate(`${"/admin/addMufthi"}`)}
               className="add-btn"
               fullWidth
             >

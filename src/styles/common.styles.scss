@@ -105,6 +105,7 @@ $theme-pointer: pointer;
 .inactive,
 .published,
 .draft,
+.recievedToDI,
 .reSUbmitted,
 .assMufthi,
 .mufthiAns,
@@ -132,7 +133,7 @@ $theme-pointer: pointer;
 }
 .recievedToDI {
   background-color: #8bc34a;
-  padding: 5px 8px;
+  // padding: 5px 8px;
 }
 .assMufthi {
   background-color: #00bcd4;
