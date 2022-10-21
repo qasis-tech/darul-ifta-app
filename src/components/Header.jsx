@@ -33,12 +33,16 @@ const HeaderComponent = (closePopup) => {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
+    setLoggedOut(false);
     let loginData = await getLocal();
     console.log("getLocal()", loginData);
     if (loginData) {
       navigate(`${routerList.user.accountUser}`);
-    } else navigate(`${routerList.user.login}`);
+    } else {
+      navigate(`${routerList.user.login}`);
+    }
   };
+  console.log("isLoggedOut========>>", isLoggedOut);
   return (
     <div className="navbar-section container">
       <Navbar bg="light" expand="lg">
@@ -85,36 +89,35 @@ const HeaderComponent = (closePopup) => {
                 <li
                   className="btn-group nav-item"
                   dropdown
-                  onClick={handleLogin}
+                  onClick={() => {
+                    handleLogin();
+                  }}
                 >
                   <div className="d-flex justify-content-center align-items-center custom-menu px-3">
                     <PersonIcon />
                   </div>
                 </li>
-                <li
-                  className="nav-item"
-                  onClick={() =>
-                    authLogout(() => {
-                      navigate(`${routerList.user.home}`);
-                      setError({
-                        visible: true,
-                        message: "logged out sucessfully",
-                        type: "success",
-                        // title: "Success",
+                {!isLoggedOut ? (
+                  <li
+                    className="nav-item"
+                    onClick={() => {
+                      authLogout(() => {
+                        navigate(`${routerList.user.home}`);
+                        setError({
+                          visible: true,
+                          message: "logged out sucessfully",
+                          type: "success",
+                          // title: "Success",
+                        });
+                        setLoggedOut(true);
                       });
-                    })
-                  }
-                >
-                  {isLoggedOut ? (
-                    <a
-                      className="nav-link custom-menu"
-                      aria-current="page"
-                      onClick={() => setLoggedOut(!isLoggedOut)}
-                    >
+                    }}
+                  >
+                    <a className="nav-link custom-menu" aria-current="page">
                       Logout
                     </a>
-                  ) : null}
-                </li>
+                  </li>
+                ) : null}
               </ul>
             </Nav>
           </Navbar.Collapse>
