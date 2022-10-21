@@ -39,7 +39,7 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-const UserTab = ({ getData, userLoginDetails }) => {
+const UserTab = ({ getQuestionData, getAnswerData, userLoginDetails }) => {
   const [value, setValue] = useState(0);
   const [count, setCount] = useState(0);
   const [questionData, setQuestionData] = useState([]);
@@ -54,8 +54,17 @@ const UserTab = ({ getData, userLoginDetails }) => {
     getQuestionListApi(params)
       .then((res) => {
         setLoader(false);
-        setQuestionData(res);
-        getData(res.length);
+        if (params === `?userid=${userLoginDetails?._id}`) {
+          setQuestionData(res);
+          getQuestionData(res?.length);
+        } else if (
+          params === `?status=Published&userid=${userLoginDetails?._id}`
+        ) {
+          getAnswerData(res?.length);
+          setQuestionData(res);
+        } else {
+          setQuestionData(res);
+        }
       })
       .catch((err) => {
         console.error("Error in getQuestionListApi", err);

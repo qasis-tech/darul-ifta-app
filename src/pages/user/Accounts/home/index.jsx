@@ -19,12 +19,18 @@ import "./account.home.styles.scss";
 
 const AccountHome = ({ userLoginDetails }) => {
   const [showImage, setShowImage] = useState(true);
-  const [count, setCount] = useState(0);
+  const [questionCount, setquestionCount] = useState(0);
+  const [answerCount, setAnswerCount] = useState(0);
   const [closePopup, setClosePopup] = useState(false);
 
   const handleImageError = (e) => setShowImage(false);
-  const getCount = (c) => setCount(c);
+  const getQuestionCount = (c) => {
+    setquestionCount(c);
+  };
 
+  const getAnswerCount = (c) => {
+    setAnswerCount(c);
+  };
   return (
     <>
       <div class="profile-1 d-flex py-1">
@@ -113,7 +119,7 @@ const AccountHome = ({ userLoginDetails }) => {
                   sx={{ padding: 1, margin: "5px 0", textAlign: "center" }}
                   className="fw-bold shadow border-0"
                 >
-                  Fatwas : {count || "N/A"}
+                  Fatwas : {questionCount || "N/A"}
                 </Card>
               </div>
               <div className="col">
@@ -122,7 +128,7 @@ const AccountHome = ({ userLoginDetails }) => {
                   sx={{ padding: 1, margin: "5px 0", textAlign: "center" }}
                   className="fw-bold shadow border-0"
                 >
-                  Answered : 75
+                  Answered : {answerCount || "N/A"}
                 </Card>
               </div>
 
@@ -161,7 +167,10 @@ const AccountHome = ({ userLoginDetails }) => {
           </div>
         </div>
       </div>
-      <UserTab getData={getCount} />
+      <UserTab
+        getQuestionData={getQuestionCount}
+        getAnswerData={getAnswerCount}
+      />
     </>
   );
 };

@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { set, useForm } from "react-hook-form";
 import { connect } from "react-redux";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import "yup-phone";
 
 import { Autocomplete, Button, TextField } from "@mui/material";
 
@@ -14,6 +17,24 @@ import { addUserLoginDetails } from "../../../../redux/actions";
 import { StoreLocal } from "../../../../utils/localStore";
 
 import "./profile.styles.scss";
+const profileSchema = yup
+  .object()
+  .shape({
+    name: yup.string().required("Name is required"),
+    madhab: yup.string().required("Madhab is required"),
+    address: yup.string().required("Address is required"),
+    mobileNumber: yup
+      .string()
+      .phone("IN", true, "Mobile Number is invalid")
+      .required(),
+    // password: yup.string().min(8).required("Password is required"),
+    // pincode: yup
+    //   .string()
+    //   .matches(/^[1-9][0-9]{5}$/, "Invalid zipcode (682315)")
+    //   .required(),
+    // userGender: yup.string().required(),
+  })
+  .required();
 
 const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
   const [userDetails, setUserDetails] = useState(null);
@@ -32,8 +53,11 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
     handleSubmit,
     formState: { errors },
     trigger,
+    watch,
     setValue,
-  } = useForm();
+  } = useForm({
+    resolver: yupResolver(profileSchema),
+  });
 
   useEffect(() => {
     setUserDetails(userLoginDetails);
@@ -61,21 +85,22 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
       visible: false,
       message: "",
       type: "",
-      titile: "",
+      title: "",
     });
     closePopup(true);
   };
 
   const handleUserUpdate = ({ mobileNumber, address, name }) => {
+    console.log("value===>", selectedMadhab);
     setLoader(true);
     const formData = new FormData();
     formData.append("phone", mobileNumber);
+
     formData.append("madhab", selectedMadhab?.title);
     formData.append("address", address);
     formData.append("name", name);
     formData.append("user_type", userLoginDetails?.user_type);
     formData.append("user_status", userLoginDetails?.user_status);
-
     axios
       .put(`${URLS.user}${URLS.signup}/${userLoginDetails._id}`, formData, {
         headers: {
@@ -84,7 +109,6 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
       })
       .then((res) => {
         setLoader(false);
-
         if (res?.success) {
           setError({
             visible: true,
@@ -92,7 +116,6 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
             type: "success",
             title: "Success",
           });
-
           StoreLocal("@darul-ifta-user-login-details", res.data, () => {
             addUserLoginDetails(res.data);
           });
@@ -110,6 +133,7 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
         console.error("Error in profile edit", err);
       });
   };
+  console.log("1111111111", watch("madhab"));
 
   return (
     <div>
@@ -131,7 +155,6 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
                     // value={userDetails?.name || ""}
                     // onChange={(e) => handleUserDetails(e.target.value, "name")}
                     {...register("name", {
-                      required: "Name is required",
                       onChange: (e) =>
                         handleUserDetails(e.target.value, "name"),
                     })}
@@ -161,12 +184,6 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
                     fullWidth
                     // value={userDetails?.phone || ""}
                     {...register("mobileNumber", {
-                      required: "Mobile Number is Required",
-                      pattern: {
-                        value:
-                          /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/,
-                        message: "Invalid Mobile Number",
-                      },
                       onChange: (e) =>
                         handleUserDetails(e.target.value, "phone"),
                     })}
@@ -178,32 +195,28 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
                   <div className="error">{errors?.mobileNumber?.message}</div>
                 </div>
                 <div className="col-md-6">
-                  {!!madbahList?.length && (
-                    <Autocomplete
-                      id="outlined-basic"
-                      size="small"
-                      options={madbahList}
-                      getOptionLabel={(option) => option.title || ""}
-                      isOptionEqualToValue={(option, value) =>
-                        option._id === value._id
-                      }
-                      onChange={(e, val) => setSelectedMadhab(val)}
-                      value={selectedMadhab || null}
-                      // defaultValue={userDetails.madhab}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Madhab"
-                          {...register("madhab", {
-                            required: "Madhab is required",
-                          })}
-                        />
-                      )}
-                    />
-                  )}
-                  {!selectedMadhab?.title && (
-                    <div className="error">{errors?.madhab?.message}</div>
-                  )}
+                  <Autocomplete
+                    id="outlined-basic"
+                    size="small"
+                    options={madbahList}
+                    getOptionLabel={(option) => option.title || ""}
+                    isOptionEqualToValue={(option, value) =>
+                      option._id === value._id
+                    }
+                    onChange={(e, val) => {
+                      setSelectedMadhab(val);
+                    }}
+                    value={selectedMadhab}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Madhab"
+                        {...register("madhab")}
+                      />
+                    )}
+                  />
+
+                  <div className="error">{errors?.madhab?.message}</div>
                 </div>
               </div>
               <div className="row">
@@ -216,7 +229,6 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
                     rows={4}
                     // value={userDetails?.address || ""}
                     {...register("address", {
-                      required: "Address is required",
                       onChange: (e) =>
                         handleUserDetails(e.target.value, "address"),
                     })}

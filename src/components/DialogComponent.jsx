@@ -44,7 +44,7 @@ const DialogComponent = (props) => {
     <div>
       <Button onClick={handleClickOpen}>{props.children}</Button>
       <BootstrapDialog
-        // onClose={handleClose}
+        onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
       >
