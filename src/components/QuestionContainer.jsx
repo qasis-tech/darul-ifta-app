@@ -26,7 +26,9 @@ const QuestionContainer = (props) => {
           </div>
           <div className="row q-footer">
             <div className="col-md-1 number-btn">
-              <span className="q-no">Q{props.questionCount}</span>
+              <span className="q-no">
+                Q{props.questionCount.toString().padStart(3, "0")}
+              </span>
             </div>
             <div className="col-md-3 w-name">
               <h5>Written By:{props.writtenby || "N/A"}</h5>

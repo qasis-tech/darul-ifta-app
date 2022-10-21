@@ -322,6 +322,10 @@ export default function AskFatwasComponent({ closePopup }) {
                     variant="outlined"
                     {...register("shortQuestion", {
                       required: "ShortQuestion is required",
+                      maxLength: {
+                        value: 80,
+                        message: "Max 80 Characters",
+                      },
                     })}
                   />
                   <div className="error">{errors?.shortQuestion?.message}</div>
