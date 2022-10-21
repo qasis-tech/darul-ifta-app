@@ -6,13 +6,21 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import "yup-phone";
 import "./adduser.styles.scss";
 
 import { URLS } from "../../../config/urls.config";
 import Loader from "../../../components/common/Loader";
 import SnackBar from "../../../components/common/Snackbar";
 
+const profileSchema = yup.object().shape({
+  mobileNumber: yup
+      .string()
+      .phone("IN", true, "Mobile Number is invalid")
+      .required(),
+});
 export default function AddUser() {
   const [madhabData, setMadhabData] = useState([]);
   const [selectedMadhab, setSelectedMadhab] = useState([]);
@@ -21,6 +29,7 @@ export default function AddUser() {
     { id: 2, title: "Inactive" },
   ]);
   const [selectedStatus, setSelectedStatus] = useState([]);
+  const [userDetails, setUserDetails] = useState(null);
   const [userToken, setUserToken] = useState([]);
   const [roles, setRoles] = useState("User");
   const [isLoading, setLoader] = useState(false);
@@ -30,12 +39,13 @@ export default function AddUser() {
     type: "error",
     title: "",
   });
-
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    resolver: yupResolver(profileSchema),
+  });
 
   useEffect(() => {
     getmadhabApi();
@@ -79,6 +89,11 @@ export default function AddUser() {
         console.log("error madhab", err);
         setMadhabData([]);
       });
+  };
+  const handleUserDetails = (val, field) => {
+    const temp = { ...userDetails };
+    temp[`${field}`] = val;
+    setUserDetails(temp);
   };
 
   const handleSave = ({
@@ -197,11 +212,11 @@ export default function AddUser() {
                     variant="outlined"
                     {...register("mobileNumber", {
                       required: "Mobile Number is required",
-                      pattern: {
-                        value:
-                          /^(?:(?:\+|0{0,2})91(\s*[\ -]\s*)?|[0]?)?[789]\d{9}|(\d[ -]?){10}\d$/,
-                        message: "Invalid mobile number",
-                      },
+                      // pattern: {
+                      //   value:
+                      //     /^(?:(?:\+|0{0,2})91(\s*[\ -]\s*)?|[0]?)?[789]\d{9}|(\d[ -]?){10}\d$/,
+                      //   message: "Invalid mobile number",
+                      // },
                     })}
                   />
                   <div className="error">{errors?.mobileNumber?.message}</div>
@@ -287,7 +302,9 @@ export default function AddUser() {
                   <TextField
                     id="outlined-basic"
                     label="Address"
-                    size="small"
+                    // size="small"
+                    rows={3}
+                    multiline
                     fullWidth
                     variant="outlined"
                     {...register("address", {

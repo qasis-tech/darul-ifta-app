@@ -5,7 +5,7 @@ import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 
 import HouseIcon from "@mui/icons-material/House";
 import SearchIcon from "@mui/icons-material/Search";
-import PersonIcon from "@mui/icons-material/Person";
+import PersonIcon from "@mui/icons-material/Person";                                                                                              
 import LogoImage from "../assets/logo-main-logo-blue.svg";
 
 import "../styles/header.styles.scss";
@@ -13,7 +13,7 @@ import routerList from "../routes/routerList";
 import { getLocal } from "../utils/localStore";
 import { authLogout } from "../routes/auth";
 import Snackbar from "../components/common/Snackbar";
-
+    
 const HeaderComponent = (closePopup) => {
   const [errorPopup, setError] = useState({
     visible: false,

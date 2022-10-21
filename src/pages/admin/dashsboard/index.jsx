@@ -104,7 +104,7 @@ export default function Dashboard() {
             value={counteList?.answered || "N/A"}
           />
           <CountTile
-            titile="Pendings"
+            titile="Pending"
             Icon={() => <QueryBuilderIcon className="fa" />}
             style="pending"
             value={counteList?.pending || "N/A"}
