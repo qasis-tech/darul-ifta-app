@@ -9,9 +9,18 @@ import SnackBar from "../../../../components/common/Snackbar";
 
 import "./askfatwas.styles.scss";
 import { PropaneSharp } from "@mui/icons-material";
+import { connect } from "react-redux";
+import { triggerApiCallStatus } from "../../../../redux/actions";
 
-export default function AskFatwasComponent({ closePopup }) {
-  console.log("props===>>>>>>>>>>");
+import getSubCategoryList from "../../../../services/getSubCategoryList";
+
+const AskFatwasComponent = ({
+  closePopup,
+  triggerApiCallStatus,
+  apiTriggeres,
+  ...others
+}) => {
+  console.log("others ========================", others);
   const languageList = [
     { id: 1, title: "English" },
     { id: 2, title: "Malayalam" },
@@ -28,6 +37,7 @@ export default function AskFatwasComponent({ closePopup }) {
   const [userId, setUserId] = useState([]);
   const [userToken, setUserToken] = useState([]);
   const [isLoading, setLoader] = useState(true);
+  const [subcategoryList, setSubcategoryList] = useState([]);
   const [errorPopup, setError] = useState({
     visible: false,
     message: "",
@@ -45,6 +55,10 @@ export default function AskFatwasComponent({ closePopup }) {
   useEffect(() => {
     getCatgoryApi();
     getmadhabApi();
+    getSubCategoryList().then((res) => {
+      let temp = res.map((el) => el.subCategory);
+      setSubcategoryList(temp);
+    });
   }, []);
 
   useEffect(() => {
@@ -97,12 +111,24 @@ export default function AskFatwasComponent({ closePopup }) {
   };
 
   const handleSubmitQuestion = ({ shortQuestion, question }) => {
+    let category;
+    for (let i = 0; i < categoryData.length; i++) {
+      let subCat = categoryData[i]?.subCategory;
+      if (subCat?.length) {
+        for (let j = 0; j < subCat.length; j++) {
+          if (selectedCategory?._id === subCat[j]?._id) {
+            category = categoryData[i];
+          }
+        }
+      }
+    }
+
     setLoader(true);
     let payload = {
       user: userId,
       madhab: selectedMadhab._id,
-      category: selectedCategory._id,
-      sub_category: selectedSubcategory._id,
+      category: category?._id,
+      sub_category: selectedCategory?._id,
       short_question: shortQuestion,
       question: question,
       language: selectedLanguage.title,
@@ -115,8 +141,10 @@ export default function AskFatwasComponent({ closePopup }) {
       })
       .then((res) => {
         setLoader(false);
-        console.log("res ask fatwa ===>>", res);
+        let temp = { ...apiTriggeres };
+        temp.userGetQuesList = true;
         if (res?.success) {
+          triggerApiCallStatus(temp);
           setSelectedCategory("");
           setSelectedMadhab("");
           setSelectedSubcategory("");
@@ -155,7 +183,7 @@ export default function AskFatwasComponent({ closePopup }) {
           <div className="form-section">
             <div className="form-container">
               <div className="row">
-                <div className="col-md-3">
+                <div className="col-md-4">
                   {madhabData?.length ? (
                     <Autocomplete
                       id="outlined-basic"
@@ -170,8 +198,7 @@ export default function AskFatwasComponent({ closePopup }) {
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          label="
-                    Madhab"
+                          label="Madhab"
                           {...register("madhab", {
                             required: "Madhab is required",
                           })}
@@ -198,13 +225,13 @@ export default function AskFatwasComponent({ closePopup }) {
                     <div className="error">{errors?.madhab?.message}</div>
                   ) : null}
                 </div>
-                <div className="col-md-3">
-                  {categoryData?.length ? (
+                <div className="col-md-4">
+                  {subcategoryList?.length ? (
                     <Autocomplete
                       id="combo-box-demo"
                       size="small"
-                      options={categoryData}
-                      getOptionLabel={(option) => option.category || ""}
+                      options={subcategoryList}
+                      getOptionLabel={(option) => option.label || ""}
                       isOptionEqualToValue={(option, value) =>
                         option._id === value._id
                       }
@@ -241,7 +268,7 @@ export default function AskFatwasComponent({ closePopup }) {
                   )}
                 </div>
                 {/* subcategory */}
-                <div className="col-md-3">
+                {/* <div className="col-md-3">
                   {selectedCategory?.subCategory?.length ? (
                     <Autocomplete
                       options={
@@ -278,9 +305,9 @@ export default function AskFatwasComponent({ closePopup }) {
                       )}
                     />
                   )}
-                </div>
+                </div> */}
 
-                <div className="col-md-3">
+                <div className="col-md-4">
                   {languageList?.length && (
                     <Autocomplete
                       disablePortal
@@ -369,4 +396,13 @@ export default function AskFatwasComponent({ closePopup }) {
       )}
     </div>
   );
-}
+};
+
+const mapStateToProps = (state) => ({
+  ...state,
+});
+const mapDispatchToProps = (dispatch) => ({
+  triggerApiCallStatus: (payload) => dispatch(triggerApiCallStatus(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AskFatwasComponent);

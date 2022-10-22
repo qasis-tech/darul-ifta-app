@@ -2,6 +2,7 @@ import {
   ADD_USER_LOGIN_DETAILS,
   ADD_GENERAL_DETAILS,
   ADD_HOME_FILTER,
+  HANDLE_TRIGGER_API_CALLS,
 } from "../types";
 
 export const addUserLoginDetails = (data) => {
@@ -26,9 +27,9 @@ export const addHomeFilter = (data) => {
   };
 };
 
-// export const removeItemHomeFilter = (data) => {
-//   return {
-//     type: ADD_HOME_FILTER,
-//     data: data,
-//   };
-// };
+export const triggerApiCallStatus = (data) => {
+  return {
+    type: HANDLE_TRIGGER_API_CALLS,
+    data: data,
+  };
+};

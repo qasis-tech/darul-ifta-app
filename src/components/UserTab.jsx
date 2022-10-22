@@ -39,7 +39,12 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-const UserTab = ({ getQuestionData, getAnswerData, userLoginDetails }) => {
+const UserTab = ({
+  getQuestionData,
+  getAnswerData,
+  userLoginDetails,
+  apiTriggeres,
+}) => {
   const [value, setValue] = useState(0);
   const [count, setCount] = useState(0);
   const [questionData, setQuestionData] = useState([]);
@@ -48,6 +53,12 @@ const UserTab = ({ getQuestionData, getAnswerData, userLoginDetails }) => {
   useEffect(() => {
     getQuestionList(`?userid=${userLoginDetails?._id}`);
   }, []);
+
+  useEffect(() => {
+    if (apiTriggeres?.userGetQuesList) {
+      getQuestionList(`?userid=${userLoginDetails?._id}`);
+    }
+  }, [apiTriggeres]);
 
   const getQuestionList = (params) => {
     setLoader(true);
