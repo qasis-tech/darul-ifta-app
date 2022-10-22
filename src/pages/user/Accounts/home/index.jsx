@@ -20,8 +20,7 @@ import "./account.home.styles.scss";
 import axios from "axios";
 import { URLS } from "../../../../config/urls.config";
 
-const AccountHome = ({ userLoginDetails }) => {
-  console.log("userLoginDetails", userLoginDetails);
+const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
   const [showImage, setShowImage] = useState(true);
   const [questionCount, setquestionCount] = useState(0);
   const [answerCount, setAnswerCount] = useState(0);

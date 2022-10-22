@@ -2,6 +2,7 @@ import {
   ADD_USER_LOGIN_DETAILS,
   ADD_GENERAL_DETAILS,
   ADD_HOME_FILTER,
+  HANDLE_TRIGGER_API_CALLS,
 } from "../types";
 
 export default (
@@ -11,6 +12,9 @@ export default (
     homeFilter: {
       category: null,
       madhab: null,
+    },
+    apiTriggeres: {
+      userGetQuesList: false,
     },
   },
   action
@@ -34,6 +38,12 @@ export default (
       return {
         ...state,
         homeFilter: action.data,
+      };
+
+    case HANDLE_TRIGGER_API_CALLS:
+      return {
+        ...state,
+        apiTriggeres: action.data,
       };
 
     default:
