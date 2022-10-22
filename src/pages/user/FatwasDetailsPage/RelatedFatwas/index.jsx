@@ -47,6 +47,7 @@ export default function RelatedFatwas({ data }) {
           <Typography className="heading">Related Fatwas</Typography>
         </div>
         {sliceQuestionList?.map((slicedques) => {
+          console.log("slicedques ==> ", slicedques);
           return (
             <div key={slicedques?._id} className="container">
               <div className="col-md-12 sub-details my-3  py-2 px-2">
@@ -55,7 +56,12 @@ export default function RelatedFatwas({ data }) {
                 </Typography>
                 <div className="row d-flex sub-btn justify-content-between mt-2 pb-1">
                   <div className="col-md-6">
-                    <Chip label={slicedques._id} className="id-button" />
+                    <Chip
+                      label={`Q${slicedques?.slNo
+                        ?.toString()
+                        ?.padStart(3, "0")}`}
+                      className="id-button"
+                    />
                   </div>
                   <div className="col-md-6">
                     <Chip

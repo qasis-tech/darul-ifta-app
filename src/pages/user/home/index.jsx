@@ -84,19 +84,21 @@ const HomePage = (props) => {
 
   const handleChange = (event, newValue) => {
     setSearchInput("");
+
+    let parms = "";
+
     if (searchInput !== "") {
-      if (newValue === 0) {
-        getQuestionList(`?search=${searchInput}`);
-      } else {
-        getQuestionList(
-          `?language=${languages[newValue]}&search=${searchInput}`
-        );
-      }
-    } else if (newValue === 0) {
-      getQuestionList();
+      parms = `?language=${languages[newValue]}&search=${searchInput}`;
     } else {
-      getQuestionList(`?language=${languages[newValue]}`);
+      parms = `?language=${languages[newValue]}`;
     }
+    if (props?.homeFilter?.category?.label) {
+      parms = `${parms}&subCategory=${props?.homeFilter?.category?.label}`;
+    }
+    if (props?.homeFilter?.madhab?.title) {
+      parms = `${parms}&subCategory=${props?.homeFilter?.madhab?.title}`;
+    }
+    getQuestionList(parms);
     setValue(newValue);
   };
 
@@ -104,42 +106,69 @@ const HomePage = (props) => {
     let temp = { ...props.homeFilter };
     temp[item] = null;
     props.addHomeFilter(temp);
-    categoryMadhabFilter();
+    categoryMadhabFilter(temp.category, temp.madhab);
   };
 
   useEffect(() => {
     getVisitorApi();
-    getQuestionList();
     getLocal().then((res) => {
       props.addUserLoginDetails(res);
     });
+    setDefaultToProps(() => categoryMadhabFilter(null, null));
   }, []);
 
-  const categoryMadhabFilter = () => {
+  const setDefaultToProps = (cb) => {
+    let temp = { ...props.homeFilter };
+    temp.category = null;
+    temp.madhab = null;
+
+    props.addHomeFilter(temp);
+
+    setTimeout(() => {
+      if (cb) cb();
+    }, 1000);
+  };
+
+  const categoryMadhabFilter = (category, madhab) => {
     let params = "";
-    if (props?.homeFilter?.category && props.homeFilter.madhab) {
-      params = `?subCategory=${props?.homeFilter?.category?.label}&madhab=${props.homeFilter.madhab.title}`;
-    } else if (props?.homeFilter?.category) {
-      params = `?subCategory=${props?.homeFilter?.category?.label}`;
-    } else if (props?.homeFilter?.madhab) {
-      params = `?madhab=${props.homeFilter.madhab.title}`;
+    if (category === null || madhab === null) {
+      if (category === null && madhab !== null) {
+        params = `?madhab=${props.homeFilter.madhab.title}&language=${languages[value]}`;
+      } else if (madhab === null && category !== null) {
+        params = `?subCategory=${props?.homeFilter?.category?.label}&language=${languages[value]}`;
+      }
+    } else {
+      if (props?.homeFilter?.category && props.homeFilter.madhab) {
+        params = `?subCategory=${props?.homeFilter?.category?.label}&madhab=${props.homeFilter.madhab.title}`;
+      } else if (props?.homeFilter?.category) {
+        params = `?subCategory=${props?.homeFilter?.category?.label}`;
+      } else if (props?.homeFilter?.madhab) {
+        params = `?madhab=${props.homeFilter.madhab.title}`;
+      }
+    }
+    if (value > 0) {
+      if (params === "") {
+        params = `?language=${languages[value]}`;
+      } else params = `${params}&language=${languages[value]}`;
+    }
+
+    if (searchInput !== "") {
+      if (params === "") {
+        params = `?search=${searchInput}`;
+      } else params = `${params}&search=${searchInput}`;
     }
     getQuestionList(params);
   };
 
   useEffect(() => {
-    if (props?.homeFilter?.category || props.homeFilter.madhab) {
+    if (props?.homeFilter?.category || props?.homeFilter?.madhab) {
       categoryMadhabFilter();
     }
-  }, [props.homeFilter.category, props.homeFilter.madhab]);
+  }, [props?.homeFilter?.category, props?.homeFilter?.madhab]);
 
   useEffect(() => {
     if (searchInput === "") {
-      if (value === 0) {
-        getQuestionList();
-      } else {
-        getQuestionList(`?language=${languages[value]}`);
-      }
+      categoryMadhabFilter();
     }
   }, [searchInput]);
 
@@ -219,17 +248,7 @@ const HomePage = (props) => {
                         >
                           <CloseIcon onClick={() => setSearchInput("")} />
                         </IconButton>
-                        <IconButton
-                          onClick={() => {
-                            if (value === 0) {
-                              getQuestionList(`?search=${searchInput}`);
-                            } else {
-                              getQuestionList(
-                                `?language=${languages[value]}&search=${searchInput}`
-                              );
-                            }
-                          }}
-                        >
+                        <IconButton onClick={() => categoryMadhabFilter()}>
                           <SearchIcon />
                         </IconButton>
                       </InputAdornment>

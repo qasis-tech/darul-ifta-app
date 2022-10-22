@@ -31,7 +31,6 @@ export default (
       };
 
     case ADD_HOME_FILTER:
-      console.log("action.data IN 222222222222222222222222", action.data);
       return {
         ...state,
         homeFilter: action.data,
