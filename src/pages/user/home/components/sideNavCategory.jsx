@@ -120,7 +120,7 @@ const SideNavCategory = ({ addHomeFilter, homeFilter, ...other }) => {
           ) : madhabData?.length ? (
             madhabData?.map((madhab) => {
               return (
-                <ul className="mt-2" key={madhab?._id}>
+                <ul className="mt-2 ms-4" key={madhab?._id}>
                   <li
                     onClick={() => {
                       let temp = { ...homeFilter };
