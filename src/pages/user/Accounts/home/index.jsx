@@ -45,6 +45,7 @@ const AccountHome = ({ userLoginDetails }) => {
       });
     return result;
   };
+
   const handleUserDetails = (val, field) => {
     const temp = { ...userDetails };
     temp[`${field}`] = val;

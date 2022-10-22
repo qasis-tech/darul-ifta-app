@@ -99,39 +99,39 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
 
     console.log("11111111111111111111111111111111111111111");
 
-    // if (selectedMadhab !== null) {
-    //   axios
-    //     .put(`${URLS.user}${URLS.signup}/${userLoginDetails._id}`, formData, {
-    //       headers: {
-    //         "content-type": "multipart/form-data",
-    //       },
-    //     })
-    //     .then((res) => {
-    //       setLoader(false);
-    //       if (res?.success) {
-    //         setError({
-    //           visible: true,
-    //           message: res.message,
-    //           type: "success",
-    //           title: "Success",
-    //         });
-    //         StoreLocal("@darul-ifta-user-login-details", res.data, () => {
-    //           addUserLoginDetails(res.data);
-    //         });
-    //       } else {
-    //         setError({
-    //           visible: true,
-    //           message: res.message,
-    //           type: "warning",
-    //           title: "Warning",
-    //         });
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       setLoader(false);
-    //       console.error("Error in profile edit", err);
-    //     });
-    // }
+    if (selectedMadhab !== null) {
+      axios
+        .put(`${URLS.user}${URLS.signup}/${userLoginDetails._id}`, formData, {
+          headers: {
+            "content-type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          setLoader(false);
+          if (res?.success) {
+            setError({
+              visible: true,
+              message: res.message,
+              type: "success",
+              title: "Success",
+            });
+            StoreLocal("@darul-ifta-user-login-details", res.data, () => {
+              addUserLoginDetails(res.data);
+            });
+          } else {
+            setError({
+              visible: true,
+              message: res.message,
+              type: "warning",
+              title: "Warning",
+            });
+          }
+        })
+        .catch((err) => {
+          setLoader(false);
+          console.error("Error in profile edit", err);
+        });
+    }
   };
 
   return (
