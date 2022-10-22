@@ -1,4 +1,8 @@
-import { ADD_USER_LOGIN_DETAILS, ADD_GENERAL_DETAILS } from "../types";
+import {
+  ADD_USER_LOGIN_DETAILS,
+  ADD_GENERAL_DETAILS,
+  ADD_HOME_FILTER,
+} from "../types";
 
 export const addUserLoginDetails = (data) => {
   return {
@@ -13,3 +17,18 @@ export const addGeneralDetails = (data) => {
     data: data,
   };
 };
+
+export const addHomeFilter = (data) => {
+  console.log("data in addHomeFilter in ACTION", data);
+  return {
+    type: ADD_HOME_FILTER,
+    data: data,
+  };
+};
+
+// export const removeItemHomeFilter = (data) => {
+//   return {
+//     type: ADD_HOME_FILTER,
+//     data: data,
+//   };
+// };

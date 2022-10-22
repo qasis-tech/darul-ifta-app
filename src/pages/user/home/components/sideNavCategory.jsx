@@ -12,8 +12,10 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { URLS } from "../../../../config/urls.config";
 import NoDataAvailable from "../../../../components/NoDataAvailable";
 import Loader from "../../../../components/common/Loader";
+import { connect } from "react-redux";
+import { addHomeFilter } from "../../../../redux/actions";
 
-const SideNavCategory = ({ selectedCategories, categoriesChip }) => {
+const SideNavCategory = ({ addHomeFilter, homeFilter, ...other }) => {
   const [categoryData, setCategoryData] = useState([]);
   const [madhabData, setMadhabData] = useState([]);
   const [isloading, setLoader] = useState(false);
@@ -84,9 +86,10 @@ const SideNavCategory = ({ selectedCategories, categoriesChip }) => {
                           <span
                             className="accordion-sub"
                             onClick={() => {
-                              categoriesChip.category = category;
-                              categoriesChip.subcategory = subcategory;
-                              selectedCategories(categoriesChip);
+                              let temp = { ...homeFilter };
+                              console.log("categoriesChip ==> ", temp);
+                              temp.category = subcategory;
+                              addHomeFilter(temp);
                             }}
                           >
                             {subcategory.label}
@@ -120,8 +123,9 @@ const SideNavCategory = ({ selectedCategories, categoriesChip }) => {
                 <ul className="mt-2" key={madhab?._id}>
                   <li
                     onClick={() => {
-                      categoriesChip.madhab = madhab;
-                      selectedCategories(categoriesChip);
+                      let temp = { ...homeFilter };
+                      temp.madhab = madhab;
+                      addHomeFilter(temp);
                     }}
                   >
                     {madhab?.title}
@@ -138,4 +142,11 @@ const SideNavCategory = ({ selectedCategories, categoriesChip }) => {
   );
 };
 
-export default SideNavCategory;
+const mapStateToProps = (state) => ({
+  ...state,
+});
+const mapDispatchToProps = (dispatch) => ({
+  addHomeFilter: (payload) => dispatch(addHomeFilter(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SideNavCategory);

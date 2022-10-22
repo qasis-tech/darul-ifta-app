@@ -35,7 +35,11 @@ import getQuestionListApi from "../../../services/getQuestionsList";
 import NoDataAvailable from "../../../components/NoDataAvailable";
 
 import { connect } from "react-redux";
-import { addUserLoginDetails, addGeneralDetails } from "../../../redux/actions";
+import {
+  addUserLoginDetails,
+  addGeneralDetails,
+  addHomeFilter,
+} from "../../../redux/actions";
 import { getLocal } from "../../../utils/localStore";
 
 function TabPanel(props) {
@@ -74,86 +78,67 @@ function a11yProps(index) {
 const HomePage = (props) => {
   const [value, setValue] = useState(0);
   const [searchInput, setSearchInput] = useState("");
-  const [language, setLanguage] = useState("");
-  const [categoriesChip, setCategoriesChip] = useState({
-    category: null,
-    subcategory: null,
-    madhab: null,
-  });
-  // const [isLoggedOut, setLoggedOut] = useState(true);
+  const languages = ["", "English", "Malayalam", "Urdu", "Arabic"];
   const [questionsData, setQuestionsData] = useState([]);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [isLoading, setLoader] = useState(false);
 
   const handleChange = (event, newValue) => {
     setSearchInput("");
-    switch (newValue) {
-      case 0:
-        if (searchInput !== "") {
-          getQuestionList(`?search=${searchInput}`);
-        } else getQuestionList();
-        break;
-      case 1:
-        if (searchInput !== "") {
-          getQuestionList(`?language=English&search=${searchInput}`);
-        } else getQuestionList(`?language=English`);
-
-        break;
-      case 2:
-        if (searchInput !== "") {
-          getQuestionList(`?language=Malayalam&search=${searchInput}`);
-        } else getQuestionList(`?language=Malayalam`);
-
-        break;
-      case 3:
-        if (searchInput !== "") {
-          getQuestionList(`?language=Urdu&search=${searchInput}`);
-        } else getQuestionList(`?language=Urdu`);
-
-        break;
-      case 4:
-        if (searchInput !== "") {
-          getQuestionList(`?language=Arabic&search=${searchInput}`);
-        } else getQuestionList(`?language=Arabic`);
-
-        break;
-      default:
-        break;
+    if (searchInput !== "") {
+      if (newValue === 0) {
+        getQuestionList(`?search=${searchInput}`);
+      } else {
+        getQuestionList(
+          `?language=${languages[newValue]}&search=${searchInput}`
+        );
+      }
+    } else if (newValue === 0) {
+      getQuestionList();
+    } else {
+      getQuestionList(`?language=${languages[newValue]}`);
     }
-
     setValue(newValue);
   };
 
-  const handleDelete = () => console.info("You clicked the delete icon.");
-
-  const handleChangePage = (e, newPage) => setPage(newPage);
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+  const handleDelete = (item) => {
+    let temp = { ...props.homeFilter };
+    temp[item] = null;
+    props.addHomeFilter(temp);
+    categoryMadhabFilter();
   };
 
   useEffect(() => {
+    getVisitorApi();
     getQuestionList();
     getLocal().then((res) => {
       props.addUserLoginDetails(res);
     });
-    getVisitorApi();
   }, []);
+
+  const categoryMadhabFilter = () => {
+    let params = "";
+    if (props?.homeFilter?.category && props.homeFilter.madhab) {
+      params = `?subCategory=${props?.homeFilter?.category?.label}&madhab=${props.homeFilter.madhab.title}`;
+    } else if (props?.homeFilter?.category) {
+      params = `?subCategory=${props?.homeFilter?.category?.label}`;
+    } else if (props?.homeFilter?.madhab) {
+      params = `?madhab=${props.homeFilter.madhab.title}`;
+    }
+    getQuestionList(params);
+  };
+
+  useEffect(() => {
+    if (props?.homeFilter?.category || props.homeFilter.madhab) {
+      categoryMadhabFilter();
+    }
+  }, [props.homeFilter.category, props.homeFilter.madhab]);
 
   useEffect(() => {
     if (searchInput === "") {
       if (value === 0) {
         getQuestionList();
-      } else if (value === 1) {
-        getQuestionList(`?language=English`);
-      } else if (value === 2) {
-        getQuestionList(`?language=Malayalam`);
-      } else if (value === 3) {
-        getQuestionList(`?language=Urdu`);
-      } else if (value === 4) {
-        getQuestionList(`?language=Arabic`);
+      } else {
+        getQuestionList(`?language=${languages[value]}`);
       }
     }
   }, [searchInput]);
@@ -162,10 +147,7 @@ const HomePage = (props) => {
     setLoader(true);
     axios
       .get(URLS.visitors)
-      .then((res) => {
-        setLoader(false);
-        console.log("res visitors==>", res);
-      })
+      .then((res) => setLoader(false))
       .catch((err) => {
         setLoader(false);
         console.log("error visitors", err);
@@ -188,7 +170,6 @@ const HomePage = (props) => {
 
   return (
     <div className="home-page">
-      {/* {isLoggedOut?onclick=() => setLoggedOut:(!isLoggedOut)} */}
       <div
         className="bg-custom slider-section"
         style={{ backgroundImage: `url(${BackgroundImage})` }}
@@ -198,41 +179,28 @@ const HomePage = (props) => {
           <div className="container">
             <div className="row">
               <div className="col-md-3">
-                <SideNavCategory
-                  categoriesChip={categoriesChip}
-                  selectedCategories={(e) => {
-                    setCategoriesChip(e);
-                  }}
-                />
+                <SideNavCategory />
                 <VisitorDetails />
               </div>
               <div className="col-md-9 tab-container shadow rounded">
                 <div className="row chip-section">
                   <div className="">
-                    {!!categoriesChip?.category && (
+                    {props?.homeFilter?.category && (
                       <Chip
-                        label={categoriesChip?.category?.category}
+                        label={props?.homeFilter?.category?.label}
                         className="single-chip"
-                        onDelete={() => handleDelete()}
+                        onDelete={() => handleDelete("category")}
                       />
                     )}
-                    {!!categoriesChip?.subcategory && (
+                    {props?.homeFilter?.madhab && (
                       <Chip
-                        label={categoriesChip?.subcategory?.label}
+                        label={props?.homeFilter?.madhab?.title}
                         className="single-chip"
-                        onDelete={() => handleDelete()}
-                      />
-                    )}
-                    {!!categoriesChip?.madhab && (
-                      <Chip
-                        label={categoriesChip?.madhab?.title}
-                        className="single-chip"
-                        onDelete={() => handleDelete()}
+                        onDelete={() => handleDelete("madhab")}
                       />
                     )}
                   </div>
                 </div>
-
                 <TextField
                   label="Search"
                   fullWidth
@@ -249,32 +217,15 @@ const HomePage = (props) => {
                               searchInput !== "" ? "visible" : "hidden",
                           }}
                         >
-                          <CloseIcon
-                            onClick={() => {
-                              setSearchInput("");
-                              getQuestionList();
-                            }}
-                          />
+                          <CloseIcon onClick={() => setSearchInput("")} />
                         </IconButton>
                         <IconButton
                           onClick={() => {
                             if (value === 0) {
                               getQuestionList(`?search=${searchInput}`);
-                            } else if (value === 1) {
+                            } else {
                               getQuestionList(
-                                `?language=English&search=${searchInput}`
-                              );
-                            } else if (value === 2) {
-                              getQuestionList(
-                                `?language=Malayalam&search=${searchInput}`
-                              );
-                            } else if (value === 3) {
-                              getQuestionList(
-                                `?language=Urdu&search=${searchInput}`
-                              );
-                            } else if (value === 4) {
-                              getQuestionList(
-                                `?language=Arabic&search=${searchInput}`
+                                `?language=${languages[value]}&search=${searchInput}`
                               );
                             }
                           }}
@@ -285,7 +236,6 @@ const HomePage = (props) => {
                     ),
                   }}
                 />
-
                 <Box sx={{ width: "100%" }}>
                   <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                     <Tabs
@@ -305,107 +255,34 @@ const HomePage = (props) => {
                     </Tabs>
                   </Box>
                   {isLoading ? (
-                    <div>
-                      <Loader skeleton layers={2} />
-                    </div>
+                    <Loader skeleton layers={2} />
                   ) : (
                     <>
-                      <TabPanel value={value} index={0}>
-                        {questionsData?.length ? (
-                          questionsData?.map((questions) => {
-                            return (
-                              <QuestionComponent
-                                key={questions?._id}
-                                shortquestion={questions?.short_question}
-                                question={questions?.question}
-                                questionCount={questions?.slNo}
-                                createdDate={formatDate(questions?.createdAt)}
-                                views={questions?.views}
-                                data={questions}
-                              />
-                            );
-                          })
-                        ) : (
-                          <NoDataAvailable noStyle noBg />
-                        )}
-                      </TabPanel>
-                      <TabPanel value={value} index={1}>
-                        {questionsData?.length ? (
-                          questionsData?.map((questions) => {
-                            return (
-                              <QuestionComponent
-                                key={questions?._id}
-                                id={questions?._id}
-                                shortquestion={questions?.short_question}
-                                question={questions?.question}
-                                questionCount={questions?.slNo}
-                                createdDate={formatDate(questions?.createdAt)}
-                                views={questions?.views}
-                                data={questions}
-                              />
-                            );
-                          })
-                        ) : (
-                          <NoDataAvailable noStyle noBg />
-                        )}
-                      </TabPanel>
-                      <TabPanel value={value} index={2}>
-                        {questionsData?.length ? (
-                          questionsData.map((questions) => {
-                            return (
-                              <QuestionComponent
-                                key={questions?._id}
-                                shortquestion={questions?.short_question}
-                                question={questions?.question}
-                                questionCount={questions?.slNo}
-                                createdDate={formatDate(questions?.createdAt)}
-                                views={questions?.views}
-                                data={questions}
-                              />
-                            );
-                          })
-                        ) : (
-                          <NoDataAvailable noStyle noBg />
-                        )}
-                      </TabPanel>
-                      <TabPanel value={value} index={3}>
-                        {questionsData?.length ? (
-                          questionsData?.map((questions) => {
-                            return (
-                              <QuestionComponent
-                                key={questions?._id}
-                                shortquestion={questions?.short_question}
-                                question={questions?.question}
-                                questionCount={questions?.slNo}
-                                createdDate={formatDate(questions?.createdAt)}
-                                views={questions?.views}
-                                data={questions}
-                              />
-                            );
-                          })
-                        ) : (
-                          <NoDataAvailable noStyle noBg />
-                        )}
-                      </TabPanel>
-                      <TabPanel value={value} index={4}>
-                        {questionsData?.length ? (
-                          questionsData?.map((questions) => {
-                            return (
-                              <QuestionComponent
-                                key={questions?._id}
-                                shortquestion={questions?.short_question}
-                                question={questions?.question}
-                                questionCount={questions?.slNo}
-                                createdDate={formatDate(questions?.createdAt)}
-                                views={questions?.views}
-                                data={questions}
-                              />
-                            );
-                          })
-                        ) : (
-                          <NoDataAvailable noStyle noBg />
-                        )}
-                      </TabPanel>
+                      {[0, 1, 2, 3].map((item) => {
+                        return (
+                          <TabPanel value={value} index={item}>
+                            {questionsData?.length ? (
+                              questionsData?.map((questions) => {
+                                return (
+                                  <QuestionComponent
+                                    key={questions?._id}
+                                    shortquestion={questions?.short_question}
+                                    question={questions?.question}
+                                    questionCount={questions?.slNo}
+                                    createdDate={formatDate(
+                                      questions?.createdAt
+                                    )}
+                                    views={questions?.views}
+                                    data={questions}
+                                  />
+                                );
+                              })
+                            ) : (
+                              <NoDataAvailable noStyle noBg />
+                            )}
+                          </TabPanel>
+                        );
+                      })}
                     </>
                   )}
                 </Box>
@@ -427,5 +304,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   addUserLoginDetails: (payload) => dispatch(addUserLoginDetails(payload)),
   addGeneralDetails: (payload) => dispatch(addGeneralDetails(payload)),
+  addHomeFilter: (payload) => dispatch(addHomeFilter(payload)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
