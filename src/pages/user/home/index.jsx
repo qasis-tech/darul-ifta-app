@@ -93,7 +93,9 @@ const HomePage = (props) => {
       parms = `?language=${languages[newValue]}`;
     }
     if (props?.homeFilter?.category?.label) {
-      parms = `${parms}&subCategory=${props?.homeFilter?.category?.label}`;
+      parms = `${parms}&subCategory=${encodeURIComponent(
+        props?.homeFilter?.category?.label
+      )}`;
     }
     if (props?.homeFilter?.madhab?.title) {
       parms = `${parms}&madhab=${props?.homeFilter?.madhab?.title}`;
@@ -135,13 +137,19 @@ const HomePage = (props) => {
       if (category === null && madhab !== null) {
         params = `?madhab=${props.homeFilter.madhab.title}&language=${languages[value]}`;
       } else if (madhab === null && category !== null) {
-        params = `?subCategory=${props?.homeFilter?.category?.label}&language=${languages[value]}`;
+        params = `?subCategory=${encodeURIComponent(
+          props?.homeFilter?.category?.label
+        )}&language=${languages[value]}`;
       }
     } else {
       if (props?.homeFilter?.category && props.homeFilter.madhab) {
-        params = `?subCategory=${props?.homeFilter?.category?.label}&madhab=${props.homeFilter.madhab.title}`;
+        params = `?subCategory=${encodeURIComponent(
+          props?.homeFilter?.category?.label
+        )}&madhab=${props.homeFilter.madhab.title}`;
       } else if (props?.homeFilter?.category) {
-        params = `?subCategory=${props?.homeFilter?.category?.label}`;
+        params = `?subCategory=${encodeURIComponent(
+          props?.homeFilter?.category?.label
+        )}`;
       } else if (props?.homeFilter?.madhab) {
         params = `?madhab=${props.homeFilter.madhab.title}`;
       }
@@ -196,6 +204,8 @@ const HomePage = (props) => {
         setQuestionsData([]);
       });
   };
+
+  console.log("questionsData ================>", questionsData);
 
   return (
     <div className="home-page">
@@ -277,7 +287,7 @@ const HomePage = (props) => {
                     <Loader skeleton layers={2} />
                   ) : (
                     <>
-                      {[0, 1, 2, 3].map((item) => {
+                      {[0, 1, 2, 3, 4].map((item) => {
                         return (
                           <TabPanel value={value} index={item}>
                             {questionsData?.length ? (

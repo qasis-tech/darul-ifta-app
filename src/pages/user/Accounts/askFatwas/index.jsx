@@ -18,9 +18,7 @@ const AskFatwasComponent = ({
   closePopup,
   triggerApiCallStatus,
   apiTriggeres,
-  ...others
 }) => {
-  console.log("others ========================", others);
   const languageList = [
     { id: 1, title: "English" },
     { id: 2, title: "Malayalam" },
