@@ -27,12 +27,6 @@ const profileSchema = yup
       .string()
       .phone("IN", true, "Mobile Number is invalid")
       .required(),
-    // password: yup.string().min(8).required("Password is required"),
-    // pincode: yup
-    //   .string()
-    //   .matches(/^[1-9][0-9]{5}$/, "Invalid zipcode (682315)")
-    //   .required(),
-    // userGender: yup.string().required(),
   })
   .required();
 
