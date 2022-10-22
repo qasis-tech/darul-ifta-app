@@ -29,7 +29,12 @@ img {
   background-color: #fff;
   z-index: 100;
 }
+.MuiAccordionSummary-content{
+  .MuiTypography-root{
 
+    font-family: "Baloo"!important;
+  }
+}
 .custom-question-icon i {
   font-size: xx-large;
   font-weight: 100;
@@ -46,16 +51,20 @@ img {
 }
 .desc {
   font-family: "Mulish" serif;
+  h5{
+    font-size: 14px!important;
+  }
 }
 .accordian {
   background: transparent !important;
   color: white !important;
-
+  font-family: "Baloo"!important;
   .arrow-color {
     color: white;
   }
   .MuiAccordionDetails-root {
     .accordion-sub {
+      margin-left: 1em;
       cursor: pointer;
       color: #fff !important;
 
@@ -305,12 +314,12 @@ img {
     .MuiButtonBase-root {
       color: #409ea1 !important;
       font-weight: bolder !important;
-      font-size: 17px !important;
+      font-size: 16px !important;
     }
     .MuiTab-root.Mui-selected {
       color: #235775 !important;
       font-weight: bolder;
-      font-size: 17px;
+      font-size: 16px;
     }
     .MuiTabs-indicator {
       background-color: #235775;
