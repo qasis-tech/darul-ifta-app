@@ -97,8 +97,6 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
     formData.append("user_status", userLoginDetails?.user_status);
     formData.append("madhab", selectedMadhab?.title);
 
-    console.log("11111111111111111111111111111111111111111");
-
     if (selectedMadhab !== null) {
       axios
         .put(`${URLS.user}${URLS.signup}/${userLoginDetails._id}`, formData, {
