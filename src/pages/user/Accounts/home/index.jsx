@@ -45,6 +45,7 @@ const AccountHome = ({ userLoginDetails }) => {
       });
     return result;
   };
+
   const handleUserDetails = (val, field) => {
     const temp = { ...userDetails };
     temp[`${field}`] = val;
@@ -113,7 +114,11 @@ const AccountHome = ({ userLoginDetails }) => {
               <div className="col pointer">
                 <DialogComponent
                   title="User Profile"
-                  title2="user must completed profile then only permission to ask question"
+                  title2={
+                    userLoginDetails?.profileComplete === "Completed"
+                      ? ""
+                      : "user must completed profile then only permission to ask question"
+                  }
                   className="model-section"
                   fullWidth
                   mainComponent={<UserProfile closePopup={setClosePopup} />}

@@ -13,4 +13,5 @@ export const URLS = {
   article: "/article",
   subcategory: "/subcategory",
   visitors: "/visitors",
+  pdf: "/pdf",
 };
