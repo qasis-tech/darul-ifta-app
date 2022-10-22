@@ -31,7 +31,7 @@ export default function FatwasDetailsPage() {
             <DetailedQuestionComponent data={data} />
             <WrittenComponent data={data} />
           </div>
-          <div className="col-md-2 related">
+          <div className="col-md-3 related">
             <RelatedFatwasComponent data={data} />
           </div>
         </div>
