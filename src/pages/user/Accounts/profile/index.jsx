@@ -17,6 +17,7 @@ import { addUserLoginDetails } from "../../../../redux/actions";
 import { StoreLocal } from "../../../../utils/localStore";
 
 import "./profile.styles.scss";
+import { getValue } from "@mui/system";
 const profileSchema = yup
   .object()
   .shape({
@@ -35,6 +36,7 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
   const [madbahList, setMadbahList] = useState([]);
   const [selectedMadhab, setSelectedMadhab] = useState([]);
   const [isLoading, setLoader] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [errorPopup, setError] = useState({
     visible: false,
     message: "",
@@ -49,6 +51,7 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
     trigger,
     watch,
     setValue,
+    getValues,
   } = useForm({
     resolver: yupResolver(profileSchema),
   });
@@ -85,49 +88,49 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
   };
 
   const handleUserUpdate = ({ mobileNumber, address, name }) => {
-    console.log("value===>", selectedMadhab);
     setLoader(true);
     const formData = new FormData();
     formData.append("phone", mobileNumber);
-
-    formData.append("madhab", selectedMadhab?.title);
     formData.append("address", address);
     formData.append("name", name);
     formData.append("user_type", userLoginDetails?.user_type);
     formData.append("user_status", userLoginDetails?.user_status);
-    axios
-      .put(`${URLS.user}${URLS.signup}/${userLoginDetails._id}`, formData, {
-        headers: {
-          "content-type": "multipart/form-data",
-        },
-      })
-      .then((res) => {
-        setLoader(false);
-        if (res?.success) {
-          setError({
-            visible: true,
-            message: res.message,
-            type: "success",
-            title: "Success",
-          });
-          StoreLocal("@darul-ifta-user-login-details", res.data, () => {
-            addUserLoginDetails(res.data);
-          });
-        } else {
-          setError({
-            visible: true,
-            message: res.message,
-            type: "warning",
-            title: "Warning",
-          });
-        }
-      })
-      .catch((err) => {
-        setLoader(false);
-        console.error("Error in profile edit", err);
-      });
+    formData.append("madhab", selectedMadhab?.title);
+
+    if (selectedMadhab !== null) {
+      axios
+        .put(`${URLS.user}${URLS.signup}/${userLoginDetails._id}`, formData, {
+          headers: {
+            "content-type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          setLoader(false);
+          if (res?.success) {
+            setError({
+              visible: true,
+              message: res.message,
+              type: "success",
+              title: "Success",
+            });
+            StoreLocal("@darul-ifta-user-login-details", res.data, () => {
+              addUserLoginDetails(res.data);
+            });
+          } else {
+            setError({
+              visible: true,
+              message: res.message,
+              type: "warning",
+              title: "Warning",
+            });
+          }
+        })
+        .catch((err) => {
+          setLoader(false);
+          console.error("Error in profile edit", err);
+        });
+    }
   };
-  console.log("1111111111", watch("madhab"));
 
   return (
     <div>
@@ -146,8 +149,6 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
                     label="Name"
                     variant="outlined"
                     InputLabelProps={{ shrink: userDetails?.name }}
-                    // value={userDetails?.name || ""}
-                    // onChange={(e) => handleUserDetails(e.target.value, "name")}
                     {...register("name", {
                       onChange: (e) =>
                         handleUserDetails(e.target.value, "name"),
@@ -176,14 +177,13 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
                     size="small"
                     variant="outlined"
                     fullWidth
-                    // value={userDetails?.phone || ""}
                     {...register("mobileNumber", {
                       onChange: (e) =>
                         handleUserDetails(e.target.value, "phone"),
                     })}
-                    // onKeyUp={() => {
-                    //   trigger("mobileNumber");
-                    // }}
+                    onKeyUp={() => {
+                      trigger("mobileNumber");
+                    }}
                   />
 
                   <div className="error">{errors?.mobileNumber?.message}</div>
@@ -199,18 +199,30 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
                     }
                     onChange={(e, val) => {
                       setSelectedMadhab(val);
+                      setErrorMessage("");
                     }}
                     value={selectedMadhab}
                     renderInput={(params) => (
                       <TextField
                         {...params}
                         label="Madhab"
-                        {...register("madhab")}
+                        {...register("madhab", {
+                          onChange: (e) => {
+                            setErrorMessage("Only options allowed!!");
+                          },
+                        })}
+                        onKeyUp={() => {
+                          trigger("madhab");
+                        }}
                       />
                     )}
                   />
-
-                  <div className="error">{errors?.madhab?.message}</div>
+                  {getValues("madhab") ? (
+                    <div className="error">{errorMessage}</div>
+                  ) : null}
+                  {!selectedMadhab?.title && (
+                    <div className="error">{errors?.madhab?.message}</div>
+                  )}
                 </div>
               </div>
               <div className="row">
@@ -221,7 +233,6 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
                     multiline
                     fullWidth
                     rows={4}
-                    // value={userDetails?.address || ""}
                     {...register("address", {
                       onChange: (e) =>
                         handleUserDetails(e.target.value, "address"),
