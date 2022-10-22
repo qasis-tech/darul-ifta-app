@@ -183,6 +183,20 @@ export default function FatwasDetails() {
       });
   };
 
+  const handlePdf = () => {
+    setLoader(true);
+    axios
+      .get(`${URLS.pdf}/${state._id}`)
+      .then((res) => {
+        setLoader(false);
+        // console.log("res pdf api", res);
+      })
+      .catch((err) => {
+        setLoader(false);
+        console.error("Error in pdf ", err);
+      });
+  };
+
   const handlePublish = () => {};
 
   const navigate = useNavigate();
@@ -200,7 +214,7 @@ export default function FatwasDetails() {
           </h6>
         </div>
         <div className="col-md-6 printer">
-          <Button variant="contained" className="form-btn">
+          <Button variant="contained" className="form-btn" onClick={handlePdf}>
             <PrintIcon />
           </Button>
         </div>
