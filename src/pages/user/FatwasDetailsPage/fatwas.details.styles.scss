@@ -1,19 +1,21 @@
 @import "../../../styles/common.styles.scss";
-.question-details-section{
-    .main-section{
-        display: flex;
-        max-width: 1405px!important;
-        margin-right: 4%!important;
-        @media screen and (max-width:991px) {
-            flex-direction: column;
-        }
-        .details, .related{
-            @media screen and(min-width:768px) and (max-width:1020px) {
-                width: 100%;
-            }
-        }
-        // .related{
-        //     margin-right: 1%;
-        // }
+.question-details-section {
+  .main-section {
+    display: flex;
+    max-width: 1405px !important;
+    // margin-right: 4%!important;
+
+    @media screen and (max-width: 991px) {
+      flex-direction: column;
     }
+    .details,
+    .related {
+      @media screen and(min-width:768px) and (max-width: 1020px) {
+        width: 100%;
+      }
+    }
+    // .related{
+    //     margin-right: 1%;
+    // }
+  }
 }
