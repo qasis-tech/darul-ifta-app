@@ -182,7 +182,9 @@ const Login = (props) => {
                     />
                     <div className="error">{errors?.email?.message}</div>
                     <div className="signin-btn">
-                      {!isLoading && (
+                      {isLoading ? (
+                        <Loader skeleton layers={1} />
+                      ) : (
                         <button className="btn" type="submit">
                           Continue
                         </button>
@@ -245,7 +247,7 @@ const Login = (props) => {
 
               <div className="socialBtn">
                 {isLoading ? (
-                  <Loader />
+                  <Loader skeleton layers={1} />
                 ) : (
                   <>
                     <GoogleLogin

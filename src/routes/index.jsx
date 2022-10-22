@@ -62,11 +62,20 @@ import FatwasDetails from "../pages/admin/fatwas/detailsFatwa";
 import AddArticle from "../pages/admin/article/addArticle";
 import UserAccountRouting from "./userAccounts";
 import { connect } from "react-redux";
+import { addHomeFilter } from "../redux/actions";
 
 const CustomRouters = (props) => {
   useEffect(() => {
     const { isUser, isAdmin } = authCheck();
+
+    console.log("INIT =====> ", props.homeFilter);
   }, []);
+
+  useEffect(() => {
+    // let temp = { ...props.homeFilter };
+    // props.addHomeFilter();
+    console.log("INIT =====> ", props.homeFilter);
+  }, [props.homeFilter]);
 
   return (
     <Routes>
@@ -125,4 +134,8 @@ const mapStateToProps = (state) => ({
   ...state,
 });
 
-export default connect(mapStateToProps)(CustomRouters);
+const mapDispatchToProps = (dispatch) => ({
+  addHomeFilter: (payload) => dispatch(addHomeFilter(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CustomRouters);
