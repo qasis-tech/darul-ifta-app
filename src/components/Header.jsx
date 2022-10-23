@@ -1,43 +1,33 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { connect } from "react-redux";
+import { Container, Nav, Navbar } from "react-bootstrap";
 
-import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import {
+  Avatar,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  IconButton,
+} from "@mui/material";
 
 import HouseIcon from "@mui/icons-material/House";
-import SearchIcon from "@mui/icons-material/Search";
-import PersonIcon from "@mui/icons-material/Person";                                                                                              
+import PersonIcon from "@mui/icons-material/Person";
+
+import { authLogout } from "../routes/auth";
+import routerList from "../routes/routerList";
+import Snackbar from "../components/common/Snackbar";
 import LogoImage from "../assets/logo-main-logo-blue.svg";
+import Logout from "@mui/icons-material/Logout";
 
 import "../styles/header.styles.scss";
-import routerList from "../routes/routerList";
-import { getLocal } from "../utils/localStore";
-import { authLogout } from "../routes/auth";
-import Snackbar from "../components/common/Snackbar";
-
-import Avatar from "@mui/material/Avatar";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Tooltip from "@mui/material/Tooltip";
-import PersonAdd from "@mui/icons-material/PersonAdd";
-import Settings from "@mui/icons-material/Settings";
-import Logout from "@mui/icons-material/Logout";
-import { connect } from "react-redux";
 
 const HeaderComponent = ({ closePopup, userLoginDetails }) => {
-  console.log("other ********************** ", userLoginDetails?.profile_pic);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  // -------------------------------------------------------
+  const handleClick = (event) => setAnchorEl(event.currentTarget);
+  const handleClose = () => setAnchorEl(null);
+
   const [errorPopup, setError] = useState({
     visible: false,
     message: "",
@@ -53,11 +43,11 @@ const HeaderComponent = ({ closePopup, userLoginDetails }) => {
     });
     closePopup(true);
   };
+
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    let loginData = await getLocal();
-    if (loginData) {
+    if (userLoginDetails) {
       navigate(`${routerList.user.accountUser}`);
     } else {
       navigate(`${routerList.user.login}`);

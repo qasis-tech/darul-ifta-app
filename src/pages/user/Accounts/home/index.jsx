@@ -19,16 +19,40 @@ import UserProfile from "../profile";
 import "./account.home.styles.scss";
 import axios from "axios";
 import { URLS } from "../../../../config/urls.config";
+import getQuestionListApi from "../../../../services/getQuestionsList";
 
 const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
   const [showImage, setShowImage] = useState(true);
-  const [questionCount, setquestionCount] = useState(0);
+  const [questionCount, setQuestionCount] = useState(0);
   const [answerCount, setAnswerCount] = useState(0);
   const [closePopup, setClosePopup] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
+  const [isLoading, setLoader] = useState(false);
 
   useEffect(() => {
     setUserDetails(userLoginDetails);
+    let params = `?userid=${userLoginDetails?._id}`;
+    let params2 = `?status=Published&userid=${userLoginDetails?._id}`;
+
+    getQuestionListApi(params)
+      .then((res) => {
+        setLoader(false);
+        setQuestionCount(res.count);
+      })
+      .catch((err) => {
+        console.error("Error in getQuestionListApi", err);
+        setQuestionCount(0);
+      });
+
+    getQuestionListApi(params2)
+      .then((res) => {
+        setLoader(false);
+        setAnswerCount(res.count);
+      })
+      .catch((err) => {
+        console.error("Error in getQuestionListApi", err);
+        setAnswerCount(0);
+      });
   }, []);
 
   const getFileObj = async (file) => {
@@ -78,13 +102,6 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
   };
 
   const handleImageError = (e) => setShowImage(false);
-  const getQuestionCount = (c) => {
-    setquestionCount(c);
-  };
-
-  const getAnswerCount = (c) => {
-    setAnswerCount(c);
-  };
 
   return (
     <>
@@ -233,10 +250,7 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
           </div>
         </div>
       </div>
-      <UserTab
-        getQuestionData={getQuestionCount}
-        getAnswerData={getAnswerCount}
-      />
+      <UserTab />
     </>
   );
 };

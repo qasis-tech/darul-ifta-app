@@ -1,5 +1,8 @@
 @import "../../../../styles/common.styles.scss";
 .user-tab-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   @media screen and (max-width: 1000px) {
     overflow-x: scroll !important;
   }
@@ -31,6 +34,19 @@
     }
     .MuiTabs-indicator {
       background-color: #235775;
+    }
+  }
+
+  .pagination-section {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 1em;
+    .MuiTablePagination-root {
+      .MuiToolbar-root {
+        p {
+          margin-top: 15px !important;
+        }
+      }
     }
   }
 }

@@ -67,15 +67,7 @@ import { addHomeFilter } from "../redux/actions";
 const CustomRouters = (props) => {
   useEffect(() => {
     const { isUser, isAdmin } = authCheck();
-
-    console.log("INIT =====> ", props.homeFilter);
   }, []);
-
-  useEffect(() => {
-    // let temp = { ...props.homeFilter };
-    // props.addHomeFilter();
-    console.log("INIT =====> ", props.homeFilter);
-  }, [props.homeFilter]);
 
   return (
     <Routes>

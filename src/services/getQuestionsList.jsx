@@ -8,7 +8,7 @@ const getQuestionListApi = (params = "") => {
         "Content-Type": "application/json",
       },
     })
-    .then((res) => res?.data)
+    .then((res) => res)
     .catch((err) => err);
 };
 

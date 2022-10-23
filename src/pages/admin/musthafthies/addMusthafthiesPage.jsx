@@ -94,6 +94,7 @@ export default function AddMufthi() {
   };
 
   const handleSave = ({ name, email, mobileNumber, password, address }) => {
+    console.log("111111111111111111111111111");
     let payload = {
       email: email,
       name: name,
@@ -107,7 +108,6 @@ export default function AddMufthi() {
       .post(`${URLS.user}${URLS.signup}`, payload, {
         headers: {
           Authorization: `${userToken}`,
-          "Content-Type": "application/json",
         },
       })
       .then((res) => {

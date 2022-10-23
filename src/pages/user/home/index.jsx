@@ -196,7 +196,7 @@ const HomePage = (props) => {
     getQuestionListApi(params)
       .then((res) => {
         setLoader(false);
-        setQuestionsData(res);
+        setQuestionsData(res.data);
       })
       .catch((err) => {
         setLoader(false);
