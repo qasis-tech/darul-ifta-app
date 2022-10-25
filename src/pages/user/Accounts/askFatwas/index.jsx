@@ -106,7 +106,8 @@ const AskFatwasComponent = ({
       .get(URLS.madhab)
       .then((res) => {
         setLoader(false);
-        setMadhabData(res?.data);
+        // setMadhabData(res?.data);
+        setMadhabData([])
       })
       .catch((err) => {
         setLoader(false);
@@ -193,7 +194,6 @@ const AskFatwasComponent = ({
             <div className="form-container">
               <div className="row">
                 <div className="col-md-4">
-                  {madhabData?.length ? (
                     <Autocomplete
                       id="outlined-basic"
                       size="small"
@@ -214,7 +214,7 @@ const AskFatwasComponent = ({
                         />
                       )}
                     />
-                  ) : (
+                  {/* ) : (
                     <Autocomplete
                       size="small"
                       id="combo-box-demo"
@@ -229,14 +229,16 @@ const AskFatwasComponent = ({
                         />
                       )}
                     />
-                  )}
-                  {!selectedMadhab?.title ? (
+                  )} */}
+
+
+                  {/* {!selectedMadhab?.title ? ( */}
                     <div className="error">{errors?.madhab?.message}</div>
-                  ) : null}
+                  {/* ) : null} */}
                 </div>
                 <div className="col-md-4">
-                  {subcategoryList?.length ? (
-                    <Autocomplete
+                  {/* {subcategoryList?.length ? ( */}
+                    {/* <Autocomplete
                       id="combo-box-demo"
                       size="small"
                       options={subcategoryList}
@@ -255,9 +257,9 @@ const AskFatwasComponent = ({
                           })}
                         />
                       )}
-                    />
-                  ) : (
-                    <Autocomplete
+                    /> */}
+                 {/* ) : ( */}
+                  <Autocomplete
                       size="small"
                       id="combo-box-demo"
                       options={[]}
@@ -271,7 +273,7 @@ const AskFatwasComponent = ({
                         />
                       )}
                     />
-                  )}
+                  {/* )} */}
                   {!selectedCategory?.category && (
                     <div className="error">{errors?.category?.message}</div>
                   )}
@@ -339,7 +341,7 @@ const AskFatwasComponent = ({
                         />
                       )}
                     />
-                  )}
+                    )}
                   {!selectedLanguage?.title && (
                     <div className="error">{errors?.language?.message}</div>
                   )}
