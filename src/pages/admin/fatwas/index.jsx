@@ -29,6 +29,7 @@ import NoDataAvailable from "../../../components/NoDataAvailable";
 import { formatDate } from "../../../utils/dateformat";
 import Loader from "../../../components/common/Loader";
 import getQuestionListApi from "../../../services/getQuestionsList";
+import routerList from "../../../routes/routerList";
 
 export default function Fatwas() {
   const [questionList, setQuestionList] = useState([]);
@@ -103,11 +104,7 @@ export default function Fatwas() {
   const getmadhabApi = () => {
     setLoader(true);
     axios
-      .get(URLS.madhab, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      .get(URLS.madhab)
       .then((res) => {
         setLoader(false);
         setMadhabData(res.data);
@@ -122,11 +119,7 @@ export default function Fatwas() {
   const getCatgoryApi = () => {
     setLoader(true);
     axios
-      .get(URLS.category, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      .get(URLS.category)
       .then(({ data }) => {
         setLoader(false);
         setCategoryList(data);
@@ -141,11 +134,7 @@ export default function Fatwas() {
   const getMufthiApi = () => {
     setLoader(true);
     axios
-      .get(`${URLS.user}${URLS.signup}?userType=Mufthi`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      .get(`${URLS.user}${URLS.signup}?userType=Mufthi`)
       .then(({ data }) => {
         setLoader(false);
         setMufthiData(data);
@@ -160,11 +149,7 @@ export default function Fatwas() {
   const getUserApi = () => {
     setLoader(true);
     axios
-      .get(`${URLS.user}${URLS.signup}?userType=User`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      .get(`${URLS.user}${URLS.signup}?userType=User`)
       .then(({ data }) => {
         setLoader(false);
         setUserData(data);
@@ -460,7 +445,10 @@ export default function Fatwas() {
                         sx={{
                           visibility: searchInput !== "" ? "visible" : "hidden",
                         }}
-                        onClick={() =>{getQuestionList(""); setSearchInput("")}}
+                        onClick={() => {
+                          getQuestionList("");
+                          setSearchInput("");
+                        }}
                       >
                         <CloseIcon />
                       </IconButton>
@@ -504,8 +492,8 @@ export default function Fatwas() {
                   </TableHead>
 
                   <TableBody>
-                    {questionList?.length ? (
-                      questionList?.map((question) => {
+                    {questionList?.data?.length ? (
+                      questionList?.data?.map((question) => {
                         return (
                           <TableRow
                             hover
@@ -513,7 +501,9 @@ export default function Fatwas() {
                               "&:last-child td, &:last-child th": { border: 0 },
                             }}
                             onClick={() =>
-                              navigate(`${"/admin/fatwasDetails"}`)
+                              navigate(
+                                `${routerList.admin.fatwasDetails}/${question?._id}`
+                              )
                             }
                             key={question._id}
                           >
@@ -535,31 +525,31 @@ export default function Fatwas() {
                               )}
                             </TableCell>
                             <TableCell>
-                            <span
-                                  className={
-                                    question?.status === "Pending"
-                                      ? "pending"
-                                      : question?.status === "Rejected"
-                                      ? "rejected"
-                                      : question?.status === "Re Submitted"
-                                      ? "reSUbmitted"
-                                      : question?.status ===
-                                        "Received to Darul Ifta"
-                                      ? "recievedToDI"
-                                      : question?.status === "Assigned Mufti"
-                                      ? "assMufthi"
-                                      : question?.status === "Mufti Answered"
-                                      ? "mufthiAns"
-                                      : question?.status ===
-                                        "Completed Verification"
-                                      ? "completeVerification"
-                                      : question?.status === "Published"
-                                      ? "published"
-                                      : ""
-                                  }
-                                >
-                                  {question?.status}
-                                </span>
+                              <span
+                                className={
+                                  question?.status === "Pending"
+                                    ? "pending"
+                                    : question?.status === "Rejected"
+                                    ? "rejected"
+                                    : question?.status === "Re Submitted"
+                                    ? "reSUbmitted"
+                                    : question?.status ===
+                                      "Received to Darul Ifta"
+                                    ? "recievedToDI"
+                                    : question?.status === "Assigned Mufti"
+                                    ? "assMufthi"
+                                    : question?.status === "Mufti Answered"
+                                    ? "mufthiAns"
+                                    : question?.status ===
+                                      "Completed Verification"
+                                    ? "completeVerification"
+                                    : question?.status === "Published"
+                                    ? "published"
+                                    : ""
+                                }
+                              >
+                                {question?.status}
+                              </span>
                               {/* <span className="status">{question.status}</span> */}
                             </TableCell>
                             <TableCell>
@@ -570,8 +560,8 @@ export default function Fatwas() {
                       })
                     ) : (
                       <TableRow>
-                        <TableCell colSpan={2}>
-                          <NoDataAvailable />
+                        <TableCell colSpan={9}>
+                          <NoDataAvailable noStyle />
                         </TableCell>
                       </TableRow>
                     )}

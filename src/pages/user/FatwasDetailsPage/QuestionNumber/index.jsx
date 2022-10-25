@@ -11,17 +11,17 @@ export default function QuestionNumber({ data }) {
     <div className="question-number-section">
       <div className="col-md-12 py-1 qid">
         <h6>
-          Question ID :
+          QID :
           <Chip
             label={`Q${data?.slNo?.toString()?.padStart(3, "0")}`}
             className="single-chip"
-            style={{ marginLeft: 15 }}
+            style={{ margin: "0 10px" }}
           />
           Madhab :
           <Chip
             label={data?.madhab?.title}
             className="single-chip"
-            style={{ marginLeft: 10 }}
+            style={{ margin: "0 10px" }}
           />
           SubCategory :
           {tempSubCategory?.map((item, index) => {

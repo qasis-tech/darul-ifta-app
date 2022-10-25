@@ -20,7 +20,6 @@ export const addGeneralDetails = (data) => {
 };
 
 export const addHomeFilter = (data) => {
-  console.log("data in addHomeFilter in ACTION", data);
   return {
     type: ADD_HOME_FILTER,
     data: data,

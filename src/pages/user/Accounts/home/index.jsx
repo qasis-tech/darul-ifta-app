@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import axios from "axios";
 
 import { Button, Card } from "@mui/material";
 
@@ -13,11 +14,10 @@ import DefaultImg1 from "../../../../assets/images/Minaret.svg";
 import UserTab from "../../../../components/UserTab";
 import DialogComponent from "../../../../components/DialogComponent";
 import AskFatwasComponent from "../../Accounts/askFatwas";
-import { StoreLocal } from "../../../../utils/localStore";
 
 import UserProfile from "../profile";
 import "./account.home.styles.scss";
-import axios from "axios";
+
 import { URLS } from "../../../../config/urls.config";
 import getQuestionListApi from "../../../../services/getQuestionsList";
 

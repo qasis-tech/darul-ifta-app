@@ -6,6 +6,7 @@ import getQuestionListApi from "../../../../services/getQuestionsList";
 import "./related.fatwas.styles.scss";
 
 import routerList from "../../../../routes/routerList";
+import NoDataAvailable from "../../../../components/NoDataAvailable";
 export default function RelatedFatwas({ data }) {
   const [questionList, setQuestionList] = useState([]);
   const [isLoader, setLoader] = useState(false);
@@ -13,10 +14,13 @@ export default function RelatedFatwas({ data }) {
   const subCategoryLabel = data?.sub_category?.map((sub) => {
     return sub?.label;
   });
-  const tempSubCategory = encodeURIComponent(subCategoryLabel);
+
+  console.log("subCategoryLabel ==", subCategoryLabel);
 
   useEffect(() => {
-    getQuestionList(`?subCategory=${tempSubCategory}`);
+    getQuestionList(
+      `?subCategory=${encodeURIComponent(subCategoryLabel)}&limit=3`
+    );
   }, []);
 
   const getQuestionList = (params) => {
@@ -24,7 +28,10 @@ export default function RelatedFatwas({ data }) {
     getQuestionListApi(params)
       .then((res) => {
         setLoader(false);
-        setQuestionList(res);
+        let data = res.data
+          ?.filter((obj) => obj?._id !== data?._id)
+          .map((items) => items);
+        setQuestionList(data);
       })
       .catch((err) => {
         console.error("Error in getQuestionListApi", err);
@@ -33,11 +40,6 @@ export default function RelatedFatwas({ data }) {
       });
   };
 
-  const filteredQuestionList = questionList.filter(
-    (obj) => obj?._id !== data?._id
-  );
-
-  const sliceQuestionList = filteredQuestionList.slice(0, 3);
   const navigate = useNavigate();
 
   return (
@@ -46,39 +48,43 @@ export default function RelatedFatwas({ data }) {
         <div className="col-md-12 main-head">
           <Typography className="heading">Related Fatwas</Typography>
         </div>
-        {sliceQuestionList?.map((slicedques) => {
-          console.log("slicedques ==> ", slicedques);
-          return (
-            <div key={slicedques?._id} className="container">
-              <div className="col-md-12 sub-details my-3  py-2 px-2">
-                <Typography className="title">
-                  {slicedques?.short_question}
-                </Typography>
-                <div className="row d-flex sub-btn justify-content-between mt-2 pb-1">
-                  <div className="col-md-6">
-                    <Chip
-                      label={`Q${slicedques?.slNo
-                        ?.toString()
-                        ?.padStart(3, "0")}`}
-                      className="id-button"
-                    />
-                  </div>
-                  <div className="col-md-6">
-                    <Chip
-                      label="ReadMore"
-                      className="id-button"
-                      onClick={() =>
-                        navigate(`${routerList.user.fatwasDetailsPage}`, {
-                          state: { data: slicedques },
-                        })
-                      }
-                    />
+        {questionList?.length ? (
+          questionList?.map((slicedques) => {
+            console.log("slicedques ==> ", slicedques);
+            return (
+              <div key={slicedques?._id} className="container">
+                <div className="col-md-12 sub-details my-3  py-2 px-2">
+                  <Typography className="title">
+                    {slicedques?.short_question}
+                  </Typography>
+                  <div className="row d-flex sub-btn justify-content-between mt-2 pb-1">
+                    <div className="col-md-6">
+                      <Chip
+                        label={`Q${slicedques?.slNo
+                          ?.toString()
+                          ?.padStart(3, "0")}`}
+                        className="id-button"
+                      />
+                    </div>
+                    <div className="col-md-6">
+                      <Chip
+                        label="ReadMore"
+                        className="id-button"
+                        onClick={() =>
+                          navigate(`${routerList.user.fatwasDetailsPage}`, {
+                            state: { data: slicedques },
+                          })
+                        }
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })
+        ) : (
+          <NoDataAvailable noStyle />
+        )}
       </div>
     </div>
   );

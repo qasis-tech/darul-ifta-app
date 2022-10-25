@@ -13,7 +13,7 @@ export default {
     accountUserHome: "/user/home",
     accountUserProfile: "/user/profile",
     accountUserAsk: "/user/ask",
-    fatwasDetailsPage: "/FatwasDetailsPage",
+    fatwasDetailsPage: "/fatwa-details",
   },
   admin: {
     admin: "/admin",
@@ -27,7 +27,7 @@ export default {
     addCategories: "addCategories",
     addMufthi: "addMufthi",
     addUser: "addUser",
-    fatwasDetails: "fatwasDetails",
+    fatwasDetails: `fatwa-details`,
     dashboard: "dashboard",
   },
 };

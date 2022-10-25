@@ -29,6 +29,7 @@ import { formatDate } from "../../../utils/dateformat";
 import NoDataAvailable from "../../../components/NoDataAvailable";
 import CountTile from "./components/tiles";
 import getGeneralsListApi from "../../../services/getGeneralList";
+import routerList from "../../../routes/routerList";
 
 export default function Dashboard() {
   const [isLoading, setLoader] = useState(false);
@@ -63,8 +64,8 @@ export default function Dashboard() {
     setLoader(true);
     getQuestionListApi(params)
       .then((res) => {
-        setQuestionList(res);
         setLoader(false);
+        setQuestionList(res.data);
       })
       .catch((err) => {
         console.log("Errr in get QUestion API", err);
@@ -80,7 +81,9 @@ export default function Dashboard() {
       title: "",
     });
   };
+
   const navigate = useNavigate();
+
   return (
     <div>
       <div className="admin-home-section">
@@ -95,7 +98,7 @@ export default function Dashboard() {
             titile="Fatwas"
             Icon={() => <ListAltIcon className="fa" />}
             style="published"
-            value={counteList?.fatwas || "N/A"}
+            value={counteList?.total_fatwas || "N/A"}
           />
           <CountTile
             titile="Answered"
@@ -127,6 +130,7 @@ export default function Dashboard() {
                   <div className="col-md-10">
                     <TextField
                       label="Question ID"
+                      placeholder="Question ID (only numbers)"
                       fullWidth
                       size="small"
                       type="number"
@@ -193,9 +197,12 @@ export default function Dashboard() {
                                 },
                               }}
                               onClick={() =>
-                                navigate(`${"/admin/fatwasDetails"}`, {
-                                  state: items,
-                                })
+                                navigate(
+                                  `${routerList?.admin?.fatwasDetails}/${items?._id}`,
+                                  {
+                                    state: items,
+                                  }
+                                )
                               }
                             >
                               <TableCell>{items?.slNo || "N/A"}</TableCell>
@@ -248,8 +255,8 @@ export default function Dashboard() {
                         })
                       ) : (
                         <TableRow>
-                          <TableCell colSpan={3}>
-                            <NoDataAvailable />
+                          <TableCell colSpan={7}>
+                            <NoDataAvailable noStyle />
                           </TableCell>
                         </TableRow>
                       )}

@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import URLS from "../routes/routerList";
-import Button from "@mui/material/Button";
 
 import "../styles/question.container.styles.scss";
 
@@ -11,7 +10,7 @@ const QuestionContainer = (props) => {
     <section
       className="question-section"
       onClick={() =>
-        navigate(`${URLS.user.fatwasDetailsPage}`, {
+        navigate(`${URLS.user.fatwasDetailsPage}/${props?.id}`, {
           state: { data: props.data },
         })
       }

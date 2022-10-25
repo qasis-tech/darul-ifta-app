@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import { Button, TextField, Autocomplete, Chip } from "@mui/material";
 
@@ -15,6 +15,8 @@ import "./fatwas.details.styles.scss";
 import Loader from "../../../components/common/Loader";
 import DialogComponent from "../../../components/DialogComponent";
 import RejectedReasonSection from "./components/RejectedReasonSection";
+import moment from "moment";
+import getQuestionListApi from "../../../services/getQuestionsList";
 
 export default function FatwasDetails() {
   const [categoryData, setCategoryData] = useState([]);
@@ -38,6 +40,7 @@ export default function FatwasDetails() {
   const [isLoading, setLoader] = useState(false);
   const [closePopup, setClosePopup] = useState(false);
   const [subCategoryData, setSubCategory] = useState([]);
+  const [state, setQuestionDetails] = useState(null);
 
   const {
     register,
@@ -45,43 +48,45 @@ export default function FatwasDetails() {
     formState: { errors },
   } = useForm();
 
-  const { state } = useLocation();
-  console.log("state ===>", state);
-
-  const stateSubcategory = state?.sub_category?.map((subC) => {
-    return subC?.label;
-  });
+  const { id } = useParams();
 
   useEffect(() => {
     getCategory();
     getSubcategory();
     getMadhab();
     getMufthiApi();
-    setSelectedCategory(state?.category[0]);
-    setSelectedSubCategory(state?.sub_category);
-    setSelectedMadhab(state?.madhab);
-    setSelectedLanguage({ id: "", title: state?.language });
-    setShortQuestion(state?.short_question);
-    setLongQuestion(state?.question);
-    setSelectedMufthi(state?.mufti || "N/A");
-    setSelectedMufthiVerified(state?.verified_by || "N/A");
-    setAnswer(state?.answer || "N/A");
+    if (id) {
+      getQuestionListApi(`/${id}`)
+        .then((res) => {
+          setQuestionDetails(res.data);
+          setSelectedCategory(res.data?.category[0]);
+          setSelectedSubCategory(res.data?.sub_category);
+          setSelectedMadhab(res.data?.madhab);
+          setSelectedLanguage({ id: "", title: res.data?.language });
+          setShortQuestion(res.data?.short_question);
+          setLongQuestion(res.data?.question);
+          setSelectedMufthi(res.data?.mufti || "N/A");
+          setSelectedMufthiVerified(res.data?.verified_by || "N/A");
+          setAnswer(res.data?.answer || "N/A");
+        })
+        .catch((err) => {
+          console.error(
+            "Error in getQuestionListApi in admin/Fatwa details",
+            err
+          );
+        });
+    }
   }, []);
 
-  const handleChangeShort_Question = (event) =>
-    setShortQuestion(event.target.value);
-
-  const handleChangeLongQuestion = (event) =>
-    setLongQuestion(event.target.value);
-
-  const handleChangeAnswer = (event) => setAnswer(event.target.value);
+  const handleChangeShort_Question = (e) => setShortQuestion(e.target.value);
+  const handleChangeLongQuestion = (e) => setLongQuestion(e.target.value);
+  const handleChangeAnswer = (e) => setAnswer(e.target.value);
 
   const getCategory = () => {
     setLoader(true);
     getCategoryListApi()
       .then((res) => {
         setCategoryData(res);
-        console.log("categorryyyy", res);
         setLoader(false);
       })
       .catch((err) => {
@@ -97,7 +102,6 @@ export default function FatwasDetails() {
       .get(`${URLS.subcategory}`)
       .then((res) => {
         setLoader(false);
-        console.log("res subcategory", res?.data);
         const temp = res?.data?.map((subcat) => {
           return subcat.subCategory;
         });
@@ -147,12 +151,12 @@ export default function FatwasDetails() {
     let payload = {
       madhab: state?.madhab,
       category: state?.category,
-      sub_category: state?.sub_category,
-      short_question: state?.short_question,
-      question: state?.question,
-      language: state?.language,
+      sub_category: selectedSubCategory,
+      short_question: shortQuestion,
+      question: longQuestion,
+      language: selectedLanguage?.title,
       status: "Received to Darul Ifta",
-      answer: state?.answer,
+      answer: null,
       reference: state?.reference,
       answered_date: state?.answered_date,
       verified_date: state?.verified_date,
@@ -186,10 +190,19 @@ export default function FatwasDetails() {
   const handlePdf = () => {
     setLoader(true);
     axios
-      .get(`${URLS.pdf}/${state._id}`)
-      .then((res) => {
+      .get(`${URLS.pdf}/${state._id}`, {
+        responseType: "arraybuffer",
+      })
+      .then(async (res) => {
         setLoader(false);
-        // console.log("res pdf api", res);
+        const blob = new Blob([res], {
+          type: "application/pdf",
+        });
+        const fileURL = window.URL.createObjectURL(blob);
+        let alink = document.createElement("a");
+        alink.href = fileURL;
+        alink.download = `QID-${state?.slNo}-${state?.user?.name}-${state?.status}.pdf`;
+        alink.click();
       })
       .catch((err) => {
         setLoader(false);
@@ -201,19 +214,53 @@ export default function FatwasDetails() {
 
   const navigate = useNavigate();
 
+  console.log("state =====>", state);
   return (
     <div className="fatwas-details-section">
       <div className="fatwa-print-section">
-        <div className="col-md-6">
+        <div className="col-md-7 mt-auto">
           <h6>
-            <span className="id-style">QID : {state?.slNo}</span>
+            <span className="id-style">QID : </span>
+            <span> {state?.slNo} </span>
             <span>
-              : - {state?.category[0]?.category}({stateSubcategory}) -{" "}
-              <span>{state?.status}</span>
-            </span>
+              / <span className="id-style"> mustafthi : </span>
+              <span>{state?.user?.name}</span>
+            </span>{" "}
+            / <span className="id-style">Submitted : </span>
+            <span>{moment(state?.createdAt).format("DD-MMM-YYYY")}</span>
+            {state?.status !== "Pending" && (
+              <>
+                <span className="id-style">/ Updated : </span>
+                <span>{moment(state?.updatedAt).format("DD-MMM-YYYY")}</span>
+              </>
+            )}
           </h6>
         </div>
-        <div className="col-md-6 printer">
+        <div className="col-md-5 printer">
+          <span
+            style={{ margin: "0 10px" }}
+            className={
+              state?.status === "Pending"
+                ? "pending"
+                : state?.status === "Rejected"
+                ? "rejected"
+                : state?.status === "Re Submitted"
+                ? "reSUbmitted"
+                : state?.status === "Received to Darul Ifta"
+                ? "recievedToDI"
+                : state?.status === "Assigned Mufti"
+                ? "assMufthi"
+                : state?.status === "Mufti Answered"
+                ? "mufthiAns"
+                : state?.status === "Completed Verification"
+                ? "completeVerification"
+                : state?.status === "Published"
+                ? "published"
+                : ""
+            }
+          >
+            {state?.status}
+          </span>
           <Button variant="contained" className="form-btn" onClick={handlePdf}>
             <PrintIcon />
           </Button>
@@ -226,67 +273,40 @@ export default function FatwasDetails() {
           <div className="fatwas-details-container">
             <div className="fatwas-details-row">
               <div className="col-md-4 first-col">
-                {categoryData?.length && (
-                  <Autocomplete
-                    size="small"
-                    fullWidth
-                    value={selectedCategory}
-                    onChange={(event, newValue) => {
-                      console.log("newValue", newValue);
-                      setSelectedCategory(newValue);
-                    }}
-                    id="controllable-states-demo"
-                    options={categoryData || null}
-                    getOptionLabel={(option) => option?.category}
-                    isOptionEqualToValue={(option, value) =>
-                      option?._id === value?._id
-                    }
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Category"
-                        {...register("category", {
-                          required: "Category is required",
-                        })}
-                      />
-                    )}
-                  />
-                )}
-                {!selectedCategory?.category && (
-                  <div className="error">{errors?.category?.message}</div>
-                )}
-              </div>
-
-              <div className="col-md-4 first-col">
                 {subCategoryData?.length && (
                   <Autocomplete
                     id="controllable-states-demo"
                     size="small"
                     fullWidth
                     multiple
+                    disabled={state?.status === "Rejected"}
                     options={subCategoryData || null}
                     getOptionLabel={(option) => option?.label}
                     isOptionEqualToValue={(option, value) =>
                       option?._id === value?._id
                     }
-                    onChange={(event, newValue) => {
-                      console.log("newvalue", newValue);
-                      setSelectedSubCategory(newValue);
-                    }}
+                    onChange={(event, newValue) =>
+                      setSelectedSubCategory(newValue)
+                    }
                     value={selectedSubCategory || null}
                     renderInput={(params) => (
-                      <TextField {...params} label="Subcategory" />
+                      <TextField
+                        {...params}
+                        label="Category"
+                        disabled={state?.status === "rejected"}
+                      />
                     )}
                   />
                 )}
               </div>
-              <div className="col-md-2">
+              <div className="col-md-4">
                 {madhabData?.length && (
                   <Autocomplete
                     error
                     size="small"
                     value={selectedMadhab}
                     fullWidth
+                    disabled={state?.status === "Rejected"}
                     onChange={(event, newValue) => {
                       setSelectedMadhab(newValue);
                     }}
@@ -311,13 +331,14 @@ export default function FatwasDetails() {
                   <div className="error">{errors?.madhab?.message}</div>
                 )}
               </div>
-              <div className="col-md-2 second-col">
+              <div className="col-md-4 second-col">
                 {languageList?.length && (
                   <Autocomplete
                     size="small"
                     error
                     value={selectedLanguage}
                     fullWidth
+                    disabled={state?.status === "Rejected"}
                     onChange={(event, newValue) => {
                       setSelectedLanguage(newValue);
                     }}
@@ -355,6 +376,7 @@ export default function FatwasDetails() {
                       maxRows={4}
                       value={shortQuestion}
                       onChange={handleChangeShort_Question}
+                      disabled={state?.status === "Rejected"}
                       // {...register("shortQuestion", {
                       //   required: "ShortQuestion is required",
                       // })}
@@ -378,6 +400,7 @@ export default function FatwasDetails() {
                       rows={4}
                       value={longQuestion}
                       onChange={handleChangeLongQuestion}
+                      disabled={state?.status === "Rejected"}
                       // {...register("longQuestion", {
                       //   required: "LongQuestion is required",
                       // })}
@@ -387,51 +410,28 @@ export default function FatwasDetails() {
                 </div>
               </div>
             </div>
-            {state?.status !== "Pending" ? (
+            {state?.status !== "Rejected" && state?.status !== "Pending" && (
               <>
                 <div className="fatwas-details-row written-section">
-                  <div className="col-md-3 first-col">
-                    {mufthiData?.length && (
-                      <Autocomplete
-                        size="small"
-                        value={selectedMufthi || ""}
-                        fullWidth
-                        onChange={(event, newValue) => {
-                          setSelectedMufthi(newValue);
-                        }}
-                        id="controllable-states-demo"
-                        options={mufthiData || ""}
-                        getOptionLabel={(option) => option?.name || ""}
-                        isOptionEqualToValue={(option, value) =>
-                          option._id === value._id
-                        }
-                        renderInput={(params) => (
-                          <TextField {...params} label="Written By" />
-                        )}
-                      />
-                    )}
-                  </div>
-                  <div className="col-md-3">
-                    {mufthiData?.length && (
-                      <Autocomplete
-                        size="small"
-                        value={selectedMufthiVerified || ""}
-                        fullWidth
-                        onChange={(event, newValue) => {
-                          setSelectedMufthiVerified(newValue);
-                        }}
-                        id="controllable-states-demo"
-                        options={mufthiVerified || ""}
-                        getOptionLabel={(option) => option?.name || ""}
-                        isOptionEqualToValue={(option, value) =>
-                          option?._id === value?._id
-                        }
-                        renderInput={(params) => (
-                          <TextField {...params} label="Verified By" />
-                        )}
-                      />
-                    )}
-                  </div>
+                  {/* <div className="col-md-3 first-col">
+                    <Autocomplete
+                      size="small"
+                      value={selectedMufthi || ""}
+                      fullWidth
+                      onChange={(event, newValue) =>
+                        setSelectedMufthi(newValue)
+                      }
+                      id="controllable-states-demo"
+                      options={mufthiData || ""}
+                      getOptionLabel={(option) => option?.name || ""}
+                      isOptionEqualToValue={(option, value) =>
+                        option._id === value._id
+                      }
+                      renderInput={(params) => (
+                        <TextField {...params} label="Written By" />
+                      )}
+                    />
+                  </div> */}
                   <div className="col-md-3">
                     <Autocomplete
                       size="small"
@@ -451,39 +451,70 @@ export default function FatwasDetails() {
                       )}
                     />
                   </div>
+                  {state?.status !== "Received to Darul Ifta" && (
+                    <div className="col-md-3">
+                      <Autocomplete
+                        size="small"
+                        value={selectedMufthiVerified || ""}
+                        fullWidth
+                        onChange={(event, newValue) => {
+                          setSelectedMufthiVerified(newValue);
+                        }}
+                        id="controllable-states-demo"
+                        options={mufthiVerified || ""}
+                        getOptionLabel={(option) => option?.name || ""}
+                        isOptionEqualToValue={(option, value) =>
+                          option?._id === value?._id
+                        }
+                        renderInput={(params) => (
+                          <TextField {...params} label="Verified By" />
+                        )}
+                      />
+                    </div>
+                  )}
                 </div>
-                <div className="qshort-section">
-                  <div className="qshort-container">
-                    <div className="qshort-row">
-                      <div className="col-md-12">
-                        <TextField
-                          id="outlined-multiline-flexible"
-                          label="Answer"
-                          multiline
-                          fullWidth
-                          rows={6}
-                          value={answer}
-                          onChange={handleChangeAnswer}
-                        />
+                {state?.status !== "Received to Darul Ifta" && (
+                  <>
+                    <div className="qshort-section">
+                      <div className="qshort-container">
+                        <div className="qshort-row">
+                          <div className="col-md-12">
+                            <TextField
+                              id="outlined-multiline-flexible"
+                              label="Answer"
+                              multiline
+                              fullWidth
+                              rows={6}
+                              value={answer}
+                              onChange={handleChangeAnswer}
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-                <FatwaAddComponent />
-                <div className="btn-section">
-                  <div className="col-md-1">
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      className="form-btn"
-                      fullWidth
-                    >
-                      PUBLISH
-                    </Button>
-                  </div>
-                </div>
+                    <FatwaAddComponent />
+                  </>
+                )}
               </>
-            ) : (
+            )}
+            {state?.status === "Received to Darul Ifta" && (
+              <div className="btn-section">
+                <div className="col-md-2">
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    className="form-btn"
+                    fullWidth
+                  >
+                    {state?.status === "Received to Darul Ifta"
+                      ? "Assigned to mufti"
+                      : "Submit"}
+                  </Button>
+                </div>
+              </div>
+            )}
+            {/* Rejected */}
+            {state?.status === "Pending" && (
               <>
                 <div className="fatwabutton">
                   <div className="accept-section">
@@ -497,13 +528,6 @@ export default function FatwasDetails() {
                     </Button>
                   </div>
 
-                  {/* <Button
-                    type="submit"
-                    variant="contained"
-                    className="form-btn rejected"
-                  >
-                    Reject
-                  </Button> */}
                   <DialogComponent
                     title="Reasons for Rejection"
                     className="model-section"

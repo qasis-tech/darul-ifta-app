@@ -205,8 +205,6 @@ const HomePage = (props) => {
       });
   };
 
-  console.log("questionsData ================>", questionsData);
-
   return (
     <div className="home-page">
       <div
@@ -295,6 +293,7 @@ const HomePage = (props) => {
                                 return (
                                   <QuestionComponent
                                     key={questions?._id}
+                                    id={questions?._id}
                                     shortquestion={questions?.short_question}
                                     question={questions?.question}
                                     questionCount={questions?.slNo}

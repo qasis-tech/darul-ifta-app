@@ -78,20 +78,12 @@ const RejectedReasonSection = ({ state }) => {
       reject_reason: reason,
     };
     axios
-      .put(`${URLS.question}/${state._id}`, payload, {
-        headers: {
-          "content-type": "application/json",
-        },
-      })
+      .put(`${URLS.question}/${state._id}`, payload)
       .then((res) => {
         setLoader(false);
         console.log("res put accept api", res);
         setSelectedRejectedReason("");
         setSelectedMufthi("");
-
-        // if (res?.success) {
-        //   navigate(-1);
-        // }
       })
       .catch((err) => {
         setLoader(false);
@@ -107,55 +99,49 @@ const RejectedReasonSection = ({ state }) => {
       ) : (
         <form className="mt-4" onSubmit={handleSubmit(handleRejectReason)}>
           <div className="row d-flex">
-            <div className="col-md-10 first-col">
-              {rejectedReasons?.length && (
-                <Autocomplete
-                  size="small"
-                  value={selectedRejectedReason || ""}
-                  fullWidth
-                  onChange={(event, newValue) => {
-                    setSelectedRejectedReason(newValue);
-                  }}
-                  id="controllable-states-demo"
-                  options={rejectedReasons || ""}
-                  getOptionLabel={(option) => option?.title || ""}
-                  isOptionEqualToValue={(option, value) =>
-                    option.id === value.id
-                  }
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Reasons "
-                      {...register("reason")}
-                    />
-                  )}
-                />
-              )}
+            <div className="col-md-7 first-col">
+              <Autocomplete
+                size="small"
+                value={selectedRejectedReason || ""}
+                fullWidth
+                onChange={(event, newValue) => {
+                  setSelectedRejectedReason(newValue);
+                }}
+                id="controllable-states-demo"
+                options={rejectedReasons || ""}
+                getOptionLabel={(option) => option?.title || ""}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Reasons "
+                    {...register("reason")}
+                  />
+                )}
+              />
             </div>
-            <div className="col-md-2">
-              {mufthiData?.length && (
-                <Autocomplete
-                  disablePortal
-                  id="combo-box-demo"
-                  size="small"
-                  options={mufthiData || null}
-                  getOptionLabel={(option) => option?.name || ""}
-                  isOptionEqualToValue={(option, value) =>
-                    option._id === value._id
-                  }
-                  onChange={(e, val) => {
-                    setSelectedMufthi(val);
-                  }}
-                  value={selectedMufthi || null}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Mufthi"
-                      {...register("rejectedMufthi")}
-                    />
-                  )}
-                />
-              )}
+            <div className="col-md-5">
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                size="small"
+                options={mufthiData || null}
+                getOptionLabel={(option) => option?.name || ""}
+                isOptionEqualToValue={(option, value) =>
+                  option._id === value._id
+                }
+                onChange={(e, val) => {
+                  setSelectedMufthi(val);
+                }}
+                value={selectedMufthi || null}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Mufthi"
+                    {...register("rejectedMufthi")}
+                  />
+                )}
+              />
             </div>
             <div className="row my-3">
               <div className="btn-section d-flex justify-content-end">

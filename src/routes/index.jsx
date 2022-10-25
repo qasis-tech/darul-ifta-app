@@ -77,9 +77,10 @@ const CustomRouters = (props) => {
         <Route path={RouterList.user.askFatwas} element={<AskFatwas />} />
         <Route path={RouterList.user.fatwas} element={<Fatwas />} />
         <Route
-          path={RouterList.user.fatwasDetailsPage}
+          path={`${RouterList.user.fatwasDetailsPage}/:id`}
           element={<FatwasDetailsPage />}
         />
+
         <Route
           path={RouterList.user.accountUser}
           element={<UserAccountRouting />}
@@ -110,7 +111,11 @@ const CustomRouters = (props) => {
         <Route path="addMufthi" element={<AddMufthi />} />
         <Route path="addUser" element={<AddUser />} />
         <Route
-          path={RouterList.admin.fatwasDetails}
+          path={`${RouterList.admin.adminfatwas}/${RouterList.admin.fatwasDetails}/:id`}
+          element={<FatwasDetails />}
+        />
+        <Route
+          path={`${RouterList.admin.fatwasDetails}/:id`}
           element={<FatwasDetails />}
         />
         <Route path="addArticle" element={<AddArticle />} />

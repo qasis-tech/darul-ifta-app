@@ -1,24 +1,30 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 import { TextField, Autocomplete, Button } from "@mui/material";
+import { PropaneSharp } from "@mui/icons-material";
 
 import { URLS } from "../../../../config/urls.config";
 import Loader from "../../../../components/common/Loader";
 import SnackBar from "../../../../components/common/Snackbar";
 
 import "./askfatwas.styles.scss";
-import { PropaneSharp } from "@mui/icons-material";
-import { connect } from "react-redux";
-import { triggerApiCallStatus } from "../../../../redux/actions";
 
+import { triggerApiCallStatus } from "../../../../redux/actions";
 import getSubCategoryList from "../../../../services/getSubCategoryList";
+import { authLogout } from "../../../../routes/auth";
+import routerList from "../../../../routes/routerList";
 
 const AskFatwasComponent = ({
   closePopup,
   triggerApiCallStatus,
   apiTriggeres,
 }) => {
+  const navigate = useNavigate();
+
   const languageList = [
     { id: 1, title: "English" },
     { id: 2, title: "Malayalam" },
@@ -162,6 +168,11 @@ const AskFatwasComponent = ({
             type: "warning",
             title: "Warning",
           });
+          if (res?.message === "User not exists..!") {
+            authLogout(() => {
+              navigate(`${routerList.user.home}`);
+            });
+          }
         }
       })
       .catch((err) => {
