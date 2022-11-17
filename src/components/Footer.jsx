@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import InstaPic from "../assets/insta-icon.svg";
 import FbPic from "../assets/fb-icon.svg";
 import TwitterPic from "../assets/twiter-icon.svg";
@@ -6,8 +8,13 @@ import WhatsappPic from "../assets/whatsapp-icon.svg";
 import YoutubePic from "../assets/youtube-icon.svg";
 import GooglePic from "../assets/google_play_stor-icon.svg";
 import Logo from "../assets/logo-main-logo.svg";
+
+import routerList from "../routes/routerList";
+
 import "../styles/footer.styles.scss";
 const FooterComponent = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="footer-section">
       <div className="row footer-container px-0 mx-0">
@@ -32,11 +39,11 @@ const FooterComponent = () => {
             <h4 className="fw-bold">Useful Links</h4>
             <div className="hr-bar"></div>
             <ul>
-              <li routerLink="about-us">About Us</li>
-              <li routerLink="contact-us">Contact Us</li>
-              <li routerLink="rules-regulations">Rules & Regulations</li>
-              <li routerLink="privacy-policy">Privacy Policy</li>
-              <li routerLink="terms-conditions">Terms and Conditions</li>
+              <li  onClick={() => navigate(`${routerList.user.about}`)}>About Us</li>
+              <li onClick={() => navigate(`${routerList.user.contact}`)}>Contact Us</li>
+              <li  onClick={() => navigate(`${routerList.user.rulesandregulations}`)}>Rules & Regulations</li>
+              <li onClick={() => navigate(`${routerList.user.privacypolicy}`)}>Privacy Policy</li>
+              <li onClick={() => navigate(`${routerList.user.termsandconditions}`)}>Terms and Conditions</li>
             </ul>
           </div>
         </div>

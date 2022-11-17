@@ -29,7 +29,14 @@
         .min-height {
           max-height: 25px !important;
         }
-        
+        .btn-group{
+          .custom-menu{
+            @media only screen and (max-width: 786px) {
+              width: 100%;
+              justify-content: start!important;
+            }
+          }
+        }
         .custom-menu {
           border: 0;
           border-radius: 5px;

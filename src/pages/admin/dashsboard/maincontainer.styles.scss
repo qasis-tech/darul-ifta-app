@@ -44,10 +44,14 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      .logo-image{
+        width: 160px;
+      }
     }
     .logout-section {
       display: flex;
       justify-content: end;
     }
   }
+
   

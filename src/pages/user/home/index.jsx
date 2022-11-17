@@ -215,7 +215,7 @@ const HomePage = (props) => {
         <section className="body-section">
           <div className="container">
             <div className="row">
-              <div className="col-md-3">
+              <div className="col-md-3 main-madhub-section">
                 <SideNavCategory />
                 <VisitorDetails />
               </div>

@@ -238,6 +238,19 @@ img {
   /* for sumo sized (mac) screens */
 }
 
+.carousel-hero{
+  .main-slider-section{
+    @media screen and (max-width:480px) {
+      margin-bottom: 2em;
+    }
+  }
+  .logo-slider{
+    @media screen and (max-width:480px) {
+      display: none;
+    }
+  }
+}
+
 @media only screen and (max-device-width: 480px) {
   .article-container {
     width: 100%;
@@ -282,6 +295,9 @@ img {
   }
   .body-section {
     padding-bottom: 4em;
+    .main-madhub-section{
+      padding:0 2.5em;
+    }
   }
   .search-btn {
     margin-top: 1em;
