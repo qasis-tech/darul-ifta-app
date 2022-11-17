@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.headers.common["Authorization"] =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTY2MjAwNjE3MCwiZXhwIjoxNjkzNTQyMTcwfQ.6nAZA-Bj2_gQTewAxiZsxmpc6UqLIoroQaBqMiSc0dU";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhbWlrYXZpdmVrMzhAZ21haWwuY29tIiwiaWF0IjoxNjYzNzM0OTg5LCJleHAiOjE2ODk2NTQ5ODl9.LmtTFhX6iVWtaVYkrwrQ5Ao9hWwCwAfUZT_KM_j-wVo";
 // axios.defaults.headers.common["Content-Type"] = "application/json";
 
 axios.interceptors.request.use((req) => {

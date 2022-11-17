@@ -5,7 +5,9 @@ import { useForm } from "react-hook-form";
 import { URLS } from "../../../../config/urls.config";
 import axios from "axios";
 import Loader from "../../../../components/common/Loader";
+import SnackBar from "../../../../components/common/Snackbar";
 import { useNavigate } from "react-router-dom";
+
 
 const RejectedReasonSection = ({ state }) => {
   const rejectedReasons = [
@@ -24,6 +26,12 @@ const RejectedReasonSection = ({ state }) => {
   const [mufthiData, setMufthiData] = useState([]);
   const [selectedMufthi, setSelectedMufthi] = useState([]);
   const [isLoader, setLoader] = useState(false);
+  const [errorPopup, setError] = useState({
+    visible: false,
+    message: "",
+    type: "error",
+    title: "",
+  });
 
   const {
     register,
@@ -52,6 +60,15 @@ const RejectedReasonSection = ({ state }) => {
         console.log("error mufthii--", err);
         setMufthiData([]);
       });
+  };
+  const handleCloseError = () => {
+    setError({
+      visible: false,
+      message: "",
+      type: "",
+      titile: "",
+    });
+    navigate(-1);
   };
 
   const handleRejectReason = ({ reason }) => {
@@ -84,6 +101,21 @@ const RejectedReasonSection = ({ state }) => {
         console.log("res put accept api", res);
         setSelectedRejectedReason("");
         setSelectedMufthi("");
+        if (res?.success) {
+          setError({
+            visible: true,
+            message: res.message,
+            type: "success",
+            title: "Success",
+          });
+        }else {
+          setError({
+            visible: true,
+            message: res.message,
+            type: "warning",
+            title: "Warning",
+          });
+        }
       })
       .catch((err) => {
         setLoader(false);
@@ -155,6 +187,15 @@ const RejectedReasonSection = ({ state }) => {
               </div>
             </div>
           </div>
+          {errorPopup.visible && (
+        <SnackBar
+          visible={errorPopup.visible}
+          message={errorPopup.message}
+          type={errorPopup.type}
+          title={errorPopup.title}
+          onClose={() => handleCloseError()}
+        />
+      )}
         </form>
       )}
     </>
