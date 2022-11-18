@@ -68,6 +68,8 @@ import UserAccountRouting from "./userAccounts";
 import { connect } from "react-redux";
 import { addHomeFilter } from "../redux/actions";
 
+import AdminLogin from "../pages/admin/login";
+
 const CustomRouters = (props) => {
   useEffect(() => {
     const { isUser, isAdmin } = authCheck();
@@ -79,9 +81,18 @@ const CustomRouters = (props) => {
         <Route path={RouterList.user.home} element={<HomePage />} />
         <Route path={RouterList.user.about} element={<AboutUs />} />
         <Route path={RouterList.user.contact} element={<ContactUs />} />
-        <Route path={RouterList.user.rulesandregulations} element={<RulesandRegulations />} />
-        <Route path={RouterList.user.privacypolicy} element={<PrivacyandPolicy />} />
-        <Route path={RouterList.user.termsandconditions} element={<TermsandConditions />} />
+        <Route
+          path={RouterList.user.rulesandregulations}
+          element={<RulesandRegulations />}
+        />
+        <Route
+          path={RouterList.user.privacypolicy}
+          element={<PrivacyandPolicy />}
+        />
+        <Route
+          path={RouterList.user.termsandconditions}
+          element={<TermsandConditions />}
+        />
 
         <Route path={RouterList.user.login} element={<UserLoginPage />} />
         <Route path={RouterList.user.askFatwas} element={<AskFatwas />} />
@@ -111,6 +122,7 @@ const CustomRouters = (props) => {
         </Route>
       </Route>
       <Route path="/admin" element={<PrivateRouting />} isAdmin={true}>
+        <Route path={RouterList.admin.login} element={<AdminLogin />} />
         <Route path="/admin" element={<Dashboard />} />
         <Route path={RouterList.admin.adminfatwas} element={<AdminFatwas />} />
         <Route path="musthafthies" element={<Musthafthies />} />
