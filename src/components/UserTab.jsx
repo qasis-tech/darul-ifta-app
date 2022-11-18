@@ -102,7 +102,7 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
 
   return (
     <div className="user-tab-section">
-      <Box sx={{ width: "85%" }}>
+      <Box sx={{ width: "80%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
             className="main-tab"

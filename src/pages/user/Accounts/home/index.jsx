@@ -105,7 +105,7 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
 
   return (
     <>
-      <div class="profile-1 mt-4 py-1 px-5">
+      <div class="profile-1 mt-2 py-1 px-5">
         <div className="container profile-container d-flex py-1 px-5">
           <div class="col d-flex flex-column align-items-center">
             <div class="profile-img">
@@ -127,7 +127,7 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
               )}
             </div>
             <div class="">
-              <div class="row p-3">
+              <div class="row">
                 <div className="col pointer">
                   <DialogComponent
                     title="User Profile"
