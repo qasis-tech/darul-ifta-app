@@ -31,6 +31,7 @@ export default {
     addMufthi: "addMufthi",
     addUser: "addUser",
     fatwasDetails: `fatwa-details`,
+    mufthiDetails:"mufthi-details",
     dashboard: "dashboard",
   },
 };

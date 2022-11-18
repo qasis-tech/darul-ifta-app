@@ -61,6 +61,7 @@ import Category from "../pages/admin/category";
 import Article from "../pages/admin/article";
 import AddCategories from "../pages/admin/category/addCategoryPage";
 import AddMufthi from "../pages/admin/musthafthies/addMusthafthiesPage";
+import MufthiDetails from "../pages/admin/musthafthies/musthafthiesDetailsPage";
 import AddUser from "../pages/admin/users/addUserPage";
 import FatwasDetails from "../pages/admin/fatwas/detailsFatwa";
 import AddArticle from "../pages/admin/article/addArticle";
@@ -135,6 +136,10 @@ const CustomRouters = (props) => {
         <Route
           path={`${RouterList.admin.adminfatwas}/${RouterList.admin.fatwasDetails}/:id`}
           element={<FatwasDetails />}
+        />
+        <Route
+          path={`${RouterList.admin.mufthiDetails}/:id`}
+          element={<MufthiDetails />}
         />
         <Route
           path={`${RouterList.admin.fatwasDetails}/:id`}

@@ -18,6 +18,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import "./musthafthies.styles.scss";
 import { useState } from "react";
 import axios from "axios";
+import routerList from "../../../routes/routerList";
 import { URLS } from "../../../config/urls.config";
 import NoDataAvailable from "../../../components/NoDataAvailable";
 import Loader from "../../../components/common/Loader";
@@ -86,9 +87,11 @@ export default function Musthafthies() {
                       <CloseIcon />
                     </IconButton>
                     <IconButton onClick={() => getMufthiApi()}>
-                      <SearchIcon sx={{
+                      <SearchIcon
+                        sx={{
                           visibility: searchInput !== "" ? "visible" : "hidden",
-                        }}/>
+                        }}
+                      />
                     </IconButton>
                   </InputAdornment>
                 ),
@@ -137,14 +140,29 @@ export default function Musthafthies() {
                           }}
                           key={mufti._id}
                         >
-                          <TableCell component="th" scope="row">
+                          <TableCell
+                            component="th"
+                            scope="row"
+                            onClick={() =>
+                              navigate(
+                                `${routerList.admin.admin}/${routerList.admin.mufthiDetails}/${mufti._id}`
+                              )
+                            }
+                          >
                             {mufti._id}
                           </TableCell>
                           <TableCell>{mufti.name}</TableCell>
                           <TableCell>{mufti.phone}</TableCell>
                           <TableCell>{mufti.email}</TableCell>
                           <TableCell>
-                            <EditIcon className="edit-icon" />
+                            <EditIcon
+                              className="edit-icon"
+                              onClick={() =>
+                                navigate(
+                                  `${routerList.admin.admin}/${routerList.admin.mufthiDetails}/${mufti._id}`
+                                )
+                              }
+                            />
                             <VisibilityIcon className="view-icon" />
                           </TableCell>
                         </TableRow>
