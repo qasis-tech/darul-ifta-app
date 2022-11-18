@@ -14,6 +14,9 @@ export default {
     accountUserProfile: "/user/profile",
     accountUserAsk: "/user/ask",
     fatwasDetailsPage: "/fatwa-details",
+    rulesandregulations:"rulesandregulations",
+    privacypolicy:"privacypolicy",
+    termsandconditions:"termsandconditions",
   },
   admin: {
     admin: "/admin",

@@ -44,10 +44,15 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      .logo-image{
+        width: 175px;
+        padding: 0px 12px;
+      }
     }
     .logout-section {
       display: flex;
       justify-content: end;
     }
   }
+
   

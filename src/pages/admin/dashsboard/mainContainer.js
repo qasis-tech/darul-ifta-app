@@ -38,6 +38,8 @@ import ListAltIcon from "@mui/icons-material/ListAlt";
 import SummarizeIcon from "@mui/icons-material/Summarize";
 import PeopleIcon from "@mui/icons-material/People";
 import ReorderIcon from "@mui/icons-material/Reorder";
+import LogoImage from "../../../assets/logo-main-logo-blue.svg";
+
 import "../../../styles/common.styles.scss";
 import "./maincontainer.styles.scss";
 import RouterList from "../../../routes/routerList";
@@ -104,10 +106,15 @@ function DashboardPage() {
       >
         <div className="row appbar-heading-section">
           <Toolbar>
-            <div className="col-md-2 logo">
-              <Typography variant="h6" noWrap component="div">
+            <div className="col-md-2  logo">
+            <img
+            className="bg-light logo-image rounded"
+              src={LogoImage}
+              alt="logo image"
+            />
+              {/* <Typography variant="h6" noWrap component="div">
                 Company Logo
-              </Typography>
+              </Typography> */}
             </div>
             <div className="row col-md-8">
               <div className="col-auto px-0 pointer">

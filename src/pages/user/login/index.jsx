@@ -156,7 +156,7 @@ const Login = (props) => {
         <div className="formWraper">
           <div className="welcome-section">
             <div className="welcomeDiv">
-              <h2>Welcome Back!</h2>
+              {/* <h2>Welcome Back!</h2> */}
             </div>
           </div>
 

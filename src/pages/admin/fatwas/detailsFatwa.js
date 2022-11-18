@@ -9,6 +9,7 @@ import PrintIcon from "@mui/icons-material/Print";
 import FatwaAddComponent from "../../../components/FatwaAddComponent";
 import getCategoryListApi from "../../../services/getCategoryList";
 import getmadhabList from "../../../services/getMadhabList";
+import SnackBar from "../../../components/common/Snackbar";
 import { URLS } from "../../../config/urls.config";
 
 import "./fatwas.details.styles.scss";
@@ -41,6 +42,12 @@ export default function FatwasDetails() {
   const [closePopup, setClosePopup] = useState(false);
   const [subCategoryData, setSubCategory] = useState([]);
   const [state, setQuestionDetails] = useState(null);
+  const [errorPopup, setError] = useState({
+    visible: false,
+    message: "",
+    type: "error",
+    title: "",
+  });
 
   const {
     register,
@@ -48,6 +55,15 @@ export default function FatwasDetails() {
     formState: { errors },
   } = useForm();
 
+  const handleCloseError = () => {
+    setError({
+      visible: false,
+      message: "",
+      type: "",
+      titile: "",
+    });
+    navigate(-1);
+  };
   const { id } = useParams();
 
   useEffect(() => {
@@ -551,6 +567,15 @@ export default function FatwasDetails() {
             )}
           </div>
         </form>
+      )}
+      {errorPopup.visible && (
+        <SnackBar
+          visible={errorPopup.visible}
+          message={errorPopup.message}
+          type={errorPopup.type}
+          title={errorPopup.title}
+          onClose={() => handleCloseError()}
+        />
       )}
     </div>
   );

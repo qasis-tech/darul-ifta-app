@@ -211,3 +211,27 @@ h5{
 .css-ivnu1y-MuiPaper-root-MuiAppBar-root {
   background-color: #235775 !important;
 }
+
+
+
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: $primary #ffffff;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 15px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color:$primary;
+  border-radius: 10px;
+  border: 6px solid #ffffff;
+}

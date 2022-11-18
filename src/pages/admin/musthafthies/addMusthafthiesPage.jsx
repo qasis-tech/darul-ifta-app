@@ -15,19 +15,19 @@ import * as yup from "yup";
 import "yup-phone";
 const top100Films = [{ label: "The Shawshank Redemption", year: 1994 }];
 
-const profileSchema = yup.object().shape({
-  name: yup.string().required("Name is required"),
-  madhab: yup.string().required("Madhab is required"),
-  address: yup.string().required("Address is required"),
-  email: yup.string().required("Email is required"),
-  displayName: yup.string().required("Display Name is required"),
-  password: yup.string().required("Password is required"),
-  status: yup.string().required("Status is required"),
-  mobileNumber: yup
-    .string()
-    .phone("IN", true, "Mobile Number is invalid")
-    .required(),
-});
+// const profileSchema = yup.object().shape({
+//   name: yup.string().required("Name is required"),
+//   madhab: yup.string().required("Madhab is required"),
+//   address: yup.string().required("Address is required"),
+//   email: yup.string().required("Email is required"),
+//   displayName: yup.string().required("Display Name is required"),
+//   password: yup.string().required("Password is required"),
+//   status: yup.string().required("Status is required"),
+//   mobileNumber: yup
+//     .string()
+//     .phone("IN", true, "Mobile Number is invalid")
+//     .required(),
+// });
 
 export default function AddMufthi() {
   const [madhabData, setMadhabData] = useState([]);
@@ -46,9 +46,8 @@ export default function AddMufthi() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    resolver: yupResolver(profileSchema),
-  });
+  } = useForm();
+    // resolver: yupResolver(profileSchema),
 
   useEffect(() => {
     getmadhabApi();
@@ -75,9 +74,10 @@ export default function AddMufthi() {
   };
 
   const getmadhabApi = () => {
+    console.log("mufthii")
     setLoader(true);
     axios
-      .get(URLS.madhab, {
+      .get(`${URLS.madhab}`, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -107,7 +107,7 @@ export default function AddMufthi() {
     axios
       .post(`${URLS.user}${URLS.signup}`, payload, {
         headers: {
-          Authorization: `${userToken}`,
+          // Authorization: `${userToken}`,
         },
       })
       .then((res) => {
@@ -179,7 +179,15 @@ export default function AddMufthi() {
                   fullWidth
                   variant="outlined"
                   {...register("mobileNumber", {
-                    required: "Mobile Number is required",
+                    required: "Please enter valid Mobile Number",
+                    minLength: {
+                      value: 10,
+                      message: "Mobile Number length must be 10 digit. ",
+                    },
+                    maxLength: {
+                      value: 10,
+                      message: "Mobile Number length must be 10 digit. ",
+                    },
                   })}
                 />
                 <div className="error">{errors?.mobileNumber?.message}</div>

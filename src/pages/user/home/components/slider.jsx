@@ -12,8 +12,8 @@ const Slider = () => {
     <div class="d-flex justify-content-center container">
       <Carousel className="carousel-hero">
         <Carousel.Item>
-          <div class="row col-md-12">
-            <div class="col-md-9 d-flex flex-column justify-content-center">
+          <div class="row col-md-12 ">
+            <div class="col-md-9 main-slider-section d-flex flex-column justify-content-center">
               <div class="max-width">
                 <h2 class="my-2 head">Darul Ifta Kauzariyya</h2>
                 <h6 class="my-4 desc">
@@ -36,7 +36,7 @@ const Slider = () => {
                 </div>
               </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 logo-slider">
               <img
                 src={LogoImage}
                 class="img-thumbnails"
@@ -48,7 +48,7 @@ const Slider = () => {
         </Carousel.Item>
         <Carousel.Item>
           <div class="row col-md-12">
-            <div class="col-md-9 d-flex flex-column justify-content-center">
+            <div class="col-md-9 main-slider-section d-flex flex-column justify-content-center">
               <div class="max-width">
                 <h2 class="my-2 head">Darul Ifta Kauzariyya</h2>
                 <h6 class="my-4 desc">
@@ -71,7 +71,7 @@ const Slider = () => {
                 </div>
               </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 logo-slider">
               <img
                 src={Image2}
                 class="img-thumbnails"

@@ -6,7 +6,11 @@ import UserLoginPage from "../pages/user/login";
 import AskFatwas from "../pages/user/askFatwas";
 import Fatwas from "../pages/user/fatwas";
 import FatwasDetailsPage from "../pages/user/FatwasDetailsPage";
-
+import AboutUs from "../pages/user/aboutUs";
+import ContactUs from "../pages/user/contactUs";
+import RulesandRegulations from "../pages/user/rulesAndRegulations";
+import PrivacyandPolicy from "../pages/user/privacyAndPolicy";
+import TermsandConditions from "../pages/user/termsAndCondition";
 // import ResetPassword from "../pages/user/resetpassword/forgotPasswordPage";
 // Admin
 // import AdminHome from "../pages/admin/dashboard/index";
@@ -73,6 +77,12 @@ const CustomRouters = (props) => {
     <Routes>
       <Route element={<PublicRouting />}>
         <Route path={RouterList.user.home} element={<HomePage />} />
+        <Route path={RouterList.user.about} element={<AboutUs />} />
+        <Route path={RouterList.user.contact} element={<ContactUs />} />
+        <Route path={RouterList.user.rulesandregulations} element={<RulesandRegulations />} />
+        <Route path={RouterList.user.privacypolicy} element={<PrivacyandPolicy />} />
+        <Route path={RouterList.user.termsandconditions} element={<TermsandConditions />} />
+
         <Route path={RouterList.user.login} element={<UserLoginPage />} />
         <Route path={RouterList.user.askFatwas} element={<AskFatwas />} />
         <Route path={RouterList.user.fatwas} element={<Fatwas />} />
