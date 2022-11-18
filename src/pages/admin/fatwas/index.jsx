@@ -461,7 +461,9 @@ export default function Fatwas() {
                         }
                       >
                         <div className="error">{errors?.search?.message}</div>
-                        <SearchIcon />
+                        <SearchIcon sx={{
+                          visibility: searchInput !== "" ? "visible" : "hidden",
+                        }}/>
                       </IconButton>
                     </InputAdornment>
                   ),

@@ -93,7 +93,9 @@ export default function User() {
                       <CloseIcon />
                     </IconButton>
                     <IconButton onClick={() => getUserListApi()}>
-                      <SearchIcon />
+                      <SearchIcon sx={{
+                        visibility: searchInput !== "" ? "visible" : "hidden",
+                      }}/>
                     </IconButton>
                   </InputAdornment>
                 ),

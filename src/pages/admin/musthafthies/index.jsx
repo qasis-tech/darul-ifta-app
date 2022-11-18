@@ -86,7 +86,9 @@ export default function Musthafthies() {
                       <CloseIcon />
                     </IconButton>
                     <IconButton onClick={() => getMufthiApi()}>
-                      <SearchIcon />
+                      <SearchIcon sx={{
+                          visibility: searchInput !== "" ? "visible" : "hidden",
+                        }}/>
                     </IconButton>
                   </InputAdornment>
                 ),
