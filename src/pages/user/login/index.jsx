@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-import GoogleLogin from "react-google-login";
+// import GoogleLogin from "react-google-login";
+import { GoogleLogin } from "@react-oauth/google";
+import jwt_decode from "jwt-decode";
 import { useForm } from "react-hook-form";
 import { connect } from "react-redux";
 
@@ -250,7 +252,7 @@ const Login = (props) => {
                   <Loader skeleton layers={1} />
                 ) : (
                   <>
-                    <GoogleLogin
+                    {/* <GoogleLogin
                       clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                       buttonText="Continue with Google"
                       onSuccess={(aa) => {
@@ -260,6 +262,20 @@ const Login = (props) => {
                         console.log("Fail", ee);
                       }}
                       cookiePolicy={"single_host_origin"}
+                    /> */}
+                    <GoogleLogin
+                      onSuccess={(res) => {
+                        const decoded = jwt_decode(res?.credential);
+                        handleRegister({
+                          email: decoded.email,
+                          name: decoded.name,
+                          imageUrl: decoded.picture,
+                          googleId: decoded.sub,
+                        });
+                      }}
+                      onError={(e) => {
+                        console.log("Login Failed", e);
+                      }}
                     />
 
                     {/* <div className="facebook icon text">

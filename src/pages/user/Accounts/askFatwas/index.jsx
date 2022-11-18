@@ -106,8 +106,7 @@ const AskFatwasComponent = ({
       .get(URLS.madhab)
       .then((res) => {
         setLoader(false);
-        // setMadhabData(res?.data);
-        setMadhabData([])
+        setMadhabData(res?.data);
       })
       .catch((err) => {
         setLoader(false);
@@ -194,129 +193,56 @@ const AskFatwasComponent = ({
             <div className="form-container">
               <div className="row">
                 <div className="col-md-4">
-                    <Autocomplete
-                      id="outlined-basic"
-                      size="small"
-                      options={madhabData}
-                      getOptionLabel={(option) => option.title || ""}
-                      isOptionEqualToValue={(option, value) =>
-                        option._id === value._id
-                      }
-                      onChange={(e, val) => setSelectedMadhab(val)}
-                      value={selectedMadhab}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Madhab"
-                          {...register("madhab", {
-                            required: "Madhab is required",
-                          })}
-                        />
-                      )}
-                    />
-                  {/* ) : (
-                    <Autocomplete
-                      size="small"
-                      id="combo-box-demo"
-                      options={[]}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Madhab"
-                          {...register("madhab", {
-                            required: "Madhab is required",
-                          })}
-                        />
-                      )}
-                    />
-                  )} */}
+                  <Autocomplete
+                    id="outlined-basic"
+                    size="small"
+                    options={madhabData}
+                    getOptionLabel={(option) => option.title || ""}
+                    isOptionEqualToValue={(option, value) =>
+                      option._id === value._id
+                    }
+                    onChange={(e, val) => setSelectedMadhab(val)}
+                    value={selectedMadhab}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Madhab"
+                        {...register("madhab", {
+                          required: "Madhab is required",
+                        })}
+                      />
+                    )}
+                  />
 
-
-                  {/* {!selectedMadhab?.title ? ( */}
+                  {!selectedMadhab?.title ? (
                     <div className="error">{errors?.madhab?.message}</div>
-                  {/* ) : null} */}
+                  ) : null}
                 </div>
                 <div className="col-md-4">
-                  {/* {subcategoryList?.length ? ( */}
-                    {/* <Autocomplete
-                      id="combo-box-demo"
-                      size="small"
-                      options={subcategoryList}
-                      getOptionLabel={(option) => option.label || ""}
-                      isOptionEqualToValue={(option, value) =>
-                        option._id === value._id
-                      }
-                      onChange={(e, val) => setSelectedCategory(val)}
-                      value={selectedCategory}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Category"
-                          {...register("category", {
-                            required: "Category is required",
-                          })}
-                        />
-                      )}
-                    /> */}
-                 {/* ) : ( */}
                   <Autocomplete
-                      size="small"
-                      id="combo-box-demo"
-                      options={[]}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Category"
-                          {...register("category", {
-                            required: "Category is required",
-                          })}
-                        />
-                      )}
-                    />
-                  {/* )} */}
+                    id="combo-box-demo"
+                    size="small"
+                    options={subcategoryList}
+                    getOptionLabel={(option) => option.label || ""}
+                    isOptionEqualToValue={(option, value) =>
+                      option._id === value._id
+                    }
+                    onChange={(e, val) => setSelectedCategory(val)}
+                    value={selectedCategory}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Category"
+                        {...register("category", {
+                          required: "Category is required",
+                        })}
+                      />
+                    )}
+                  />
                   {!selectedCategory?.category && (
                     <div className="error">{errors?.category?.message}</div>
                   )}
                 </div>
-                {/* subcategory */}
-                {/* <div className="col-md-3">
-                  {selectedCategory?.subCategory?.length ? (
-                    <Autocomplete
-                      options={
-                        selectedCategory?.subCategory?.length
-                          ? selectedCategory?.subCategory
-                          : []
-                      }
-                      getOptionLabel={(option) => option.label || ""}
-                      isOptionEqualToValue={(option, value) =>
-                        option.label === value.label
-                      }
-                      onChange={(e, val) => setSelectedSubcategory(val)}
-                      value={selectedSubcategory}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Subcategory"
-                          size="small"
-                          {...register("SubCategory")}
-                        />
-                      )}
-                    />
-                  ) : (
-                    <Autocomplete
-                      size="small"
-                      id="combo-box-demo"
-                      options={[]}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Subcategory"
-                          {...register("SubCategory")}
-                        />
-                      )}
-                    />
-                  )}
-                </div> */}
 
                 <div className="col-md-4">
                   {languageList?.length && (
@@ -341,7 +267,7 @@ const AskFatwasComponent = ({
                         />
                       )}
                     />
-                    )}
+                  )}
                   {!selectedLanguage?.title && (
                     <div className="error">{errors?.language?.message}</div>
                   )}
