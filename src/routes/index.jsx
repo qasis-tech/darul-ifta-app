@@ -122,7 +122,7 @@ const CustomRouters = (props) => {
         </Route>
       </Route>
       <Route path="/admin" element={<PrivateRouting />} isAdmin={true}>
-        <Route path={RouterList.admin.login} element={<AdminLogin />} />
+        <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin" element={<Dashboard />} />
         <Route path={RouterList.admin.adminfatwas} element={<AdminFatwas />} />
         <Route path="musthafthies" element={<Musthafthies />} />

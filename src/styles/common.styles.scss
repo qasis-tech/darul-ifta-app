@@ -212,7 +212,9 @@ h5{
   background-color: #235775 !important;
 }
 
-
+.MuiTableContainer-root{
+  overflow-x: clip!important;
+}
 
 /* ===== Scrollbar CSS ===== */
 /* Firefox */
