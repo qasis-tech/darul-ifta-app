@@ -51,8 +51,14 @@
   }
 }
 .profile-1 {
-  @media screen and (max-width: 1000px) {
-    flex-direction: column;
+  .profile-container{
+    @media screen and (max-width: 1000px) {
+      flex-direction: column;
+      padding: 0 34px!important;
+    }
+  }
+  .profile-icons{
+    color: $theme-green;
   }
   .details {
     @media screen and (max-width: 1000px) {

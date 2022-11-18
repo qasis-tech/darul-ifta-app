@@ -192,7 +192,7 @@ const HomePage = (props) => {
         className="bg-custom slider-section"
         style={{ backgroundImage: `url(${BackgroundImage})` }}
       >
-        <section className="body-section">
+        <section className="body-section pt-5">
           <div className="container">
             <div className="row">
               <div className="col-md-3">

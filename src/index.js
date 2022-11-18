@@ -21,7 +21,6 @@ root.render(
           >
             <App />
           </GoogleOAuthProvider>
-          ;
         </BrowserRouter>
       </PersistGate>
     </Provider>

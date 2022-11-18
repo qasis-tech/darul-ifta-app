@@ -314,4 +314,4 @@ const mapDispatchToProps = (dispatch) => ({
   addUserLoginDetails: (payload) => dispatch(addUserLoginDetails(payload)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

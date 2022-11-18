@@ -55,7 +55,8 @@ const HeaderComponent = ({ closePopup, userLoginDetails }) => {
   };
 
   return (
-    <div className="navbar-section container">
+    <div className="navbar-section">
+      <div className="container">
       <Navbar bg="light" expand="lg">
         <Container className="navbar-wrapper-main">
           <Navbar.Brand onClick={() => navigate(`${routerList.user.home}`)}>
@@ -198,6 +199,7 @@ const HeaderComponent = ({ closePopup, userLoginDetails }) => {
           onClose={() => handleCloseError()}
         />
       )}
+      </div>
     </div>
   );
 };
