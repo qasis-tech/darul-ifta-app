@@ -192,6 +192,7 @@ const HomePage = (props) => {
   };
 
   const getQuestionList = (params) => {
+    console.log("questionnn===>",params)
     setLoader(true);
     getQuestionListApi(params)
       .then((res) => {

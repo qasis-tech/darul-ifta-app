@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import { Container, Nav, Navbar } from "react-bootstrap";
 
@@ -45,7 +45,7 @@ const HeaderComponent = ({ closePopup, userLoginDetails }) => {
   };
 
   const navigate = useNavigate();
-
+  const location = useLocation();
   const handleLogin = async () => {
     if (userLoginDetails) {
       navigate(`${routerList.user.accountUser}`);
@@ -55,7 +55,7 @@ const HeaderComponent = ({ closePopup, userLoginDetails }) => {
   };
 
   return (
-    <div className="navbar-section">
+      <div class={location?.pathname === "/" ? "navbar-section":"header-border navbar-section" }>
       <div className="container">
       <Navbar bg="light" expand="lg">
         <Container className="navbar-wrapper-main">
