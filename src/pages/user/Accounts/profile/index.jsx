@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { set, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -18,18 +19,18 @@ import { StoreLocal } from "../../../../utils/localStore";
 
 import "./profile.styles.scss";
 import { getValue } from "@mui/system";
-const profileSchema = yup
-  .object()
-  .shape({
-    name: yup.string().required("Name is required"),
-    madhab: yup.string().required("Madhab is required"),
-    address: yup.string().required("Address is required"),
-    mobileNumber: yup
-      .string()
-      .phone("IN", true, "Mobile Number is invalid")
-      .required(),
-  })
-  .required();
+// const profileSchema = yup
+//   .object()
+//   .shape({
+//     name: yup.string().required("Name is required"),
+//     madhab: yup.string().required("Madhab is required"),
+//     address: yup.string().required("Address is required"),
+//     mobileNumber: yup
+//       .string()
+//       .phone("IN", true, "Mobile Number is invalid")
+//       .required(),
+//   })
+//   .required();
 
 const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
   const [userDetails, setUserDetails] = useState(null);
@@ -53,7 +54,7 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
     setValue,
     getValues,
   } = useForm({
-    resolver: yupResolver(profileSchema),
+    // resolver: yupResolver(profileSchema),
   });
 
   useEffect(() => {
@@ -84,7 +85,8 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
       type: "",
       title: "",
     });
-    closePopup(true);
+    // closePopup(true);
+    navigate(0);
   };
 
   const handleUserUpdate = ({ mobileNumber, address, name }) => {
@@ -131,7 +133,7 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
         });
     }
   };
-
+  const navigate = useNavigate();
   return (
     <div>
       {isLoading || errorPopup?.visible ? (
@@ -149,7 +151,7 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
                     label="Name"
                     variant="outlined"
                     InputLabelProps={{ shrink: userDetails?.name }}
-                    {...register("name", {
+                    {...register("name", {required:"Name is required",
                       onChange: (e) =>
                         handleUserDetails(e.target.value, "name"),
                     })}
@@ -178,12 +180,21 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
                     variant="outlined"
                     fullWidth
                     {...register("mobileNumber", {
+                      required: "Please enter Mobile Number",
+                    minLength: {
+                      value: 10,
+                      message: "Mobile Number length must be 10 digit. ",
+                    },
+                    maxLength: {
+                      value: 10,
+                      message: "Mobile Number length must be 10 digit. ",
+                    },
                       onChange: (e) =>
                         handleUserDetails(e.target.value, "phone"),
                     })}
-                    onKeyUp={() => {
-                      trigger("mobileNumber");
-                    }}
+                    // onKeyUp={() => {
+                    //   trigger("mobileNumber");
+                    // }}
                   />
 
                   <div className="error">{errors?.mobileNumber?.message}</div>
@@ -206,7 +217,7 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
                       <TextField
                         {...params}
                         label="Madhab"
-                        {...register("madhab", {
+                        {...register("madhab", {required:"Madhab is required",
                           onChange: (e) => {
                             setErrorMessage("Only options allowed!!");
                           },
@@ -233,12 +244,11 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
                     multiline
                     fullWidth
                     rows={4}
-                    {...register("address", {
+                    {...register("address", {required:"Address is required",
                       onChange: (e) =>
                         handleUserDetails(e.target.value, "address"),
                     })}
                   />
-
                   <div className="error">{errors?.address?.message}</div>
                 </div>
               </div>

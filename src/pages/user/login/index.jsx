@@ -106,9 +106,23 @@ const Login = (props) => {
         setLoader(false);
         console.log("res login", data);
         if (data.success && data.data) {
+          setError({
+            visible: true,
+            message: data.message,
+            type: "success",
+            title: "Success",
+          });
           StoreLocal("@darul-ifta-user-login-details", data.data, () => {
             props.addUserLoginDetails(data.data);
             navigate(`${routerList.user.accountUser}`);
+          });
+        }
+        else {
+          setError({
+            visible: true,
+            message: data.message,
+            type: "warning",
+            title: "Warning",
           });
         }
       })

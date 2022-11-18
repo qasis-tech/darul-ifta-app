@@ -239,7 +239,7 @@ const AskFatwasComponent = ({
                       />
                     )}
                   />
-                  {!selectedCategory?.category && (
+                  {!selectedCategory?.label && (
                     <div className="error">{errors?.category?.message}</div>
                   )}
                 </div>
