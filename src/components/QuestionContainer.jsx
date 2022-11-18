@@ -5,6 +5,7 @@ import URLS from "../routes/routerList";
 import "../styles/question.container.styles.scss";
 
 const QuestionContainer = (props) => {
+  console.log("propssss==========>",props)
   const navigate = useNavigate();
   return (
     <section

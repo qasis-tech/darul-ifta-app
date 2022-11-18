@@ -10,6 +10,7 @@ import RouterList from "../../../routes/routerList";
 
 import "./add.article.styles.scss";
 import Loader from "../../../components/common/Loader";
+import SnackBar from "../../../components/common/Snackbar";
 
 export default function AddArticle() {
   const [mufthiData, setMufthiData] = useState([]);
@@ -22,6 +23,22 @@ export default function AddArticle() {
     { id: 4, title: "Urdu" },
   ];
   const [selectedLanguage, setSelectedLanguage] = useState([]);
+  const [errorPopup, setError] = useState({
+    visible: false,
+    message: "",
+    type: "error",
+    title: "",
+  });
+
+  const handleCloseError = () => {
+    setError({
+      visible: false,
+      message: "",
+      type: "",
+      titile: "",
+    });
+    navigate(-1);
+  };
 
   const {
     register,
@@ -63,16 +80,32 @@ export default function AddArticle() {
     formData.append("articleFile", articleFile[0]);
 
     axios
-      .post(`${URLS.article}`, formData, {
+      .post(`${URLS.article}`, formData, 
+      {
         headers: {
           "content-type": "multipart/form-data",
         },
-      })
+      }
+      )
       .then((res) => {
         setLoader(false);
         console.log("res article", res);
         if (res.success) {
-          navigate(`${RouterList.admin.admin}/${RouterList.admin.article}`);
+          setError({
+            visible: true,
+            message: res.message,
+            type: "success",
+            title: "Success",
+          })
+          // navigate(`${RouterList.admin.admin}/${RouterList.admin.article}`);
+        }
+        else {
+          setError({
+            visible: true,
+            message: res.message,
+            type: "warning",
+            title: "Warning",
+          });
         }
       })
       .catch((err) => {
@@ -206,6 +239,15 @@ export default function AddArticle() {
             </div>
           </div>
         </form>
+      )}
+      {errorPopup.visible && (
+        <SnackBar
+          visible={errorPopup.visible}
+          message={errorPopup.message}
+          type={errorPopup.type}
+          title={errorPopup.title}
+          onClose={() => handleCloseError()}
+        />
       )}
     </div>
   );

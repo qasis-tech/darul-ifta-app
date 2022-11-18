@@ -449,8 +449,10 @@ export default function Fatwas() {
                           getQuestionList("");
                           setSearchInput("");
                         }}
+                        {...register("search",{required:"this is req"})}
                       >
-                        <CloseIcon />
+                        <div className="error">{errors?.search?.message}</div>
+                      <CloseIcon />
                       </IconButton>
                       <IconButton
                         // onClick={() => handleApply(`?search=${searchInput}`)}
@@ -458,6 +460,7 @@ export default function Fatwas() {
                           getQuestionList(`?search=${searchInput}`)
                         }
                       >
+                        <div className="error">{errors?.search?.message}</div>
                         <SearchIcon />
                       </IconButton>
                     </InputAdornment>
