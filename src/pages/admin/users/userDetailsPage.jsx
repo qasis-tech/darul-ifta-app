@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
@@ -15,19 +16,19 @@ import { URLS } from "../../../config/urls.config";
 import Loader from "../../../components/common/Loader";
 import SnackBar from "../../../components/common/Snackbar";
 
-const profileSchema = yup.object().shape({
-  name: yup.string().required("Name is required"),
-  madhab: yup.string().required("Madhab is required"),
-  address: yup.string().required("Address is required"),
-  email: yup.string().required("Email is required"),
-  displayName: yup.string().required("Display Name is required"),
-  password: yup.string().required("Password is required"),
-  status: yup.string().required("Status is required"),
-  mobileNumber: yup
-    .string()
-    .phone("IN", true, "Mobile Number is invalid")
-    .required(),
-});
+// const profileSchema = yup.object().shape({
+//   name: yup.string().required("Name is required"),
+//   madhab: yup.string().required("Madhab is required"),
+//   address: yup.string().required("Address is required"),
+//   email: yup.string().required("Email is required"),
+//   displayName: yup.string().required("Display Name is required"),
+//   password: yup.string().required("Password is required"),
+//   status: yup.string().required("Status is required"),
+//   mobileNumber: yup
+//     .string()
+//     .phone("IN", true, "Mobile Number is invalid")
+//     .required(),
+// });
 
 export default function UserDetails() {
   const [madhabData, setMadhabData] = useState([]);
@@ -40,6 +41,7 @@ export default function UserDetails() {
   const [selectedStatus, setSelectedStatus] = useState([]);
   const [userDetails, setUserDetails] = useState(null);
   const [userToken, setUserToken] = useState([]);
+  const [userData, setUserData] = useState([]);
   const [isLoading, setLoader] = useState(false);
   const [errorPopup, setError] = useState({
     visible: false,
@@ -53,17 +55,19 @@ export default function UserDetails() {
     { label: "Student", value: "student" },
     { label: "User", value: "user" },
   ];
-
+  const { id } = useParams();
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(profileSchema),
+    // resolver: yupResolver(profileSchema),
   });
 
   useEffect(() => {
     getmadhabApi();
+    getUserApi();
   }, []);
 
   useEffect(() => {
@@ -132,37 +136,65 @@ export default function UserDetails() {
       user_status: selectedStatus.title,
     };
 
-    // axios
-    //   .post(`${URLS.user}${URLS.signup}`, payload, {
-    //     headers: {
-    //       Authorization: `${userToken}`,
-    //       "Content-Type": "application/json",
-    //     },
-    //   })
-    //   .then((res) => {
-    //     setLoader(false);
-    //     console.log("res user save ===>>", res);
-    //     if (res?.success) {
-    //       setError({
-    //         visible: true,
-    //         message: res.message,
-    //         type: "success",
-    //         title: "Success",
-    //       });
-    //     } else {
-    //       setError({
-    //         visible: true,
-    //         message: res.message,
-    //         type: "warning",
-    //         title: "Warning",
-    //       });
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     setLoader(false);
-    //     console.log("Errors in user save", err);
-    //   });
+    axios
+      .put(`${URLS.user}${URLS.signup}`, payload, {
+        headers: {
+          Authorization: `${userToken}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        setLoader(false);
+        console.log("res user save ===>>", res);
+        if (res?.success) {
+          setError({
+            visible: true,
+            message: res.message,
+            type: "success",
+            title: "Success",
+          });
+        } else {
+          setError({
+            visible: true,
+            message: res.message,
+            type: "warning",
+            title: "Warning",
+          });
+        }
+      })
+      .catch((err) => {
+        setLoader(false);
+        console.log("Errors in user save", err);
+      });
   };
+  const getUserApi = () => {
+    setLoader(true);
+    axios
+      .get(`${URLS.user}${URLS.signup}/${id}`)
+      .then(({ data }) => {
+        console.log("555555555==>",data)
+        setLoader(false);
+        setUserData(data);
+        setValue("address",data?.address)
+        setValue("name",data?.name)
+        setValue("displayName",data?.display_title)
+        setValue("email",data?.email)
+        setValue("mobileNumber",data?.phone)
+        setValue("status",data?.user_status)
+        setValue("roles",data?.user_type)
+        setSelectedMadhab(data?.madhab);
+        let index=madhabData.findIndex(value=>{console.log("11111111111",value.titile,data?.madhab)})
+        console.log("indexx=>",index)
+        setValue("madhab",data.madhab)
+        
+      })
+      .catch((err) => {
+        setLoader(false);
+        console.log("error userr--", err);
+        setUserData([]);
+      });
+  };
+
   const navigate = useNavigate();
 
   return (
@@ -266,11 +298,11 @@ export default function UserDetails() {
                       setSelectedRoles(val);
                     }}
                     value={selectedRoles}
-                    // {...register("madhab", {
+                    // {...register("roles", {
                     //   required: "Madhab is required",
                     // })}
                     renderInput={(params) => (
-                      <TextField {...params} label="Madhab" />
+                      <TextField {...params} label="Roles" />
                     )}
                   />
                 </div>
@@ -284,7 +316,8 @@ export default function UserDetails() {
                     isOptionEqualToValue={(option, value) =>
                       option._id === value._id
                     }
-                    onChange={(e, val) => setSelectedMadhab(val)}
+                    onChange={(e, val) =>{ setSelectedMadhab(val);console.log("valueee==>",val)}}
+                  
                     value={selectedMadhab}
                     // {...register("madhab", {
                     //   required: "Madhab is required",
@@ -333,9 +366,9 @@ export default function UserDetails() {
                           {...params}
                           label="
                       Active Status"
-                          {...register("status", {
-                            required: "Status is required",
-                          })}
+                          // {...register("status", {
+                          //   required: "Status is required",
+                          // })}
                         />
                       )}
                     />
