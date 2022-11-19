@@ -70,6 +70,7 @@ import { connect } from "react-redux";
 import { addHomeFilter } from "../redux/actions";
 
 import AdminLogin from "../pages/admin/login";
+import UserDetails from "../pages/admin/users/userDetailsPage";
 
 const CustomRouters = (props) => {
   useEffect(() => {
@@ -123,11 +124,13 @@ const CustomRouters = (props) => {
         </Route>
       </Route>
       <Route path="/admin" element={<PrivateRouting />} isAdmin={true}>
-        <Route path="/admin-login" element={<AdminLogin />} />
+        <Route path="login" element={<AdminLogin />} />
         <Route path="/admin" element={<Dashboard />} />
         <Route path={RouterList.admin.adminfatwas} element={<AdminFatwas />} />
         <Route path="musthafthies" element={<Musthafthies />} />
-        <Route path="user" element={<User />} />
+        <Route path={RouterList.admin.user} element={<User />} />
+        <Route path={"user/:id"} element={<UserDetails />} />
+
         <Route path="category" element={<Category />} />
         <Route path="article" element={<Article />} />
         <Route path="addCategories" element={<AddCategories />} />

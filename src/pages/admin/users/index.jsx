@@ -23,6 +23,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { URLS } from "../../../config/urls.config";
 import Loader from "../../../components/common/Loader";
 import NoDataAvailable from "../../../components/NoDataAvailable";
+import RouterList from "../../../routes/routerList";
 
 import "./user.styles.scss";
 
@@ -47,7 +48,8 @@ export default function User() {
     let URL =
       searchInput !== ""
         ? `${URLS.user}${URLS.signup}?userType=${roles}&search=${searchInput}`
-        : `${URLS.user}${URLS.signup}?userType=${roles}`;
+        : `${URLS.user}${URLS.signup}`;
+    // `${URLS.user}${URLS.signup}?userType=${roles}`;
     axios
       .get(URL, {
         headers: {
@@ -68,7 +70,7 @@ export default function User() {
   const navigate = useNavigate();
 
   return (
-    <div className="user-section">
+    <div className="user-section ">
       <div className="user-container">
         <div className="user-row">
           <div className="col-md-5">
@@ -93,9 +95,11 @@ export default function User() {
                       <CloseIcon />
                     </IconButton>
                     <IconButton onClick={() => getUserListApi()}>
-                      <SearchIcon sx={{
-                        visibility: searchInput !== "" ? "visible" : "hidden",
-                      }}/>
+                      <SearchIcon
+                        sx={{
+                          visibility: searchInput !== "" ? "visible" : "hidden",
+                        }}
+                      />
                     </IconButton>
                   </InputAdornment>
                 ),
@@ -132,7 +136,7 @@ export default function User() {
                       <TableCell>Display Name</TableCell>
                       <TableCell>Email</TableCell>
                       <TableCell>Status</TableCell>
-                      <TableCell>Action</TableCell>
+                      {/* <TableCell>Action</TableCell> */}
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -145,23 +149,16 @@ export default function User() {
                               "&:last-child td, &:last-child th": { border: 0 },
                             }}
                             key={user._id}
+                            onClick={() => navigate(`${user?._id}`)}
                           >
                             <TableCell component="th" scope="row">
                               {user._id}
                             </TableCell>
                             <TableCell>
-                              {user.name === null ? (
-                                <span>N/A</span>
-                              ) : (
-                                <span>{user.name}</span>
-                              )}
+                              <span>{user?.name || "N/A"}</span>
                             </TableCell>
                             <TableCell>
-                              {user.display_title === null ? (
-                                <span>N/A</span>
-                              ) : (
-                                <span>{user.display_title}</span>
-                              )}
+                              <span>{user?.display_title || "N/A"}</span>
                             </TableCell>
                             <TableCell>{user.email}</TableCell>
                             <TableCell>
@@ -173,10 +170,10 @@ export default function User() {
                                 </span>
                               )}
                             </TableCell>
-                            <TableCell>
+                            {/* <TableCell>
                               <EditIcon className="edit-icon" />
                               <VisibilityIcon className="view-icon" />
-                            </TableCell>
+                            </TableCell> */}
                           </TableRow>
                         );
                       })

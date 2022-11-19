@@ -24,6 +24,7 @@ export default {
     adminfatwas: "fatwas",
     musthafthies: "musthafthies",
     user: "user",
+    userDetails: "user-details",
     category: "category",
     article: "article",
     addArticle: "addArticle",
@@ -31,7 +32,7 @@ export default {
     addMufthi: "addMufthi",
     addUser: "addUser",
     fatwasDetails: `fatwa-details`,
-    mufthiDetails:"mufthi-details",
+    mufthiDetails: "mufthi-details",
     dashboard: "dashboard",
   },
 };
