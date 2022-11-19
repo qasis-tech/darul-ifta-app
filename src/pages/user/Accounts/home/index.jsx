@@ -217,7 +217,7 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
                     </Typography>
                   </Paper>
                 </div>
-                <div className="col-5">
+                <div className="col">
                   <Paper
                     elevation={1}
                     // variant="outlined"

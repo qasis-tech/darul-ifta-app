@@ -301,7 +301,7 @@
   .body-section {
     padding-bottom: 4em;
     .main-madhub-section{
-      padding:0 2.5em;
+      padding-right: 2em;
     }
   }
   .search-btn {
@@ -335,7 +335,7 @@
     .MuiButtonBase-root {
       color: #409ea1 !important;
       font-weight: bolder !important;
-      font-size: 16px !important;
+      font-size: $main-font-size - 2!important;
     }
     .MuiTab-root.Mui-selected {
       color: #235775 !important;
@@ -349,6 +349,9 @@
 }
 
 .accordian-wrapper {
+  .main-category-accordian{
+    border-bottom: 1px solid #409ea1;
+  }
   .MuiButtonBase-root,
   .MuiSvgIcon-root {
     color: #fff;
