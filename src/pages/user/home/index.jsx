@@ -258,7 +258,10 @@ const HomePage = (props) => {
                           <CloseIcon onClick={() => setSearchInput("")} />
                         </IconButton>
                         <IconButton onClick={() => categoryMadhabFilter()}>
-                          <SearchIcon />
+                          <SearchIcon sx={{
+                            visibility:
+                              searchInput !== "" ? "visible" : "hidden",
+                          }}/>
                         </IconButton>
                       </InputAdornment>
                     ),
