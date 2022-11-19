@@ -13,6 +13,7 @@ const VisitorDetails = (props) => {
     setLoader(true);
     getGeneralsListApi()
       .then((res) => {
+        console.log("response33333333",res)
         setLoader(false);
         props.addGeneralDetails(res);
       })
@@ -35,7 +36,7 @@ const VisitorDetails = (props) => {
 
           <div className="custom-details-column">
             <h6>Total Fatwas</h6>
-            <div>{props?.generals?.fatwas || "N/A"}</div>
+            <div>{props?.generals?.total_fatwas || "N/A"}</div>
           </div>
           <div className="custom-details-column">
             <h6>Registered Users</h6>
