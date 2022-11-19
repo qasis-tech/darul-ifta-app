@@ -28,37 +28,38 @@ const profileSchema = yup.object().shape({
     .phone("IN", true, "Mobile Number is invalid")
     .required(),
 });
-export default function AddUser() {
+
+export default function UserDetails() {
   const [madhabData, setMadhabData] = useState([]);
   const [selectedMadhab, setSelectedMadhab] = useState([]);
+  const [selectedRoles, setSelectedRoles] = useState([]);
   const [status, setStatus] = useState([
     { id: 1, title: "Active" },
     { id: 2, title: "Inactive" },
   ]);
   const [selectedStatus, setSelectedStatus] = useState([]);
-  const [selectedRoles, setSelectedRoles] = useState([]);
   const [userDetails, setUserDetails] = useState(null);
   const [userToken, setUserToken] = useState([]);
-
   const [isLoading, setLoader] = useState(false);
-  const roles = [
-    { label: "Mufthi", value: "mufti" },
-    { label: "Student", value: "student" },
-    { label: "User", value: "user" },
-  ];
-
   const [errorPopup, setError] = useState({
     visible: false,
     message: "",
     type: "error",
     title: "",
   });
+
+  const roles = [
+    { label: "Mufthi", value: "mufti" },
+    { label: "Student", value: "student" },
+    { label: "User", value: "user" },
+  ];
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    // resolver: yupResolver(profileSchema),
+    resolver: yupResolver(profileSchema),
   });
 
   useEffect(() => {
@@ -69,7 +70,10 @@ export default function AddUser() {
     const user = JSON.parse(
       localStorage.getItem("@darul-ifta-user-login-details")
     );
-    if (user) setUserToken(user.initial_token);
+    console.log("user", user);
+    if (user) {
+      setUserToken(user.initial_token);
+    }
   }, []);
 
   const handleCloseError = () => {
@@ -85,9 +89,14 @@ export default function AddUser() {
   const getmadhabApi = () => {
     setLoader(true);
     axios
-      .get(URLS.madhab)
+      .get(URLS.madhab, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       .then((res) => {
         setLoader(false);
+        console.log("res madhabb1111==>", res.data);
         setMadhabData(res.data);
       })
       .catch((err) => {
@@ -96,7 +105,6 @@ export default function AddUser() {
         setMadhabData([]);
       });
   };
-
   const handleUserDetails = (val, field) => {
     const temp = { ...userDetails };
     temp[`${field}`] = val;
@@ -117,45 +125,43 @@ export default function AddUser() {
       name: name,
       display_title: displayName,
       phone: mobileNumber,
-      user_type: selectedRoles.value,
+      user_type: roles,
       madhab: selectedMadhab.title,
       address: address,
       user_password: password,
       user_status: selectedStatus.title,
     };
 
-    console.log("payload====>", payload);
-
-    axios
-      .post(`${URLS.user}${URLS.signup}`, payload, {
-        headers: {
-          Authorization: `${userToken}`,
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res) => {
-        setLoader(false);
-        console.log("res user save ===>>", res);
-        if (res?.success) {
-          setError({
-            visible: true,
-            message: res.message,
-            type: "success",
-            title: "Success",
-          });
-        } else {
-          setError({
-            visible: true,
-            message: res.message,
-            type: "warning",
-            title: "Warning",
-          });
-        }
-      })
-      .catch((err) => {
-        setLoader(false);
-        console.log("Errors in user save", err);
-      });
+    // axios
+    //   .post(`${URLS.user}${URLS.signup}`, payload, {
+    //     headers: {
+    //       Authorization: `${userToken}`,
+    //       "Content-Type": "application/json",
+    //     },
+    //   })
+    //   .then((res) => {
+    //     setLoader(false);
+    //     console.log("res user save ===>>", res);
+    //     if (res?.success) {
+    //       setError({
+    //         visible: true,
+    //         message: res.message,
+    //         type: "success",
+    //         title: "Success",
+    //       });
+    //     } else {
+    //       setError({
+    //         visible: true,
+    //         message: res.message,
+    //         type: "warning",
+    //         title: "Warning",
+    //       });
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     setLoader(false);
+    //     console.log("Errors in user save", err);
+    //   });
   };
   const navigate = useNavigate();
 
@@ -170,7 +176,7 @@ export default function AddUser() {
               <div className="add-user-row">
                 <div className="col-md-6 first-col">
                   <TextField
-                    id="userAddName"
+                    id="outlined-basic"
                     label="Name"
                     size="small"
                     fullWidth
@@ -181,7 +187,7 @@ export default function AddUser() {
                 </div>
                 <div className="col-md-6 second-col">
                   <TextField
-                    id="userAddDisplayName"
+                    id="outlined-basic"
                     label="Display Name"
                     size="small"
                     fullWidth
@@ -196,7 +202,7 @@ export default function AddUser() {
               <div className="add-user-row">
                 <div className="col-md-6 first-col">
                   <TextField
-                    id="userAddEmail"
+                    id="outlined-basic"
                     label="Email"
                     size="small"
                     fullWidth
@@ -214,7 +220,7 @@ export default function AddUser() {
                 </div>
                 <div className="col-md-6 second-col">
                   <TextField
-                    id="userAddMobileNumber"
+                    id="outlined-basic"
                     label="Whatsapp Number"
                     size="small"
                     fullWidth
@@ -229,7 +235,7 @@ export default function AddUser() {
               <div className="add-user-row">
                 <div className="col-md-6 first-col">
                   <TextField
-                    id="userAddPassword"
+                    id="outlined-basic"
                     label="Password"
                     type="password"
                     size="small"
@@ -247,28 +253,31 @@ export default function AddUser() {
                 </div>
                 <div className="col-md-3 second-col">
                   <Autocomplete
-                    disablePortal
-                    id="userAddRoles"
+                    // disablePortal
+                    id="combo-box-demo"
                     size="small"
                     options={roles}
                     getOptionLabel={(option) => option.label || ""}
-                    isOptionEqualToValue={(option, value) => {
-                      return option.label === value.label;
+                    isOptionEqualToValue={(option, value) =>
+                      option.label === value.label
+                    }
+                    onChange={(e, val) => {
+                      console.log("E,VAL", e, val);
+                      setSelectedRoles(val);
                     }}
-                    onChange={(e, val) => setSelectedRoles(val)}
-                    value={selectedRoles || null}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Roles" />
-                    )}
+                    value={selectedRoles}
                     // {...register("madhab", {
                     //   required: "Madhab is required",
                     // })}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Madhab" />
+                    )}
                   />
                 </div>
                 <div className="col-md-3 second-col">
                   <Autocomplete
                     disablePortal
-                    id="userAddMadhab"
+                    id="combo-box-demo"
                     size="small"
                     options={madhabData}
                     getOptionLabel={(option) => option.title || ""}
@@ -277,12 +286,12 @@ export default function AddUser() {
                     }
                     onChange={(e, val) => setSelectedMadhab(val)}
                     value={selectedMadhab}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Madhab" />
-                    )}
                     // {...register("madhab", {
                     //   required: "Madhab is required",
                     // })}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Madhab" />
+                    )}
                   />
 
                   {!selectedMadhab?.title && (
@@ -293,7 +302,7 @@ export default function AddUser() {
               <div className="add-user-row">
                 <div className="col-md-6 first-col">
                   <TextField
-                    id="userAddAddress"
+                    id="outlined-basic"
                     label="Address"
                     // size="small"
                     rows={3}
@@ -310,7 +319,7 @@ export default function AddUser() {
                   {status?.length && (
                     <Autocomplete
                       disablePortal
-                      id="userAddStatus"
+                      id="combo-box-demo"
                       size="small"
                       options={status}
                       getOptionLabel={(option) => option.title || ""}
@@ -320,11 +329,15 @@ export default function AddUser() {
                       onChange={(e, val) => setSelectedStatus(val)}
                       value={selectedStatus}
                       renderInput={(params) => (
-                        <TextField {...params} label="Active Status" />
+                        <TextField
+                          {...params}
+                          label="
+                      Active Status"
+                          {...register("status", {
+                            required: "Status is required",
+                          })}
+                        />
                       )}
-                      // {...register("status", {
-                      //   required: "Status is required",
-                      // })}
                     />
                   )}
                   {!selectedStatus?.title && (
@@ -340,7 +353,7 @@ export default function AddUser() {
                     type="submit"
                     fullWidth
                   >
-                    SAVE
+                    Update
                   </Button>
                 </div>
               </div>

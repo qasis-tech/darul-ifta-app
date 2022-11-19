@@ -47,7 +47,7 @@ export default function AddMufthi() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-    // resolver: yupResolver(profileSchema),
+  // resolver: yupResolver(profileSchema),
 
   useEffect(() => {
     getmadhabApi();
@@ -74,7 +74,7 @@ export default function AddMufthi() {
   };
 
   const getmadhabApi = () => {
-    console.log("mufthii")
+    console.log("mufthii");
     setLoader(true);
     axios
       .get(`${URLS.madhab}`, {
@@ -135,7 +135,7 @@ export default function AddMufthi() {
   const navigate = useNavigate();
 
   return (
-    <div className="add-musthafthies-section">
+    <div className="add-musthafthies-section ">
       {isLoader ? (
         <Loader absolute />
       ) : (

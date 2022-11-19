@@ -48,7 +48,7 @@ export default function MufthiDetails() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-    // resolver: yupResolver(profileSchema),
+  // resolver: yupResolver(profileSchema),
 
   useEffect(() => {
     getmadhabApi();
@@ -75,7 +75,7 @@ export default function MufthiDetails() {
   };
 
   const getmadhabApi = () => {
-    console.log("mufthii")
+    console.log("mufthii");
     setLoader(true);
     axios
       .get(`${URLS.madhab}`, {
@@ -84,7 +84,7 @@ export default function MufthiDetails() {
         },
       })
       .then((res) => {
-        console.log("dataaaaaa=========>",res)
+        console.log("dataaaaaa=========>", res);
         setLoader(false);
         console.log("res madhabb1111==>", res.data);
         setMadhabData(res.data);
@@ -96,7 +96,7 @@ export default function MufthiDetails() {
   };
 
   const getmadhabEditApi = () => {
-    console.log("mufthii")
+    console.log("mufthii");
     setLoader(true);
     axios
       .put(`${URLS.madhab}/${id}`, {
@@ -115,49 +115,49 @@ export default function MufthiDetails() {
       });
   };
 
-//   const handleSave = ({ name, email, mobileNumber, password, address }) => {
-//     console.log("111111111111111111111111111");
-//     let payload = {
-//       email: email,
-//       name: name,
-//       phone: mobileNumber,
-//       user_type: roles,
-//       madhab: selectedMadhab.title,
-//       address: address,
-//       user_password: password,
-//     };
-//     axios
-//       .post(`${URLS.user}${URLS.signup}`, payload, {
-//         headers: {
-//           // Authorization: `${userToken}`,
-//         },
-//       })
-//       .then((res) => {
-//         console.log("res user save ===>>", res);
-//         if (res?.success) {
-//           setError({
-//             visible: true,
-//             message: res.message,
-//             type: "success",
-//             title: "Success",
-//           });
-//         } else {
-//           setError({
-//             visible: true,
-//             message: res.message,
-//             type: "warning",
-//             title: "Warning",
-//           });
-//         }
-//       })
-//       .catch((err) => {
-//         console.log("Errors in user save", err);
-//       });
-//   };
+  //   const handleSave = ({ name, email, mobileNumber, password, address }) => {
+  //     console.log("111111111111111111111111111");
+  //     let payload = {
+  //       email: email,
+  //       name: name,
+  //       phone: mobileNumber,
+  //       user_type: roles,
+  //       madhab: selectedMadhab.title,
+  //       address: address,
+  //       user_password: password,
+  //     };
+  //     axios
+  //       .post(`${URLS.user}${URLS.signup}`, payload, {
+  //         headers: {
+  //           // Authorization: `${userToken}`,
+  //         },
+  //       })
+  //       .then((res) => {
+  //         console.log("res user save ===>>", res);
+  //         if (res?.success) {
+  //           setError({
+  //             visible: true,
+  //             message: res.message,
+  //             type: "success",
+  //             title: "Success",
+  //           });
+  //         } else {
+  //           setError({
+  //             visible: true,
+  //             message: res.message,
+  //             type: "warning",
+  //             title: "Warning",
+  //           });
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.log("Errors in user save", err);
+  //       });
+  //   };
   const navigate = useNavigate();
 
   return (
-    <div className="add-musthafthies-section">
+    <div className="add-musthafthies-section ">
       {isLoader ? (
         <Loader absolute />
       ) : (
