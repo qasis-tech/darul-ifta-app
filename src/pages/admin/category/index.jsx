@@ -20,7 +20,7 @@ import getCategoryListApi from "../../../services/getCategoryList";
 import Loader from "../../../components/common/Loader";
 import NoDataAvailable from "../../../components/NoDataAvailable";
 
-export default function Categories() {
+export default function Category() {
   const [isLoading, setLoader] = useState(false);
   const [categoryList, setCategoryList] = useState([]);
 
@@ -84,6 +84,7 @@ export default function Categories() {
                               "&:last-child td, &:last-child th": { border: 0 },
                             }}
                             key={category._id}
+                            onClick={() => navigate(`${category?._id}`)}
                           >
                             <TableCell>{category?.category}</TableCell>
                             <TableCell>

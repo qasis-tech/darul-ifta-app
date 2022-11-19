@@ -26,6 +26,7 @@ export default {
     user: "user",
     userDetails: "user-details",
     category: "category",
+    categoryDetails:"category-details",
     article: "article",
     addArticle: "addArticle",
     addCategories: "addCategories",
