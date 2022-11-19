@@ -68,12 +68,13 @@ const SideNavCategory = ({ addHomeFilter, homeFilter, ...other }) => {
               return (
                 <Accordion className="accordian" key={category?._id}>
                   <AccordionSummary
+                  className="shadow-sm main-category-accordian"
                     expandIcon={<ExpandMoreIcon className="arrow-color" />}
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                     key={category._id}
                   >
-                    <Typography>{category?.category}</Typography>
+                    <Typography >{category?.category}</Typography>
                   </AccordionSummary>
 
                   {category?.subCategory?.length ? (

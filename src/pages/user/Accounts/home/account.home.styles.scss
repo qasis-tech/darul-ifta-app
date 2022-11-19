@@ -43,8 +43,11 @@
     margin-top: 1em;
     .MuiTablePagination-root {
       .MuiToolbar-root {
+        .MuiTablePagination-selectLabel,.MuiTablePagination-displayedRows{
+          margin-bottom: 0!important
+        }
         p {
-          margin-top: 15px !important;
+         // margin-top: 15px !important;
           margin-bottom: 0!important;
         }
       }

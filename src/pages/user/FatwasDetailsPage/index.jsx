@@ -48,7 +48,7 @@ export default function FatwasDetailsPage() {
           <div className="col">
             <SocialComponent />
           </div>
-          <div className="col-md-10 details">
+          <div className="col-md-9 details">
             <DetailedQuestionComponent data={questionDetails} />
             <WrittenComponent data={questionDetails} />
           </div>
