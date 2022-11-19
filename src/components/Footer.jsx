@@ -29,7 +29,7 @@ const FooterComponent = () => {
               Al Jamiathul Kauzariyya Arabic College,
               <br />
               Edathala, Aluva, Kerala 683561 <br />
-              Email :- contact@daruliftakauzariyya.com
+             <a>Email :- contact@daruliftakauzariyya.com</a> 
             </p>
           </div>
         </div>
@@ -50,10 +50,11 @@ const FooterComponent = () => {
 
         <div className="col-md-3 app-social-media-section d-flex flex-column justify-content-center">
           <div className="app-store row">
-            <div className="">
-              <h5 className="fw-bold">Mobile App</h5>
+            <div >
+              <h4 className="fw-bold mb-2 mobileapp-heading">Mobile App</h4>
               <div>
                 <a
+                className="google-image"
                   href="https://play.google.com/store/apps/details?id=com.darulifta.kauzariyya"
                   target="_blank"
                 >

@@ -19,6 +19,12 @@
 
   .img-logo-desc {
     color: #fff;
+    a{
+      cursor: pointer;
+      &:hover{
+        color: $theme-1-grey!important;
+      }
+    }
   }
 
   .hr-bar {
@@ -29,17 +35,20 @@
   }
 
   // useful-links
-  .useful-links {
-    color: #fff;
-  }
-
-  .useful-links ul {
-    padding: 0;
-  }
-
-  .useful-links ul li {
-    list-style-type: none;
-   font-size: 17px;
+ 
+  .useful-links{
+    color: $white;
+    ul{
+      padding: 0;
+      li{
+        list-style-type: none;
+        font-size:$main-font-size - 1 ;
+        cursor: pointer;
+        &:hover{
+          color: $theme-l-green;
+        }
+      }
+    }
   }
 
   .logo-section {
@@ -56,10 +65,21 @@
     cursor: pointer;
   }
 
-  .app-store img {
-    min-width: 140px;
-    height: 40px;
-    cursor: pointer;
+  .app-store {
+    // .mobileapp-heading{
+    //   margin-bottom: 1em;
+    // }
+      .google-image{
+        display: flex;
+        justify-content: start;
+        width: 170px;
+        img{
+          width: 100%;
+          margin-right: 42px;
+          height: 40px;
+          cursor: pointer;
+        }
+      }
   }
 
   .social-media img {
@@ -88,10 +108,7 @@
     color: #00f7ff;
     text-decoration: none;
   }
-
-  .useful-links ul li {
-    cursor: pointer;
-  }
+  
 
   @media only screen and (min-width: 960px) {
     /* styles for browsers larger than 960px; */

@@ -84,6 +84,10 @@ h2{
 h6{
   font-size: $main-font-size!important;
 }
+
+p{
+  font-size: $main-font-size - 1 !important;
+}
 .bg-theme-grey {
   background-color: $theme-1-grey !important;
 }
