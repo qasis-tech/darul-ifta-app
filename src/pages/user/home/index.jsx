@@ -213,7 +213,7 @@ const HomePage = (props) => {
         style={{ backgroundImage: `url(${BackgroundImage})` }}
       >
         <Slider />
-        <section className="body-section">
+        <section className="body-section pt-2">
           <div className="container">
             <div className="row">
               <div className="col-md-3 main-madhub-section">

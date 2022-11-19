@@ -22,7 +22,7 @@ const Slider = () => {
                   humanity to authentic rulings of Islam.
                 </h6>
 
-                <div class="d-flex justify-content-end">
+                <div class="d-flex image-slider justify-content-end">
                   <img src={Image1} alt="" srcset="" />
                 </div>
 
@@ -57,7 +57,7 @@ const Slider = () => {
                   humanity to authentic rulings of Islam.
                 </h6>
 
-                <div class="d-flex justify-content-end">
+                <div class="d-flex justify-content-end image-slider">
                   <img src={Image1} alt="" srcset="" />
                 </div>
 

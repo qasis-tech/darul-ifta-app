@@ -3,7 +3,7 @@
   position: fixed;
   background-color:#f8f9fa;
   width: 100%;
-  z-index: 2;
+  z-index: 5;
   top: 0;
     .navbar-wrapper-main {
         position: sticky;
@@ -12,6 +12,8 @@
         padding: 0.6em 0.2em;
         .img-logo{
           cursor: pointer;
+          width: 180px;
+          height: 70px;
         }
         .navbar-wrapper {
           display: flex;
@@ -65,7 +67,9 @@
         ul li {
           cursor: pointer;
         }
-        
+        .profile-icon{
+          margin-left: 5px!important;
+        }
         ul li a {
           font-size: 12px;
         }

@@ -1,7 +1,5 @@
 @import "../../../styles/common.styles.scss";
-img {
-  width: 281px;
-}
+
 .max-width {
   max-width: 60%;
 }
@@ -288,11 +286,17 @@ img {
 .home-page {
   background-color: #f8f9fa;
   font-family: $main-font-style;
-  padding-top: 6em;
+  padding-top: 5em;
   .bg-custom {
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
+  }
+  .image-slider{
+    width:360px;
+    img{
+      width: 100%;
+    }
   }
   .body-section {
     padding-bottom: 4em;
