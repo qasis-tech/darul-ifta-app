@@ -55,7 +55,7 @@ const HeaderComponent = ({ closePopup, userLoginDetails }) => {
   };
 
   return (
-      <div class={location?.pathname === "/" ? "navbar-section":"header-border navbar-section" }>
+      <div className={location?.pathname === "/" ? "navbar-section":"header-border navbar-section shadow-sm" }>
       <div className="container">
       <Navbar bg="light" className="p-0" expand="lg">
         <Container className="navbar-wrapper-main p-0">
