@@ -157,7 +157,10 @@ export default function Dashboard() {
                                 getQuestions(`?slNo=${searchInput}`)
                               }
                             >
-                              <SearchIcon />
+                              <SearchIcon sx={{
+                                visibility:
+                                  searchInput !== "" ? "visible" : "hidden",
+                              }}/>
                             </IconButton>
                           </InputAdornment>
                         ),

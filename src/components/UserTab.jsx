@@ -128,15 +128,26 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
                   {questionData?.data?.length ? (
                     questionData?.data?.map((question) => {
                       return (
-                        <QuestionContainer
-                          key={question._id}
-                          shortquestion={question.short_question}
-                          question={question.question}
-                          questionCount={question.slNo}
-                          createdDate={formatDate(question.createdAt)}
-                          views={question.views}
-                          data={question}
-                        />
+                        <div>
+                          <QuestionContainer
+                            key={question._id}
+                            shortquestion={question.short_question}
+                            question={question.question}
+                            questionCount={question.slNo}
+                            createdDate={formatDate(question.createdAt)}
+                            views={question.views}
+                            data={question}
+                          />
+                          <TablePagination
+                            rowsPerPageOptions={[5, 10, 20, 50]}
+                            component="div"
+                            count={questionData?.count}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                          />
+                        </div>
                       );
                     })
                   ) : (
@@ -148,7 +159,7 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
           </>
         )}
       </Box>
-      <div className="pagination-section">
+      {/* <div className="pagination-section">
         <TablePagination
           rowsPerPageOptions={[5, 10, 20, 50]}
           component="div"
@@ -158,7 +169,7 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-      </div>
+      </div> */}
     </div>
   );
 };
