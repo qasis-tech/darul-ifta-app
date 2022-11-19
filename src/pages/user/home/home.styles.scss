@@ -27,7 +27,7 @@ img {
   justify-content: center;
   align-items: center;
   background-color: #fff;
-  z-index: 100;
+  z-index: 1;
 }
 .MuiAccordionSummary-content{
   .MuiTypography-root{
@@ -288,6 +288,7 @@ img {
 .home-page {
   background-color: #f8f9fa;
   font-family: $main-font-style;
+  padding-top: 6em;
   .bg-custom {
     background-repeat: no-repeat;
     background-size: cover;

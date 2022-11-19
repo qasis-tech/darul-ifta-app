@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 
-import { Button, Card } from "@mui/material";
+import { Box, Button, Card, Paper, Typography } from "@mui/material";
 
 import SettingsIcon from "@mui/icons-material/Settings";
 import MessageIcon from "@mui/icons-material/Message";
@@ -105,7 +105,7 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
 
   return (
     <>
-      <div class="profile-1 mt-2 py-1 px-5">
+      <div class="profile-1 mt-2  px-5">
         <div className="container profile-container d-flex py-1 px-5">
           <div class="col d-flex flex-column align-items-center">
             <div class="profile-img">
@@ -173,53 +173,67 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
           <div class="col d-flex align-items-center details">
             <div class="">
               <div>
-                <h4>{userLoginDetails?.name || "N/A"}</h4>
+                <Typography variant="h4">
+                  {userLoginDetails?.name || "N/A"}
+                </Typography>
               </div>
               <div>
-                <h6>
+                <Typography variant="subtitle2">
                   {userLoginDetails?.phone || (
                     <span className="text-danger fs-6">
                       Mobile Number - Not Found
                     </span>
                   )}
-                </h6>
+                </Typography>
 
-                <h6>
+                <Typography variant="subtitle2">
                   {userLoginDetails?.email || (
                     <span className="text-danger fs-6">
                       Email ID - Not Found
                     </span>
                   )}
-                </h6>
+                </Typography>
               </div>
 
               <div>
-                <h6>
+                <Typography variant="subtitle2">
                   {userLoginDetails?.address || (
                     <span className="text-danger fs-6">
                       Address - Not Found
                     </span>
                   )}
-                </h6>
+                </Typography>
               </div>
-              <div className="row">
-                <div className="col-6 ">
-                  <Card
-                    variant="outlined"
-                    sx={{ padding: 1, margin: "5px 0", textAlign: "center" }}
-                    className="fw-bold shadow border-0"
+              <Box component="div" className="row" sx={{ p: 1 }}>
+                <div className="col-4">
+                  <Paper
+                    elevation={1}
+                    // variant="outlined"
+                    // sx={{ padding: 1, margin: "5px 0", textAlign: "center" }}
+                    // className="fw-bold shadow border-0"
                   >
-                    Fatwas : {questionCount || "N/A"}
-                  </Card>
+                    <Typography variant="subtitle2" align="center" p={1}>
+                      Fatwas : {questionCount || "N/A"}
+                    </Typography>
+                  </Paper>
                 </div>
-                <div className="col">
-                  <Card
+                <div className="col-5">
+                  <Paper
+                    elevation={1}
+                    // variant="outlined"
+                    // sx={{ padding: 1, margin: "5px 0", textAlign: "center" }}
+                    // className="fw-bold shadow border-0"
+                  >
+                    <Typography variant="subtitle2" align="center" p={1}>
+                      Answered : {answerCount || "N/A"}
+                    </Typography>
+                  </Paper>
+                  {/* <Card
                     variant="outlined"
                     sx={{ padding: 1, margin: "5px 0", textAlign: "center" }}
                     className="fw-bold shadow border-0"
                   >
-                    Answered : {answerCount || "N/A"}
-                  </Card>
+                  </Card> */}
                 </div>
 
                 <div className="btn-section">
@@ -253,7 +267,7 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
                     </Button>
                   </DialogComponent>
                 </div>
-              </div>
+              </Box>
             </div>
           </div>
         </div>

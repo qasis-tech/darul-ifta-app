@@ -35,7 +35,7 @@ export default function DirectionSnackbar({
       {open && (
         <Snackbar
           className="snack-main shadow"
-          autoHideDuration={3500}
+          autoHideDuration={2000}
           anchorOrigin={{ vertical: "top", horizontal: "right" }}
           open={open}
           onClose={() => {

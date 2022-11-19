@@ -155,12 +155,14 @@ const AskFatwasComponent = ({
           setSelectedLanguage("");
           resetField("shortQuestion");
           resetField("question");
-          setError({
-            visible: true,
-            message: res.message,
-            type: "success",
-            title: "Success",
-          });
+          setTimeout(() => {
+            setError({
+              visible: true,
+              message: res.message,
+              type: "success",
+              title: "Success",
+            });
+          }, 1500);
         } else {
           setError({
             visible: true,

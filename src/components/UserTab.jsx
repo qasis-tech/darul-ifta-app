@@ -138,21 +138,21 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
                             views={question.views}
                             data={question}
                           />
-                          <TablePagination
-                            rowsPerPageOptions={[5, 10, 20, 50]}
-                            component="div"
-                            count={questionData?.count}
-                            rowsPerPage={rowsPerPage}
-                            page={page}
-                            onPageChange={handleChangePage}
-                            onRowsPerPageChange={handleChangeRowsPerPage}
-                          />
                         </div>
                       );
                     })
                   ) : (
                     <NoDataAvailable noStyle noBg />
                   )}
+                  <TablePagination
+                    rowsPerPageOptions={[5, 10, 20, 50]}
+                    component="div"
+                    count={questionData?.count}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                  />
                 </TabPanel>
               );
             })}
