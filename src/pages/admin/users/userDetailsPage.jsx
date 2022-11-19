@@ -34,10 +34,6 @@ export default function UserDetails() {
   const [madhabData, setMadhabData] = useState([]);
   const [selectedMadhab, setSelectedMadhab] = useState([]);
   const [selectedRoles, setSelectedRoles] = useState([]);
-  const [status, setStatus] = useState([
-    { id: 1, title: "Active" },
-    { id: 2, title: "Inactive" },
-  ]);
   const [selectedStatus, setSelectedStatus] = useState([]);
   const [userDetails, setUserDetails] = useState(null);
   const [userToken, setUserToken] = useState([]);
@@ -55,6 +51,11 @@ export default function UserDetails() {
     { label: "Student", value: "student" },
     { label: "User", value: "user" },
   ];
+  const status = [
+    { id: 1, title: "Active" },
+    { id: 2, title: "Inactive" },
+  ];
+
   const { id } = useParams();
   const {
     register,
@@ -67,7 +68,6 @@ export default function UserDetails() {
 
   useEffect(() => {
     getmadhabApi();
-    getUserApi();
   }, []);
 
   useEffect(() => {
@@ -100,8 +100,8 @@ export default function UserDetails() {
       })
       .then((res) => {
         setLoader(false);
-        console.log("res madhabb1111==>", res.data);
         setMadhabData(res.data);
+        getUserApi(res.data);
       })
       .catch((err) => {
         setLoader(false);
@@ -129,15 +129,16 @@ export default function UserDetails() {
       name: name,
       display_title: displayName,
       phone: mobileNumber,
-      user_type: roles,
+      user_type: selectedRoles.label,
       madhab: selectedMadhab.title,
       address: address,
       user_password: password,
       user_status: selectedStatus.title,
+      password,
     };
 
     axios
-      .put(`${URLS.user}${URLS.signup}`, payload, {
+      .put(`${URLS.user}${URLS.signup}/${id}`, payload, {
         headers: {
           Authorization: `${userToken}`,
           "Content-Type": "application/json",
@@ -167,26 +168,35 @@ export default function UserDetails() {
         console.log("Errors in user save", err);
       });
   };
-  const getUserApi = () => {
+  const getUserApi = (madhabList) => {
     setLoader(true);
     axios
       .get(`${URLS.user}${URLS.signup}/${id}`)
       .then(({ data }) => {
-        console.log("555555555==>",data)
+        console.log("555555555==>", data);
         setLoader(false);
         setUserData(data);
-        setValue("address",data?.address)
-        setValue("name",data?.name)
-        setValue("displayName",data?.display_title)
-        setValue("email",data?.email)
-        setValue("mobileNumber",data?.phone)
-        setValue("status",data?.user_status)
-        setValue("roles",data?.user_type)
-        setSelectedMadhab(data?.madhab);
-        let index=madhabData.findIndex(value=>{console.log("11111111111",value.titile,data?.madhab)})
-        console.log("indexx=>",index)
-        setValue("madhab",data.madhab)
-        
+        setValue("address", data?.address);
+        setValue("name", data?.name);
+        setValue("displayName", data?.display_title);
+        setValue("email", data?.email);
+        setValue("mobileNumber", data?.phone);
+        setValue("status", data?.user_status);
+
+        let indexRoles = roles.findIndex(
+          (value) => value.label === data.user_type
+        );
+        setSelectedRoles(roles[indexRoles]);
+
+        let index = madhabList.findIndex(
+          (value) => value.title === data?.madhab
+        );
+        setSelectedMadhab(madhabList[index]);
+
+        let indexStatus = status?.findIndex(
+          (value) => value.title === data?.user_status
+        );
+        setSelectedStatus(status[indexStatus]);
       })
       .catch((err) => {
         setLoader(false);
@@ -274,11 +284,11 @@ export default function UserDetails() {
                     fullWidth
                     variant="outlined"
                     {...register("password", {
-                      required: "Password is required",
-                      minLength: {
-                        value: 8,
-                        message: "Minimum 8 character",
-                      },
+                      // required: "Password is required",
+                      // minLength: {
+                      //   value: 8,
+                      //   message: "Minimum 8 character",
+                      // },
                     })}
                   />
                   <div className="error">{errors?.password?.message}</div>
@@ -316,8 +326,10 @@ export default function UserDetails() {
                     isOptionEqualToValue={(option, value) =>
                       option._id === value._id
                     }
-                    onChange={(e, val) =>{ setSelectedMadhab(val);console.log("valueee==>",val)}}
-                  
+                    onChange={(e, val) => {
+                      setSelectedMadhab(val);
+                      console.log("valueee==>", val);
+                    }}
                     value={selectedMadhab}
                     // {...register("madhab", {
                     //   required: "Madhab is required",
@@ -364,8 +376,7 @@ export default function UserDetails() {
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          label="
-                      Active Status"
+                          label="Active Status"
                           // {...register("status", {
                           //   required: "Status is required",
                           // })}
