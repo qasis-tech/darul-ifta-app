@@ -1,4 +1,10 @@
+@import "./common.styles.scss";
 .navbar-section{
+  position: fixed;
+  background-color:#f8f9fa;
+  width: 100%;
+  z-index: 2;
+  top: 0;
     .navbar-wrapper-main {
         position: sticky;
         top: 0;

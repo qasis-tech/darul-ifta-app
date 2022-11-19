@@ -57,8 +57,8 @@ const HeaderComponent = ({ closePopup, userLoginDetails }) => {
   return (
       <div class={location?.pathname === "/" ? "navbar-section":"header-border navbar-section" }>
       <div className="container">
-      <Navbar bg="light" expand="lg">
-        <Container className="navbar-wrapper-main">
+      <Navbar bg="light" className="p-0" expand="lg">
+        <Container className="navbar-wrapper-main p-0">
           <Navbar.Brand onClick={() => navigate(`${routerList.user.home}`)}>
             <img
               className="img-thumnails img-logo"
@@ -98,10 +98,11 @@ const HeaderComponent = ({ closePopup, userLoginDetails }) => {
                     Fatwa
                   </a>
                 </li>
-                <li className="btn-group nav-item" dropdown>
+                <li className="nav-item" dropdown>
                   {userLoginDetails ? (
                     <>
                       <IconButton
+                      className="p-0"
                         onClick={handleClick}
                         size="small"
                         sx={{ ml: 2 }}
