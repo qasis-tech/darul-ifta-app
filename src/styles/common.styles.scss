@@ -250,12 +250,14 @@ p{
   border: 6px solid #ffffff;
 }
 
-.MuiTablePagination-root{
-  .MuiTablePagination-toolbar{
-    .MuiTablePagination-spacer{
-      p{
-        margin-bottom: 0!important;
-      }
+.MuiTablePagination-root {
+  .MuiToolbar-root {
+    .MuiTablePagination-selectLabel,.MuiTablePagination-displayedRows{
+      margin-bottom: 0!important
+    }
+    p {
+     // margin-top: 15px !important;
+      margin-bottom: 0!important;
     }
   }
 }

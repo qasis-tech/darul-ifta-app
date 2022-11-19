@@ -204,8 +204,8 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
                   )}
                 </Typography>
               </div>
-              <Box component="div" className="row" sx={{ p: 1 }}>
-                <div className="col-4">
+              <div className="row">
+              <div className="col">
                   <Paper
                     elevation={1}
                     // variant="outlined"
@@ -267,7 +267,10 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
                     </Button>
                   </DialogComponent>
                 </div>
-              </Box>
+              </div>
+              {/* <Box component="div" className="row" sx={{ p: 1 }}> */}
+               
+              {/* </Box> */}
             </div>
           </div>
         </div>
