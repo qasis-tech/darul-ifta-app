@@ -49,7 +49,7 @@ export default function CategoryDetails() {
     navigate(-1);
   };
 
-  const getCatgoryApi = () => {
+  const getCatgoryApi = (subCategory) => {
     setLoader(true);
     axios
       .get(`${URLS.category}/${id}`, {
@@ -61,7 +61,11 @@ export default function CategoryDetails() {
         console.log("33333333==========>",data)
         setLoader(false);
         setCategoryList(data);
-        setSelectedCategory(data?.category);
+
+        let index = subCategory.findIndex(
+            (value) => value.subCategory === data?.subCategory
+          );
+          setSelectedCategory(subCategory[index]);
       })
       .catch((err) => {
         setLoader(false);

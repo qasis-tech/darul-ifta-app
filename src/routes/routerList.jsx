@@ -29,6 +29,7 @@ export default {
     categoryDetails:"category-details",
     article: "article",
     addArticle: "addArticle",
+    articleDetails:"article-details",
     addCategories: "addCategories",
     addMufthi: "addMufthi",
     addUser: "addUser",

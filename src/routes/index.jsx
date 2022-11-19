@@ -66,6 +66,7 @@ import MufthiDetails from "../pages/admin/musthafthies/musthafthiesDetailsPage";
 import AddUser from "../pages/admin/users/addUserPage";
 import FatwasDetails from "../pages/admin/fatwas/detailsFatwa";
 import AddArticle from "../pages/admin/article/addArticle";
+import ArticleDetails from "../pages/admin/article/articleDetails";
 import UserAccountRouting from "./userAccounts";
 import { connect } from "react-redux";
 import { addHomeFilter } from "../redux/actions";
@@ -135,6 +136,7 @@ const CustomRouters = (props) => {
         <Route path="category" element={<Category />} />
         <Route path={"category/:id"} element={<CategoryDetails />} />
         <Route path="article" element={<Article />} />
+        <Route path={"article/:id"} element={<ArticleDetails />} />
         <Route path="addCategories" element={<AddCategories />} />
         <Route path="addMufthi" element={<AddMufthi />} />
         <Route path="addUser" element={<AddUser />} />
@@ -150,7 +152,9 @@ const CustomRouters = (props) => {
           path={`${RouterList.admin.fatwasDetails}/:id`}
           element={<FatwasDetails />}
         />
+
         <Route path="addArticle" element={<AddArticle />} />
+
         <Route path={RouterList.admin.categoryList} element={<Categories />} />
       </Route>
 

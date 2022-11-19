@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import { TextField, Button, Autocomplete } from "@mui/material";
 
@@ -12,7 +13,7 @@ import "./add.article.styles.scss";
 import Loader from "../../../components/common/Loader";
 import SnackBar from "../../../components/common/Snackbar";
 
-export default function AddArticle() {
+export default function ArticleDetails() {
   const [mufthiData, setMufthiData] = useState([]);
   const [isLoader, setLoader] = useState([]);
   const [selectedMufthi, setSelectedMufthi] = useState([]);
@@ -29,7 +30,7 @@ export default function AddArticle() {
     type: "error",
     title: "",
   });
-
+  const { id } = useParams();
   const handleCloseError = () => {
     setError({
       visible: false,
@@ -43,7 +44,6 @@ export default function AddArticle() {
   const {
     register,
     handleSubmit,
-    getValues,
     formState: { errors },
   } = useForm();
 
@@ -70,34 +70,38 @@ export default function AddArticle() {
       });
   };
 
-  const handleSave = (params) => {
-    setLoader(true);
-    const { mufthi, language, title, articleFile } = params;
+  const articleApi = () => {
+    // setLoader(true);
+    // const { mufthi, language, title, articleFile } = params;
 
-    const formData = new FormData();
-    formData.append("mufthi", mufthi);
-    formData.append("language", language);
-    formData.append("title", title);
-    formData.append("articleFile", articleFile[0]);
+    // const formData = new FormData();
+    // formData.append("mufthi", mufthi);
+    // formData.append("language", language);
+    // formData.append("title", title);
+    // formData.append("articleFile", articleFile[0]);
 
+    // axios
+    //   .get(`${URLS.article}/${id}`, formData, 
+    //   {
+    //     headers: {
+    //       "content-type": "multipart/form-data",
+    //     },
+    //   }
+    //   )
     axios
-      .post(`${URLS.article}`, formData, {
-        headers: {
-          "content-type": "multipart/form-data",
-        },
-      })
+    .get(`${URLS.article}/${id}`)
       .then((res) => {
         setLoader(false);
-        console.log("res article", res);
         if (res.success) {
           setError({
             visible: true,
             message: res.message,
             type: "success",
             title: "Success",
-          });
+          })
           // navigate(`${RouterList.admin.admin}/${RouterList.admin.article}`);
-        } else {
+        }
+        else {
           setError({
             visible: true,
             message: res.message,
@@ -110,21 +114,15 @@ export default function AddArticle() {
         setLoader(false);
         console.log("Error in Article Add", err);
       });
-  };
+  }
   const navigate = useNavigate();
 
-  const changeHandler=(e)=>{
-    if (e.target.files.length > 0) {
-     let filename = e.target.files[0].name;
-      console.log(filename)
-    }
-  }
   return (
     <div className="add-article-section">
       {isLoader ? (
         <Loader />
       ) : (
-        <form onSubmit={handleSubmit(handleSave)}>
+        <form onSubmit={handleSubmit(articleApi)}>
           <div className="add-article-container">
             <div className="add-article-row">
               <div className="col-md-6 first-col">
@@ -224,11 +222,9 @@ export default function AddArticle() {
                 <input
                   type="file"
                   hidden
-                  onChange={changeHandler}
                   {...register("articleFile", { required: "Upload File" })}
                 />
               </Button>
-          
             </div>
             <div className="error">{errors?.articleFile?.message}</div>
             <div className="btn-section">
