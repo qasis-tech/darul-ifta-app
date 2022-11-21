@@ -192,7 +192,7 @@ const HomePage = (props) => {
   };
 
   const getQuestionList = (params) => {
-    console.log("questionnn===>",params)
+    console.log("questionnn===>", params);
     setLoader(true);
     getQuestionListApi(params)
       .then((res) => {
@@ -258,10 +258,12 @@ const HomePage = (props) => {
                           <CloseIcon onClick={() => setSearchInput("")} />
                         </IconButton>
                         <IconButton onClick={() => categoryMadhabFilter()}>
-                          <SearchIcon sx={{
-                            visibility:
-                              searchInput !== "" ? "visible" : "hidden",
-                          }}/>
+                          <SearchIcon
+                            sx={{
+                              visibility:
+                                searchInput !== "" ? "visible" : "hidden",
+                            }}
+                          />
                         </IconButton>
                       </InputAdornment>
                     ),
@@ -286,7 +288,7 @@ const HomePage = (props) => {
                     </Tabs>
                   </Box>
                   {isLoading ? (
-                    <Loader skeleton layers={2} />
+                    <Loader skeleton layers={1} />
                   ) : (
                     <>
                       {[0, 1, 2, 3, 4].map((item) => {

@@ -50,7 +50,7 @@ export default function FatwasDetailsPage() {
           </div>
           <div className="col-md-9 details">
             <DetailedQuestionComponent data={questionDetails} />
-            <WrittenComponent data={questionDetails} />
+            {/* <WrittenComponent data={questionDetails} /> */}
           </div>
           <div className="col-md-3 related">
             <RelatedFatwasComponent data={questionDetails} />

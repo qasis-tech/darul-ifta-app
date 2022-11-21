@@ -59,13 +59,12 @@ const SideNavCategory = ({ addHomeFilter, homeFilter, ...other }) => {
         <span className="text-white fs-6">Categories</span>
       </div>
       <div className="l-green"></div>
-      <div>
+      
         <div className="accordian-wrapper">
           {isloading ? (
             <Loader skeleton />
           ) : !!categoryData?.length ? (
-            categoryData?.map((category) => {
-              return (
+            categoryData?.map((category) =>
                 <Accordion className="accordian" key={category?._id}>
                   <AccordionSummary
                   className="shadow-sm main-category-accordian"
@@ -102,13 +101,17 @@ const SideNavCategory = ({ addHomeFilter, homeFilter, ...other }) => {
                     <div>no data</div>
                   )}
                 </Accordion>
-              );
-            })
+              
+            )
           ) : (
-            <NoDataAvailable noStyle text noBg />
+            <div>
+              <NoDataAvailable noStyle text  noBg />
+
+            </div>
+
           )}
         </div>
-      </div>
+      
       <div className="madhab-category">
         <div className="green mt-4">
           <span className="text-white fs-6">Madhab</span>

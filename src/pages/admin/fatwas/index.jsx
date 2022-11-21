@@ -491,8 +491,7 @@ export default function Fatwas() {
                       <TableCell>Category</TableCell>
                       <TableCell>Madhab</TableCell>
                       <TableCell>Mufthi</TableCell>
-                      <TableCell>Status</TableCell>
-                      <TableCell>Action</TableCell>
+                      <TableCell>Status</TableCell>                      
                     </TableRow>
                   </TableHead>
 
@@ -557,9 +556,9 @@ export default function Fatwas() {
                               </span>
                               {/* <span className="status">{question.status}</span> */}
                             </TableCell>
-                            <TableCell>
+                            {/* <TableCell>
                               <VisibilityIcon className="view-icon" />
-                            </TableCell>
+                            </TableCell> */}
                           </TableRow>
                         );
                       })

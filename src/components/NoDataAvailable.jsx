@@ -24,12 +24,15 @@ const NoDataAvailable = ({ absolute, noStyle, text, noBg }) => {
         style={{ backgroundColor: noBg ? "transparent" : "" }}
       >
         <div className="empty-state__content">
-          {!text && (
+          {!text ? (
             <div className="empty-state__icon">
               <img src={BackgroundImage1} alt="background image" />
             </div>
-          )}
-          {/* <div className="empty-state__message">No Data Available.</div> */}
+          )
+           : 
+          <div className="empty-state__message">No Data Available</div>
+        
+        }
         </div>
       </div>
     </div>

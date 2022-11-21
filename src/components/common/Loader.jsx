@@ -10,7 +10,14 @@ export default function Loader({
 }) {
   if (skeleton) {
     if (layers === 1) {
-      return <Skeleton animation="wave" height={60} />;
+      return  (
+        <Box>
+            <Skeleton height={150} />
+            <Skeleton animation="wave" height={60} />
+            <Skeleton height={40} />            
+          </Box>
+      )
+      
     } else if (layers > 1) {
       return (
         <>

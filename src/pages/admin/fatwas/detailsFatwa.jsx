@@ -35,6 +35,7 @@ export default function FatwasDetails() {
   const [shortQuestion, setShortQuestion] = useState("");
   const [longQuestion, setLongQuestion] = useState("");
   const [answer, setAnswer] = useState("");
+  const [referenceList, setReferance] = useState([]);
 
   const [mufthiList, setMufthiList] = useState([]);
   const [mufthiData, setMufthiData] = useState([]);
@@ -84,13 +85,17 @@ export default function FatwasDetails() {
           setSelectedLanguage({ id: "", title: res.data?.language });
           setShortQuestion(res.data?.short_question);
           setLongQuestion(res.data?.question);
-          setSelectedMufthi(res.data?.mufti || "N/A");
-          setSelectedMufthiVerified(res.data?.verified_by || "N/A");
-          setAnswer(res.data?.answer || "N/A");
-
-          console.log("res?.data?.mufti", res?.data?.mufti);
+          setSelectedMufthi(res.data?.mufti);
+          setSelectedMufthiVerified(res.data?.verifier);
+          setAnswer(res.data?.answer);
           setSelectedMufthi(res?.data?.mufti);
+          setReferance(
+            res.data.reference ? JSON.parse(res.data.reference) : []
+          );
+
+          console.log("res.data.reference", JSON.parse(res.data.reference));
         })
+
         .catch((err) => {
           console.error(
             "Error in getQuestionListApi in admin/Fatwa details",
@@ -164,7 +169,7 @@ export default function FatwasDetails() {
       });
   };
 
-  const mufthiVerified = mufthiData.filter(
+  const mufthiVerified = mufthiList.filter(
     (obj) => obj?._id !== selectedMufthi?._id
   );
 
@@ -251,30 +256,46 @@ export default function FatwasDetails() {
       reject_reason: state?.reject_reason,
     };
 
-    if (state.status === "Received to Darul Ifta") {
-      console.log("0001", selectedMufthi);
+    let isError = { status: false, message: "" };
+
+    if (state?.status === "Received to Darul Ifta") {
       payload.mufti = selectedMufthi;
       payload.status = "Assigned Mufti";
-    } else {
+      if (selectedMufthi === null) {
+        isError.status = true;
+        isError.message = "Must select a mufthi";
+      }
+    } else if (state.status === "Assigned Mufti") {
       payload.status = "Mufti Answered";
-      console.log("0002", selectedMufthi);
+      payload.verifier = selectedMufthiVerified;
+      payload.answer = answer;
+      payload.reference = JSON.stringify(referenceList);
+    } else {
+      alert("Elseeeeeee");
     }
 
     console.log("Result ===> ", payload);
 
-    // axios
-    //   .put(`${URLS.question}/${state._id}`, payload)
-    //   .then((res) => {
-    setLoader(false);
-    //     console.log("res put accept api", res);
-    //     if (res?.success) {
-    //       navigate(-1);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     setLoader(false);
-    //     console.error("Error in profile edit", err);
-    //   });
+    if (!isError.status) {
+      console.log("API Called ===> ");
+      axios
+        .put(`${URLS.question}/${state._id}`, payload)
+        .then((res) => {
+          setLoader(false);
+          console.log("res put accept api", res);
+          if (res?.success) {
+            navigate(-1);
+          }
+        })
+        .catch((err) => {
+          setLoader(false);
+          console.error("Error in profile edit", err);
+        });
+    } else {
+      alert(isError.message);
+      isError.status = false;
+      isError.message = "";
+    }
   };
 
   const navigate = useNavigate();
@@ -441,9 +462,6 @@ export default function FatwasDetails() {
                       value={shortQuestion}
                       onChange={handleChangeShort_Question}
                       disabled={state?.status === "Rejected"}
-                      // {...register("shortQuestion", {
-                      //   required: "ShortQuestion is required",
-                      // })}
                     />
                     <div className="error">
                       {errors?.shortQuestion?.message}
@@ -465,9 +483,6 @@ export default function FatwasDetails() {
                       value={longQuestion}
                       onChange={handleChangeLongQuestion}
                       disabled={state?.status === "Rejected"}
-                      // {...register("longQuestion", {
-                      //   required: "LongQuestion is required",
-                      // })}
                     />
                     <div className="error">{errors?.longQuestion?.message}</div>
                   </div>
@@ -544,8 +559,9 @@ export default function FatwasDetails() {
                         <div className="qshort-row">
                           <div className="col-md-12">
                             <TextField
-                              id="outlined-multiline-flexible"
+                              id="fatwa-answers"
                               label="Answer"
+                              placeholder="Answers..."
                               multiline
                               fullWidth
                               rows={6}
@@ -556,31 +572,41 @@ export default function FatwasDetails() {
                         </div>
                       </div>
                     </div>
-                    <FatwaAddComponent />
+
+                    {/* reference */}
+                    <FatwaAddComponent
+                      referenceList={referenceList}
+                      setReferance={setReferance}
+                    />
                   </>
                 )}
               </>
             )}
+
             {state?.status === "Received to Darul Ifta" ||
-              (state.status === "Assigned Mufti" && (
-                <div className="btn-section">
-                  <div className="col-md-2">
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      className="form-btn"
-                      fullWidth
-                      onClick={handlePublish}
-                    >
-                      {state?.status === "Received to Darul Ifta"
-                        ? "Assigned to mufti"
-                        : state?.status === "Assigned Mufti"
-                        ? "Mufthi Answered"
-                        : "Submit"}
-                    </Button>
-                  </div>
+            state?.status === "Assigned Mufti" ||
+            state?.status === "Mufti Answered" ? (
+              <div className="btn-section">
+                <div className="col-md-2">
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    className="form-btn"
+                    fullWidth
+                    onClick={handlePublish}
+                  >
+                    {state?.status === "Received to Darul Ifta"
+                      ? "Assigned to mufti"
+                      : state?.status === "Assigned Mufti"
+                      ? "Mufthi Answered"
+                      : state?.status === "Mufti Answered"
+                      ? "Verification Completed "
+                      : "Submit"}
+                  </Button>
                 </div>
-              ))}
+              </div>
+            ) : null}
+
             {/* Rejected */}
             {state?.status === "Pending" && (
               <>

@@ -30,11 +30,12 @@
       }
 
       .empty-state__message {
-        color: $primary;
-        font-size: $main-font-size;
+        color: $white;
+        // color: $primary;
+        font-size: $main-font-size - 3;
         // font-weight: bold;
         margin-top: 0.85rem;
-        text-transform: uppercase;
+        text-transform: capitalize;
       }
     }
   }
