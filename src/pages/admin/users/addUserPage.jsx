@@ -117,7 +117,7 @@ export default function AddUser() {
       name: name,
       display_title: displayName,
       phone: mobileNumber,
-      user_type: selectedRoles.value,
+      user_type: selectedRoles.label,
       madhab: selectedMadhab.title,
       address: address,
       user_password: password,

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { startCase } from "lodash";
 
 import {
   Button,
@@ -135,6 +136,7 @@ export default function User() {
                       <TableCell>Name</TableCell>
                       <TableCell>Display Name</TableCell>
                       <TableCell>Email</TableCell>
+                      <TableCell>USer Type</TableCell>
                       <TableCell>Status</TableCell>
                       {/* <TableCell>Action</TableCell> */}
                     </TableRow>
@@ -161,6 +163,7 @@ export default function User() {
                               <span>{user?.display_title || "N/A"}</span>
                             </TableCell>
                             <TableCell>{user.email}</TableCell>
+                            <TableCell>{startCase(user?.user_type)}</TableCell>
                             <TableCell>
                               {user.user_status === null ? (
                                 <span>N/A</span>
