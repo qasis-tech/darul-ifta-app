@@ -20,10 +20,10 @@ export default function FatwaAddComponent() {
     defaultValues: {
       showShortQuestion: [
         {
-          showShortQuestion1: "",
-          showShortQuestion2: "",
-          showShortQuestion3: "",
-          showShortQuestion4: "",
+          quote: "",
+          bookName: "",
+          vol: "",
+          pgNo: "",
         },
       ],
     },
@@ -56,10 +56,10 @@ export default function FatwaAddComponent() {
               <AddIcon
                 onClick={() =>
                   append({
-                    showShortQuestion1: "",
-                    showShortQuestion2: "",
-                    showShortQuestion3: "",
-                    showShortQuestion4: "",
+                    quote: "",
+                    bookName: "",
+                    vol: "",
+                    pgNo: "",
                   })
                 }
               />
@@ -73,34 +73,29 @@ export default function FatwaAddComponent() {
             <div className="col-md-10">
               <div className="show-table-row">
                 <div className="col-md-12">
-                  <TextField
-                    id="outlined-multiline-flexible"
-                    label="Short Question"
-                    size="small"
-                    fullWidth
-                  />
+                  <TextField id="quote" label="Quote" size="small" fullWidth />
                 </div>
                 <div className="second-row">
                   <div className="col-md-4 first-col">
                     <TextField
-                      id="outlined-multiline-flexible"
-                      label="Short Question"
+                      id="bookName"
+                      label="Book Name"
                       size="small"
                       fullWidth
                     />
                   </div>
                   <div className="col-md-4">
                     <TextField
-                      id="outlined-multiline-flexible"
-                      label="Short Question"
+                      id="volume"
+                      label="Volume"
                       size="small"
                       fullWidth
                     />
                   </div>
                   <div className="col-md-4 second-col">
                     <TextField
-                      id="outlined-multiline-flexible"
-                      label="Short Question"
+                      id="pgNo"
+                      label="Page Number"
                       size="small"
                       fullWidth
                     />
