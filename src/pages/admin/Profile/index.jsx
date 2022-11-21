@@ -20,9 +20,6 @@ export default function AdminProfile() {
  
   return (
     <>
-      {isLoading ? (
-        <Loader absolute />
-      ) : (
         <div className="add-user-section shadow bg-white">
           <form>
             <div className="add-user-container">
@@ -55,7 +52,6 @@ export default function AdminProfile() {
                     fullWidth
                     variant="outlined"
                   />
-                  <div className="error">{errors?.email?.message}</div>
                 </div>
                 <div className="col-md-6 second-col">
                   <TextField
@@ -64,7 +60,6 @@ export default function AdminProfile() {
                     size="small"
                     fullWidth
                   />
-                  <div className="error">{errors?.mobileNumber?.message}</div>
                 </div>
               </div>
               <div className="add-user-row">
@@ -77,10 +72,9 @@ export default function AdminProfile() {
                     fullWidth
                     variant="outlined"
                   />
-                  <div className="error">{errors?.password?.message}</div>
                 </div>
                 <div className="col-md-3 second-col">
-                  <Autocomplete
+                  {/* <Autocomplete
                     // disablePortal
                     id="combo-box-demo"
                     size="small"
@@ -101,8 +95,8 @@ export default function AdminProfile() {
                       <TextField {...params} label="Roles" />
                     )}
                   />
-                </div>
-                <div className="col-md-3 second-col">
+                </div> */}
+                {/* <div className="col-md-3 second-col">
                   <Autocomplete
                     disablePortal
                     id="combo-box-demo"
@@ -128,7 +122,7 @@ export default function AdminProfile() {
                   {!selectedMadhab?.title && (
                     <div className="error">{errors?.madhab?.message}</div>
                   )}
-                </div>
+                </div> */}
               </div>
               <div className="add-user-row">
                 <div className="col-md-6 first-col">
@@ -140,13 +134,9 @@ export default function AdminProfile() {
                     multiline
                     fullWidth
                     variant="outlined"
-                    {...register("address", {
-                      required: "Address is required",
-                    })}
                   />
-                  <div className="error">{errors?.address?.message}</div>
                 </div>
-                <div className="col-md-6 second-col">
+                {/* <div className="col-md-6 second-col">
                   {status?.length && (
                     <Autocomplete
                       disablePortal
@@ -170,10 +160,7 @@ export default function AdminProfile() {
                       )}
                     />
                   )}
-                  {!selectedStatus?.title && (
-                    <div className="error">{errors?.status?.message}</div>
-                  )}
-                </div>
+                </div> */}
               </div>
               <div className="btn-section">
                 <div className="col-md-1">
@@ -188,9 +175,10 @@ export default function AdminProfile() {
                 </div>
               </div>
             </div>
+            </div>
           </form>
 
-          {errorPopup.visible && (
+          {/* {errorPopup.visible && (
             <SnackBar
               visible={errorPopup.visible}
               message={errorPopup.message}
@@ -198,9 +186,8 @@ export default function AdminProfile() {
               title={errorPopup.title}
               onClose={() => handleCloseError()}
             />
-          )}
+          )} */}
         </div>
-      )}
     </>
   );
 }
