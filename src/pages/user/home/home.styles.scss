@@ -90,6 +90,7 @@
   background-color: $theme-primary-color;
   border-radius: 20px;
   padding: 1em;
+  font-size: 15px!important;
 }
 
 .accordian ::ng-deep .panel-title .btn:focus {
@@ -98,8 +99,8 @@
 
 .green {
   background-color: $theme-green;
-  font-size: $theme-f6;
-  padding: 0px 10px;
+  font-size: $main-font-size - 1;
+  padding: 4px 10px;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
   margin: 0;
@@ -116,6 +117,7 @@
     // margin-bottom: 10px;
     cursor: pointer;
     width: auto;
+    font-size: $main-font-size - 1 !important;
   }
 }
 
@@ -294,6 +296,9 @@
   }
   .image-slider{
     width:360px;
+    @media screen and (min-width:320px) and (max-width:375px){
+      width: 263px;
+    }
     img{
       width: 100%;
     }

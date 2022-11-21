@@ -74,7 +74,7 @@ $theme-pointer: pointer;
 $main-font-size:16px;
 
 h5{
-  font-size: 16px!important;
+  font-size: $main-font-size - 1 !important;
   margin: 0!important;
 }
 
@@ -82,7 +82,7 @@ h2{
   font-size: $main-font-size + 6!important;
 }
 h6{
-  font-size: $main-font-size!important;
+  font-size: $main-font-size - 1!important;
 }
 
 p{
