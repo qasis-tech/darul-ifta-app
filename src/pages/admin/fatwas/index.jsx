@@ -19,7 +19,6 @@ import {
 } from "@mui/material";
 
 import CloseIcon from "@mui/icons-material/Close";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import SearchIcon from "@mui/icons-material/Search";
 
 import "./admin.fatwas.styles.scss";
@@ -64,11 +63,7 @@ export default function Fatwas() {
   const [selectedUserData, setSelectedUserData] = useState([]);
   const [searchInput, setSearchInput] = useState("");
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit } = useForm();
 
   useEffect(() => {
     getQuestionList();
@@ -193,163 +188,109 @@ export default function Fatwas() {
           <div className="fatwas-container shadow-sm">
             <div className="fatwas-row">
               <div className="col-md-2">
-                {status?.length && (
-                  <Autocomplete
-                    disablePortal
-                    id="status"
-                    size="small"
-                    options={status}
-                    getOptionLabel={(option) => option?.title || ""}
-                    isOptionEqualToValue={(option, value) =>
-                      option.id === value.id
-                    }
-                    onChange={(e, val) => setSelectedStatus(val)}
-                    value={selectedStatus}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Status"
-                        {...register("status")}
-                      />
-                    )}
-                  />
-                )}
-              </div>
-              <div className="col-md-2">
-                {madhabData?.length ? (
-                  <Autocomplete
-                    disablePortal
-                    id="combo-box-demo"
-                    size="small"
-                    options={madhabData}
-                    getOptionLabel={(option) => option?.title || []}
-                    isOptionEqualToValue={(option, value) =>
-                      option._id === value._id
-                    }
-                    onChange={(e, val) => setSelectedMadhab(val)}
-                    value={selectedMadhab || null}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Madhab"
-                        {...register("madhab")}
-                      />
-                    )}
-                  />
-                ) : (
-                  <Autocomplete
-                    disablePortal
-                    size="small"
-                    id="combo-box-demo"
-                    options={[]}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Madhab" />
-                    )}
-                  />
-                )}
-              </div>
-              <div className="col-md-2">
-                {categoryList?.length ? (
-                  <Autocomplete
-                    disablePortal
-                    id="combo-box-demo"
-                    size="small"
-                    options={categoryList}
-                    getOptionLabel={(option) => option?.category || ""}
-                    isOptionEqualToValue={(option, value) =>
-                      option._id === value._id
-                    }
-                    onChange={(e, val) => setSelectedCategory(val)}
-                    value={selectedCategory || null}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="
-                    Category"
-                        {...register("category")}
-                      />
-                    )}
-                  />
-                ) : (
-                  <Autocomplete
-                    disablePortal
-                    size="small"
-                    id="combo-box-demo"
-                    options={[]}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Category" />
-                    )}
-                  />
-                )}
+                <Autocomplete
+                  disablePortal
+                  id="fatwaListStatus"
+                  size="small"
+                  options={status}
+                  getOptionLabel={(option) => option?.title || ""}
+                  value={selectedStatus || ""}
+                  isOptionEqualToValue={(option, value) => {
+                    if (value?.length) return option?.id === value?.id;
+                  }}
+                  onChange={(e, val) => setSelectedStatus(val)}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Status" />
+                  )}
+                />
               </div>
               <div className="col-md-2">
                 <Autocomplete
                   disablePortal
+                  id="fatwaListMadhab"
                   size="small"
-                  id="combo-box-demo"
-                  options={
-                    selectedCategory?.subCategory?.length
-                      ? selectedCategory?.subCategory
-                      : []
-                  }
-                  getOptionLabel={(option) => option?.label || ""}
+                  options={madhabData}
+                  getOptionLabel={(option) => option?.title || ""}
                   isOptionEqualToValue={(option, value) =>
                     option._id === value._id
                   }
-                  onChange={(e, val) => setSelectedSubCategory(val)}
-                  value={selectedSubCategory}
+                  onChange={(e, val) => setSelectedMadhab(val)}
+                  value={selectedMadhab || null}
                   renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Subcategories"
-                      size="small"
-                      {...register("subCategory")}
-                    />
+                    <TextField {...params} label="Madhab" />
                   )}
                 />
+              </div>
+              <div className="col-md-2">
+                <Autocomplete
+                  disablePortal
+                  id="fatwaListCategory"
+                  size="small"
+                  options={categoryList}
+                  getOptionLabel={(option) => option?.category || ""}
+                  isOptionEqualToValue={(option, value) =>
+                    option._id === value._id
+                  }
+                  onChange={(e, val) => setSelectedCategory(val)}
+                  value={selectedCategory || ""}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Category" />
+                  )}
+                />
+              </div>
+              <div className="col-md-2">
+                {selectedCategory?.subCategory?.length && (
+                  <Autocomplete
+                    disablePortal
+                    size="small"
+                    id="fatwaListSubCategory"
+                    options={selectedCategory?.subCategory}
+                    getOptionLabel={(option) => option?.label || ""}
+                    isOptionEqualToValue={(option, value) =>
+                      option._id === value._id
+                    }
+                    onChange={(e, val) => setSelectedSubCategory(val)}
+                    value={selectedSubCategory}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Subcategories"
+                        size="small"
+                      />
+                    )}
+                  />
+                )}
               </div>
             </div>
             <div className="fatwas-row second-row">
               <div className="col-md-2">
-                {mufthiData?.length ? (
-                  <Autocomplete
-                    disablePortal
-                    id="combo-box-demo"
-                    size="small"
-                    options={mufthiData || null}
-                    getOptionLabel={(option) => option?.name || ""}
-                    isOptionEqualToValue={(option, value) =>
-                      option._id === value._id
-                    }
-                    onChange={(e, val) => {
-                      setSelectedMufthi(val);
-                    }}
-                    value={selectedMufthi || null}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Mufthi"
-                        {...register("mufthi")}
-                      />
-                    )}
-                  />
-                ) : (
-                  <Autocomplete
-                    disablePortal
-                    size="small"
-                    id="combo-box-demo"
-                    options={[]}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Mufthi" />
-                    )}
-                  />
-                )}
+                <Autocomplete
+                  disablePortal
+                  id="fatwaListMufthi"
+                  size="small"
+                  options={mufthiData}
+                  getOptionLabel={(option) => option?.name || ""}
+                  isOptionEqualToValue={(option, value) =>
+                    option._id === value._id
+                  }
+                  onChange={(e, val) => {
+                    setSelectedMufthi(val);
+                  }}
+                  value={selectedMufthi || null}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Mufthi"
+                      {...register("mufthi")}
+                    />
+                  )}
+                />
               </div>
               <div className="col-md-2">
                 {userData?.length ? (
                   <Autocomplete
                     disablePortal
-                    id="combo-box-demo"
+                    id="fatwaListMustafthi"
                     size="small"
                     options={userData}
                     getOptionLabel={(option) => option?.name || ""}
@@ -357,14 +298,9 @@ export default function Fatwas() {
                       option._id === value._id
                     }
                     onChange={(e, val) => setSelectedUserData(val)}
-                    value={selectedUserData || null}
+                    value={selectedUserData || ""}
                     renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="
-                      Mustafthi"
-                        {...register("mustafthi")}
-                      />
+                      <TextField {...params} label="Mustafthi" />
                     )}
                   />
                 ) : (
@@ -380,27 +316,21 @@ export default function Fatwas() {
                 )}
               </div>
               <div className="col-md-2">
-                {languageList?.length && (
-                  <Autocomplete
-                    disablePortal
-                    id="combo-box-demo"
-                    size="small"
-                    options={languageList}
-                    getOptionLabel={(option) => option?.title || ""}
-                    isOptionEqualToValue={(option, value) =>
-                      option.id === value.id
-                    }
-                    onChange={(e, val) => setSelectedLanguage(val)}
-                    value={selectedLanguage}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Language"
-                        {...register("language")}
-                      />
-                    )}
-                  />
-                )}
+                <Autocomplete
+                  disablePortal
+                  id="fatwaListLanguage"
+                  size="small"
+                  options={languageList}
+                  getOptionLabel={(option) => option?.title || ""}
+                  isOptionEqualToValue={(option, value) =>
+                    option.id === value.id
+                  }
+                  onChange={(e, val) => setSelectedLanguage(val)}
+                  value={selectedLanguage || ""}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Language" />
+                  )}
+                />
               </div>
               <div className="col-md-2 d-flex justify-content-between">
                 <div className="col-md-5">
@@ -449,21 +379,23 @@ export default function Fatwas() {
                           getQuestionList("");
                           setSearchInput("");
                         }}
-                        {...register("search",{required:"this is req"})}
+                        {...register("search", { required: "this is req" })}
                       >
-                        <div className="error">{errors?.search?.message}</div>
-                      <CloseIcon />
+                        <CloseIcon />
                       </IconButton>
+
                       <IconButton
                         // onClick={() => handleApply(`?search=${searchInput}`)}
                         onClick={() =>
                           getQuestionList(`?search=${searchInput}`)
                         }
                       >
-                        <div className="error">{errors?.search?.message}</div>
-                        <SearchIcon sx={{
-                          visibility: searchInput !== "" ? "visible" : "hidden",
-                        }}/>
+                        <SearchIcon
+                          sx={{
+                            visibility:
+                              searchInput !== "" ? "visible" : "hidden",
+                          }}
+                        />
                       </IconButton>
                     </InputAdornment>
                   ),
@@ -491,7 +423,7 @@ export default function Fatwas() {
                       <TableCell>Category</TableCell>
                       <TableCell>Madhab</TableCell>
                       <TableCell>Mufthi</TableCell>
-                      <TableCell>Status</TableCell>                      
+                      <TableCell>Status</TableCell>
                     </TableRow>
                   </TableHead>
 
@@ -500,6 +432,7 @@ export default function Fatwas() {
                       questionList?.data?.map((question) => {
                         return (
                           <TableRow
+                            key={question?._id}
                             hover
                             sx={{
                               "&:last-child td, &:last-child th": { border: 0 },
@@ -509,7 +442,6 @@ export default function Fatwas() {
                                 `${routerList.admin.fatwasDetails}/${question?._id}`
                               )
                             }
-                            key={question._id}
                           >
                             <TableCell component="th" scope="row">
                               {question.slNo}
@@ -554,11 +486,7 @@ export default function Fatwas() {
                               >
                                 {question?.status}
                               </span>
-                              {/* <span className="status">{question.status}</span> */}
                             </TableCell>
-                            {/* <TableCell>
-                              <VisibilityIcon className="view-icon" />
-                            </TableCell> */}
                           </TableRow>
                         );
                       })

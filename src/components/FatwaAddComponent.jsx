@@ -15,6 +15,7 @@ export default function FatwaAddComponent({ referenceList, setReferance }) {
       setList(referenceList);
     }
   }, []);
+
   const [list, setList] = useState([
     {
       quote: "",
@@ -49,8 +50,6 @@ export default function FatwaAddComponent({ referenceList, setReferance }) {
     setList(temp);
     setReferance(temp);
   };
-
-  console.log("list", list);
 
   return (
     <div className="show-section">

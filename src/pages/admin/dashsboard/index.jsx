@@ -7,7 +7,6 @@ import QueryBuilderIcon from "@mui/icons-material/QueryBuilder";
 import CloseIcon from "@mui/icons-material/Close";
 import LanguageIcon from "@mui/icons-material/Language";
 import SearchIcon from "@mui/icons-material/Search";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import SnackBar from "../../../components/common/Snackbar";
 import {
   Table,
@@ -91,31 +90,31 @@ export default function Dashboard() {
           <CountTile
             titile="Mustafthi"
             Icon={() => <LanguageIcon className="fa" />}
-            style="assMufthi"
+            custStyle={"assMufthi"}
             value={counteList?.musafthi || "N/A"}
           />
           <CountTile
             titile="Fatwas"
             Icon={() => <ListAltIcon className="fa" />}
-            style="published"
+            custStyle="published"
             value={counteList?.total_fatwas || "N/A"}
           />
           <CountTile
             titile="Answered"
             Icon={() => <BorderColorIcon className="fa" />}
-            style="mufthiAns"
+            custStyle="mufthiAns"
             value={counteList?.answered || "N/A"}
           />
           <CountTile
             titile="Pending"
             Icon={() => <QueryBuilderIcon className="fa" />}
-            style="pending"
+            custStyle="pending"
             value={counteList?.pending || "N/A"}
           />
           <CountTile
             titile="Rejected"
             Icon={() => <CloseIcon className="fa" />}
-            style="rejected"
+            custStyle="rejected"
             value={counteList?.rejected || "N/A"}
           />
         </div>
@@ -157,10 +156,12 @@ export default function Dashboard() {
                                 getQuestions(`?slNo=${searchInput}`)
                               }
                             >
-                              <SearchIcon sx={{
-                                visibility:
-                                  searchInput !== "" ? "visible" : "hidden",
-                              }}/>
+                              <SearchIcon
+                                sx={{
+                                  visibility:
+                                    searchInput !== "" ? "visible" : "hidden",
+                                }}
+                              />
                             </IconButton>
                           </InputAdornment>
                         ),
@@ -193,6 +194,7 @@ export default function Dashboard() {
                         questionList?.map((items) => {
                           return (
                             <TableRow
+                              key={items?._id}
                               hover
                               sx={{
                                 "&:last-child td, &:last-child th": {
