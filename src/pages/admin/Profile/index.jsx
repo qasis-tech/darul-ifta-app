@@ -11,174 +11,112 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import "yup-phone";
 
+import Profile from "../../../assets/Minaret.svg";
 import { URLS } from "../../../config/urls.config";
 import Loader from "../../../components/common/Loader";
 import SnackBar from "../../../components/common/Snackbar";
+import { Typography } from "@mui/material";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 
+import "./admin.profile.styles.scss";
 
 export default function AdminProfile() {
- 
   return (
     <>
-        <div className="add-user-section shadow bg-white">
-          <form>
-            <div className="add-user-container">
-              <div className="add-user-row">
-                <div className="col-md-6 first-col">
-                  <TextField
-                    id="outlined-basic"
-                    label="Email"
-                    size="small"
-                    fullWidth
-                    variant="outlined"
+      <div className="admin-profile-update shadow bg-white">
+        <form>
+          <div className="admin-profile-container">
+            <div className="row">
+              <div className="col-md-3">
+                <div className="image-wrapper">
+                  <img
+                    src={Profile}
+                    width="250"
+                    height="250"
+                    alt="profile Image"
                   />
                 </div>
-                <div className="col-md-6 second-col">
-                  <TextField
-                    id="outlined-basic"
-                    label="Display Name"
-                    size="small"
-                    fullWidth
-                    variant="outlined"
-                  />
-                </div>
-              </div>
-              <div className="add-user-row">
-                <div className="col-md-6 first-col">
-                  <TextField
-                    id="outlined-basic"
-                    label="Email"
-                    size="small"
-                    fullWidth
-                    variant="outlined"
-                  />
-                </div>
-                <div className="col-md-6 second-col">
-                  <TextField
-                    id="outlined-basic"
-                    label="Whatsapp Number"
-                    size="small"
-                    fullWidth
-                  />
+                <div className="row d-flex justify-content-around">
+                  <div className="col-md-5">
+                    <Typography>Profile Name</Typography>
+                  </div>
+                  <div className="profile-remove col-md-2">
+                    <Typography>
+                      <DeleteOutlineOutlinedIcon className="delete-icon" />
+                    </Typography>
+                  </div>
                 </div>
               </div>
-              <div className="add-user-row">
-                <div className="col-md-6 first-col">
-                  <TextField
-                    id="outlined-basic"
-                    label="Password"
-                    type="password"
-                    size="small"
-                    fullWidth
-                    variant="outlined"
-                  />
-                </div>
-                <div className="col-md-3 second-col">
-                  {/* <Autocomplete
-                    // disablePortal
-                    id="combo-box-demo"
-                    size="small"
-                    options={roles}
-                    getOptionLabel={(option) => option.label || ""}
-                    isOptionEqualToValue={(option, value) =>
-                      option.label === value.label
-                    }
-                    onChange={(e, val) => {
-                      console.log("E,VAL", e, val);
-                      setSelectedRoles(val);
-                    }}
-                    value={selectedRoles}
-                    // {...register("roles", {
-                    //   required: "Madhab is required",
-                    // })}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Roles" />
-                    )}
-                  />
-                </div> */}
-                {/* <div className="col-md-3 second-col">
-                  <Autocomplete
-                    disablePortal
-                    id="combo-box-demo"
-                    size="small"
-                    options={madhabData}
-                    getOptionLabel={(option) => option.title || ""}
-                    isOptionEqualToValue={(option, value) =>
-                      option._id === value._id
-                    }
-                    onChange={(e, val) => {
-                      setSelectedMadhab(val);
-                      console.log("valueee==>", val);
-                    }}
-                    value={selectedMadhab}
-                    // {...register("madhab", {
-                    //   required: "Madhab is required",
-                    // })}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Madhab" />
-                    )}
-                  />
-
-                  {!selectedMadhab?.title && (
-                    <div className="error">{errors?.madhab?.message}</div>
-                  )}
-                </div> */}
-              </div>
-              <div className="add-user-row">
-                <div className="col-md-6 first-col">
-                  <TextField
-                    id="outlined-basic"
-                    label="Address"
-                    // size="small"
-                    rows={3}
-                    multiline
-                    fullWidth
-                    variant="outlined"
-                  />
-                </div>
-                {/* <div className="col-md-6 second-col">
-                  {status?.length && (
-                    <Autocomplete
-                      disablePortal
-                      id="combo-box-demo"
+              <div className="col-md-9">
+                <div className="row">
+                  <div className="col-md-6">
+                    <TextField
+                      id="outlined-basic"
+                      fullWidth
                       size="small"
-                      options={status}
-                      getOptionLabel={(option) => option.title || ""}
-                      isOptionEqualToValue={(option, value) =>
-                        option.id === value.id
-                      }
-                      onChange={(e, val) => setSelectedStatus(val)}
-                      value={selectedStatus}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Active Status"
-                          // {...register("status", {
-                          //   required: "Status is required",
-                          // })}
-                        />
-                      )}
+                      label="Dispaly Name"
+                      variant="outlined"
                     />
-                  )}
-                </div> */}
-              </div>
-              <div className="btn-section">
-                <div className="col-md-1">
-                  <Button
-                    variant="contained"
-                    className="form-btn"
-                    type="submit"
-                    fullWidth
-                  >
-                    Update
-                  </Button>
+                  </div>
+                  <div className="col-md-6">
+                    <TextField
+                      id="outlined-basic"
+                      fullWidth
+                      size="small"
+                      label="First Name"
+                      variant="outlined"
+                    />
+                  </div>
+                </div>
+                <div className="row mt-4">
+                  <div className="col-md-6">
+                    <TextField
+                      id="outlined-basic"
+                      fullWidth
+                      size="small"
+                      label="Last Name"
+                      variant="outlined"
+                    />
+                  </div>
+                  <div className="col-md-6">
+                    <TextField
+                      id="outlined-basic"
+                      fullWidth
+                      size="small"
+                      label="Email"
+                      variant="outlined"
+                    />
+                  </div>
+                </div>
+                <div className="row mt-4">
+                  <div className="col-md-6">
+                    <TextField
+                      id="outlined-basic"
+                      fullWidth
+                      size="small"
+                      label="Phone Number"
+                      variant="outlined"
+                    />
+                  </div>
                 </div>
               </div>
+              <div className="d-flex justify-content-end">
+                  <div className="col-md-1">
+                    <Button
+                      variant="contained"
+                      className="form-btn"
+                      type="submit"
+                      fullWidth
+                    >
+                      Update
+                    </Button>
+                  </div>
+                </div>
             </div>
-            </div>
-          </form>
+          </div>
+        </form>
 
-          {/* {errorPopup.visible && (
+        {/* {errorPopup.visible && (
             <SnackBar
               visible={errorPopup.visible}
               message={errorPopup.message}
@@ -187,7 +125,7 @@ export default function AdminProfile() {
               onClose={() => handleCloseError()}
             />
           )} */}
-        </div>
+      </div>
     </>
   );
 }

@@ -1,0 +1,17 @@
+@import "../../../styles/common.styles.scss";
+
+.admin-profile-update{
+    .admin-profile-container{
+        padding: 3em;
+        .image-wrapper{
+            img{
+                width: 100%;
+            }
+        }
+        .profile-remove{
+            .delete-icon{
+                color: $error;
+            }
+        }
+    }
+}
