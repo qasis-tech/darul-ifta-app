@@ -85,11 +85,11 @@ function DashboardPage() {
       icon: <SummarizeIcon />,
     },
     { path: RouterList.admin.user, title: "USER", icon: <PeopleIcon /> },
-    {
-      path: RouterList.admin.musthafthies,
-      title: "Mufthi",
-      icon: <ReorderIcon />,
-    },
+    // {
+    //   path: RouterList.admin.musthafthies,
+    //   title: "Mufthi",
+    //   icon: <ReorderIcon />,
+    // },
   ]);
   const getPathName = () =>
     startCase(

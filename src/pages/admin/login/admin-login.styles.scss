@@ -1,0 +1,16 @@
+@import "../../../styles/common.styles.scss";
+.admin-login {
+  .lock-icon {
+    font-size: 50px;
+    color: $theme-primary-color;
+  }
+  .heading-section {
+    color: $theme-primary-color;
+  }
+  .login-button {
+    background-color: $theme-primary-color;
+    &:hover {
+      background-color: $primary;
+    }
+  }
+}
