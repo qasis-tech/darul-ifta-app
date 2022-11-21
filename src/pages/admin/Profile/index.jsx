@@ -14,7 +14,9 @@ import "yup-phone";
 import { URLS } from "../../../config/urls.config";
 import Loader from "../../../components/common/Loader";
 import SnackBar from "../../../components/common/Snackbar";
-export default function AdminDetails() {
+
+
+export default function AdminProfile() {
  
   return (
     <>

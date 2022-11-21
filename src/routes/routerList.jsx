@@ -36,5 +36,6 @@ export default {
     fatwasDetails: `fatwa-details`,
     mufthiDetails: "mufthi-details",
     dashboard: "dashboard",
+    profile : "profile"
   },
 };
