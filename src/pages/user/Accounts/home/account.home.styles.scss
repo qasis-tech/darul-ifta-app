@@ -54,8 +54,15 @@
     }
   }
 }
+.MuiPaper-root{
+  .MuiTypography-root{
+    font-weight: 600;
+  }
+}
 .profile-1 {
   padding-top: 7em!important;
+  padding-left: 5em!important;
+  padding-right: 5em!important;
   .profile-container{
     @media screen and (max-width: 1000px) {
       flex-direction: column;

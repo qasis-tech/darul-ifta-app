@@ -105,7 +105,7 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
 
   return (
     <>
-      <div class="profile-1 mt-2  px-5">
+      <div class="profile-1 mt-2">
         <div className="container profile-container d-flex py-1 px-5">
           <div class="col d-flex flex-column align-items-center">
             <div class="profile-img">
@@ -147,9 +147,9 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
                   </DialogComponent>
                 </div>
 
-                <div className="col d-flex align-items-center">
+                {/* <div className="col d-flex align-items-center">
                   <MessageIcon className="profile-icons" />
-                </div>
+                </div> */}
                 <div className="col">
                   <IconButton
                     color="primary"
