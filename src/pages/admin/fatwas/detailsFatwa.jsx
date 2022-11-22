@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
+import moment from "moment";
 
 import {
   Button,
@@ -22,7 +23,6 @@ import "./fatwas.details.styles.scss";
 import Loader from "../../../components/common/Loader";
 import DialogComponent from "../../../components/DialogComponent";
 import RejectedReasonSection from "./components/RejectedReasonSection";
-import moment from "moment";
 import getQuestionListApi from "../../../services/getQuestionsList";
 import routerList from "../../../routes/routerList";
 
@@ -91,8 +91,9 @@ export default function FatwasDetails() {
     if (id) {
       getQuestionListApi(`/${id}`)
         .then((res) => {
-          let parsedReference;
-          if (res?.data?.reference) {
+          console.log(res);
+          let parsedReference = [];
+          if (res?.data?.reference?.length) {
             parsedReference = JSON.parse(res?.data?.reference);
           }
           setQuestionDetails(res.data);
@@ -110,7 +111,7 @@ export default function FatwasDetails() {
           setAnswer(res.data?.answer);
           setSelectedMufthi(res?.data?.mufti);
 
-          setReferance(res?.data?.reference ? parsedReference : []);
+          setReferance(parsedReference);
           setSelectedStatus(
             status.filter((fl) => fl.title === res?.data?.status)[0]
           );
@@ -210,13 +211,11 @@ export default function FatwasDetails() {
       language: selectedLanguage?.title,
       status: "Received to Darul Ifta",
       answer: null,
-      reference: state?.reference,
-      answered_date: state?.answered_date,
-      verified_date: state?.verified_date,
-      answered_by: state?.answered_by,
-      verified_by: state?.verified_by,
-      mufti: state?.mufti,
-      verifier: state?.verifier,
+      reference: [],
+      answered_date: null,
+      verified_date: null,
+      mufti: null,
+      verifier: null,
       reject_by: state?.reject_by,
       mufti_answered: state?.mufti_answered,
       reject_reason: state?.reject_reason,
@@ -297,16 +296,10 @@ export default function FatwasDetails() {
       payload.mufti = selectedMufthi;
       payload.status = "Assigned Mufti";
       if (selectedMufthi === null) {
-        // setError(
-        //   "assignedTo",
-        //   { type: "focus", message: "assigned mufthi is Invalid" },
-        //   { shouldFocus: true }
-        // );
         isError.status = true;
         isError.message = "Must select a mufthi";
       }
     } else if (state.status === "Assigned Mufti") {
-      console.log("0000002", answer);
       if (!selectedMufthiVerified) {
         isError.status = true;
         isError.message = "Verified by is Invalid";
@@ -314,6 +307,7 @@ export default function FatwasDetails() {
         isError.status = true;
         isError.message = "Answer is Invalid";
       } else {
+        payload.answered_date = moment();
         payload.status = "Mufti Answered";
         payload.verifier = selectedMufthiVerified;
         payload.answer = answer;
@@ -322,10 +316,13 @@ export default function FatwasDetails() {
         payload.mufti_answered = true;
       }
     } else if (state.status === "Mufti Answered") {
-      console.log("0000003");
+      payload.status = "Completed Verification";
+      payload.verified_date = moment();
+    } else if (state.status === "Completed Verification") {
+      console.log("0000005");
+      payload.status = "Published";
     } else {
-      console.log("0000004");
-      alert("Elseeeeeee");
+      alert("Somthing wrong");
       payload.answer = null;
       payload.mufti = null;
     }
@@ -340,7 +337,9 @@ export default function FatwasDetails() {
           setLoader(false);
           console.log("res put accept api", res);
           if (res?.success) {
-            navigate(-1);
+            navigate(
+              `${routerList.admin.admin}/${routerList.admin.adminfatwas}`
+            );
           }
         })
         .catch((err) => {
@@ -554,16 +553,16 @@ export default function FatwasDetails() {
                       size="small"
                       value={selectedMufthi || ""}
                       fullWidth
-                      options={mufthiList}
+                      options={mufthiList?.filter(
+                        (fl) => fl?._id !== selectedMufthiVerified?._id
+                      )}
                       onChange={(event, newValue) => {
-                        console.log("11111111111", newValue);
                         setSelectedMufthi(newValue);
                       }}
                       getOptionLabel={(option) => option?.name || ""}
                       isOptionEqualToValue={(option, value) =>
                         option._id === value._id
                       }
-                      // {...register("assignedTo")}
                       renderInput={(params) => (
                         <TextField {...params} label="Assigned To" />
                       )}
@@ -636,50 +635,59 @@ export default function FatwasDetails() {
               alignItems="center"
             >
               <Grid item sm={3}>
-                {state?.status === "Mufti Answered" && (
-                  <Autocomplete
-                    id="status"
-                    size="small"
-                    options={status}
-                    value={selectedStatus || ""}
-                    onChange={(event, newValue) => handleChangeStatus(newValue)}
-                    getOptionLabel={(option) => option?.title || ""}
-                    isOptionEqualToValue={(option, value) =>
-                      option?.title === value?.title
-                    }
-                    renderInput={(params) => (
-                      <TextField {...params} label="Status" />
-                    )}
-                  />
-                )}
+                {state?.status === "Mufti Answered" ||
+                  state?.status === "Completed Verification" ||
+                  (state?.status === "Published" && (
+                    <Autocomplete
+                      id="status"
+                      size="small"
+                      options={status}
+                      value={selectedStatus || ""}
+                      onChange={(event, newValue) =>
+                        handleChangeStatus(newValue)
+                      }
+                      getOptionLabel={(option) => option?.title || ""}
+                      isOptionEqualToValue={(option, value) =>
+                        option?.title === value?.title
+                      }
+                      renderInput={(params) => (
+                        <TextField {...params} label="Status" />
+                      )}
+                    />
+                  ))}
               </Grid>
-              <Grid item sm={3}>
-                {state?.status === "Received to Darul Ifta" ||
-                state?.status === "Assigned Mufti" ||
-                state?.status === "Mufti Answered" ? (
-                  <Grid
-                    container
-                    direction="row"
-                    justifyContent="flex-end"
-                    alignItems="center"
-                  >
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      className="form-btn"
-                      onClick={handlePublish}
+              {state?.status !== "Published" && (
+                <Grid item sm={3}>
+                  {state?.status === "Received to Darul Ifta" ||
+                  state?.status === "Assigned Mufti" ||
+                  state?.status === "Mufti Answered" ||
+                  state?.status === "Completed Verification" ? (
+                    <Grid
+                      container
+                      direction="row"
+                      justifyContent="flex-end"
+                      alignItems="center"
                     >
-                      {state?.status === "Received to Darul Ifta"
-                        ? "Assigned to mufti"
-                        : state?.status === "Assigned Mufti"
-                        ? "Mufthi Answered"
-                        : state?.status === "Mufti Answered"
-                        ? "Verification Completed "
-                        : "Submit"}
-                    </Button>
-                  </Grid>
-                ) : null}
-              </Grid>
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        className="form-btn"
+                        onClick={handlePublish}
+                      >
+                        {state?.status === "Received to Darul Ifta"
+                          ? "Assigned to mufti"
+                          : state?.status === "Assigned Mufti"
+                          ? "Mufthi Answered"
+                          : state?.status === "Mufti Answered"
+                          ? "Completed Verification"
+                          : state?.status === "Completed Verification"
+                          ? "Publish"
+                          : "Submit"}
+                      </Button>
+                    </Grid>
+                  ) : null}
+                </Grid>
+              )}
             </Grid>
 
             {/* Rejected */}
