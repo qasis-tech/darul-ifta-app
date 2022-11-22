@@ -17,7 +17,8 @@ const FooterComponent = () => {
 
   return (
     <div className="footer-section">
-      <div className="row footer-container px-5 mx-0">
+        <div className="container">
+          <div className="row footer-container px-5 mx-0">
         <div className="col-md-4 logo-section d-flex flex-column align-items-md-center align-items-lg-center align-items-xl-center">
           <div className="logo-image-wrapper d-flex flex-column">
             <img src={Logo} alt="" width="250" className="logo-img" />
@@ -74,6 +75,7 @@ const FooterComponent = () => {
             </div>
           </div>
         </div>
+          </div>
       </div>
       <div className="identity px-0">
         <span>
