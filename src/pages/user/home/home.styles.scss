@@ -46,6 +46,7 @@
 
 .head {
   font-family: $font-style;
+  font-weight: 600;
 }
 .desc {
   font-family: "Mulish" serif;
@@ -177,9 +178,12 @@
 // tab-container
 .tab-container {
   background-color: #eeeeeed9;
+  @media screen and (max-width:430px) {
+    width: 85%!important;
+  }
   @media screen and (max-width: 1000px) {
     margin-top: 2em !important;
-    overflow-x: scroll !important;
+   // overflow-x: scroll !important;
   }
   .MuiTabs-scroller {
     @media screen and (max-width: 1000px) {
@@ -305,8 +309,17 @@
   }
   .body-section {
     padding-bottom: 4em;
-    .main-madhub-section{
-      padding-right: 2em;
+    .side-row{
+      @media screen and (max-width:430px) {
+      justify-content: center;
+      }
+      .main-madhub-section{
+        padding-right: 2em;
+        @media screen and (max-width:430px) {
+          padding-right: 1em;
+          width: 85%;
+        }
+      }
     }
   }
   .search-btn {

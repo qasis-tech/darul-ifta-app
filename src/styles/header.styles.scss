@@ -67,8 +67,13 @@
         ul li {
           cursor: pointer;
         }
-        .profile-icon{
-          margin-left: 5px!important;
+        .nav-profile-section{
+          @media screen and (max-width:768px) {
+            padding: 10px;
+          }
+          .profile-icon{
+            margin-left: 5px!important;
+          }
         }
         ul li a {
           font-size: 12px;
