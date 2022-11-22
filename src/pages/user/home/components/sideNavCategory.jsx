@@ -59,59 +59,56 @@ const SideNavCategory = ({ addHomeFilter, homeFilter, ...other }) => {
         <span className="text-white fs-6">Categories</span>
       </div>
       <div className="l-green"></div>
-      
-        <div className="accordian-wrapper">
-          {isloading ? (
-            <Loader skeleton />
-          ) : !!categoryData?.length ? (
-            categoryData?.map((category) =>
-                <Accordion className="accordian" key={category?._id}>
-                  <AccordionSummary
-                  className="shadow-sm main-category-accordian"
-                    expandIcon={<ExpandMoreIcon className="arrow-color" />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                    key={category._id}
-                  >
-                    <Typography >{category?.category}</Typography>
-                  </AccordionSummary>
 
-                  {category?.subCategory?.length ? (
-                    category?.subCategory?.map((subcategory) => {
-                      return (
-                        <AccordionDetails
-                          key={subcategory._id}
-                          className="border-bottom"
-                        >
-                          <span
-                            className="accordion-sub"
-                            onClick={() => {
-                              let temp = { ...homeFilter };
-                              console.log("categoriesChip ==> ", temp);
-                              temp.category = subcategory;
-                              addHomeFilter(temp);
-                            }}
-                          >
-                            {subcategory.label}
-                          </span>
-                        </AccordionDetails>
-                      );
-                    })
-                  ) : (
-                    <div>no data</div>
-                  )}
-                </Accordion>
-              
-            )
-          ) : (
-            <div>
-              <NoDataAvailable noStyle text  noBg />
+      <div className="accordian-wrapper">
+        {isloading ? (
+          <Loader skeleton />
+        ) : !!categoryData?.length ? (
+          categoryData?.map((category) => (
+            <Accordion className="accordian" key={category?._id}>
+              <AccordionSummary
+                className="shadow-sm main-category-accordian"
+                expandIcon={<ExpandMoreIcon className="arrow-color" />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+                key={category._id}
+              >
+                <Typography>{category?.category}</Typography>
+              </AccordionSummary>
 
-            </div>
+              {category?.subCategory?.length ? (
+                category?.subCategory?.map((subcategory) => {
+                  return (
+                    <AccordionDetails
+                      key={subcategory._id}
+                      className="border-bottom"
+                    >
+                      <span
+                        className="accordion-sub"
+                        onClick={() => {
+                          let temp = { ...homeFilter };
+                          console.log("categoriesChip ==> ", temp);
+                          temp.category = subcategory;
+                          addHomeFilter(temp);
+                        }}
+                      >
+                        {subcategory.label}
+                      </span>
+                    </AccordionDetails>
+                  );
+                })
+              ) : (
+                <div>no data</div>
+              )}
+            </Accordion>
+          ))
+        ) : (
+          <div>
+            <NoDataAvailable noStyle text noBg />
+          </div>
+        )}
+      </div>
 
-          )}
-        </div>
-      
       <div className="madhab-category">
         <div className="green mt-4">
           <span className="text-white fs-6">Madhab</span>
@@ -122,21 +119,22 @@ const SideNavCategory = ({ addHomeFilter, homeFilter, ...other }) => {
           {isloading ? (
             <Loader skeleton />
           ) : madhabData?.length ? (
-            madhabData?.map((madhab) => {
-              return (
-                <ul className="mt-2 ms-4" key={madhab?._id}>
+            <ul className="mt-2 ms-2">
+              {madhabData?.map((madhab) => {
+                return (
                   <li
+                    key={madhab?._id}
                     onClick={() => {
                       let temp = { ...homeFilter };
                       temp.madhab = madhab;
                       addHomeFilter(temp);
                     }}
                   >
-                    {madhab?.title}
+                    <Typography variant="subtitle1">{madhab?.title}</Typography>
                   </li>
-                </ul>
-              );
-            })
+                );
+              })}
+            </ul>
           ) : (
             <NoDataAvailable noStyle text noBg />
           )}
