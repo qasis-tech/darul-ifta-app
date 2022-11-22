@@ -98,7 +98,7 @@ const HeaderComponent = ({ closePopup, userLoginDetails }) => {
                     Fatwa
                   </a>
                 </li>
-                <li className="nav-item" dropdown>
+                <li className="nav-item nav-profile-section" dropdown>
                   {userLoginDetails ? (
                     <>
                       <IconButton

@@ -9,10 +9,15 @@
     min-height: 350px;
     font-family:$footer-font-style;
     font-weight: lighter;
+    padding: 0em 4em 0 4em;
     @media screen and (max-width:700px) {
       padding-left: 0!important;
       padding-right: 0!important;
       padding-top: 1em!important;
+    }
+    @media screen and (min-width:770px) and (max-width:1024px) {
+      padding-left: 2rem!important;
+      padding-right:2rem!important;
     }
     .logo-image-wrapper{
       width: 293px;
@@ -24,13 +29,9 @@
       }
     }
   }
-
-  .footer-container {
-    padding: 3em 4em 0 4em;
-  }
-
   .img-logo-desc {
     color: #fff;
+    line-height: 2em;
     a{
       cursor: pointer;
       &:hover{
@@ -56,6 +57,7 @@
         list-style-type: none;
         font-size:$main-font-size - 1 ;
         cursor: pointer;
+        line-height: 2em;
         &:hover{
           color: $theme-l-green;
         }
@@ -146,7 +148,7 @@
     }
 
     .hr-bar {
-      width: 100%;
+      width: 33%;
     }
   }
 

@@ -41,6 +41,7 @@ import {
   addHomeFilter,
 } from "../../../redux/actions";
 import { getLocal } from "../../../utils/localStore";
+import { minHeight } from "@mui/system";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -215,8 +216,8 @@ const HomePage = (props) => {
         <Slider />
         <section className="body-section pt-2">
           <div className="container">
-            <div className="row">
-              <div className="col-md-3 main-madhub-section">
+            <div className="row side-row">
+              <div className="col-md-3 col-sm-2 col-xs-2 main-madhub-section">
                 <SideNavCategory />
                 <VisitorDetails />
               </div>
@@ -312,7 +313,9 @@ const HomePage = (props) => {
                                 );
                               })
                             ) : (
+                              <div className="d-flex justify-content-center align-items-center" style={{minHeight: "445px"} }>
                               <NoDataAvailable noStyle noBg />
+                              </div>
                             )}
                           </TabPanel>
                         );

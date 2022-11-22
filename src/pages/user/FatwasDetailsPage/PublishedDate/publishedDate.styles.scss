@@ -4,6 +4,9 @@
         .date{
             .published-date{
                 flex-direction: row;
+                @media screen and (max-width:1000px) {
+                    flex-direction: column;
+                }
                 .pub-date{
                     font-family: $font-style;
                     font-size: $theme-f1!important;
