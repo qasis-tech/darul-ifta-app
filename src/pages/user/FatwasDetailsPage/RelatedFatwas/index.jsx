@@ -83,7 +83,9 @@ export default function RelatedFatwas({ data }) {
             );
           })
         ) : (
-          <NoDataAvailable noStyle />
+          <div className="d-flex justify-content-center align-items-center" style={{minHeight: "200px"} }>
+          <NoDataAvailable noStyle noBg />
+          </div>
         )}
       </div>
     </div>
