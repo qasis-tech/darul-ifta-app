@@ -11,13 +11,13 @@ export default function PublishedDate({ data }) {
             <span className="pub-date me-3">
               Created Date :{" "}
               <span className="ms-1">
-              {moment(data?.createdAt).format("DD/MM/YYYY,dddd") || "N/A"}
+                {moment(data?.createdAt).format("dddd, DD MMM YYYY") || "N/A"}
               </span>
             </span>
             <span className="pub-date">
               Published Date :{" "}
               <span className="ms-1">
-              {moment(data?.updatedAt).format("DD/MM/YYYY,dddd") || "N/A"}
+                {moment(data?.updatedAt).format("dddd, DD MMM YYYY") || "N/A"}
               </span>
             </span>
           </div>
