@@ -295,7 +295,6 @@ const HomePage = (props) => {
                       {[0, 1, 2, 3, 4].map((item) => {
                         return (
                           <TabPanel value={value} index={item}>
-                            <div className="d-flex justify-content-center align-items-center" style={{minHeight: "445px"} }>
                             {questionsData?.length ? (
                               questionsData?.map((questions) => {
                                 return (
@@ -314,9 +313,10 @@ const HomePage = (props) => {
                                 );
                               })
                             ) : (
+                              <div className="d-flex justify-content-center align-items-center" style={{minHeight: "445px"} }>
                               <NoDataAvailable noStyle noBg />
+                              </div>
                             )}
-                            </div>
                           </TabPanel>
                         );
                       })}
