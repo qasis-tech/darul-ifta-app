@@ -9,7 +9,7 @@
         margin-left: 0!important;
         margin-right: 0!important;
         .heading-section {
-          background-color: #235775;
+          background-color: $theme-primary-color;
           padding: 0.7em 1em;
           border-top-left-radius: 10px;
           border-top-right-radius: 10px;
@@ -18,13 +18,13 @@
           font-weight: 600;
         }
         .desc {
-          color: #235775;
+          color: $theme-primary-color;
           padding: 0.5em 1.2em;
         }
         .q-footer {
           display: flex;
           justify-content: space-between;
-          border-top: 4px solid #235775;
+          border-top: 4px solid $theme-primary-color;
           margin: 0;
           padding: 12px 0;
           .number-btn{
@@ -32,16 +32,15 @@
               margin-bottom: 1em!important;
             }
             .q-no {
-              background-color: #235775;
-              padding: 7px 15px;
+              background-color: $theme-primary-color;
+              padding: 7px 12px;
               color: #fff;
               border-radius: 5px;
-              font-size: $main-font-size - 1;
             }
           }
           .w-name{
             h5{
-                color: #235775;
+                color: $theme-primary-color;
             }
           }
         }

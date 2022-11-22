@@ -5,6 +5,7 @@ import { addGeneralDetails } from "../../../../redux/actions";
 import getGeneralsListApi from "../../../../services/getGeneralList";
 import Loader from "../../../../components/common/Loader";
 import { URLS } from "../../../../config/urls.config";
+import { Typography } from "@mui/material";
 
 const VisitorDetails = (props) => {
   const [isLoading, setLoader] = useState(false);
@@ -30,17 +31,23 @@ const VisitorDetails = (props) => {
       ) : (
         <>
           <div className="custom-details-column">
-            <h6>Visitor</h6>
-            <div>{props?.generals?.visitors || "N/A"}</div>
+            <div>
+            <Typography variant="subtitle1">Visitor</Typography>
+            </div>
+            <div className="value">{props?.generals?.visitors || "N/A"}</div>
           </div>
 
-          <div className="custom-details-column">
-            <h6>Total Fatwas</h6>
-            <div>{props?.generals?.total_fatwas || "N/A"}</div>
+          <div className="custom-details-column mt-3">
+          <div>
+            <Typography variant="subtitle1">Total Fatwas</Typography>
+            </div>
+            <div className="value">{props?.generals?.total_fatwas || "N/A"}</div>
           </div>
-          <div className="custom-details-column">
-            <h6>Registered Users</h6>
-            <div>{props?.generals?.musafthi || "N/A"}</div>
+          <div className="custom-details-column mt-3">
+          <div>
+            <Typography variant="subtitle1">Registered Users</Typography>
+            </div>
+            <div className="value">{props?.generals?.musafthi || "N/A"}</div>
           </div>
         </>
       )}

@@ -6,6 +6,7 @@ import {
   AccordionSummary,
   AccordionDetails,
   Typography,
+  Paper,
 } from "@mui/material";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -56,7 +57,9 @@ const SideNavCategory = ({ addHomeFilter, homeFilter, ...other }) => {
   return (
     <div className="col side-accord-container shadow">
       <div className="green">
-        <span className="text-white fs-6">Categories</span>
+        <Typography variant="subtitle1" className="text-white">
+          Categories
+        </Typography>
       </div>
       <div className="l-green"></div>
 
@@ -73,7 +76,9 @@ const SideNavCategory = ({ addHomeFilter, homeFilter, ...other }) => {
                 id="panel1a-header"
                 key={category._id}
               >
-                <Typography>{category?.category}</Typography>
+                <Typography variant="subtitle2">
+                  {category?.category}
+                </Typography>
               </AccordionSummary>
 
               {category?.subCategory?.length ? (
@@ -83,7 +88,8 @@ const SideNavCategory = ({ addHomeFilter, homeFilter, ...other }) => {
                       key={subcategory._id}
                       className="border-bottom"
                     >
-                      <span
+                      <Typography
+                        variant="subtitle2"
                         className="accordion-sub"
                         onClick={() => {
                           let temp = { ...homeFilter };
@@ -93,7 +99,7 @@ const SideNavCategory = ({ addHomeFilter, homeFilter, ...other }) => {
                         }}
                       >
                         {subcategory.label}
-                      </span>
+                      </Typography>
                     </AccordionDetails>
                   );
                 })
@@ -109,37 +115,43 @@ const SideNavCategory = ({ addHomeFilter, homeFilter, ...other }) => {
         )}
       </div>
 
-      <div className="madhab-category">
-        <div className="green mt-4">
-          <span className="text-white fs-6">Madhab</span>
-        </div>
-        <div className="l-green"></div>
+      <Paper elevation={2}>
+        <div className="madhab-category">
+          <div className="green mt-4">
+            <Typography variant="subtitle1" className="text-white">
+              Madhab
+            </Typography>
+          </div>
+          <div className="l-green"></div>
 
-        <div>
-          {isloading ? (
-            <Loader skeleton />
-          ) : madhabData?.length ? (
-            <ul className="mt-2 ms-2">
-              {madhabData?.map((madhab) => {
-                return (
-                  <li
-                    key={madhab?._id}
-                    onClick={() => {
-                      let temp = { ...homeFilter };
-                      temp.madhab = madhab;
-                      addHomeFilter(temp);
-                    }}
-                  >
-                    <Typography variant="subtitle1">{madhab?.title}</Typography>
-                  </li>
-                );
-              })}
-            </ul>
-          ) : (
-            <NoDataAvailable noStyle text noBg />
-          )}
+          <div>
+            {isloading ? (
+              <Loader skeleton />
+            ) : madhabData?.length ? (
+              <ul className="mt-2 ms-2">
+                {madhabData?.map((madhab) => {
+                  return (
+                    <li
+                      key={madhab?._id}
+                      onClick={() => {
+                        let temp = { ...homeFilter };
+                        temp.madhab = madhab;
+                        addHomeFilter(temp);
+                      }}
+                    >
+                      <Typography variant="subtitle2">
+                        {madhab?.title}
+                      </Typography>
+                    </li>
+                  );
+                })}
+              </ul>
+            ) : (
+              <NoDataAvailable noStyle text noBg />
+            )}
+          </div>
         </div>
-      </div>
+      </Paper>
     </div>
   );
 };

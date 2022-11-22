@@ -129,28 +129,18 @@
   padding: 2em;
   margin-top: 3em;
 }
-
-.custom-details-column {
+.custom-details-column{
   border-radius: 15px;
   background-color: $theme-l-green;
   padding: 10px;
   text-align: center;
-  color: #fff;
-  margin-top: 1em;
-  h6{
-    font-weight: 600;
-  }
-}
-
-.custom-details-column h6 {
   color: $theme-primary-color;
-  // font-weight: 700;
-  font-size: $theme-f1;
-}
-.custom-details-column div {
-  font-weight: 100;
-  background-color: $theme-primary-color;
-  font-size: $theme-f1;
+  .value{
+    font-weight: 100;
+    background-color: $theme-primary-color;
+    font-size: $theme-f1;
+    color: $white;
+  }
 }
 
 .portal-details {
@@ -368,10 +358,13 @@
     }
   }
 }
-
+.MuiPaper-root{
+  background-color: transparent!important;
+}
 .accordian-wrapper {
   .main-category-accordian{
     border-bottom: 1px solid #409ea1;
+    border-radius: 10px;
   }
   .MuiButtonBase-root,
   .MuiSvgIcon-root {
