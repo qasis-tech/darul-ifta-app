@@ -30,7 +30,7 @@
 .MuiAccordionSummary-content{
   .MuiTypography-root{
 
-    font-family: "Baloo"!important;
+    font-family: $font-style!important;
   }
 }
 .custom-question-icon i {
@@ -56,7 +56,7 @@
 .accordian {
   background: transparent !important;
   color: white !important;
-  font-family: "Baloo"!important;
+  font-family: $font-style!important;
   .arrow-color {
     color: white;
   }
@@ -287,7 +287,7 @@
 }
 .home-page {
   background-color: #f8f9fa;
-  font-family: $main-font-style;
+  font-family: $font-style;
   padding-top: 5em;
   .bg-custom {
     background-repeat: no-repeat;
@@ -312,7 +312,7 @@
   .search-btn {
     margin-top: 1em;
     .MuiInputLabel-root {
-      font-family: $main-font-style;
+      font-family: $font-style;
     }
   }
   .chip-section {
