@@ -196,6 +196,33 @@ const AskFatwasComponent = ({
               <div className="row">
                 <div className="col-md-4">
                   <Autocomplete
+                    disablePortal
+                    id="combo-box-demo"
+                    size="small"
+                    options={languageList}
+                    getOptionLabel={(option) => option.title || ""}
+                    isOptionEqualToValue={(option, value) =>
+                      option.id === value.id
+                    }
+                    onChange={(e, val) => setSelectedLanguage(val)}
+                    value={selectedLanguage}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Language"
+                        {...register("language", {
+                          required: "Language is required",
+                        })}
+                      />
+                    )}
+                  />
+
+                  {!selectedLanguage?.title && (
+                    <div className="error">{errors?.language?.message}</div>
+                  )}
+                </div>
+                <div className="col-md-4">
+                  <Autocomplete
                     id="outlined-basic"
                     size="small"
                     options={madhabData}
@@ -243,35 +270,6 @@ const AskFatwasComponent = ({
                   />
                   {!selectedCategory?.label && (
                     <div className="error">{errors?.category?.message}</div>
-                  )}
-                </div>
-
-                <div className="col-md-4">
-                  {languageList?.length && (
-                    <Autocomplete
-                      disablePortal
-                      id="combo-box-demo"
-                      size="small"
-                      options={languageList}
-                      getOptionLabel={(option) => option.title || ""}
-                      isOptionEqualToValue={(option, value) =>
-                        option.id === value.id
-                      }
-                      onChange={(e, val) => setSelectedLanguage(val)}
-                      value={selectedLanguage}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Language"
-                          {...register("language", {
-                            required: "Language is required",
-                          })}
-                        />
-                      )}
-                    />
-                  )}
-                  {!selectedLanguage?.title && (
-                    <div className="error">{errors?.language?.message}</div>
                   )}
                 </div>
               </div>

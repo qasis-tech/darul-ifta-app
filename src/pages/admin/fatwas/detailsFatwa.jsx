@@ -3,7 +3,13 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { Button, TextField, Autocomplete, Grid } from "@mui/material";
+import {
+  Button,
+  TextField,
+  Autocomplete,
+  Grid,
+  Typography,
+} from "@mui/material";
 
 import PrintIcon from "@mui/icons-material/Print";
 import FatwaAddComponent from "../../../components/FatwaAddComponent";
@@ -18,6 +24,7 @@ import DialogComponent from "../../../components/DialogComponent";
 import RejectedReasonSection from "./components/RejectedReasonSection";
 import moment from "moment";
 import getQuestionListApi from "../../../services/getQuestionsList";
+import routerList from "../../../routes/routerList";
 
 export default function FatwasDetails() {
   const { id } = useParams();
@@ -71,6 +78,7 @@ export default function FatwasDetails() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
 
@@ -254,22 +262,23 @@ export default function FatwasDetails() {
   const handlePublish = () => {
     // setLoader(true);
 
+    console.log("selectedMadhab", selectedMadhab);
     let payload = {
-      madhab: state?.madhab,
-      category: state?.category,
+      madhab: selectedMadhab,
+      category: selectedCategory,
       sub_category: selectedSubCategory,
       short_question: shortQuestion,
       question: longQuestion,
       language: selectedLanguage?.title,
       status: state.status,
-      answer: state.answer,
-      reference: state?.reference,
+      answer: answer,
+      reference: referenceList,
       answered_date: state?.answered_date,
       verified_date: state?.verified_date,
       answered_by: state?.answered_by,
       verified_by: state?.verified_by,
-      mufti: state?.mufti,
-      verifier: state?.verifier,
+      mufti: selectedMufthi,
+      verifier: selectedMufthiVerified,
       reject_by: state?.reject_by,
       mufti_answered: state?.mufti_answered,
       reject_reason: state?.reject_reason,
@@ -277,50 +286,67 @@ export default function FatwasDetails() {
 
     let isError = { status: false, message: "" };
 
-    if (state?.status === "Received to Darul Ifta") {
+    if (state?.status === "Pending") {
+      payload.verifier = null;
+      payload.answer = null;
+      payload.mufti = null;
+      payload.reference = null;
+    } else if (state?.status === "Received to Darul Ifta") {
+      payload.verifier = null;
+      payload.answer = null;
       payload.mufti = selectedMufthi;
       payload.status = "Assigned Mufti";
       if (selectedMufthi === null) {
-        setError(
-          "assignedTo",
-          { type: "focus", message: "assigned mufthi is Invalid" },
-          { shouldFocus: true }
-        );
+        // setError(
+        //   "assignedTo",
+        //   { type: "focus", message: "assigned mufthi is Invalid" },
+        //   { shouldFocus: true }
+        // );
         isError.status = true;
         isError.message = "Must select a mufthi";
       }
     } else if (state.status === "Assigned Mufti") {
-      console.log("0000002");
-      payload.status = "Mufti Answered";
-      payload.verifier = selectedMufthiVerified;
-      payload.answer = answer;
-      if (referenceList?.length)
-        payload.reference = JSON.stringify(referenceList);
-      payload.mufti_answered = true;
+      console.log("0000002", answer);
+      if (!selectedMufthiVerified) {
+        isError.status = true;
+        isError.message = "Verified by is Invalid";
+      } else if (!answer) {
+        isError.status = true;
+        isError.message = "Answer is Invalid";
+      } else {
+        payload.status = "Mufti Answered";
+        payload.verifier = selectedMufthiVerified;
+        payload.answer = answer;
+        if (referenceList?.length)
+          payload.reference = JSON.stringify(referenceList);
+        payload.mufti_answered = true;
+      }
     } else if (state.status === "Mufti Answered") {
       console.log("0000003");
     } else {
       console.log("0000004");
       alert("Elseeeeeee");
+      payload.answer = null;
+      payload.mufti = null;
     }
 
     console.log("Result ===> ", payload);
 
     if (!isError.status) {
       console.log("API Called ===> ");
-      // axios
-      //   .put(`${URLS.question}/${state._id}`, payload)
-      //   .then((res) => {
-      //     setLoader(false);
-      //     console.log("res put accept api", res);
-      //     if (res?.success) {
-      //       navigate(-1);
-      //     }
-      //   })
-      //   .catch((err) => {
-      //     setLoader(false);
-      //     console.error("Error in profile edit", err);
-      //   });
+      axios
+        .put(`${URLS.question}/${state._id}`, payload)
+        .then((res) => {
+          setLoader(false);
+          console.log("res put accept api", res);
+          if (res?.success) {
+            navigate(-1);
+          }
+        })
+        .catch((err) => {
+          setLoader(false);
+          console.error("Error in profile edit", err);
+        });
     } else {
       alert(isError.message);
       isError.status = false;
@@ -359,8 +385,9 @@ export default function FatwasDetails() {
           </h6>
         </div>
         <div className="col-md-5 printer">
-          <span
-            style={{ margin: "0 10px" }}
+          <Typography
+            variant="span"
+            sx={{ margin: "0 10px" }}
             className={
               state?.status === "Pending"
                 ? "pending"
@@ -382,7 +409,7 @@ export default function FatwasDetails() {
             }
           >
             {state?.status}
-          </span>
+          </Typography>
           <Button variant="contained" className="form-btn" onClick={handlePdf}>
             <PrintIcon />
           </Button>
@@ -529,17 +556,17 @@ export default function FatwasDetails() {
                       fullWidth
                       options={mufthiList}
                       onChange={(event, newValue) => {
-                        console.log("111111111111", event, newValue);
+                        console.log("11111111111", newValue);
                         setSelectedMufthi(newValue);
                       }}
                       getOptionLabel={(option) => option?.name || ""}
                       isOptionEqualToValue={(option, value) =>
                         option._id === value._id
                       }
+                      // {...register("assignedTo")}
                       renderInput={(params) => (
                         <TextField {...params} label="Assigned To" />
                       )}
-                      {...register("assignedTo")}
                     />
                     {errors.assignedTo && (
                       <p className="text-danger">{errors.assignedTo.message}</p>
@@ -577,7 +604,6 @@ export default function FatwasDetails() {
                               id="fatwa-answers"
                               label="Answer"
                               placeholder="Answers..."
-                              autoFocus
                               multiline
                               fullWidth
                               rows={6}
@@ -591,12 +617,11 @@ export default function FatwasDetails() {
                     </div>
 
                     {/* reference */}
-                    {referenceList?.length && (
-                      <FatwaAddComponent
-                        referenceList={referenceList}
-                        setReferance={setReferance}
-                      />
-                    )}
+
+                    <FatwaAddComponent
+                      referenceList={referenceList}
+                      setReferance={setReferance}
+                    />
                   </>
                 )}
               </>
