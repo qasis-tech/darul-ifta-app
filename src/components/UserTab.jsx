@@ -142,7 +142,9 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
                       );
                     })
                   ) : (
+                    <div className="d-flex justify-content-center align-items-center" style={{minHeight: "200px"} }>
                     <NoDataAvailable noStyle noBg />
+                    </div>
                   )}
                   <TablePagination
                     rowsPerPageOptions={[5, 10, 20, 50]}
