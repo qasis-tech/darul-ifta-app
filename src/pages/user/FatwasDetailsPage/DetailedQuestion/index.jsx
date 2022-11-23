@@ -12,7 +12,7 @@ export default function DetailedQuestion({ data }) {
           <hr/>
         </div>
         <div className="col-md-12 pb-2">
-          <Typography className="question">
+          <Typography variant="paragraph" className="question">
             {data?.question || "N/A"}
           </Typography>
         </div>
