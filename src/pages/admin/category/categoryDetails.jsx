@@ -110,7 +110,7 @@ export default function CategoryDetails() {
             type: "success",
             title: "Success",
           });
-          navigate(-1);
+          // navigate(-1);
         } else {
           setError({
             visible: true,
