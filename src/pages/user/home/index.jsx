@@ -90,9 +90,9 @@ const HomePage = (props) => {
     let parms = "";
 
     if (searchInput !== "") {
-      parms = `?language=${languages[newValue]}&search=${searchInput}`;
+      parms = `?status=Published&language=${languages[newValue]}&search=${searchInput}`;
     } else {
-      parms = `?language=${languages[newValue]}`;
+      parms = `?status=Published&language=${languages[newValue]}`;
     }
     if (props?.homeFilter?.category?.label) {
       parms = `${parms}&subCategory=${encodeURIComponent(

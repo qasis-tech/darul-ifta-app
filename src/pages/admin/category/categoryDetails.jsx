@@ -17,8 +17,9 @@ import Loader from "../../../components/common/Loader";
 import SnackBar from "../../../components/common/Snackbar";
 
 export default function CategoryDetails() {
+  const navigate = useNavigate();
   const [categoryList, setCategoryList] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubCategory, setSelectedSubCategory] = useState([]);
   const [isLoading, setLoader] = useState(false);
   const [errorPopup, setError] = useState({
@@ -52,28 +53,16 @@ export default function CategoryDetails() {
   const getCatgoryApi = () => {
     setLoader(true);
     axios
-      .get(`${URLS.category}`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      .get(`${URLS.category}`)
       .then(({ data }) => {
         setLoader(false);
-        console.log("000000000", data);
         setCategoryList(data);
-
-        // let index = categoryList.findIndex(
-        //   (value) => value.category === data?.category
-        // );
-        // setSelectedCategory(categoryList[index]);
-
       })
       .catch((err) => {
         setLoader(false);
         console.log("error category", err);
       });
   };
-
 
   const handleCreate = () => {
     setLoader(true);
@@ -87,8 +76,7 @@ export default function CategoryDetails() {
     let payload = { category: selectedCategory?.category, subCategory: subCat };
     console.log("selectedCategory === ", payload);
     axios
-      .put(`${URLS.category}/${id}`, payload, {
-      })
+      .put(`${URLS.category}/${id}`, payload, {})
       .then((res) => {
         console.log("res post category", res);
         setLoader(false);
@@ -120,8 +108,6 @@ export default function CategoryDetails() {
       });
   };
 
-  const navigate = useNavigate();
-
   return (
     <>
       {isLoading ? (
@@ -139,7 +125,10 @@ export default function CategoryDetails() {
                     isOptionEqualToValue={(option, value) =>
                       option._id === value._id
                     }
-                    onChange={(e, val) => {setSelectedCategory(val);console.log("999999999",val)}}
+                    onChange={(e, val) => {
+                      setSelectedCategory(val);
+                      console.log("999999999", val);
+                    }}
                     value={selectedCategory}
                     // onInputChange={(e, val) => {
                     //   if (val)
@@ -175,7 +164,7 @@ export default function CategoryDetails() {
                       />
                     )}
                   />
-                  {!selectedCategory.category && (
+                  {!selectedCategory?.category && (
                     <div className="error">{errors?.category?.message}</div>
                   )}
                 </div>
