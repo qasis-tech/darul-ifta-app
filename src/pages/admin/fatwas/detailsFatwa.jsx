@@ -357,9 +357,9 @@ export default function FatwasDetails() {
     } else {
       setLoader(false);
 
-      alert(isError.message);
-      isError.status = false;
-      isError.message = "";
+      // alert(isError.message);
+      // isError.status = false;
+      // isError.message = "";
     }
   };
 
@@ -576,12 +576,14 @@ export default function FatwasDetails() {
                         option._id === value._id
                       }
                       renderInput={(params) => (
-                        <TextField {...params} label="Assigned To" />
+                        <TextField {...params} label="Assigned To" 
+                        {...register("assigned", { required: "This is required" })}
+                        />
                       )}
                     />
-                    {errors.assignedTo && (
-                      <p className="text-danger">{errors.assignedTo.message}</p>
-                    )}
+                    {!selectedMufthi?.name && (
+                    <div className="error">{errors?.assigned?.message}</div>
+                  )}
                   </div>
 
                   {selectedMufthi?.user_type === "Student" && (
@@ -607,11 +609,11 @@ export default function FatwasDetails() {
                           <TextField {...params} label="Checked & Approve" />
                         )}
                       />
-                      {errors.assignedTo && (
+                      {/* {errors.assignedTo && (
                         <p className="text-danger">
                           {errors.assignedTo.message}
                         </p>
-                      )}
+                      )} */}
                     </div>
                   )}
                   {state?.status !== "Received to Darul Ifta" && (
@@ -634,9 +636,14 @@ export default function FatwasDetails() {
                           option?._id === value?._id
                         }
                         renderInput={(params) => (
-                          <TextField {...params} label="Verified By" />
+                          <TextField {...params} label="Verified By" 
+                          {...register("Verified", { required: "This is required" })}
+                          />
                         )}
                       />
+                      {!selectedMufthiVerified?.name && (
+                    <div className="error">{errors?.Verified?.message}</div>
+                  )}
                     </div>
                   )}
                 </div>
