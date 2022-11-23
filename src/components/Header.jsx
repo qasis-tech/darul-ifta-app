@@ -54,6 +54,8 @@ const HeaderComponent = ({ closePopup, userLoginDetails }) => {
     }
   };
 
+  const [visible, setVisible] = useState(false);
+
   return (
     <div
       className={
@@ -63,7 +65,13 @@ const HeaderComponent = ({ closePopup, userLoginDetails }) => {
       }
     >
       <div className="container">
-        <Navbar bg="light" className="p-0" expand="lg">
+        <Navbar
+          bg="light"
+          className="p-0"
+          expand="lg"
+          onClick={() => setVisible(!visible)}
+          expanded={visible}
+        >
           <Container className="navbar-wrapper-main p-0">
             <Navbar.Brand onClick={() => navigate(`${routerList.user.home}`)}>
               <img
@@ -72,13 +80,16 @@ const HeaderComponent = ({ closePopup, userLoginDetails }) => {
                 alt="logo image"
               />
             </Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
+            <Navbar.Toggle onClick={() => setVisible(!visible)} />
+            <Navbar.Collapse>
               <Nav className="">
                 <ul className="navbar-nav mb-lg-0">
                   <li
                     className="nav-item"
-                    onClick={() => navigate(`${routerList.user.home}`)}
+                    onClick={() => {
+                      setVisible(!visible);
+                      navigate(`${routerList.user.home}`);
+                    }}
                   >
                     <a
                       className="nav-link active custom-menu"
