@@ -38,7 +38,7 @@ const QuestionContainer = (props) => {
                 :  {props?.data?.mufti?.display_title || "N/A"}
                 </Typography>
             </div>
-            <div className="col-md-3 d-flex">
+            <div className="col-md-3 w-name d-flex">
               <Typography variant="subtitle1" className="writtenby-section">
                 Date 
               </Typography>
