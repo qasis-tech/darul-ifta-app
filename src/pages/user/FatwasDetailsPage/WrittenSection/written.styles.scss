@@ -1,8 +1,14 @@
 @import "../../../../styles/common.styles.scss";
 .written-section{
+    .main-section{
+        @media screen and (max-width:1000px) {
+            flex-direction: column;
+        }
+    }
     .container{
         .heading{
             color: $primary;
+            border-bottom: 1px solid #bbbcbc;
             .main-heading{
                 font-family: $font-style;
             }

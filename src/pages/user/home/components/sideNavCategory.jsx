@@ -7,6 +7,7 @@ import {
   AccordionDetails,
   Typography,
   Paper,
+  Grid,
 } from "@mui/material";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -55,67 +56,66 @@ const SideNavCategory = ({ addHomeFilter, homeFilter, ...other }) => {
   };
 
   return (
-    <div className="col side-accord-container shadow">
-      <div className="green">
-        <Typography variant="subtitle1" className="text-white">
-          Categories
-        </Typography>
-      </div>
-      <div className="l-green"></div>
+    <div className="col">
+      <Paper elevation={2} className="side-accord-container">
+        <div className="green">
+          <Typography variant="subtitle1" className="text-white">
+            Categories
+          </Typography>
+        </div>
+        <div className="l-green"></div>
+        <div className="accordian-wrapper">
+          {isloading ? (
+            <Loader skeleton />
+          ) : !!categoryData?.length ? (
+            categoryData?.map((category) => (
+              <Accordion className="accordian" key={category?._id}>
+                <AccordionSummary
+                  className="shadow-sm main-category-accordian"
+                  expandIcon={<ExpandMoreIcon className="arrow-color" />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                  key={category._id}
+                >
+                  <Typography variant="subtitle2">
+                    {category?.category}
+                  </Typography>
+                </AccordionSummary>
 
-      <div className="accordian-wrapper">
-        {isloading ? (
-          <Loader skeleton />
-        ) : !!categoryData?.length ? (
-          categoryData?.map((category) => (
-            <Accordion className="accordian" key={category?._id}>
-              <AccordionSummary
-                className="shadow-sm main-category-accordian"
-                expandIcon={<ExpandMoreIcon className="arrow-color" />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-                key={category._id}
-              >
-                <Typography variant="subtitle2">
-                  {category?.category}
-                </Typography>
-              </AccordionSummary>
-
-              {category?.subCategory?.length ? (
-                category?.subCategory?.map((subcategory) => {
-                  return (
-                    <AccordionDetails
-                      key={subcategory._id}
-                      className="border-bottom"
-                    >
-                      <Typography
-                        variant="subtitle2"
-                        className="accordion-sub"
-                        onClick={() => {
-                          let temp = { ...homeFilter };
-                          console.log("categoriesChip ==> ", temp);
-                          temp.category = subcategory;
-                          addHomeFilter(temp);
-                        }}
+                {category?.subCategory?.length ? (
+                  category?.subCategory?.map((subcategory) => {
+                    return (
+                      <AccordionDetails
+                        key={subcategory._id}
+                        className="border-bottom"
                       >
-                        {subcategory.label}
-                      </Typography>
-                    </AccordionDetails>
-                  );
-                })
-              ) : (
-                <div>no data</div>
-              )}
-            </Accordion>
-          ))
-        ) : (
-          <div>
-            <NoDataAvailable noStyle text noBg />
-          </div>
-        )}
-      </div>
-
-      <Paper elevation={2}>
+                        <Typography
+                          variant="subtitle2"
+                          className="accordion-sub"
+                          onClick={() => {
+                            let temp = { ...homeFilter };
+                            console.log("categoriesChip ==> ", temp);
+                            temp.category = subcategory;
+                            addHomeFilter(temp);
+                          }}
+                        >
+                          {subcategory.label}
+                        </Typography>
+                      </AccordionDetails>
+                    );
+                  })
+                ) : (
+                  <div>no data</div>
+                )}
+              </Accordion>
+            ))
+          ) : (
+            <div>
+              <NoDataAvailable noStyle text noBg />
+            </div>
+          )}
+        </div>
+        <Paper elevation={2}>
         <div className="madhab-category">
           <div className="green mt-4">
             <Typography variant="subtitle1" className="text-white">
@@ -132,7 +132,7 @@ const SideNavCategory = ({ addHomeFilter, homeFilter, ...other }) => {
                 {madhabData?.map((madhab) => {
                   return (
                     <li
-                    className="py-2"
+                      className="py-2"
                       key={madhab?._id}
                       onClick={() => {
                         let temp = { ...homeFilter };
@@ -152,6 +152,7 @@ const SideNavCategory = ({ addHomeFilter, homeFilter, ...other }) => {
             )}
           </div>
         </div>
+      </Paper>
       </Paper>
     </div>
   );
