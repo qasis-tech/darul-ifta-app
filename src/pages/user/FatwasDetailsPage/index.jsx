@@ -18,8 +18,6 @@ export default function FatwasDetailsPage() {
   const { id } = useParams();
   const [questionDetails, setQuestionDetails] = useState(null);
 
-  console.log("IDDDDDDD", id);
-
   useEffect(() => {
     if (id) {
       getQuestionListApi(`/${id}`)
@@ -34,6 +32,7 @@ export default function FatwasDetailsPage() {
           );
         });
     }
+    window.scrollTo(0, 0);
   }, []);
 
   return (
@@ -43,17 +42,17 @@ export default function FatwasDetailsPage() {
         <SingleQuestionComponent data={questionDetails} />
       </div>
       <div className="container">
-      <PublishedDateComponent data={questionDetails} />
+        <PublishedDateComponent data={questionDetails} />
       </div>
       <div className=" d-flex mb-3">
-          {/* <div className="col">
-            <SocialComponent />
-          </div> */}
+        {/* <div className="col">
+          <SocialComponent />
+        </div> */}
         <div className="container main-section">
           <div className="col-md-9 details d-flex">
-          <SocialComponent />
+            <SocialComponent />
             <DetailedQuestionComponent data={questionDetails} />
-            {/* <WrittenComponent data={questionDetails} /> */}
+            <WrittenComponent data={questionDetails} />
           </div>
           <div className="col-md-3 related">
             <RelatedFatwasComponent data={questionDetails} />
