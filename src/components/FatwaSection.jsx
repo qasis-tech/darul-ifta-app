@@ -382,7 +382,12 @@ const HomePage = (props) => {
                             );
                           })
                         ) : (
+                          <div
+                          className="d-flex justify-content-center align-items-center"
+                          style={{ minHeight: "445px" }}
+                        >
                           <NoDataAvailable noStyle noBg />
+                        </div>
                         )}
                       </TabPanel>
                       <TabPanel value={value} index={4}>
