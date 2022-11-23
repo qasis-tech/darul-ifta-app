@@ -14,7 +14,7 @@ const VisitorDetails = (props) => {
     setLoader(true);
     getGeneralsListApi()
       .then((res) => {
-        console.log("response33333333",res)
+        console.log("response33333333", res);
         setLoader(false);
         props.addGeneralDetails(res);
       })
@@ -32,20 +32,20 @@ const VisitorDetails = (props) => {
         <>
           <div className="custom-details-column">
             <div>
-            <Typography variant="subtitle1">Visitor</Typography>
+              <Typography variant="subtitle1">Visitor</Typography>
             </div>
             <div className="value">{props?.generals?.visitors || "N/A"}</div>
           </div>
 
           <div className="custom-details-column mt-3">
-          <div>
-            <Typography variant="subtitle1">Total Fatwas</Typography>
+            <div>
+              <Typography variant="subtitle1">Total Fatwas</Typography>
             </div>
-            <div className="value">{props?.generals?.total_fatwas || "N/A"}</div>
+            <div className="value">{props?.generals?.published || "N/A"}</div>
           </div>
           <div className="custom-details-column mt-3">
-          <div>
-            <Typography variant="subtitle1">Registered Users</Typography>
+            <div>
+              <Typography variant="subtitle1">Registered Users</Typography>
             </div>
             <div className="value">{props?.generals?.musafthi || "N/A"}</div>
           </div>
