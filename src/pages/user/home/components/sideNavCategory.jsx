@@ -124,14 +124,15 @@ const SideNavCategory = ({ addHomeFilter, homeFilter, ...other }) => {
           </div>
           <div className="l-green"></div>
 
-          <div>
+          <div className="">
             {isloading ? (
               <Loader skeleton />
             ) : madhabData?.length ? (
-              <ul className="mt-2 ms-2">
+              <ul className="ms-2">
                 {madhabData?.map((madhab) => {
                   return (
                     <li
+                    className="py-2"
                       key={madhab?._id}
                       onClick={() => {
                         let temp = { ...homeFilter };

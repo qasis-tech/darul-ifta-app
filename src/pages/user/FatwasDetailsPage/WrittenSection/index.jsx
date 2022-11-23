@@ -10,7 +10,7 @@ export default function WrittenSection({ data }) {
       <div className="container">
         <div className="col-md-12 heading">
           <Typography variant="h6" className="main-heading">
-            Written By : {data?.mufti || "N/A"}
+            Written By : {data?.mufti?.display_title || "N/A"}
           </Typography>
         </div>
         <div className="col-md-12 my-2">
@@ -20,7 +20,7 @@ export default function WrittenSection({ data }) {
       <div className="container verified-section py-4 ">
         <div className="col-md-12">
           <Typography variant="h6" className="verified-head">
-            Verified By : {data?.verified_by || "N/A"}
+            Verified By : {data?.verifier?.display_title || "N/A"}
           </Typography>
         </div>
         {/* <div className="col-md-12">

@@ -91,7 +91,6 @@
   background-color: $theme-primary-color;
   border-radius: 20px;
   padding: 1em;
-  font-size: 15px!important;
   .MuiPaper-root {
     background-color: transparent !important;
 }
@@ -103,16 +102,14 @@
 
 .green {
   background-color: $theme-green;
-  font-size: $main-font-size - 1;
-  padding: 4px 10px;
+  padding: 1px 10px;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
   margin: 0;
-  font-weight: 600;
 }
 .l-green {
   background-color: $theme-l-green;
-  height: 5px;
+  height: 3px;
 }
 .body-section {
   ul li {
@@ -364,7 +361,7 @@
 
 .accordian-wrapper {
   .main-category-accordian{
-    border-bottom: 1px solid #409ea1;
+    border-bottom: 1px solid #dee2e6;
     border-radius: 10px;
   }
   .MuiButtonBase-root,
