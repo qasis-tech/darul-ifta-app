@@ -28,9 +28,9 @@
           margin: 0;
           padding: 12px 0;
           .number-btn{
-            @media  screen and (max-width:1000px) {
-              margin-bottom: 1em!important;
-            }
+            // @media  screen and (max-width:1000px) {
+            //   margin-bottom: 1em!important;
+            // }
             .q-no {
               background-color: $theme-primary-color;
               padding: 7px 12px;

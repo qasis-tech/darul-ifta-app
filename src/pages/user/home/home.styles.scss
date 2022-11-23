@@ -92,6 +92,9 @@
   border-radius: 20px;
   padding: 1em;
   font-size: 15px!important;
+  .MuiPaper-root {
+    background-color: transparent !important;
+}
 }
 
 .accordian ::ng-deep .panel-title .btn:focus {
@@ -358,9 +361,7 @@
     }
   }
 }
-.MuiPaper-root{
-  background-color: transparent!important;
-}
+
 .accordian-wrapper {
   .main-category-accordian{
     border-bottom: 1px solid #409ea1;
