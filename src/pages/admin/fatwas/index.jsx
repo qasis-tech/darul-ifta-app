@@ -16,6 +16,7 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Chip,
 } from "@mui/material";
 
 import CloseIcon from "@mui/icons-material/Close";
@@ -451,14 +452,20 @@ export default function Fatwas() {
                             <TableCell>
                               {formatDate(question.createdAt)}
                             </TableCell>
-                            <TableCell>{question.category.category}</TableCell>
+                            <TableCell>
+                              {question?.sub_category.map((item) => (
+                                <Chip
+                                  key={item?._id}
+                                  label={item?.label}
+                                  variant="outlined"
+                                />
+                              ))}
+                            </TableCell>
                             <TableCell>{question.madhab.title}</TableCell>
                             <TableCell>
-                              {questionList?.mufti ? (
-                                <span>{question.mufti}</span>
-                              ) : (
-                                <span>N/A</span>
-                              )}
+                              <span>
+                                {question.mufti?.display_title || "N/A"}
+                              </span>
                             </TableCell>
                             <TableCell>
                               <span

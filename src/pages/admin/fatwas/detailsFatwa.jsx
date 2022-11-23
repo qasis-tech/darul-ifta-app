@@ -42,8 +42,10 @@ export default function FatwasDetails() {
   const [referenceList, setReferance] = useState([]);
 
   const [mufthiList, setMufthiList] = useState([]);
-  const [selectedMufthi, setSelectedMufthi] = useState([]);
-  const [selectedMufthiVerified, setSelectedMufthiVerified] = useState([]);
+  const [selectedMufthi, setSelectedMufthi] = useState(null);
+  const [selectedMufthiVerified, setSelectedMufthiVerified] = useState(null);
+  const [selectedCheckedAndApprove, setSelectedCheckedAndApprove] =
+    useState(null);
   const [selectedStatus, setSelectedStatus] = useState([]);
 
   const [isLoading, setLoader] = useState(false);
@@ -90,12 +92,11 @@ export default function FatwasDetails() {
 
     if (id) {
       getQuestionListApi(`/${id}`)
-        .then((res) => {
+        .then(async (res) => {
           console.log(res);
-          let parsedReference = [];
-          if (res?.data?.reference?.length) {
-            parsedReference = JSON.parse(res?.data?.reference);
-          }
+
+          setReferance(res?.data?.reference);
+
           setQuestionDetails(res.data);
           setSelectedCategory(res.data?.category[0]);
           setSelectedSubCategory(res.data?.sub_category);
@@ -108,10 +109,11 @@ export default function FatwasDetails() {
           setLongQuestion(res.data?.question);
           setSelectedMufthi(res.data?.mufti);
           setSelectedMufthiVerified(res.data?.verifier);
+          setSelectedCheckedAndApprove(res?.data?.checked_approved);
+
           setAnswer(res.data?.answer);
           setSelectedMufthi(res?.data?.mufti);
 
-          setReferance(parsedReference);
           setSelectedStatus(
             status.filter((fl) => fl.title === res?.data?.status)[0]
           );
@@ -184,7 +186,7 @@ export default function FatwasDetails() {
   const getMufthiApi = () => {
     setLoader(true);
     axios
-      .get(`${URLS.user}${URLS.signup}?userType=Mufthi`)
+      .get(`${URLS.user}${URLS.signup}?userType=Mufthi,Student`)
       .then(({ data }) => {
         setLoader(false);
         setMufthiList(data);
@@ -219,6 +221,7 @@ export default function FatwasDetails() {
       reject_by: state?.reject_by,
       mufti_answered: state?.mufti_answered,
       reject_reason: state?.reject_reason,
+      checked_approved: null,
     };
     axios
       .put(`${URLS.question}/${state._id}`, payload)
@@ -259,9 +262,8 @@ export default function FatwasDetails() {
   };
 
   const handlePublish = () => {
-    // setLoader(true);
+    setLoader(true);
 
-    console.log("selectedMadhab", selectedMadhab);
     let payload = {
       madhab: selectedMadhab,
       category: selectedCategory,
@@ -295,9 +297,17 @@ export default function FatwasDetails() {
       payload.answer = null;
       payload.mufti = selectedMufthi;
       payload.status = "Assigned Mufti";
+      payload.checked_approved = selectedCheckedAndApprove;
+
       if (selectedMufthi === null) {
         isError.status = true;
         isError.message = "Must select a mufthi";
+      } else if (
+        selectedMufthi?.user_type !== "Mufthi" &&
+        selectedCheckedAndApprove === null
+      ) {
+        isError.status = true;
+        isError.message = "Must select a Verifier(Checked and approved)";
       }
     } else if (state.status === "Assigned Mufti") {
       if (!selectedMufthiVerified) {
@@ -311,15 +321,13 @@ export default function FatwasDetails() {
         payload.status = "Mufti Answered";
         payload.verifier = selectedMufthiVerified;
         payload.answer = answer;
-        if (referenceList?.length)
-          payload.reference = JSON.stringify(referenceList);
+        payload.reference = referenceList;
         payload.mufti_answered = true;
       }
     } else if (state.status === "Mufti Answered") {
       payload.status = "Completed Verification";
       payload.verified_date = moment();
     } else if (state.status === "Completed Verification") {
-      console.log("0000005");
       payload.status = "Published";
     } else {
       alert("Somthing wrong");
@@ -347,6 +355,8 @@ export default function FatwasDetails() {
           console.error("Error in profile edit", err);
         });
     } else {
+      setLoader(false);
+
       alert(isError.message);
       isError.status = false;
       isError.message = "";
@@ -554,7 +564,9 @@ export default function FatwasDetails() {
                       value={selectedMufthi || ""}
                       fullWidth
                       options={mufthiList?.filter(
-                        (fl) => fl?._id !== selectedMufthiVerified?._id
+                        (fl) =>
+                          fl?._id !== selectedMufthiVerified?._id &&
+                          fl?._id !== selectedCheckedAndApprove?._id
                       )}
                       onChange={(event, newValue) => {
                         setSelectedMufthi(newValue);
@@ -571,13 +583,48 @@ export default function FatwasDetails() {
                       <p className="text-danger">{errors.assignedTo.message}</p>
                     )}
                   </div>
+
+                  {selectedMufthi?.user_type === "Student" && (
+                    <div className="col-md-3">
+                      <Autocomplete
+                        id="controllable-states-demo"
+                        size="small"
+                        value={selectedCheckedAndApprove || ""}
+                        fullWidth
+                        options={mufthiList?.filter(
+                          (fl) =>
+                            fl?._id !== selectedMufthiVerified?._id &&
+                            fl?._id !== selectedMufthi?._id
+                        )}
+                        onChange={(event, newValue) => {
+                          setSelectedCheckedAndApprove(newValue);
+                        }}
+                        getOptionLabel={(option) => option?.name || ""}
+                        isOptionEqualToValue={(option, value) =>
+                          option._id === value._id
+                        }
+                        renderInput={(params) => (
+                          <TextField {...params} label="Checked & Approve" />
+                        )}
+                      />
+                      {errors.assignedTo && (
+                        <p className="text-danger">
+                          {errors.assignedTo.message}
+                        </p>
+                      )}
+                    </div>
+                  )}
                   {state?.status !== "Received to Darul Ifta" && (
                     <div className="col-md-3">
                       <Autocomplete
                         id="mufthiList"
                         size="small"
                         fullWidth
-                        options={mufthiVerified}
+                        options={mufthiVerified.filter(
+                          (fl) =>
+                            fl?.user_type !== "Student" &&
+                            fl._id !== selectedCheckedAndApprove?._id
+                        )}
                         value={selectedMufthiVerified || ""}
                         onChange={(event, newValue) => {
                           setSelectedMufthiVerified(newValue);
@@ -617,10 +664,12 @@ export default function FatwasDetails() {
 
                     {/* reference */}
 
-                    <FatwaAddComponent
-                      referenceList={referenceList}
-                      setReferance={setReferance}
-                    />
+                    {referenceList && (
+                      <FatwaAddComponent
+                        referenceList={referenceList}
+                        setReferance={setReferance}
+                      />
+                    )}
                   </>
                 )}
               </>
@@ -635,26 +684,24 @@ export default function FatwasDetails() {
               alignItems="center"
             >
               <Grid item sm={3}>
-                {state?.status === "Mufti Answered" ||
+                {(state?.status === "Mufti Answered" ||
                   state?.status === "Completed Verification" ||
-                  (state?.status === "Published" && (
-                    <Autocomplete
-                      id="status"
-                      size="small"
-                      options={status}
-                      value={selectedStatus || ""}
-                      onChange={(event, newValue) =>
-                        handleChangeStatus(newValue)
-                      }
-                      getOptionLabel={(option) => option?.title || ""}
-                      isOptionEqualToValue={(option, value) =>
-                        option?.title === value?.title
-                      }
-                      renderInput={(params) => (
-                        <TextField {...params} label="Status" />
-                      )}
-                    />
-                  ))}
+                  state?.status === "Published") && (
+                  <Autocomplete
+                    id="status"
+                    size="small"
+                    options={status}
+                    value={selectedStatus || ""}
+                    onChange={(event, newValue) => handleChangeStatus(newValue)}
+                    getOptionLabel={(option) => option?.title || ""}
+                    isOptionEqualToValue={(option, value) =>
+                      option?.title === value?.title
+                    }
+                    renderInput={(params) => (
+                      <TextField {...params} label="Status" />
+                    )}
+                  />
+                )}
               </Grid>
               {state?.status !== "Published" && (
                 <Grid item sm={3}>
