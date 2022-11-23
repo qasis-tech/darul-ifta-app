@@ -55,6 +55,8 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
       });
   }, []);
 
+  useEffect(() => {}, [userLoginDetails]);
+
   const getFileObj = async (file) => {
     console.log("file", file);
     let result = await fetch(file)

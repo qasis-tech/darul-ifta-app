@@ -132,7 +132,6 @@ export default function User() {
                 >
                   <TableHead>
                     <TableRow>
-                      <TableCell>ID</TableCell>
                       <TableCell>Name</TableCell>
                       <TableCell>Display Name</TableCell>
                       <TableCell>Email</TableCell>
@@ -153,9 +152,6 @@ export default function User() {
                             key={user._id}
                             onClick={() => navigate(`${user?._id}`)}
                           >
-                            <TableCell component="th" scope="row">
-                              {user._id}
-                            </TableCell>
                             <TableCell>
                               <span>{user?.name || "N/A"}</span>
                             </TableCell>
