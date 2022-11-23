@@ -219,8 +219,21 @@ export default function AddUser() {
                     size="small"
                     fullWidth
                     variant="outlined"
+                    // {...register("mobileNumber", {
+                    //   required: "Mobile Number is required",
+                    // })}
                     {...register("mobileNumber", {
-                      required: "Mobile Number is required",
+                      required: "Please enter Mobile Number",
+                    minLength: {
+                      value: 10,
+                      message: "Mobile Number length must be 10 digit. ",
+                    },
+                    maxLength: {
+                      value: 10,
+                      message: "Mobile Number length must be 10 digit. ",
+                    },
+                      onChange: (e) =>
+                        handleUserDetails(e.target.value, "phone"),
                     })}
                   />
                   <div className="error">{errors?.mobileNumber?.message}</div>
@@ -258,12 +271,15 @@ export default function AddUser() {
                     onChange={(e, val) => setSelectedRoles(val)}
                     value={selectedRoles || null}
                     renderInput={(params) => (
-                      <TextField {...params} label="Roles" />
+                      <TextField {...params} label="Roles" 
+                      {...register("roles", {
+                        required: "Roles is required",
+                      })}/>
                     )}
-                    // {...register("madhab", {
-                    //   required: "Madhab is required",
-                    // })}
                   />
+                  {!selectedRoles?.label && (
+                    <div className="error">{errors?.roles?.message}</div>
+                  )}
                 </div>
                 <div className="col-md-3 second-col">
                   <Autocomplete
@@ -278,11 +294,11 @@ export default function AddUser() {
                     onChange={(e, val) => setSelectedMadhab(val)}
                     value={selectedMadhab}
                     renderInput={(params) => (
-                      <TextField {...params} label="Madhab" />
+                      <TextField {...params} label="Madhab" 
+                      {...register("madhab", {
+                        required: "Madhab is required",
+                      })}/>
                     )}
-                    // {...register("madhab", {
-                    //   required: "Madhab is required",
-                    // })}
                   />
 
                   {!selectedMadhab?.title && (
@@ -320,11 +336,11 @@ export default function AddUser() {
                       onChange={(e, val) => setSelectedStatus(val)}
                       value={selectedStatus}
                       renderInput={(params) => (
-                        <TextField {...params} label="Active Status" />
+                        <TextField {...params} label="Active Status" 
+                        {...register("status", {
+                          required: "Status is required",
+                        })}/>
                       )}
-                      // {...register("status", {
-                      //   required: "Status is required",
-                      // })}
                     />
                   )}
                   {!selectedStatus?.title && (
