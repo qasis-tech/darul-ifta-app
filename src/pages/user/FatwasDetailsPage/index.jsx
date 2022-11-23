@@ -13,6 +13,7 @@ import SocialComponent from "./Social";
 
 import "./fatwas.details.styles.scss";
 import getQuestionListApi from "../../../services/getQuestionsList";
+import { Paper } from "@mui/material";
 
 export default function FatwasDetailsPage() {
   const { id } = useParams();
