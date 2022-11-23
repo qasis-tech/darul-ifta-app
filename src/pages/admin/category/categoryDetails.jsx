@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
 import { startCase } from "lodash";
 
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
+import { useParams } from "react-router-dom";
 import { Chip } from "@mui/material";
 
 import "./addcategory.styles.scss";
@@ -49,29 +49,31 @@ export default function CategoryDetails() {
     navigate(-1);
   };
 
-  const getCatgoryApi = (subCategory) => {
+  const getCatgoryApi = () => {
     setLoader(true);
     axios
-      .get(`${URLS.category}/${id}`, {
+      .get(`${URLS.category}`, {
         headers: {
           "Content-Type": "application/json",
         },
       })
       .then(({ data }) => {
-        console.log("33333333==========>",data)
         setLoader(false);
+        console.log("000000000", data);
         setCategoryList(data);
 
-        let index = subCategory.findIndex(
-            (value) => value.subCategory === data?.subCategory
-          );
-          setSelectedCategory(subCategory[index]);
+        // let index = categoryList.findIndex(
+        //   (value) => value.category === data?.category
+        // );
+        // setSelectedCategory(categoryList[index]);
+
       })
       .catch((err) => {
         setLoader(false);
         console.log("error category", err);
       });
   };
+
 
   const handleCreate = () => {
     setLoader(true);
@@ -88,6 +90,7 @@ export default function CategoryDetails() {
       .put(`${URLS.category}/${id}`, payload, {
       })
       .then((res) => {
+        console.log("res post category", res);
         setLoader(false);
         if (res?.success) {
           setError({
@@ -131,31 +134,34 @@ export default function CategoryDetails() {
                 <div className="col-md-12">
                   <Autocomplete
                     id="tags-filled-1"
-                    options={categoryList || []}
-                    getOptionLabel={(option) => option?.category || []}
+                    options={categoryList}
+                    getOptionLabel={(option) => option?.category || ""}
+                    isOptionEqualToValue={(option, value) =>
+                      option._id === value._id
+                    }
+                    onChange={(e, val) => {setSelectedCategory(val);console.log("999999999",val)}}
                     value={selectedCategory}
-                    onChange={(e, val) => setSelectedCategory(val)}
-                    onInputChange={(e, val) => {
-                      if (val)
-                        setCategoryList([
-                          ...categoryList,
-                          ...[{ category: val }],
-                        ]);
-                    }}
+                    // onInputChange={(e, val) => {
+                    //   if (val)
+                    //     setCategoryList([
+                    //       ...categoryList,
+                    //       ...[{ category: val }],
+                    //     ]);
+                    // }}
                     freeSolo
                     size="small"
-                    renderTags={(value, getTagProps) =>
-                      value.map((option, index) => {
-                        return (
-                          <Chip
-                            variant="outlined"
-                            label={option}
-                            size="small"
-                            {...getTagProps({ index })}
-                          />
-                        );
-                      })
-                    }
+                    // renderTags={(value, getTagProps) =>
+                    //   value.map((option, index) => {
+                    //     return (
+                    //       <Chip
+                    //         variant="outlined"
+                    //         label={option}
+                    //         size="small"
+                    //         {...getTagProps({ index })}
+                    //       />
+                    //     );
+                    //   })
+                    // }
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -163,20 +169,20 @@ export default function CategoryDetails() {
                         label="Category"
                         placeholder="Category"
                         size="small"
-                        {...register("category", {
-                          required: "Category is required",
-                        })}
+                        // {...register("category", {
+                        //   required: "Category is required",
+                        // })}
                       />
                     )}
                   />
-                  {!selectedCategory.category ? (
+                  {!selectedCategory.category && (
                     <div className="error">{errors?.category?.message}</div>
-                  ) : null}
+                  )}
                 </div>
                 <div className="col-md-12 subcategory">
                   <Autocomplete
                     multiple
-                    id="tags-filled"
+                    id="subcategory"
                     options={
                       selectedCategory?.subCategory?.length
                         ? selectedCategory?.subCategory?.map(
