@@ -46,6 +46,10 @@ export default function WrittenSection({ data }) {
           <div className="written-desc">{data?.answer || "N/A"}</div>
         </div> */}
       </div>
+
+      <Typography variant="paragraph" sx={{ lineHeight: 1.8 }}>
+        {data?.answer || "N/A"}
+      </Typography>
     </div>
   );
 }
