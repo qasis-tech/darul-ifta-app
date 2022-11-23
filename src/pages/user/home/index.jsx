@@ -79,9 +79,10 @@ function a11yProps(index) {
 const HomePage = (props) => {
   const [value, setValue] = useState(0);
   const [searchInput, setSearchInput] = useState("");
-  const languages = ["", "English", "Malayalam", "Urdu", "Arabic"];
   const [questionsData, setQuestionsData] = useState([]);
   const [isLoading, setLoader] = useState(false);
+
+  const languages = ["", "English", "Malayalam", "Urdu", "Arabic"];
 
   const handleChange = (event, newValue) => {
     setSearchInput("");
@@ -101,6 +102,9 @@ const HomePage = (props) => {
     if (props?.homeFilter?.madhab?.title) {
       parms = `${parms}&madhab=${props?.homeFilter?.madhab?.title}`;
     }
+
+    parms = `${parms}&status=Published`;
+
     getQuestionList(parms);
     setValue(newValue);
   };
@@ -198,6 +202,7 @@ const HomePage = (props) => {
     getQuestionListApi(params)
       .then((res) => {
         setLoader(false);
+        console.log("res.data", res.data);
         setQuestionsData(res.data);
       })
       .catch((err) => {
@@ -313,8 +318,11 @@ const HomePage = (props) => {
                                 );
                               })
                             ) : (
-                              <div className="d-flex justify-content-center align-items-center" style={{minHeight: "445px"} }>
-                              <NoDataAvailable noStyle noBg />
+                              <div
+                                className="d-flex justify-content-center align-items-center"
+                                style={{ minHeight: "445px" }}
+                              >
+                                <NoDataAvailable noStyle noBg />
                               </div>
                             )}
                           </TabPanel>

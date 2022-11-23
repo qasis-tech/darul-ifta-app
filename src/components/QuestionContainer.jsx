@@ -19,25 +19,31 @@ const QuestionContainer = (props) => {
       <div className="question-container">
         <div className="row">
           <div className="col-md-12 heading-section">
-            <Typography variant="subtitle1">{props.shortquestion}</Typography>
+            <Typography variant="subtitle1">{props?.shortquestion}</Typography>
           </div>
           <div className="col-md-12 desc">
-            <Typography variant="paragraph">{props.question}</Typography>
+            <Typography variant="paragraph">{props?.question}</Typography>
           </div>
           <div className="row q-footer">
             <div className="col-md-1 number-btn">
               <Typography variant="subtitle2" className="q-no">
-                Q{props.questionCount.toString().padStart(3, "0")}
+                Q{props?.questionCount?.toString().padStart(3, "0")}
               </Typography>
             </div>
             <div className="col-md-3 w-name">
-            <Typography variant="subtitle1">Written By : {props.writtenby || "N/A"}</Typography>
+              <Typography variant="subtitle1">
+                Written By : {props?.data?.mufti?.display_title || "N/A"}
+              </Typography>
             </div>
             <div className="col-md-3">
-            <Typography variant="subtitle1">Date : {props.createdDate}</Typography>
+              <Typography variant="subtitle1">
+                Date : {props?.createdDate}
+              </Typography>
             </div>
             <div className="col-md-2">
-            <Typography variant="subtitle1">Views : {props.views}</Typography>
+              <Typography variant="subtitle1">
+                Views : {props?.views}
+              </Typography>
             </div>
           </div>
         </div>
