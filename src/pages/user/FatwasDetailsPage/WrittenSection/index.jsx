@@ -7,14 +7,14 @@ import "./written.styles.scss";
 export default function WrittenSection({ data }) {
   return (
     <div className="written-section mt-4">
-      <div className="container">
+      <div className="container d-flex main-section">
         <div className="col-md-6 heading">
           <Typography variant="h6" className="main-heading">
             Written By : {data?.mufti?.display_title || "N/A"}
           </Typography>
         </div>
-        <div className="col-md-6">
-          <Typography variant="h6" className="verified-head">
+        <div className="col-md-6 heading">
+          <Typography variant="h6" className="main-heading">
             Verified By : {data?.verifier?.display_title || "N/A"}
           </Typography>
         </div>

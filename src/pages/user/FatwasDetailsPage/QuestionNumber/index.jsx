@@ -1,4 +1,4 @@
-import { Chip } from "@mui/material";
+import { Chip, Typography } from "@mui/material";
 import React from "react";
 import "./question.number.styles.scss";
 
@@ -9,8 +9,8 @@ export default function QuestionNumber({ data }) {
 
   return (
     <div className="question-number-section">
-      <div className="col-md-12 py-1 qid">
-        <h6>
+      <div className="col-md-12 qid">
+        <Typography variant="subtitle1">
           QID :
           <Chip
             label={`Q${data?.slNo?.toString()?.padStart(3, "0")}`}
@@ -33,7 +33,7 @@ export default function QuestionNumber({ data }) {
               />
             );
           })}
-        </h6>
+        </Typography>
         <hr />
       </div>
     </div>
