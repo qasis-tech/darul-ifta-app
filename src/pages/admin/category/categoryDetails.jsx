@@ -19,6 +19,7 @@ import SnackBar from "../../../components/common/Snackbar";
 export default function CategoryDetails() {
   const navigate = useNavigate();
   const [categoryList, setCategoryList] = useState([]);
+  const [categoryDetails, setCategoryDetails] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubCategory, setSelectedSubCategory] = useState([]);
   const [isLoading, setLoader] = useState(false);
@@ -37,7 +38,7 @@ export default function CategoryDetails() {
   } = useForm();
 
   useEffect(() => {
-    getCatgoryApi();
+    getCatgoryListApi();
   }, []);
 
   const handleCloseError = () => {
@@ -50,13 +51,38 @@ export default function CategoryDetails() {
     navigate(-1);
   };
 
-  const getCatgoryApi = () => {
+  const getCatgoryListApi = () => {
     setLoader(true);
     axios
       .get(`${URLS.category}`)
       .then(({ data }) => {
         setLoader(false);
         setCategoryList(data);
+        getCatgoryDetailsApi(data);
+      })
+      .catch((err) => {
+        setLoader(false);
+        console.log("error category", err);
+      });
+  };
+
+  const getCatgoryDetailsApi = (list) => {
+    setLoader(true);
+    axios
+      .get(`${URLS.category}/${id}`)
+      .then(({ data }) => {
+        setLoader(false);
+        setCategoryDetails(data);
+
+        let index = list?.findIndex((fl) => fl?._id === data?._id);
+        if (index !== -1) {
+          setSelectedCategory(list[index]);
+          console.log("data details", list[index]);
+          setSelectedSubCategory(
+            list[index].subCategory.map((item) => item.label)
+          );
+        }
+        console.log("index", index);
       })
       .catch((err) => {
         setLoader(false);
@@ -66,17 +92,14 @@ export default function CategoryDetails() {
 
   const handleCreate = () => {
     setLoader(true);
-    const subCat = selectedSubCategory?.map((item) => {
-      return {
-        label: item,
-        active: true,
-      };
-    });
 
-    let payload = { category: selectedCategory?.category, subCategory: subCat };
+    let payload = {
+      category: categoryDetails?.category,
+      subCategory: categoryDetails.subCategory,
+    };
     console.log("selectedCategory === ", payload);
     axios
-      .put(`${URLS.category}/${id}`, payload, {})
+      .put(`${URLS.category}/${id}`, payload)
       .then((res) => {
         console.log("res post category", res);
         setLoader(false);
@@ -87,6 +110,7 @@ export default function CategoryDetails() {
             type: "success",
             title: "Success",
           });
+          navigate(-1);
         } else {
           setError({
             visible: true,
@@ -95,7 +119,6 @@ export default function CategoryDetails() {
             title: "Warning",
           });
         }
-        // navigate(-1);
       })
       .catch((err) => {
         console.log("Error in Category Add", err);
@@ -108,6 +131,18 @@ export default function CategoryDetails() {
       });
   };
 
+  const handleCategory = (val) => {
+    let temp = { ...categoryDetails };
+    temp.category = val;
+    setCategoryDetails(temp);
+  };
+
+  const handleSubCategory = (val, index) => {
+    let temp = { ...categoryDetails };
+    temp.subCategory[index].label = val;
+    setCategoryDetails(temp);
+  };
+
   return (
     <>
       {isLoading ? (
@@ -118,92 +153,29 @@ export default function CategoryDetails() {
             <div className="add-category-container">
               <div className="add-category-row">
                 <div className="col-md-12">
-                  <Autocomplete
-                    id="tags-filled-1"
-                    options={categoryList}
-                    getOptionLabel={(option) => option?.category || ""}
-                    isOptionEqualToValue={(option, value) =>
-                      option._id === value._id
-                    }
-                    onChange={(e, val) => {
-                      setSelectedCategory(val);
-                      console.log("999999999", val);
-                    }}
-                    value={selectedCategory}
-                    // onInputChange={(e, val) => {
-                    //   if (val)
-                    //     setCategoryList([
-                    //       ...categoryList,
-                    //       ...[{ category: val }],
-                    //     ]);
-                    // }}
-                    freeSolo
-                    size="small"
-                    // renderTags={(value, getTagProps) =>
-                    //   value.map((option, index) => {
-                    //     return (
-                    //       <Chip
-                    //         variant="outlined"
-                    //         label={option}
-                    //         size="small"
-                    //         {...getTagProps({ index })}
-                    //       />
-                    //     );
-                    //   })
-                    // }
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        variant="outlined"
-                        label="Category"
-                        placeholder="Category"
-                        size="small"
-                        // {...register("category", {
-                        //   required: "Category is required",
-                        // })}
-                      />
-                    )}
+                  <TextField
+                    type="text"
+                    value={categoryDetails?.category}
+                    onChange={(e) => handleCategory(e.target.value)}
                   />
+
                   {!selectedCategory?.category && (
                     <div className="error">{errors?.category?.message}</div>
                   )}
                 </div>
                 <div className="col-md-12 subcategory">
-                  <Autocomplete
-                    multiple
-                    id="subcategory"
-                    options={
-                      selectedCategory?.subCategory?.length
-                        ? selectedCategory?.subCategory?.map(
-                            (option) => option.label
-                          )
-                        : []
-                    }
-                    freeSolo
-                    value={selectedSubCategory || []}
-                    onChange={(e, val) => setSelectedSubCategory(val)}
-                    size="small"
-                    renderTags={(value, getTagProps) =>
-                      value?.map((option, index) => (
-                        <Chip
-                          variant="outlined"
-                          label={option}
-                          size="small"
-                          {...getTagProps({ index })}
+                  {categoryDetails?.subCategory?.length &&
+                    categoryDetails?.subCategory.map((item, index) => {
+                      return (
+                        <TextField
+                          type="text"
+                          value={item?.label}
+                          onChange={(e) =>
+                            handleSubCategory(e.target.value, index)
+                          }
                         />
-                      ))
-                    }
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        variant="outlined"
-                        label="Subcategory"
-                        placeholder="Subcategory"
-                        size="small"
-                        {...register("subCategory")}
-                      />
-                    )}
-                  />
+                      );
+                    })}
                 </div>
               </div>
               <div className="btn-row">
@@ -214,7 +186,7 @@ export default function CategoryDetails() {
                     className="form-btn"
                     fullWidth
                   >
-                    {startCase("Create")}
+                    {startCase("Update")}
                   </Button>
                 </div>
               </div>
