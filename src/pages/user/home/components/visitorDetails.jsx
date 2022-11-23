@@ -5,7 +5,7 @@ import { addGeneralDetails } from "../../../../redux/actions";
 import getGeneralsListApi from "../../../../services/getGeneralList";
 import Loader from "../../../../components/common/Loader";
 import { URLS } from "../../../../config/urls.config";
-import { Typography } from "@mui/material";
+import { Grid, Paper, Typography } from "@mui/material";
 
 const VisitorDetails = (props) => {
   const [isLoading, setLoader] = useState(false);
@@ -25,7 +25,8 @@ const VisitorDetails = (props) => {
   }, []);
 
   return (
-    <div className="col custom-details shadow">
+    <div className="col" >
+      <Paper elevation={2} className="custom-details">
       {isLoading ? (
         <Loader skeleton />
       ) : (
@@ -51,6 +52,7 @@ const VisitorDetails = (props) => {
           </div>
         </>
       )}
+      </Paper>
     </div>
   );
 };
