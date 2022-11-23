@@ -71,7 +71,6 @@ export default function Category() {
                     <TableRow>
                       <TableCell>Main category</TableCell>
                       <TableCell>Subcategory</TableCell>
-                      <TableCell align="center">Action</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -95,15 +94,13 @@ export default function Category() {
                                       key={subcategory._id}
                                       label={subcategory.label}
                                       variant="outlined"
+                                      sx={{ marginRight: 1 }}
                                     />
                                   );
                                 })
                               ) : (
                                 <strong>No Subcategories</strong>
                               )}
-                            </TableCell>
-                            <TableCell align="center">
-                              <EditIcon className="edit-icon" />
                             </TableCell>
                           </TableRow>
                         );

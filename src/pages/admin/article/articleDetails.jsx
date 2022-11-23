@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { TextField, Button, Autocomplete } from "@mui/material";
 
@@ -14,9 +13,12 @@ import Loader from "../../../components/common/Loader";
 import SnackBar from "../../../components/common/Snackbar";
 
 export default function ArticleDetails() {
+  const navigate = useNavigate();
+
   const [mufthiData, setMufthiData] = useState([]);
   const [isLoader, setLoader] = useState([]);
   const [selectedMufthi, setSelectedMufthi] = useState([]);
+  const [articleDetails, setArticleDetails] = useState(null);
   const languageList = [
     { id: 1, title: "English" },
     { id: 2, title: "Malayalam" },
@@ -44,6 +46,7 @@ export default function ArticleDetails() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm();
 
@@ -54,14 +57,11 @@ export default function ArticleDetails() {
   const getMufthiApi = () => {
     setLoader(true);
     axios
-      .get(`${URLS.user}${URLS.signup}?userType=Mufthi`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      .get(`${URLS.user}${URLS.signup}?userType=Mufthi`)
       .then(({ data }) => {
         setLoader(false);
         setMufthiData(data);
+        getArticleDetailsApi(data);
       })
       .catch((err) => {
         setLoader(false);
@@ -70,9 +70,8 @@ export default function ArticleDetails() {
       });
   };
 
-  const articleApi = () => {
-    // setLoader(true);
-    // const { mufthi, language, title, articleFile } = params;
+  const getArticleDetailsApi = (list) => {
+    setLoader(true);
 
     // const formData = new FormData();
     // formData.append("mufthi", mufthi);
@@ -80,121 +79,92 @@ export default function ArticleDetails() {
     // formData.append("title", title);
     // formData.append("articleFile", articleFile[0]);
 
-    // axios
-    //   .get(`${URLS.article}/${id}`, formData, 
-    //   {
-    //     headers: {
-    //       "content-type": "multipart/form-data",
-    //     },
-    //   }
-    //   )
     axios
-    .get(`${URLS.article}/${id}`)
+      .get(`${URLS.article}/${id}`)
       .then((res) => {
         setLoader(false);
-        if (res.success) {
-          setError({
-            visible: true,
-            message: res.message,
-            type: "success",
-            title: "Success",
-          })
-          // navigate(`${RouterList.admin.admin}/${RouterList.admin.article}`);
+        console.log("res", res);
+        setArticleDetails(res.data);
+        setValue("title", res?.data?.title);
+
+        let index = list.findIndex((fl) => fl.name === res?.data?.mufthi);
+        if (index !== -1) {
+          setSelectedMufthi(list[index]);
         }
-        else {
-          setError({
-            visible: true,
-            message: res.message,
-            type: "warning",
-            title: "Warning",
-          });
+
+        let index1 = languageList.findIndex(
+          (fl) => fl.title === res?.data?.language
+        );
+        if (index1 !== -1) {
+          setSelectedLanguage(languageList[index1]);
         }
       })
       .catch((err) => {
         setLoader(false);
-        console.log("Error in Article Add", err);
+        console.log("Error in Article Details", err);
       });
-  }
-  const navigate = useNavigate();
+  };
+
+  const postArticleUpdate = () => {};
 
   return (
     <div className="add-article-section">
       {isLoader ? (
         <Loader />
       ) : (
-        <form onSubmit={handleSubmit(articleApi)}>
+        <form onSubmit={handleSubmit(postArticleUpdate)}>
           <div className="add-article-container">
             <div className="add-article-row">
               <div className="col-md-6 first-col">
-                {mufthiData?.length ? (
-                  <Autocomplete
-                    disablePortal
-                    id="combo-box-demo"
-                    size="small"
-                    options={mufthiData}
-                    getOptionLabel={(option) => option.name || ""}
-                    isOptionEqualToValue={(option, value) =>
-                      option._id === value._id
-                    }
-                    onChange={(e, val) => {
-                      setSelectedMufthi(val);
-                    }}
-                    value={selectedMufthi}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Mufthi Name"
-                        {...register("mufthi", {
-                          required: "Mufthi Name is required",
-                        })}
-                      />
-                    )}
-                  />
-                ) : (
-                  <Autocomplete
-                    disablePortal
-                    size="small"
-                    id="combo-box-demo"
-                    options={[]}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Mufthi Name"
-                        {...register("mufthi", {
-                          required: "Mufthi Name is required",
-                        })}
-                      />
-                    )}
-                  />
-                )}
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  size="small"
+                  options={mufthiData}
+                  getOptionLabel={(option) => option.name || ""}
+                  isOptionEqualToValue={(option, value) =>
+                    option?._id === value?._id
+                  }
+                  onChange={(e, val) => {
+                    setSelectedMufthi(val);
+                  }}
+                  value={selectedMufthi}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Mufthi Name"
+                      // {...register("mufthi", {
+                      //   required: "Mufthi Name is required",
+                      // })}
+                    />
+                  )}
+                />
                 {!selectedMufthi?.name && (
                   <div className="error">{errors?.mufthi?.message}</div>
                 )}
               </div>
               <div className="col-md-6 second-col">
-                {languageList?.length && (
-                  <Autocomplete
-                    disablePortal
-                    id="combo-box-demo"
-                    size="small"
-                    options={languageList}
-                    getOptionLabel={(option) => option.title || ""}
-                    isOptionEqualToValue={(option, value) =>
-                      option.id === value.id
-                    }
-                    onChange={(e, val) => setSelectedLanguage(val)}
-                    value={selectedLanguage}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Language"
-                        {...register("language", {
-                          required: "Language is required",
-                        })}
-                      />
-                    )}
-                  />
-                )}
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  size="small"
+                  options={languageList}
+                  getOptionLabel={(option) => option.title || ""}
+                  isOptionEqualToValue={(option, value) =>
+                    option.id === value.id
+                  }
+                  onChange={(e, val) => setSelectedLanguage(val)}
+                  value={selectedLanguage}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Language"
+                      // {...register("language", {
+                      //   required: "Language is required",
+                      // })}
+                    />
+                  )}
+                />
                 {!selectedLanguage?.title && (
                   <div className="error">{errors?.language?.message}</div>
                 )}
@@ -212,19 +182,27 @@ export default function ArticleDetails() {
             </div>
             <div className="error">{errors?.title?.message}</div>
             <div className="add-article-row">
-              <Button
-                variant="contained"
-                className="file-btn"
-                fullWidth
-                component="label"
-              >
-                Upload File
-                <input
-                  type="file"
-                  hidden
-                  {...register("articleFile", { required: "Upload File" })}
+              {articleDetails?.articleFile !== "" ? (
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: articleDetails?.htmlDoc,
+                  }}
                 />
-              </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  className="file-btn"
+                  fullWidth
+                  component="label"
+                >
+                  Upload File
+                  <input
+                    type="file"
+                    hidden
+                    {...register("articleFile", { required: "Upload File" })}
+                  />
+                </Button>
+              )}
             </div>
             <div className="error">{errors?.articleFile?.message}</div>
             <div className="btn-section">
