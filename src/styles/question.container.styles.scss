@@ -51,9 +51,13 @@
           }
         }
         .writtenby-section{
+          color: $theme-primary-color;
           @media screen and (max-width:1000px) {
             min-width: 35%;
           }
+        }
+        .colon{
+          color: $theme-primary-color;
         }
     }
   }

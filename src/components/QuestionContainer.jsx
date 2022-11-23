@@ -34,24 +34,27 @@ const QuestionContainer = (props) => {
               <Typography variant="subtitle1" className="writtenby-section">
                 Written By 
               </Typography>
+              <Typography variant="subtitle1" className="colon mx-1"> : </Typography>
                 <Typography variant="subtitle1">
-                :  {props?.data?.mufti?.display_title || "N/A"}
+                {props?.data?.mufti?.display_title || "N/A"}
                 </Typography>
             </div>
             <div className="col-md-3 w-name d-flex">
               <Typography variant="subtitle1" className="writtenby-section">
-                Date 
+                Date  
               </Typography>
+              <Typography variant="subtitle1" className="colon mx-1"> : </Typography>
               <Typography variant="subtitle1">
-              : {props?.createdDate}
+              {props?.createdDate}
                 </Typography>
             </div>
             <div className="col-md-2 d-flex">
               <Typography variant="subtitle1" className="writtenby-section">
                 Views 
               </Typography>
+              <Typography variant="subtitle1" className="colon mx-1"> : </Typography>
               <Typography variant="subtitle1">
-              : {props?.views}
+              {props?.views}
                 </Typography>
             </div>
           </div>
