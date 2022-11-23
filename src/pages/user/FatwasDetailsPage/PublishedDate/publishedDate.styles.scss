@@ -10,6 +10,10 @@
                 .pub-date{
                     font-family: $font-style;
                     font-size: $theme-f1!important;
+                    color: $theme-primary-color;
+                    .date{
+                        color: black;
+                    }
                 }
             }
         }

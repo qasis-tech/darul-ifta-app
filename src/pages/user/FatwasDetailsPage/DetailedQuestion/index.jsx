@@ -3,12 +3,13 @@ import React from "react";
 import "./detail.question.styles.scss";
 export default function DetailedQuestion({ data }) {
   return (
-    <div className="detail-question-section mt-2">
+    <div className="detail-question-section">
       <div className="container">
         <div className="col-md-12 py-2">
           <Typography variant="h6" className="question-heading">
             Question :
           </Typography>
+          <hr/>
         </div>
         <div className="col-md-12 pb-2">
           <Typography className="question">

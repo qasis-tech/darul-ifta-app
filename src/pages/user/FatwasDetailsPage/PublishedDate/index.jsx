@@ -10,13 +10,13 @@ export default function PublishedDate({ data }) {
           <div className="published-date d-flex">
             <span className="pub-date me-3">
               Created Date :{" "}
-              <span className="ms-1">
+              <span className="ms-1 date">
                 {moment(data?.createdAt).format("dddd, DD MMM YYYY") || "N/A"}
               </span>
             </span>
             <span className="pub-date">
               Published Date :{" "}
-              <span className="ms-1">
+              <span className="ms-1 date">
                 {moment(data?.updatedAt).format("dddd, DD MMM YYYY") || "N/A"}
               </span>
             </span>

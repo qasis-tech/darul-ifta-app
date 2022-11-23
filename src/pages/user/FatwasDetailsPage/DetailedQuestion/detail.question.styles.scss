@@ -4,7 +4,9 @@
         .question-heading{
             color: $primary;
             font-family: $font-style;
-            font-size: $theme-f5;
+        }
+        hr{
+            margin: 1px 0!important;
         }
         .question{
             font-family: $malayalam-font-style;

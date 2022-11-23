@@ -44,15 +44,17 @@ export default function FatwasDetailsPage() {
       <div className="container">
         <PublishedDateComponent data={questionDetails} />
       </div>
-      <div className=" d-flex mb-3">
+      <div className=" d-flex mb-5">
         {/* <div className="col">
           <SocialComponent />
         </div> */}
         <div className="container main-section">
           <div className="col-md-9 details d-flex">
             <SocialComponent />
+            <div>
             <DetailedQuestionComponent data={questionDetails} />
             <WrittenComponent data={questionDetails} />
+            </div>
           </div>
           <div className="col-md-3 related">
             <RelatedFatwasComponent data={questionDetails} />
