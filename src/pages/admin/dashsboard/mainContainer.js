@@ -175,8 +175,7 @@ function DashboardPage() {
             width: drawerWidth,
             boxSizing: "border-box",
           },
-        }}
-        style={{ backgroundColor: "green" }}
+        }}        
       >
         <Toolbar />
         <div style={{}}>
