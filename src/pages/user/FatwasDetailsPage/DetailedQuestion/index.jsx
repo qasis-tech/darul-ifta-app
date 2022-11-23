@@ -5,14 +5,18 @@ export default function DetailedQuestion({ data }) {
   return (
     <div className="detail-question-section">
       <div className="container">
-        <div className="col-md-12 py-2">
+        <div className="col-md-12">
           <Typography variant="h6" className="question-heading">
             Question :
           </Typography>
-          <hr/>
+          <hr />
         </div>
-        <div className="col-md-12 pb-2">
-          <Typography variant="paragraph" className="question">
+        <div className="col-md-12 my-4">
+          <Typography
+            variant="paragraph"
+            className="question"
+            sx={{ lineHeight: 1.5, textAlign: "justify" }}
+          >
             {data?.question || "N/A"}
           </Typography>
         </div>

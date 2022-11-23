@@ -1,32 +1,32 @@
 @import "../../../../styles/common.styles.scss";
-.written-section{
-    .main-section{
-        @media screen and (max-width:1000px) {
-            flex-direction: column;
-        }
+.written-section {
+  .main-section {
+    @media screen and (max-width: 1000px) {
+      flex-direction: column;
     }
-    .container{
-        .heading{
-            color: $primary;
-            border-bottom: 1px solid #bbbcbc;
-            .main-heading{
-                font-family: $font-style;
-            }
-        }
-        .written-desc{
-            text-align: right;
-            font-family: $arabic-font-style;
-        }
+  }
+  .container {
+    .heading {
+      color: $primary;
+      border-bottom: 1px solid #bbbcbc;
+      .main-heading {
+        font-family: $font-style;
+      }
     }
-    .verified-section{
-        .verified-head{
-            color: $primary;
-            font-family: $font-style;
-        }
-        .sub{
-            color: $primary;
-            font-family: $font-style;
-            font-size: $theme-f1!important;
-        }
+    .written-desc {
+      text-align: left;
+      font-family: $arabic-font-style;
     }
+  }
+  .verified-section {
+    .verified-head {
+      color: $primary;
+      font-family: $font-style;
+    }
+    .sub {
+      color: $primary;
+      font-family: $font-style;
+      font-size: $theme-f1 !important;
+    }
+  }
 }

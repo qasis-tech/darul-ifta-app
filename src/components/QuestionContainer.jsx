@@ -6,15 +6,12 @@ import URLS from "../routes/routerList";
 import "../styles/question.container.styles.scss";
 
 const QuestionContainer = (props) => {
+  console.log("props", props);
   const navigate = useNavigate();
   return (
     <section
       className="question-section"
-      onClick={() =>
-        navigate(`${URLS.user.fatwasDetailsPage}/${props?.id}`, {
-          state: { data: props.data },
-        })
-      }
+      onClick={() => navigate(`${URLS.user.fatwasDetailsPage}/${props?.id}`)}
     >
       <div className="question-container">
         <div className="row">
@@ -32,30 +29,35 @@ const QuestionContainer = (props) => {
             </div>
             <div className="col-md-3 w-name d-flex">
               <Typography variant="subtitle1" className="writtenby-section">
-                Written By 
+                Written By
               </Typography>
-              <Typography variant="subtitle1" className="colon mx-1"> : </Typography>
-                <Typography variant="subtitle1">
+              <Typography variant="subtitle1" className="colon mx-1">
+                {" "}
+                :{" "}
+              </Typography>
+              <Typography variant="subtitle1">
                 {props?.data?.mufti?.display_title || "N/A"}
-                </Typography>
+              </Typography>
             </div>
             <div className="col-md-3 w-name d-flex">
               <Typography variant="subtitle1" className="writtenby-section">
-                Date  
+                Date
               </Typography>
-              <Typography variant="subtitle1" className="colon mx-1"> : </Typography>
-              <Typography variant="subtitle1">
-              {props?.createdDate}
-                </Typography>
+              <Typography variant="subtitle1" className="colon mx-1">
+                {" "}
+                :{" "}
+              </Typography>
+              <Typography variant="subtitle1">{props?.createdDate}</Typography>
             </div>
             <div className="col-md-2 d-flex">
               <Typography variant="subtitle1" className="writtenby-section">
-                Views 
+                Views
               </Typography>
-              <Typography variant="subtitle1" className="colon mx-1"> : </Typography>
-              <Typography variant="subtitle1">
-              {props?.views}
-                </Typography>
+              <Typography variant="subtitle1" className="colon mx-1">
+                {" "}
+                :{" "}
+              </Typography>
+              <Typography variant="subtitle1">{props?.views}</Typography>
             </div>
           </div>
         </div>

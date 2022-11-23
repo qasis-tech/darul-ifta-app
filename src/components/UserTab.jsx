@@ -131,6 +131,7 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
                         <div>
                           <QuestionContainer
                             key={question._id}
+                            id={question?.slNo}
                             shortquestion={question.short_question}
                             question={question.question}
                             questionCount={question.slNo}
@@ -142,8 +143,11 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
                       );
                     })
                   ) : (
-                    <div className="d-flex justify-content-center align-items-center" style={{minHeight: "200px"} }>
-                    <NoDataAvailable noStyle noBg />
+                    <div
+                      className="d-flex justify-content-center align-items-center"
+                      style={{ minHeight: "200px" }}
+                    >
+                      <NoDataAvailable noStyle noBg />
                     </div>
                   )}
                   <TablePagination

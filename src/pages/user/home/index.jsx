@@ -87,6 +87,26 @@ const HomePage = (props) => {
 
   const languages = ["", "English", "Malayalam", "Urdu", "Arabic"];
 
+  useEffect(() => {
+    getVisitorApi();
+    getLocal().then((res) => {
+      props.addUserLoginDetails(res);
+    });
+    setDefaultToProps(() => categoryMadhabFilter(null, null));
+  }, []);
+
+  useEffect(() => {
+    if (props?.homeFilter?.category || props?.homeFilter?.madhab) {
+      categoryMadhabFilter();
+    }
+  }, [props?.homeFilter?.category, props?.homeFilter?.madhab]);
+
+  useEffect(() => {
+    if (searchInput === "") {
+      categoryMadhabFilter();
+    }
+  }, [searchInput]);
+
   const handleChange = (event, newValue) => {
     setSearchInput("");
 
@@ -106,8 +126,6 @@ const HomePage = (props) => {
       parms = `${parms}&madhab=${props?.homeFilter?.madhab?.title}`;
     }
 
-    parms = `${parms}&status=Published`;
-
     getQuestionList(parms);
     setValue(newValue);
   };
@@ -118,14 +136,6 @@ const HomePage = (props) => {
     props.addHomeFilter(temp);
     categoryMadhabFilter(temp.category, temp.madhab);
   };
-
-  useEffect(() => {
-    getVisitorApi();
-    getLocal().then((res) => {
-      props.addUserLoginDetails(res);
-    });
-    setDefaultToProps(() => categoryMadhabFilter(null, null));
-  }, []);
 
   const setDefaultToProps = (cb) => {
     let temp = { ...props.homeFilter };
@@ -140,53 +150,43 @@ const HomePage = (props) => {
   };
 
   const categoryMadhabFilter = (category, madhab) => {
-    let params = "";
+    console.log("AAAAAAAAAAAAAA 02");
+    let params = "?status=Published";
     if (category === null || madhab === null) {
       if (category === null && madhab !== null) {
-        params = `?madhab=${props.homeFilter.madhab.title}&language=${languages[value]}`;
+        params = `&madhab=${props.homeFilter.madhab.title}&language=${languages[value]}`;
       } else if (madhab === null && category !== null) {
-        params = `?subCategory=${encodeURIComponent(
+        params = `&subCategory=${encodeURIComponent(
           props?.homeFilter?.category?.label
         )}&language=${languages[value]}`;
       }
     } else {
       if (props?.homeFilter?.category && props.homeFilter.madhab) {
-        params = `?subCategory=${encodeURIComponent(
+        params = `&subCategory=${encodeURIComponent(
           props?.homeFilter?.category?.label
         )}&madhab=${props.homeFilter.madhab.title}`;
       } else if (props?.homeFilter?.category) {
-        params = `?subCategory=${encodeURIComponent(
+        params = `&subCategory=${encodeURIComponent(
           props?.homeFilter?.category?.label
         )}`;
       } else if (props?.homeFilter?.madhab) {
-        params = `?madhab=${props.homeFilter.madhab.title}`;
+        params = `&madhab=${props.homeFilter.madhab.title}`;
       }
     }
     if (value > 0) {
       if (params === "") {
-        params = `?language=${languages[value]}`;
+        params = `&language=${languages[value]}`;
       } else params = `${params}&language=${languages[value]}`;
     }
 
     if (searchInput !== "") {
       if (params === "") {
-        params = `?search=${searchInput}`;
+        params = `&search=${searchInput}`;
       } else params = `${params}&search=${searchInput}`;
     }
+
     getQuestionList(params);
   };
-
-  useEffect(() => {
-    if (props?.homeFilter?.category || props?.homeFilter?.madhab) {
-      categoryMadhabFilter();
-    }
-  }, [props?.homeFilter?.category, props?.homeFilter?.madhab]);
-
-  useEffect(() => {
-    if (searchInput === "") {
-      categoryMadhabFilter();
-    }
-  }, [searchInput]);
 
   const getVisitorApi = () => {
     setLoader(true);
@@ -200,12 +200,12 @@ const HomePage = (props) => {
   };
 
   const getQuestionList = (params) => {
-    console.log("questionnn===>", params);
+    console.log("PARAMS ====>", params);
     setLoader(true);
     getQuestionListApi(params)
       .then((res) => {
         setLoader(false);
-        console.log("res.data", res.data);
+
         setQuestionsData(res.data);
       })
       .catch((err) => {
@@ -224,117 +224,121 @@ const HomePage = (props) => {
         <Slider />
         <section className="body-section pt-2">
           <div className="container">
-          <div className="row side-row">
+            <div className="row side-row">
               <div className="col-md-3 col-sm-2 col-xs-2 main-madhub-section">
                 <SideNavCategory />
                 <VisitorDetails />
               </div>
               <div className="col-md-9 ">
-              <Paper elevation={2} className="tab-container p-4">
-                <div className="row chip-section">
-                  <div className="">
-                    {props?.homeFilter?.category && (
-                      <Chip
-                        label={props?.homeFilter?.category?.label}
-                        className="single-chip"
-                        onDelete={() => handleDelete("category")}
-                      />
-                    )}
-                    {props?.homeFilter?.madhab && (
-                      <Chip
-                        label={props?.homeFilter?.madhab?.title}
-                        className="single-chip"
-                        onDelete={() => handleDelete("madhab")}
-                      />
-                    )}
+                <Paper elevation={2} className="tab-container p-4">
+                  <div className="row chip-section">
+                    <div className="">
+                      {props?.homeFilter?.category && (
+                        <Chip
+                          label={props?.homeFilter?.category?.label}
+                          className="single-chip"
+                          onDelete={() => handleDelete("category")}
+                        />
+                      )}
+                      {props?.homeFilter?.madhab && (
+                        <Chip
+                          label={props?.homeFilter?.madhab?.title}
+                          className="single-chip"
+                          onDelete={() => handleDelete("madhab")}
+                        />
+                      )}
+                    </div>
                   </div>
-                </div>
-                <TextField
-                  label="Search"
-                  fullWidth
-                  size="small"
-                  className="search-btn"
-                  value={searchInput}
-                  onChange={(e) => setSearchInput(e.target.value)}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          sx={{
-                            visibility:
-                              searchInput !== "" ? "visible" : "hidden",
-                          }}
-                        >
-                          <CloseIcon onClick={() => setSearchInput("")} />
-                        </IconButton>
-                        <IconButton onClick={() => categoryMadhabFilter()}>
-                          <SearchIcon
+                  <TextField
+                    label="Search"
+                    fullWidth
+                    size="small"
+                    className="search-btn"
+                    value={searchInput}
+                    onChange={(e) => setSearchInput(e.target.value)}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
                             sx={{
                               visibility:
                                 searchInput !== "" ? "visible" : "hidden",
                             }}
-                          />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-                <Box sx={{ width: "100%" }}>
-                  <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                    <Tabs
-                      className="main-tab"
-                      value={value}
-                      onChange={handleChange}
-                      aria-label="basic tabs example"
-                    >
-                      <Tab className="tab-name" label="All" {...a11yProps(0)} />
-                      <Tab label="English" {...a11yProps(1)} />
-                      <Tab label="മലയാളം" {...a11yProps(2)} />
-                      <Tab label="اردو" {...a11yProps(3)} />
-                      <Tab
-                        label="العربيــــــــــــــــــة"
-                        {...a11yProps(4)}
-                      />
-                    </Tabs>
+                          >
+                            <CloseIcon onClick={() => setSearchInput("")} />
+                          </IconButton>
+                          <IconButton onClick={() => categoryMadhabFilter()}>
+                            <SearchIcon
+                              sx={{
+                                visibility:
+                                  searchInput !== "" ? "visible" : "hidden",
+                              }}
+                            />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  <Box sx={{ width: "100%" }}>
+                    <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                      <Tabs
+                        className="main-tab"
+                        value={value}
+                        onChange={handleChange}
+                        aria-label="basic tabs example"
+                      >
+                        <Tab
+                          className="tab-name"
+                          label="All"
+                          {...a11yProps(0)}
+                        />
+                        <Tab label="English" {...a11yProps(1)} />
+                        <Tab label="മലയാളം" {...a11yProps(2)} />
+                        <Tab label="اردو" {...a11yProps(3)} />
+                        <Tab
+                          label="العربيــــــــــــــــــة"
+                          {...a11yProps(4)}
+                        />
+                      </Tabs>
+                    </Box>
+                    {isLoading ? (
+                      <Loader skeleton layers={1} />
+                    ) : (
+                      <>
+                        {[0, 1, 2, 3, 4].map((item, i) => {
+                          return (
+                            <TabPanel value={value} index={item} key={i}>
+                              {questionsData?.length ? (
+                                questionsData?.map((questions) => {
+                                  return (
+                                    <QuestionComponent
+                                      key={questions?._id}
+                                      id={questions?._id}
+                                      shortquestion={questions?.short_question}
+                                      question={questions?.question}
+                                      questionCount={questions?.slNo}
+                                      createdDate={formatDate(
+                                        questions?.createdAt
+                                      )}
+                                      views={questions?.views}
+                                      data={questions}
+                                    />
+                                  );
+                                })
+                              ) : (
+                                <div
+                                  className="d-flex justify-content-center align-items-center"
+                                  style={{ minHeight: "445px" }}
+                                >
+                                  <NoDataAvailable noStyle noBg />
+                                </div>
+                              )}
+                            </TabPanel>
+                          );
+                        })}
+                      </>
+                    )}
                   </Box>
-                  {isLoading ? (
-                    <Loader skeleton layers={1} />
-                  ) : (
-                    <>
-                      {[0, 1, 2, 3, 4].map((item) => {
-                        return (
-                          <TabPanel value={value} index={item}>
-                            {questionsData?.length ? (
-                              questionsData?.map((questions) => {
-                                return (
-                                  <QuestionComponent
-                                    key={questions?._id}
-                                    id={questions?._id}
-                                    shortquestion={questions?.short_question}
-                                    question={questions?.question}
-                                    questionCount={questions?.slNo}
-                                    createdDate={formatDate(
-                                      questions?.createdAt
-                                    )}
-                                    views={questions?.views}
-                                    data={questions}
-                                  />
-                                );
-                              })
-                            ) : (
-                              <div
-                                className="d-flex justify-content-center align-items-center"
-                                style={{ minHeight: "445px" }}
-                              >
-                                <NoDataAvailable noStyle noBg />
-                              </div>
-                            )}
-                          </TabPanel>
-                        );
-                      })}
-                    </>
-                  )}
-                </Box>
                 </Paper>
               </div>
             </div>

@@ -105,29 +105,29 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
 
   return (
     <>
-      <div class="profile-1 mt-2">
+      <div className="profile-1 mt-2">
         <div className="container profile-container d-flex py-1 px-5">
-          <div class="col d-flex flex-column align-items-center">
-            <div class="profile-img">
+          <div className="col d-flex flex-column align-items-center">
+            <div className="profile-img">
               {showImage ? (
                 <span>
                   <img
                     src={userLoginDetails?.profile_pic}
-                    class="profile-img"
+                    className="profile-img"
                     alt="profile images"
                     onError={handleImageError}
                   />
                 </span>
               ) : (
                 <img
-                  class="profile-img"
+                  className="profile-img"
                   src={DefaultImg1}
                   alt="Profile default image"
                 />
               )}
             </div>
-            <div class="">
-              <div class="row">
+            <div className="">
+              <div className="row">
                 <div className="col pointer">
                   <DialogComponent
                     title="User Profile"
@@ -170,8 +170,8 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
               </div>
             </div>
           </div>
-          <div class="col d-flex align-items-center details">
-            <div class="">
+          <div className="col d-flex align-items-center details">
+            <div className="">
               <div>
                 <Typography variant="h4">
                   {userLoginDetails?.name || "N/A"}
@@ -205,7 +205,7 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
                 </Typography>
               </div>
               <div className="row">
-              <div className="col">
+                <div className="col">
                   <Paper
                     elevation={1}
                     // variant="outlined"
@@ -269,7 +269,7 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
                 </div>
               </div>
               {/* <Box component="div" className="row" sx={{ p: 1 }}> */}
-               
+
               {/* </Box> */}
             </div>
           </div>
