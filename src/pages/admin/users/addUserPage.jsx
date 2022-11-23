@@ -217,6 +217,7 @@ export default function AddUser() {
                     id="userAddMobileNumber"
                     label="Whatsapp Number"
                     size="small"
+                    type="number"
                     fullWidth
                     variant="outlined"
                     // {...register("mobileNumber", {
@@ -232,8 +233,7 @@ export default function AddUser() {
                       value: 10,
                       message: "Mobile Number length must be 10 digit. ",
                     },
-                      onChange: (e) =>
-                        handleUserDetails(e.target.value, "phone"),
+              
                     })}
                   />
                   <div className="error">{errors?.mobileNumber?.message}</div>
