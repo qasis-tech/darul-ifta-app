@@ -38,7 +38,7 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
   const [selectedMadhab, setSelectedMadhab] = useState([]);
   const [isLoading, setLoader] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  
+
   const [errorPopup, setError] = useState({
     visible: false,
     message: "",
@@ -84,9 +84,8 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
       visible: false,
       message: "",
       type: "",
-      title: "",
+      titile: "",
     });
-    // closePopup(true);
     navigate(0);
   };
 
@@ -108,16 +107,12 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
           },
         })
         .then((res) => {
-          setLoader(false);
           if (res?.success) {
             setError({
               visible: true,
               message: res.message,
               type: "success",
               title: "Success",
-            });
-            StoreLocal("@darul-ifta-user-login-details", res.data, () => {
-              addUserLoginDetails(res.data);
             });
           } else {
             setError({
@@ -127,6 +122,10 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
               title: "Warning",
             });
           }
+          setLoader(false);
+          StoreLocal("@darul-ifta-user-login-details", res.data, () => {
+            addUserLoginDetails(res.data);
+          });
         })
         .catch((err) => {
           setLoader(false);
@@ -152,7 +151,8 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
                     label="Name"
                     variant="outlined"
                     InputLabelProps={{ shrink: userDetails?.name }}
-                    {...register("name", {required:"Name is required",
+                    {...register("name", {
+                      required: "Name is required",
                       onChange: (e) =>
                         handleUserDetails(e.target.value, "name"),
                     })}
@@ -182,14 +182,14 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
                     fullWidth
                     {...register("mobileNumber", {
                       required: "Please enter Mobile Number",
-                    minLength: {
-                      value: 10,
-                      message: "Mobile Number length must be 10 digit. ",
-                    },
-                    maxLength: {
-                      value: 10,
-                      message: "Mobile Number length must be 10 digit. ",
-                    },
+                      minLength: {
+                        value: 10,
+                        message: "Mobile Number length must be 10 digit. ",
+                      },
+                      maxLength: {
+                        value: 10,
+                        message: "Mobile Number length must be 10 digit. ",
+                      },
                       onChange: (e) =>
                         handleUserDetails(e.target.value, "phone"),
                     })}
@@ -218,23 +218,25 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
                       <TextField
                         {...params}
                         label="Madhab"
-                        {...register("madhab", {required:"Madhab is required",
-                          onChange: (e) => {
-                            setErrorMessage("Only options allowed!!");
-                          },
+                        {...register("madhab", {
+                          required: "Madhab is required",
                         })}
-                        onKeyUp={() => {
-                          trigger("madhab");
-                        }}
+                        // onChange: (e) => {
+                        //   setErrorMessage("Only options allowed!!");
+                        // },
+                        // })}
+                        // onKeyUp={() => {
+                        //   trigger("madhab");
+                        // }}
                       />
                     )}
                   />
-                  {getValues("madhab") ? (
+                  {/* {getValues("madhab") ? (
                     <div className="error">{errorMessage}</div>
-                  ) : null}
+                  ) : null} */}
                   {!selectedMadhab?.title && (
                     <div className="error">{errors?.madhab?.message}</div>
-                   )}
+                  )}
                 </div>
               </div>
               <div className="row">
@@ -245,7 +247,8 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
                     multiline
                     fullWidth
                     rows={4}
-                    {...register("address", {required:"Address is required",
+                    {...register("address", {
+                      required: "Address is required",
                       onChange: (e) =>
                         handleUserDetails(e.target.value, "address"),
                     })}
