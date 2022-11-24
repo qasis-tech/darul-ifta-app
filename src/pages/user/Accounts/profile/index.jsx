@@ -38,6 +38,7 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
   const [selectedMadhab, setSelectedMadhab] = useState([]);
   const [isLoading, setLoader] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  
   const [errorPopup, setError] = useState({
     visible: false,
     message: "",
@@ -136,7 +137,7 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
   const navigate = useNavigate();
   return (
     <div>
-      {isLoading || errorPopup?.visible ? (
+      {isLoading ? (
         <Loader skeleton />
       ) : (
         <form onSubmit={handleSubmit(handleUserUpdate)}>
@@ -210,7 +211,7 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
                     }
                     onChange={(e, val) => {
                       setSelectedMadhab(val);
-                      setErrorMessage("");
+                      // setErrorMessage("");
                     }}
                     value={selectedMadhab}
                     renderInput={(params) => (
@@ -233,7 +234,7 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
                   ) : null}
                   {!selectedMadhab?.title && (
                     <div className="error">{errors?.madhab?.message}</div>
-                  )}
+                   )}
                 </div>
               </div>
               <div className="row">

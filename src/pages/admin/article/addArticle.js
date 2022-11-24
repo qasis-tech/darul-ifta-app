@@ -15,6 +15,8 @@ import SnackBar from "../../../components/common/Snackbar";
 export default function AddArticle() {
   const [mufthiData, setMufthiData] = useState([]);
   const [isLoader, setLoader] = useState([]);
+  const [file,setFile]=useState("")
+  const [filename,setFileName]=useState()
   const [selectedMufthi, setSelectedMufthi] = useState([]);
   const languageList = [
     { id: 1, title: "English" },
@@ -30,6 +32,10 @@ export default function AddArticle() {
     title: "",
   });
 
+  const getFileName=(e)=>{
+    setFile(e.target.files[0])
+    setFileName(e.target.files[0].name)
+  }
   const handleCloseError = () => {
     setError({
       visible: false,
@@ -222,15 +228,15 @@ export default function AddArticle() {
               >
                 Upload File
                 <input
+                {...register("articleFile", { required: "Upload File" })}
                   type="file"
                   hidden
-                  onChange={changeHandler}
-                  {...register("articleFile", { required: "Upload File" })}
+                  onChange={getFileName}
                 />
               </Button>
-          
             </div>
-            <div className="error">{errors?.articleFile?.message}</div>
+            <div>{filename}</div>
+            {/* <div className="error">{errors?.articleFile?.message}</div> */}
             <div className="btn-section">
               <div className="col-md-1">
                 <Button
