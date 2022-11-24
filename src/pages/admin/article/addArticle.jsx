@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { Editor, EditorState, RichUtils } from "draft-js";
+import "draft-js/dist/Draft.css";
 
 import {
   TextField,
@@ -81,6 +83,9 @@ export default function AddArticle() {
         setMufthiData([]);
       });
   };
+  const [editorState, setEditorState] = React.useState(() =>
+    EditorState.createEmpty()
+  );
 
   const handleSave = (params) => {
     setLoader(true);
@@ -133,7 +138,7 @@ export default function AddArticle() {
   };
 
   return (
-    <Container>
+    <Container maxWidth="md">
       <Paper className="add-article-section">
         {isLoader ? (
           <Loader />
@@ -208,11 +213,12 @@ export default function AddArticle() {
                 />
               </div>
               <div className="error">{errors?.title?.message}</div>
-              <div className="add-article-row">
+
+              <Editor editorState={editorState} onChange={setEditorState} />
+              {/* <div className="add-article-row ">
                 <Button
                   variant="contained"
-                  className="file-btn"
-                  fullWidth
+                  className="file-btn col-md-6"
                   component="label"
                 >
                   Upload File
@@ -223,7 +229,7 @@ export default function AddArticle() {
                     onChange={getFileName}
                   />
                 </Button>
-              </div>
+              </div> */}
               <div>{filename}</div>
               <div className="error">{errors?.articleFile?.message}</div>
               <div className="btn-section">

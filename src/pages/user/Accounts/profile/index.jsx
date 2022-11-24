@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { set, useForm, Controller } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import "yup-phone";
 
 import { Autocomplete, Button, TextField } from "@mui/material";
 
@@ -18,27 +16,13 @@ import { addUserLoginDetails } from "../../../../redux/actions";
 import { StoreLocal } from "../../../../utils/localStore";
 
 import "./profile.styles.scss";
-import { getValue } from "@mui/system";
-// const profileSchema = yup
-//   .object()
-//   .shape({
-//     name: yup.string().required("Name is required"),
-//     madhab: yup.string().required("Madhab is required"),
-//     address: yup.string().required("Address is required"),
-//     mobileNumber: yup
-//       .string()
-//       .phone("IN", true, "Mobile Number is invalid")
-//       .required(),
-//   })
-//   .required();
 
 const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
+  const navigate = useNavigate();
+
   const [userDetails, setUserDetails] = useState(null);
   const [madbahList, setMadbahList] = useState([]);
-  const [selectedMadhab, setSelectedMadhab] = useState([]);
   const [isLoading, setLoader] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-
   const [errorPopup, setError] = useState({
     visible: false,
     message: "",
@@ -55,21 +39,18 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
     watch,
     setValue,
     getValues,
-  } = useForm({
-    // resolver: yupResolver(profileSchema),
-  });
-
+  } = useForm({ defaultValues: { madhab: "" } });
+  console.log("Errors:", errors.madhab);
   useEffect(() => {
     setUserDetails(userLoginDetails);
-    getmadhabList().then((res) => setMadbahList(res));
-    setValue("name", userLoginDetails?.name);
-    setSelectedMadhab({
-      createdAt: "",
-      title: userLoginDetails?.madhab,
-      updatedAt: "",
-      __v: 0,
-      _id: "",
+    getmadhabList().then((res) => {
+      setMadbahList(res);
+      let index = res.findIndex((fl) => fl.title === userLoginDetails?.madhab);
+      if (index !== -1) {
+        setValue("madhab", res[index]);
+      }
     });
+    setValue("name", userLoginDetails?.name);
     setValue("mobileNumber", userLoginDetails?.phone);
     setValue("address", userLoginDetails?.address);
   }, []);
@@ -90,7 +71,7 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
     navigate(0);
   };
 
-  const handleUserUpdate = ({ mobileNumber, address, name }) => {
+  const handleUserUpdate = ({ mobileNumber, address, name, madhab }) => {
     setLoader(true);
     const formData = new FormData();
     formData.append("phone", mobileNumber);
@@ -98,43 +79,41 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
     formData.append("name", name);
     formData.append("user_type", userLoginDetails?.user_type);
     formData.append("user_status", userLoginDetails?.user_status);
-    formData.append("madhab", selectedMadhab?.title);
+    formData.append("madhab", madhab?.title);
 
-    if (selectedMadhab !== null) {
-      axios
-        .put(`${URLS.user}${URLS.signup}/${userLoginDetails._id}`, formData, {
-          headers: {
-            "content-type": "multipart/form-data",
-          },
-        })
-        .then((res) => {
-          if (res?.success) {
-            setError({
-              visible: true,
-              message: res.message,
-              type: "success",
-              title: "Success",
-            });
-          } else {
-            setError({
-              visible: true,
-              message: res.message,
-              type: "warning",
-              title: "Warning",
-            });
-          }
-          setLoader(false);
-          StoreLocal("@darul-ifta-user-login-details", res.data, () => {
-            addUserLoginDetails(res.data);
+    axios
+      .put(`${URLS.user}${URLS.signup}/${userLoginDetails._id}`, formData, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        if (res?.success) {
+          setError({
+            visible: true,
+            message: res.message,
+            type: "success",
+            title: "Success",
           });
-        })
-        .catch((err) => {
+        } else {
+          setError({
+            visible: true,
+            message: res.message,
+            type: "warning",
+            title: "Warning",
+          });
+        }
+        StoreLocal("@darul-ifta-user-login-details", res.data, () => {
+          addUserLoginDetails(res.data);
           setLoader(false);
-          console.error("Error in profile edit", err);
         });
-    }
+      })
+      .catch((err) => {
+        setLoader(false);
+        console.error("Error in profile edit", err);
+      });
   };
-  const navigate = useNavigate();
+
   return (
     <div>
       {isLoading ? (
@@ -194,54 +173,34 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
                       onChange: (e) =>
                         handleUserDetails(e.target.value, "phone"),
                     })}
-                    // onKeyUp={() => {
-                    //   trigger("mobileNumber");
-                    // }}
                   />
 
                   <div className="error">{errors?.mobileNumber?.message}</div>
                 </div>
                 <div className="col-md-6">
                   <Controller
-                    as={
+                    control={control}
+                    name="madhab"
+                    rules={{ required: true, message: "madhab is required" }}
+                    render={({ field: { onChange, value } }) => (
                       <Autocomplete
                         id="outlined-basic"
                         size="small"
                         options={madbahList}
-                        // control={control}
                         getOptionLabel={(option) => option.title || ""}
                         isOptionEqualToValue={(option, value) =>
                           option._id === value._id
                         }
-                        onChange={(e, val) => {
-                          setSelectedMadhab(val);
-                          // setErrorMessage("");
-                        }}
-                        value={selectedMadhab}
+                        value={value}
+                        onChange={(e, val) => onChange(val)}
                         renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            label="Madhab"
-                            {...register("madhab", {
-                              required: "Madhab is required",
-                            })}
-                            // onChange: (e) => {
-                            //   setErrorMessage("Only options allowed!!");
-                            // },
-                            // })}
-                            // onKeyUp={() => {
-                            //   trigger("madhab");
-                            // }}
-                          />
+                          <TextField {...params} label="Madhab" />
                         )}
                       />
-                    }
+                    )}
                   />
-                  {/* {getValues("madhab") ? (
-                    <div className="error">{errorMessage}</div>
-                  ) : null} */}
-                  {!selectedMadhab?.title && (
-                    <div className="error">{errors?.madhab?.message}</div>
+                  {errors.madhab && (
+                    <div className="error">madhab is required</div>
                   )}
                 </div>
               </div>
