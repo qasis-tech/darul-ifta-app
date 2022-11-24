@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -165,7 +165,6 @@ export default function AddArticle() {
                       />
                     )}
                   />
-
                   {!selectedMufthi?.name && (
                     <div className="error">{errors?.mufthi?.message}</div>
                   )}

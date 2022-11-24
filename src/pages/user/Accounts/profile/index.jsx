@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { set, useForm } from "react-hook-form";
+import { set, useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -48,6 +48,7 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
 
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors },
     trigger,
@@ -201,35 +202,40 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
                   <div className="error">{errors?.mobileNumber?.message}</div>
                 </div>
                 <div className="col-md-6">
-                  <Autocomplete
-                    id="outlined-basic"
-                    size="small"
-                    options={madbahList}
-                    getOptionLabel={(option) => option.title || ""}
-                    isOptionEqualToValue={(option, value) =>
-                      option._id === value._id
-                    }
-                    onChange={(e, val) => {
-                      setSelectedMadhab(val);
-                      // setErrorMessage("");
-                    }}
-                    value={selectedMadhab}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Madhab"
-                        {...register("madhab", {
-                          required: "Madhab is required",
-                        })}
-                        // onChange: (e) => {
-                        //   setErrorMessage("Only options allowed!!");
-                        // },
-                        // })}
-                        // onKeyUp={() => {
-                        //   trigger("madhab");
-                        // }}
+                  <Controller
+                    as={
+                      <Autocomplete
+                        id="outlined-basic"
+                        size="small"
+                        options={madbahList}
+                        // control={control}
+                        getOptionLabel={(option) => option.title || ""}
+                        isOptionEqualToValue={(option, value) =>
+                          option._id === value._id
+                        }
+                        onChange={(e, val) => {
+                          setSelectedMadhab(val);
+                          // setErrorMessage("");
+                        }}
+                        value={selectedMadhab}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Madhab"
+                            {...register("madhab", {
+                              required: "Madhab is required",
+                            })}
+                            // onChange: (e) => {
+                            //   setErrorMessage("Only options allowed!!");
+                            // },
+                            // })}
+                            // onKeyUp={() => {
+                            //   trigger("madhab");
+                            // }}
+                          />
+                        )}
                       />
-                    )}
+                    }
                   />
                   {/* {getValues("madhab") ? (
                     <div className="error">{errorMessage}</div>
