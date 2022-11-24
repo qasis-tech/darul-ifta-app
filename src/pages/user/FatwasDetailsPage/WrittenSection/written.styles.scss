@@ -8,15 +8,18 @@
   .container {
     .heading {
       color: $primary;
-      border-bottom: 1px solid #bbbcbc;
+    //  border-bottom: 1px solid #bbbcbc;
       .main-heading {
         font-family: $font-style;
       }
+      .sub{
+        color: black;
+      }
     }
-    .written-desc {
-      text-align: left;
-      font-family: $arabic-font-style;
-    }
+  }
+  .written-desc {
+   // text-align: right;
+    font-family: $arabic-font-style;
   }
   .verified-section {
     .verified-head {

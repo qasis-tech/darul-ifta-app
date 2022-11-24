@@ -56,8 +56,10 @@
     color: $white;
     ul{
       padding: 0;
-      li{
+      li, a{
+        color: $white;
         list-style-type: none;
+       text-decoration: none;
         font-size:$main-font-size - 1 ;
         cursor: pointer;
         line-height: 2em;

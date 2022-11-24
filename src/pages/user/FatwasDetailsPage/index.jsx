@@ -49,7 +49,7 @@ export default function FatwasDetailsPage() {
         {/* <div className="col">
           <SocialComponent />
         </div> */}
-        <div className="container main-section">
+        <div className="container main-section mt-2">
           <div className="col-md-9 details d-flex">
             <SocialComponent />
             <div>

@@ -4,7 +4,7 @@ import "./single.question.styles.scss";
 export default function SingleQuestion({ data }) {
   return (
     <div className="single-question-section">
-      <div className="col-md-12 py-1 question">
+      <div className="col-md-12 py-3 question">
         <Typography variant="h6">
         {data?.short_question || "N/A"}
         </Typography>
