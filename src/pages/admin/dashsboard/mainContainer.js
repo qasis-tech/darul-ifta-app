@@ -47,7 +47,13 @@ import RouterList from "../../../routes/routerList";
 const drawerWidth = 240;
 
 const pages = ["Products", "Pricing", "Blog"];
-const settings = ["Profile", "Logout"];
+const settings = [
+  {
+    label: "Profile",
+    link: `${RouterList.admin.admin}/${RouterList.admin.profile}`,
+  },
+  { label: "Logout" },
+];
 
 function DashboardPage() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -107,11 +113,11 @@ function DashboardPage() {
         <div className="row appbar-heading-section">
           <Toolbar>
             <div className="col-md-2  logo">
-            <img
-            className="bg-light logo-image rounded"
-              src={LogoImage}
-              alt="logo image"
-            />
+              <img
+                className="bg-light logo-image rounded"
+                src={LogoImage}
+                alt="logo image"
+              />
               {/* <Typography variant="h6" noWrap component="div">
                 Company Logo
               </Typography> */}
@@ -155,11 +161,21 @@ function DashboardPage() {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">{setting}</Typography>
-                    </MenuItem>
-                  ))}
+                  {settings.map((setting, index) => {
+                    return (
+                      <MenuItem
+                        key={index}
+                        onClick={() => {
+                          handleCloseUserMenu();
+                          setting?.link && navigate(setting?.link);
+                        }}
+                      >
+                        <Typography variant="subtitle2">
+                          {setting?.label}
+                        </Typography>
+                      </MenuItem>
+                    );
+                  })}
                 </Menu>
               </Box>
             </div>
@@ -175,7 +191,7 @@ function DashboardPage() {
             width: drawerWidth,
             boxSizing: "border-box",
           },
-        }}        
+        }}
       >
         <Toolbar />
         <div style={{}}>
