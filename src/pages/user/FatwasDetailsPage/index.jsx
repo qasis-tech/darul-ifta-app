@@ -12,7 +12,7 @@ import SocialComponent from "./Social";
 
 import "./fatwas.details.styles.scss";
 import getQuestionListApi from "../../../services/getQuestionsList";
-import { Divider, Grid, Paper } from "@mui/material";
+import { Divider, Paper } from "@mui/material";
 
 export default function FatwasDetailsPage() {
   const { id } = useParams();
@@ -46,26 +46,8 @@ export default function FatwasDetailsPage() {
         <PublishedDateComponent data={questionDetails} />
       </div>
       <div className=" d-flex mb-5 ">
-        <Grid
-          container
-          sx={12}
-          className="container main-section mt-2 bg-danger "
-        >
-          <Grid item xs={0.5}>
-            <SocialComponent />
-          </Grid>
-          <Grid item xs={7.5}>
-            <div>
-              <DetailedQuestionComponent data={questionDetails} />
-              <WrittenComponent data={questionDetails} />
-            </div>
-          </Grid>
-          <Grid item xs={4}>
-            <div className="related">
-              <RelatedFatwasComponent data={questionDetails} />
-            </div>
-          </Grid>
-          {/* <div className="col-md-9 details d-flex">
+        <div className="container main-section mt-2 bg-danger ">
+          <div className="col-md-9 details d-flex">
             <SocialComponent />
             <div>
               <DetailedQuestionComponent data={questionDetails} />
@@ -74,8 +56,8 @@ export default function FatwasDetailsPage() {
           </div>
           <div className="col-md-3 related">
             <RelatedFatwasComponent data={questionDetails} />
-          </div> */}
-        </Grid>
+          </div>
+        </div>
       </div>
       <FooterComponent />
     </div>
