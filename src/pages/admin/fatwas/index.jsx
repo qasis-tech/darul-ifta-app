@@ -185,7 +185,7 @@ export default function Fatwas() {
   return (
     <div className="admin-fatwas-section">
       <>
-        <form onSubmit={handleSubmit(handleApply)}>
+        <form>
           <div className="fatwas-container shadow-sm">
             <div className="fatwas-row">
               <div className="col-md-2">
@@ -279,11 +279,7 @@ export default function Fatwas() {
                   }}
                   value={selectedMufthi || null}
                   renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Mufthi"
-                      {...register("mufthi")}
-                    />
+                    <TextField {...params} label="Mufthi" />
                   )}
                 />
               </div>
@@ -346,10 +342,10 @@ export default function Fatwas() {
                 </div>
                 <div className="col-md-5">
                   <Button
-                    type="submit"
                     variant="contained"
                     className="form-btn"
                     fullWidth
+                    onClick={handleApply}
                   >
                     APPLY
                   </Button>
