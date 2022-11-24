@@ -11,9 +11,7 @@ export default function RelatedFatwas({ data }) {
   const [questionList, setQuestionList] = useState([]);
   const [isLoader, setLoader] = useState(false);
 
-  const subCategoryLabel = data?.sub_category?.map((sub) => {
-    return sub?.label;
-  });
+  const subCategoryLabel = data?.sub_category?.map((sub) => sub?.label)[0];
 
   console.log("subCategoryLabel ==", subCategoryLabel);
 
@@ -28,10 +26,12 @@ export default function RelatedFatwas({ data }) {
     getQuestionListApi(params)
       .then((res) => {
         setLoader(false);
-        let data = res.data
-          ?.filter((obj) => obj?._id !== data?._id)
-          .map((items) => items);
-        setQuestionList(data);
+
+        setQuestionList(
+          res.data
+            ?.filter((obj) => obj?._id !== data?._id)
+            .map((items) => items)
+        );
       })
       .catch((err) => {
         console.error("Error in getQuestionListApi", err);

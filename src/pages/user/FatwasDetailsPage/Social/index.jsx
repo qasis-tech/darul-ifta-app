@@ -9,16 +9,16 @@ export default function Social() {
     <div className="social-section mt-4">
       <div className="social-container">
         <div className="col py-2 d-flex">
-          <img src={WhatsappImage} alt="Whatsapp Image" className="img"></img>
+          <img src={WhatsappImage} alt="Whatsapp Image" className="img" />
         </div>
         <div className="col py-2 d-flex">
-          <img src={FacebookImage} alt="Whatsapp Image" className="img"></img>
+          <img src={FacebookImage} alt="Whatsapp Image" className="img" />
         </div>
         <div className="col py-2 d-flex">
-          <img src={InstagramImage} alt="Whatsapp Image" className="img"></img>
+          <img src={InstagramImage} alt="Whatsapp Image" className="img" />
         </div>
         <div className="col py-2 d-flex">
-          <img src={TwitterImage} alt="Whatsapp Image" className="img"></img>
+          <img src={TwitterImage} alt="Whatsapp Image" className="img" />
         </div>
       </div>
     </div>

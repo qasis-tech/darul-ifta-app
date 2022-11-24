@@ -32,6 +32,7 @@ import getQuestionListApi from "../../../services/getQuestionsList";
 import routerList from "../../../routes/routerList";
 
 export default function Fatwas() {
+  const navigate = useNavigate();
   const [questionList, setQuestionList] = useState([]);
   const [isLoader, setLoader] = useState(false);
   const [madhabData, setMadhabData] = useState([]);
@@ -64,7 +65,7 @@ export default function Fatwas() {
   const [selectedUserData, setSelectedUserData] = useState([]);
   const [searchInput, setSearchInput] = useState("");
 
-  const { register, handleSubmit } = useForm();
+  const { register } = useForm();
 
   useEffect(() => {
     getQuestionList();
@@ -157,7 +158,8 @@ export default function Fatwas() {
       });
   };
 
-  const handleApply = () => {
+  const handleApply = (e) => {
+    e.stopPropagation();
     let params = "";
     if (selectedStatus?.title) params += `status=${selectedStatus?.title}`;
     if (selectedMadhab?.title) params += `-madhab=${selectedMadhab?.title}`;
@@ -180,13 +182,22 @@ export default function Fatwas() {
     getQuestionList(params);
   };
 
-  const navigate = useNavigate();
+  const handleClear = () => {
+    setSelectedStatus([]);
+    setSelectedMadhab([]);
+    setSelectedCategory([]);
+    setSelectedSubCategory([]);
+    setSelectedMufthi([]);
+    setSelectedUserData([]);
+    setSelectedLanguage([]);
+    getQuestionList("");
+  };
 
   return (
     <div className="admin-fatwas-section">
       <>
-        <form onSubmit={handleSubmit(handleApply)}>
-          <div className="fatwas-container shadow-sm">
+        <div>
+          <Paper className="fatwas-container">
             <div className="fatwas-row">
               <div className="col-md-2">
                 <Autocomplete
@@ -279,11 +290,7 @@ export default function Fatwas() {
                   }}
                   value={selectedMufthi || null}
                   renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Mufthi"
-                      {...register("mufthi")}
-                    />
+                    <TextField {...params} label="Mufthi" />
                   )}
                 />
               </div>
@@ -340,24 +347,25 @@ export default function Fatwas() {
                     variant="contained"
                     className="add-btn"
                     fullWidth
+                    onClick={handleClear}
                   >
                     Clear
                   </Button>
                 </div>
                 <div className="col-md-5">
                   <Button
-                    type="submit"
                     variant="contained"
                     className="form-btn"
                     fullWidth
+                    onClick={handleApply}
                   >
                     APPLY
                   </Button>
                 </div>
               </div>
             </div>
-          </div>
-        </form>
+          </Paper>
+        </div>
         <hr />
         <div className="table-section">
           <div className="table-row">
@@ -499,8 +507,8 @@ export default function Fatwas() {
                       })
                     ) : (
                       <TableRow>
-                        <TableCell colSpan={9}>
-                          <NoDataAvailable noStyle />
+                        <TableCell colSpan={6}>
+                          <NoDataAvailable />
                         </TableCell>
                       </TableRow>
                     )}
