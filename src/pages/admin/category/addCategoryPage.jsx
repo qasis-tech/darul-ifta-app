@@ -143,20 +143,20 @@ export default function AddCategories() {
                           ...[{ category: val }],
                         ]);
                     }}
-                    freeSolo
-                    size="small"
-                    renderTags={(value, getTagProps) =>
-                      value.map((option, index) => {
-                        return (
-                          <Chip
-                            variant="outlined"
-                            label={option}
-                            size="small"
-                            {...getTagProps({ index })}
-                          />
-                        );
-                      })
-                    }
+                    // freeSolo
+                    // size="small"
+                    // renderTags={(value, getTagProps) =>
+                    //   value.map((option, index) => {
+                    //     return (
+                    //       <Chip
+                    //         variant="outlined"
+                    //         label={option}
+                    //         size="small"
+                    //         {...getTagProps({ index })}
+                    //       />
+                    //     );
+                    //   })
+                    // }
                     renderInput={(params) => (
                       <TextField
                         {...params}
