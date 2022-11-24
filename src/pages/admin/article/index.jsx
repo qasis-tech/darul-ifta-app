@@ -121,7 +121,7 @@ export default function Article() {
                       })
                     ) : (
                       <TableRow>
-                        <TableCell colSpan={3}>
+                        <TableCell colSpan={5}>
                           <NoDataAvailable />
                         </TableCell>
                       </TableRow>

@@ -3,7 +3,13 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-import { TextField, Button, Autocomplete } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Autocomplete,
+  Paper,
+  Container,
+} from "@mui/material";
 
 import { URLS } from "../../../config/urls.config";
 import RouterList from "../../../routes/routerList";
@@ -15,8 +21,8 @@ import SnackBar from "../../../components/common/Snackbar";
 export default function AddArticle() {
   const [mufthiData, setMufthiData] = useState([]);
   const [isLoader, setLoader] = useState([]);
-  const [file,setFile]=useState("")
-  const [filename,setFileName]=useState()
+  const [file, setFile] = useState("");
+  const [filename, setFileName] = useState();
   const [selectedMufthi, setSelectedMufthi] = useState([]);
   const languageList = [
     { id: 1, title: "English" },
@@ -32,10 +38,10 @@ export default function AddArticle() {
     title: "",
   });
 
-  const getFileName=(e)=>{
-    setFile(e.target.files[0])
-    setFileName(e.target.files[0].name)
-  }
+  const getFileName = (e) => {
+    setFile(e.target.files[0]);
+    setFileName(e.target.files[0].name);
+  };
   const handleCloseError = () => {
     setError({
       visible: false,
@@ -119,22 +125,23 @@ export default function AddArticle() {
   };
   const navigate = useNavigate();
 
-  const changeHandler=(e)=>{
+  const changeHandler = (e) => {
     if (e.target.files.length > 0) {
-     let filename = e.target.files[0].name;
-      console.log(filename)
+      let filename = e.target.files[0].name;
+      console.log(filename);
     }
-  }
+  };
+
   return (
-    <div className="add-article-section">
-      {isLoader ? (
-        <Loader />
-      ) : (
-        <form onSubmit={handleSubmit(handleSave)}>
-          <div className="add-article-container">
-            <div className="add-article-row">
-              <div className="col-md-6 first-col">
-                {mufthiData?.length ? (
+    <Container>
+      <Paper className="add-article-section">
+        {isLoader ? (
+          <Loader />
+        ) : (
+          <form onSubmit={handleSubmit(handleSave)}>
+            <div className="add-article-container ">
+              <div className="add-article-row">
+                <div className="col-md-6 first-col">
                   <Autocomplete
                     disablePortal
                     id="combo-box-demo"
@@ -158,29 +165,12 @@ export default function AddArticle() {
                       />
                     )}
                   />
-                ) : (
-                  <Autocomplete
-                    disablePortal
-                    size="small"
-                    id="combo-box-demo"
-                    options={[]}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Mufthi Name"
-                        {...register("mufthi", {
-                          required: "Mufthi Name is required",
-                        })}
-                      />
-                    )}
-                  />
-                )}
-                {!selectedMufthi?.name && (
-                  <div className="error">{errors?.mufthi?.message}</div>
-                )}
-              </div>
-              <div className="col-md-6 second-col">
-                {languageList?.length && (
+
+                  {!selectedMufthi?.name && (
+                    <div className="error">{errors?.mufthi?.message}</div>
+                  )}
+                </div>
+                <div className="col-md-6 second-col">
                   <Autocomplete
                     disablePortal
                     id="combo-box-demo"
@@ -202,65 +192,66 @@ export default function AddArticle() {
                       />
                     )}
                   />
-                )}
-                {!selectedLanguage?.title && (
-                  <div className="error">{errors?.language?.message}</div>
-                )}
+
+                  {!selectedLanguage?.title && (
+                    <div className="error">{errors?.language?.message}</div>
+                  )}
+                </div>
               </div>
-            </div>
-            <div className="add-article-row">
-              <TextField
-                id="outlined-multiline-flexible"
-                label="Title"
-                multiline
-                fullWidth
-                rows={2}
-                {...register("title", { required: "Title is required" })}
-              />
-            </div>
-            <div className="error">{errors?.title?.message}</div>
-            <div className="add-article-row">
-              <Button
-                variant="contained"
-                className="file-btn"
-                fullWidth
-                component="label"
-              >
-                Upload File
-                <input
-                {...register("articleFile", { required: "Upload File" })}
-                  type="file"
-                  hidden
-                  onChange={getFileName}
+              <div className="add-article-row">
+                <TextField
+                  id="outlined-multiline-flexible"
+                  label="Title"
+                  multiline
+                  fullWidth
+                  rows={2}
+                  {...register("title", { required: "Title is required" })}
                 />
-              </Button>
-            </div>
-            <div>{filename}</div>
-            {/* <div className="error">{errors?.articleFile?.message}</div> */}
-            <div className="btn-section">
-              <div className="col-md-1">
+              </div>
+              <div className="error">{errors?.title?.message}</div>
+              <div className="add-article-row">
                 <Button
                   variant="contained"
-                  className="form-btn"
-                  type="submit"
+                  className="file-btn"
                   fullWidth
+                  component="label"
                 >
-                  SAVE
+                  Upload File
+                  <input
+                    {...register("articleFile", { required: "Upload File" })}
+                    type="file"
+                    hidden
+                    onChange={getFileName}
+                  />
                 </Button>
               </div>
+              <div>{filename}</div>
+              <div className="error">{errors?.articleFile?.message}</div>
+              <div className="btn-section">
+                <div className="col-md-1">
+                  <Button
+                    variant="contained"
+                    className="form-btn"
+                    type="submit"
+                    fullWidth
+                  >
+                    SAVE
+                  </Button>
+                </div>
+              </div>
             </div>
-          </div>
-        </form>
-      )}
-      {errorPopup.visible && (
-        <SnackBar
-          visible={errorPopup.visible}
-          message={errorPopup.message}
-          type={errorPopup.type}
-          title={errorPopup.title}
-          onClose={() => handleCloseError()}
-        />
-      )}
-    </div>
+          </form>
+        )}
+        {errorPopup.visible && (
+          <SnackBar
+            visible={errorPopup.visible}
+            message={errorPopup.message}
+            type={errorPopup.type}
+            title={errorPopup.title}
+            onClose={() => handleCloseError()}
+          />
+        )}
+      </Paper>
+    </Container>
   );
 }
