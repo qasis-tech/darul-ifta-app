@@ -577,7 +577,7 @@ export default function FatwasDetails() {
                       }
                       renderInput={(params) => (
                         <TextField {...params} label="Assigned To" 
-                        {...register("assigned", { required: "This is required" })}
+                        {...register("assigned", { required: "Assigned To is required" })}
                         />
                       )}
                     />
@@ -637,7 +637,7 @@ export default function FatwasDetails() {
                         }
                         renderInput={(params) => (
                           <TextField {...params} label="Verified By" 
-                          {...register("Verified", { required: "This is required" })}
+                          {...register("Verified", { required: "Verified By is required" })}
                           />
                         )}
                       />
