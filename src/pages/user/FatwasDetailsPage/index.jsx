@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+import { Container, Divider, Grid } from "@mui/material";
+
 import FooterComponent from "../../../components/Footer";
 import SingleQuestionComponent from "./SingleQuestion";
 import QuestionNumberComponent from "./QuestionNumber";
@@ -10,9 +12,9 @@ import WrittenComponent from "./WrittenSection";
 import RelatedFatwasComponent from "./RelatedFatwas";
 import SocialComponent from "./Social";
 
-import "./fatwas.details.styles.scss";
 import getQuestionListApi from "../../../services/getQuestionsList";
-import { Divider, Paper } from "@mui/material";
+
+import "./fatwas.details.styles.scss";
 
 export default function FatwasDetailsPage() {
   const { id } = useParams();
@@ -36,30 +38,26 @@ export default function FatwasDetailsPage() {
   }, []);
 
   return (
-    <div className="question-details-section mt-5">
-      <div className="container">
+    <>
+      <Container sx={{ paddingTop: 14 }}>
         <QuestionNumberComponent data={questionDetails} />
         <Divider sx={{ marginY: 1 }} />
         <SingleQuestionComponent data={questionDetails} />
-      </div>
-      <div className="container">
         <PublishedDateComponent data={questionDetails} />
-      </div>
-      <div className=" d-flex mb-5 ">
-        <div className="container main-section mt-2 bg-danger ">
-          <div className="col-md-9 details d-flex">
+        <Grid container spacing={3} paddingBottom={5}>
+          <Grid item md={0.5} xs={12}>
             <SocialComponent />
-            <div>
-              <DetailedQuestionComponent data={questionDetails} />
-              <WrittenComponent data={questionDetails} />
-            </div>
-          </div>
-          <div className="col-md-3 related">
+          </Grid>
+          <Grid item md={8.5} xs={12}>
+            <DetailedQuestionComponent data={questionDetails} />
+            <WrittenComponent data={questionDetails} />
+          </Grid>
+          <Grid item md={3} xs={12}>
             <RelatedFatwasComponent data={questionDetails} />
-          </div>
-        </div>
-      </div>
+          </Grid>
+        </Grid>
+      </Container>
       <FooterComponent />
-    </div>
+    </>
   );
 }

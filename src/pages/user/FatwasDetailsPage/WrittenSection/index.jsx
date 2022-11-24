@@ -1,10 +1,12 @@
 import React from "react";
 
-import { Divider, Typography } from "@mui/material";
+import { Divider, Grid, Paper, Typography } from "@mui/material";
 
 import "./written.styles.scss";
+import { Box } from "@mui/system";
 
 export default function WrittenSection({ data }) {
+  console.log("data ===>", data);
   return (
     <div className="written-section">
       <div className="container">
@@ -16,7 +18,7 @@ export default function WrittenSection({ data }) {
         </div>
         <div className="col-md-12 mb-5">
           <Typography
-          variant="paragraph"
+            variant="paragraph"
             sx={{ lineHeight: 1.5, textAlign: "justify" }}
           >
             {data?.answer || "N/A"}
@@ -26,35 +28,78 @@ export default function WrittenSection({ data }) {
 
       <Divider className="divider-section" />
 
-      <div className="container mt-5 mb-2 d-flex main-section">
-        <div className="col-md-6 heading d-flex">
-          <Typography variant="h6" className="main-heading fw-bolder">
-            Written By :
-          </Typography>
-          <Typography variant="h6" className="ms-1 sub">
-            {data?.mufti?.display_title || "N/A"}
-          </Typography>
-        </div>
-        <div className="col-md-6 heading d-flex">
-          <Typography variant="h6" className="main-heading fw-bolder">
-            Verified By :
-          </Typography>
-          <Typography variant="h6" className="ms-1 sub">
-            {data?.verifier?.display_title || "N/A"}
+      <div className="container d-flex main-section my-2">
+        <div className="col-md-6  d-flex ">
+          <Grid container item xs={3}>
+            <Typography variant="subtitle1" className="heading">
+              Written By
+            </Typography>
+          </Grid>
+          <Typography variant="subtitle1">
+            : {data?.mufti?.display_title || "N/A"}
           </Typography>
         </div>
-        {/* <div className="col-md-12 my-2">
-          <div className="written-desc">{data?.answer || "N/A"}</div>
-        </div> */}
+        <div className="col-md-6  d-flex">
+          <Grid container item xs={3}>
+            <Typography variant="subtitle1" className="heading">
+              Verified By
+            </Typography>
+          </Grid>
+          <Typography variant="subtitle1">
+            : {data?.verifier?.display_title || "N/A"}
+          </Typography>
+        </div>
       </div>
       <Divider className="divider-section" />
-      <div className="container my-5 ">
-        <div className="col-md-12 written-desc">
-          <Typography variant="paragraph" className="" sx={{ lineHeight: 1.8 }}>
-            {data?.answer || "N/A"}
-          </Typography>
-        </div>
-      </div>
+
+      <Box sx={{ marginY: 2 }} elevation={0}>
+        {data?.reference?.length ? (
+          data.reference.map((item, index) => (
+            <Box sx={{ p: 1, textAlign: "right" }} elevation={0} key={index}>
+              <Typography variant="subtitle2" sx={{ lineHeight: 1.8 }}>
+                {item?.quote}
+              </Typography>
+
+              <Grid container justifyContent="end" sx={{ marginY: 2 }}>
+                <Typography variant="subtitle1" sx={{ marginX: 1 }}>
+                  (
+                </Typography>
+                <Typography variant="subtitle2" sx={{ lineHeight: 1.8 }}>
+                  {item?.bookName}
+                </Typography>
+                <Typography variant="subtitle1" sx={{ marginX: 1 }}>
+                  /
+                </Typography>
+                <Typography variant="subtitle2" sx={{ lineHeight: 1.8 }}>
+                  {item?.vol}
+                </Typography>
+                <Typography variant="subtitle1" sx={{ marginX: 1 }}>
+                  /
+                </Typography>
+                <Typography variant="subtitle2" sx={{ lineHeight: 1.8 }}>
+                  {item?.pgNo}
+                </Typography>
+                <Typography variant="subtitle1" sx={{ marginX: 1 }}>
+                  )
+                </Typography>
+              </Grid>
+              <Divider />
+            </Box>
+          ))
+        ) : (
+          <div className="container my-5 bg-danger">
+            <div className="col-md-12 written-desc">
+              <Typography
+                variant="paragraph"
+                className=""
+                sx={{ lineHeight: 1.8 }}
+              >
+                {/* { || "N/A"} */}
+              </Typography>
+            </div>
+          </div>
+        )}
+      </Box>
     </div>
   );
 }
