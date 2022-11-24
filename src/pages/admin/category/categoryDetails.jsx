@@ -151,10 +151,13 @@ export default function CategoryDetails() {
         <div className="add-category-section shadow">
           <form onSubmit={handleSubmit(handleCreate)}>
             <div className="add-category-container">
-              <div className="add-category-row">
-                <div className="col-md-12">
+              <div className="add-category-row align-items-start">
+                <div className="col-md-6">
                   <TextField
                     type="text"
+                    label="Category"
+                    fullWidth
+                    size="small"
                     value={categoryDetails?.category}
                     onChange={(e) => handleCategory(e.target.value)}
                   />
@@ -163,12 +166,18 @@ export default function CategoryDetails() {
                     <div className="error">{errors?.category?.message}</div>
                   )}
                 </div>
-                <div className="col-md-12 subcategory">
+                <div className="col-md-12">
+                  
+                </div>
+                <div className="col-md-6 subcategory mt-4">
                   {categoryDetails?.subCategory?.length &&
                     categoryDetails?.subCategory.map((item, index) => {
                       return (
                         <TextField
+                        className="me-3"
                           type="text"
+                          label="Subcategory"
+                          size="small"
                           value={item?.label}
                           onChange={(e) =>
                             handleSubCategory(e.target.value, index)

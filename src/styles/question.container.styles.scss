@@ -28,11 +28,16 @@
           margin: 0;
           padding: 12px 0;
           .number-btn{
-            @media  screen and (max-width:1000px) {
+            @media  screen and (min-width:320px) and (max-width:380px) {
              // margin-bottom: 1em!important;
-             max-width: 24%;
+             max-width: 33%;
              padding-bottom: 5px!important;
             }
+            @media  screen and (min-width:380px) and (max-width:426px) {
+              // margin-bottom: 1em!important;
+              max-width: 23%;
+              padding-bottom: 5px!important;
+             }
             .q-no {
               background-color: $theme-primary-color;
               padding: 7px 12px;

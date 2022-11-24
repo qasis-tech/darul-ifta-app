@@ -24,7 +24,7 @@ const FooterComponent = () => {
             <div className="logo-section d-flex flex-column align-items-md-start align-items-lg-start align-items-xl-start">
               <div className="logo-image-wrapper d-flex flex-column">
                 <img src={Logo} alt="" width="250" className="logo-img" />
-                <div className="hr-bar"></div>
+                <div className="hr-bar w-100"></div>
               </div>
               <div>
                 <p className="img-logo-desc">

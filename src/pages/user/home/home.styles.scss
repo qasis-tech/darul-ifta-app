@@ -170,11 +170,14 @@
 // tab-container
 .tab-container {
   background-color: #eeeeeed9;
+  height: 100%;
   // @media screen and (max-width:430px) {
   //   width: 85%!important;
   // }
   @media screen and (max-width: 1000px) {
     margin-top: 2em !important;
+    height: auto;
+    padding: 0!important;
    // overflow-x: scroll !important;
   }
   .MuiTabs-scroller {
@@ -301,6 +304,11 @@
   }
   .body-section {
     padding-bottom: 4em;
+    .main-tab{
+      .MuiBox-root{
+        padding: 0!important;
+      }
+    }
     .side-row{
       @media screen and (max-width:430px) {
       justify-content: center;

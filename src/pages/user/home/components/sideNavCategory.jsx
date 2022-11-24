@@ -128,7 +128,7 @@ const SideNavCategory = ({ addHomeFilter, homeFilter, ...other }) => {
             {isloading ? (
               <Loader skeleton />
             ) : madhabData?.length ? (
-              <ul className="ms-2">
+              <ul className="ms-2 mb-0">
                 {madhabData?.map((madhab) => {
                   return (
                     <li

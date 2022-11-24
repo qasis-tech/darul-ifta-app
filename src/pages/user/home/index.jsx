@@ -280,7 +280,7 @@ const HomePage = (props) => {
                     }}
                   />
                   <Box sx={{ width: "100%" }}>
-                    <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                    <Box sx={{ borderBottom: 1, borderColor: "divider",padding:0 }}>
                       <Tabs
                         className="main-tab"
                         value={value}
@@ -307,7 +307,7 @@ const HomePage = (props) => {
                       <>
                         {[0, 1, 2, 3, 4].map((item, i) => {
                           return (
-                            <TabPanel value={value} index={item} key={i}>
+                            <TabPanel value={value} index={item} key={i} className="main-tab">
                               {questionsData?.length ? (
                                 questionsData?.map((questions) => {
                                   return (
@@ -328,7 +328,7 @@ const HomePage = (props) => {
                               ) : (
                                 <div
                                   className="d-flex justify-content-center align-items-center"
-                                  style={{ minHeight: "445px" }}
+                                  style={{ minHeight: "326px" }}
                                 >
                                   <NoDataAvailable noStyle noBg />
                                 </div>

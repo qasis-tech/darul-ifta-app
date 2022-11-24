@@ -119,7 +119,7 @@ const HeaderComponent = ({ closePopup, userLoginDetails }) => {
                     {userLoginDetails ? (
                       <>
                         <IconButton
-                          className="p-0 profile-icon"
+                          className="profile-icon"
                           onClick={handleClick}
                           size="small"
                           sx={{ ml: 2 }}
@@ -199,7 +199,7 @@ const HeaderComponent = ({ closePopup, userLoginDetails }) => {
                       </>
                     ) : (
                       <div
-                        className="d-flex justify-content-center align-items-center custom-menu px-3"
+                        className="d-flex  align-items-center custom-menu px-3"
                         onClick={() => handleLogin()}
                       >
                         <PersonIcon />
