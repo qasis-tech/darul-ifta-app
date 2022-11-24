@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import { Helmet } from "react-helmet";
+import { useParams } from "react-router-dom";
 
 import FooterComponent from "../../../components/Footer";
 import SingleQuestionComponent from "./SingleQuestion";
@@ -13,7 +12,7 @@ import SocialComponent from "./Social";
 
 import "./fatwas.details.styles.scss";
 import getQuestionListApi from "../../../services/getQuestionsList";
-import { Paper } from "@mui/material";
+import { Divider, Grid, Paper } from "@mui/material";
 
 export default function FatwasDetailsPage() {
   const { id } = useParams();
@@ -40,27 +39,43 @@ export default function FatwasDetailsPage() {
     <div className="question-details-section mt-5">
       <div className="container">
         <QuestionNumberComponent data={questionDetails} />
+        <Divider sx={{ marginY: 1 }} />
         <SingleQuestionComponent data={questionDetails} />
       </div>
       <div className="container">
         <PublishedDateComponent data={questionDetails} />
       </div>
-      <div className=" d-flex mb-5">
-        {/* <div className="col">
-          <SocialComponent />
-        </div> */}
-        <div className="container main-section mt-2">
-          <div className="col-md-9 details d-flex">
+      <div className=" d-flex mb-5 ">
+        <Grid
+          container
+          sx={12}
+          className="container main-section mt-2 bg-danger "
+        >
+          <Grid item xs={0.5}>
+            <SocialComponent />
+          </Grid>
+          <Grid item xs={7.5}>
+            <div>
+              <DetailedQuestionComponent data={questionDetails} />
+              <WrittenComponent data={questionDetails} />
+            </div>
+          </Grid>
+          <Grid item xs={4}>
+            <div className="related">
+              <RelatedFatwasComponent data={questionDetails} />
+            </div>
+          </Grid>
+          {/* <div className="col-md-9 details d-flex">
             <SocialComponent />
             <div>
-            <DetailedQuestionComponent data={questionDetails} />
-            <WrittenComponent data={questionDetails} />
+              <DetailedQuestionComponent data={questionDetails} />
+              <WrittenComponent data={questionDetails} />
             </div>
           </div>
           <div className="col-md-3 related">
             <RelatedFatwasComponent data={questionDetails} />
-          </div>
-        </div>
+          </div> */}
+        </Grid>
       </div>
       <FooterComponent />
     </div>

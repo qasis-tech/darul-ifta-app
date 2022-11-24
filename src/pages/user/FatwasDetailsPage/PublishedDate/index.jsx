@@ -1,8 +1,9 @@
-import { Typography } from "@mui/material";
-import moment from "moment";
 import React from "react";
-import QuestionNumberComponent from "../QuestionNumber";
+import moment from "moment";
+import { Typography } from "@mui/material";
+
 import "./publishedDate.styles.scss";
+
 export default function PublishedDate({ data }) {
   return (
     <div className="published-section">
@@ -17,12 +18,7 @@ export default function PublishedDate({ data }) {
                 {moment(data?.createdAt).format("dddd, DD MMM YYYY") || "N/A"}
               </Typography>
             </div>
-            {/* <span className="pub-date me-3">
-              Created Date :{" "}
-              <span className="ms-1 date">
-                {moment(data?.createdAt).format("dddd, DD MMM YYYY") || "N/A"}
-              </span>
-            </span> */}
+
             <div className="me-3 d-flex">
               <Typography variant="subtitle1" className="pub-date">
                 Published Date :{" "}

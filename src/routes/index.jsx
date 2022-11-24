@@ -44,10 +44,6 @@ import UserDetails from "../pages/admin/users/userDetailsPage";
 import AdminProfile from "../pages/admin/Profile";
 
 const CustomRouters = (props) => {
-  useEffect(() => {
-    const { isUser, isAdmin } = authCheck();
-  }, []);
-
   return (
     <Routes>
       <Route element={<PublicRouting />}>
