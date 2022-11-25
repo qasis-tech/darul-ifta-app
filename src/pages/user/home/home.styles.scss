@@ -367,6 +367,20 @@
 }
 
 .accordian-wrapper {
+ .MuiAccordion-root{
+  .MuiAccordionSummary-root{
+    .Mui-expanded {
+     // min-height: 45px!important;
+      //margin: 0px!important;
+    }
+    .MuiAccordionSummary-content{
+      margin: 11px 0!important;
+    }
+  }
+  .Mui-expanded{
+    min-height: 20px!important;
+  }
+ }
   .main-category-accordian{
     border-bottom: 1px solid #dee2e6;
     border-radius: 4px;
