@@ -65,7 +65,9 @@ const FooterComponent = () => {
                   </li>
                   <li
                   >
-                    <a href="https://daruliftakauzariyya.com/terms-conditions">
+                    <a onClick={() =>
+                      navigate(`${routerList.user.termsandconditions}`)
+                    }>
                     Terms and Conditions
                     </a>
                   </li>
