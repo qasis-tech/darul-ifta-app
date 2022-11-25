@@ -1,0 +1,19 @@
+@import "../../../styles/common.styles.scss";
+
+.about-page{
+    padding-top: 7em;
+    .container{
+        .main-heading{
+            padding: 4em 0!important;
+            color: $theme-primary-color;
+        }
+        .about-main-section{
+            .image-section{
+                img{
+                    border-top-left-radius: 350px;
+                    border-top-right-radius: 350px;
+                }
+            }
+        }
+    }
+}

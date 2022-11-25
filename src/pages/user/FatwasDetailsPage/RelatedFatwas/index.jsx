@@ -87,7 +87,7 @@ export default function RelatedFatwas({ data }) {
             className="d-flex justify-content-center align-items-center"
             style={{ minHeight: "80px" }}
           >
-            <NoDataAvailable noStyle noBg text />
+            <NoDataAvailable noStyle noBg text style={{ color: "#235775" }} />
           </div>
         )}
       </div>

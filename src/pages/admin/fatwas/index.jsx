@@ -432,7 +432,7 @@ export default function Fatwas() {
                       <TableCell>Category</TableCell>
                       <TableCell>Madhab</TableCell>
                       <TableCell>Mufthi</TableCell>
-                      <TableCell>Status</TableCell>
+                      <TableCell style={{width: "17%"}}>Status</TableCell>
                     </TableRow>
                   </TableHead>
 
@@ -475,7 +475,7 @@ export default function Fatwas() {
                                 {question.mufti?.display_title || "N/A"}
                               </span>
                             </TableCell>
-                            <TableCell>
+                            <TableCell style={{width: "17%"}}>
                               <span
                                 className={
                                   question?.status === "Pending"

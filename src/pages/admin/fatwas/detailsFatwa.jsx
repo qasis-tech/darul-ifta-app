@@ -388,7 +388,7 @@ export default function FatwasDetails() {
             <span>{moment(state?.createdAt).format("DD-MMM-YYYY")}</span>
             {state?.status !== "Pending" && (
               <>
-                <span className="id-style">/ Updated : </span>
+               / <span className="id-style"> Updated : </span>
                 <span>{moment(state?.updatedAt).format("DD-MMM-YYYY")}</span>
               </>
             )}
