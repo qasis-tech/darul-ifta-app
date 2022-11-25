@@ -6,7 +6,6 @@ import URLS from "../routes/routerList";
 import "../styles/question.container.styles.scss";
 
 const QuestionContainer = (props) => {
-  console.log("props", props);
   const navigate = useNavigate();
   return (
     <section
@@ -27,7 +26,7 @@ const QuestionContainer = (props) => {
                 Q{props?.questionCount?.toString().padStart(3, "0")}
               </Typography>
             </div>
-            <div className="col-md-3 w-name d-flex">
+            <div className="col-md-6 w-name d-flex">
               <Typography variant="subtitle1" className="writtenby-section">
                 Written By
               </Typography>
