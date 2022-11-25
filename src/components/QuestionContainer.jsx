@@ -28,16 +28,22 @@ const QuestionContainer = (props) => {
               </Typography>
             </div>
             <div className="col-md-6 w-name d-flex">
+              <div className="col-md-2">
               <Typography variant="subtitle1" className="writtenby-section">
                 Written By
               </Typography>
+              </div>
+              <div className="col-md-1">
               <Typography variant="subtitle1" className="colon mx-1">
                 {" "}
                 :{" "}
               </Typography>
+              </div>
+              <div className="col-md-9">
               <Typography variant="subtitle1">
                 {props?.data?.mufti?.display_title || "N/A"}
               </Typography>
+              </div>
             </div>
             <div className="col-md-3 w-name d-flex">
               <Typography variant="subtitle1" className="writtenby-section">
