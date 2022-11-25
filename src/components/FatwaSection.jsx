@@ -459,7 +459,6 @@ const HomePage = (props) => {
         </section>
         {props.children}
       </div>
-      <FooterComponent />
     </div>
   );
 };

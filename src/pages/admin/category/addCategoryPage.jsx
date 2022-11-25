@@ -79,10 +79,10 @@ export default function AddCategories() {
       };
     });
     // let payload = { category: Category, subCategory: subCat };
-    const { category, subCategory} = params;
+    const { Category, subCategory} = params;
 
     const payload={
-      category:category,
+      category:Category,
       subCategory:subCat,
     }
 
