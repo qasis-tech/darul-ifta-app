@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import axios from "axios";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { Editor, EditorState, RichUtils } from "draft-js";
-import "draft-js/dist/Draft.css";
+import { EditorState } from "draft-js";
+import { Editor } from "react-draft-wysiwyg";
+import JoditEditor from "jodit-react";
 
 import {
   TextField,
@@ -16,9 +17,11 @@ import {
 import { URLS } from "../../../config/urls.config";
 import RouterList from "../../../routes/routerList";
 
-import "./add.article.styles.scss";
 import Loader from "../../../components/common/Loader";
 import SnackBar from "../../../components/common/Snackbar";
+
+import "./add.article.styles.scss";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 export default function AddArticle() {
   const [mufthiData, setMufthiData] = useState([]);
@@ -83,9 +86,6 @@ export default function AddArticle() {
         setMufthiData([]);
       });
   };
-  const [editorState, setEditorState] = React.useState(() =>
-    EditorState.createEmpty()
-  );
 
   const handleSave = (params) => {
     setLoader(true);
@@ -136,6 +136,17 @@ export default function AddArticle() {
       console.log(filename);
     }
   };
+
+  const [editorState, setEditorState] = useState(() =>
+    EditorState.createEmpty()
+  );
+
+  const editor = useRef(null);
+  const [content, setContent] = useState("");
+
+  const config = {};
+
+  console.log("editorState ===> ", content);
 
   return (
     <Container maxWidth="md">
@@ -214,22 +225,16 @@ export default function AddArticle() {
               </div>
               <div className="error">{errors?.title?.message}</div>
 
-              <Editor editorState={editorState} onChange={setEditorState} />
-              {/* <div className="add-article-row ">
-                <Button
-                  variant="contained"
-                  className="file-btn col-md-6"
-                  component="label"
-                >
-                  Upload File
-                  <input
-                    {...register("articleFile", { required: "Upload File" })}
-                    type="file"
-                    hidden
-                    onChange={getFileName}
-                  />
-                </Button>
-              </div> */}
+              {/* Editor */}
+              <JoditEditor
+                ref={editor}
+                value={content}
+                config={config}
+                // tabIndex={5}
+                onBlur={(e) => setContent(e)} // preferred to use only this option to update the content for performance reasons
+                onChange={(e) => setContent(e)}
+              />
+
               <div>{filename}</div>
               <div className="error">{errors?.articleFile?.message}</div>
               <div className="btn-section">
