@@ -1,0 +1,59 @@
+@import "../../../styles/common.styles.scss";
+
+.contact-page{
+    padding-top: 7em;
+    .contact-section{
+        .container{
+            .main-section{
+                padding: 0 4em!important;
+                padding-bottom: 3em!important;
+                @media screen and (max-width:1000px) {
+                    padding: 0 2em!important;
+                }
+                .MuiTypography-root{
+                    font-family: $malayalam-font-style!important;
+                }
+            }
+            .main-heading{
+                padding-top: 4em;
+                padding-bottom: 2em!important;
+                color: $theme-primary-color;
+            }
+            .second-section{
+                @media screen and (max-width:1000px) {
+                    flex-direction: column;
+                }
+                .sub-main{
+                    @media screen and (max-width:1000px) {
+                        flex-direction: column;
+                    }
+                    .sub{
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        .icons{
+                            text-align: center;
+                            font-size: 3em;
+                            margin-bottom: 10px;
+                            color: $theme-primary-color;
+                        }
+                    }
+                }
+            }
+            .sub-title{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                align-content: center;
+                .main{
+                    font-family: $footer-font-style!important;
+                    color: $theme-primary-color;
+                }
+            }
+            .maping{
+                width: 100%;
+            }
+        }
+    }
+}
