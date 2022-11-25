@@ -127,7 +127,6 @@ function DashboardPage() {
                 {getPathName() !== "Dashboard" && (
                   <ArrowBackIosIcon onClick={() => navigate(-1)} />
                 )}
-                {}
               </div>
               <div className="col-auto px-0">
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>

@@ -129,28 +129,6 @@ export default function AddArticle() {
     }
   };
 
-  const editor = useRef(null);
-
-  const config = {
-    autofocus: true,
-    removeButtons: [
-      "copyformat",
-      "brush",
-      "table",
-      "eraser",
-      "font",
-      "selectall",
-      "fontsize",
-    ],
-    uploader: {
-      insertImageAsBase64URI: true,
-    },
-    placeholder: "Start typings...",
-    minHeight: 450,
-  };
-
-  console.log("content ===> 2222222222222222222 ", content);
-
   return (
     <Container maxWidth="md">
       <Paper elevation={2} className="add-article-section">
@@ -230,14 +208,6 @@ export default function AddArticle() {
 
               {/* Editor */}
               <TextEditor content={content} setContent={setContent} />
-              {/* <JoditEditor
-                ref={editor}
-                value={content}
-                config={config}
-                tabIndex={1} // tabIndex of textarea
-                // onBlur={(newContent) => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
-                onChange={(newContent) => setContent(newContent)}
-              /> */}
 
               <div>{filename}</div>
               <div className="error">{errors?.articleFile?.message}</div>
