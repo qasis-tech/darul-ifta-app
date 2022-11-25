@@ -30,24 +30,38 @@ export default function WrittenSection({ data }) {
 
       <div className="container d-flex main-section my-2">
         <div className="col-md-6  d-flex ">
-          <Grid container item xs={3}>
+          <Grid  item xs={3}>
             <Typography variant="subtitle1" className="heading">
               Written By
             </Typography>
           </Grid>
+          <Grid  item xs={1}>
           <Typography variant="subtitle1">
-            : {data?.mufti?.display_title || "N/A"}
+            :
           </Typography>
+          </Grid>
+          <Grid  item xs={8}>
+          <Typography variant="subtitle1">
+            {data?.mufti?.display_title || "N/A"}
+          </Typography>
+          </Grid>
         </div>
         <div className="col-md-6  d-flex">
-          <Grid container item xs={3}>
+          <Grid item xs={3}>
             <Typography variant="subtitle1" className="heading">
               Verified By
             </Typography>
           </Grid>
+          <Grid  item xs={1}>
           <Typography variant="subtitle1">
-            : {data?.verifier?.display_title || "N/A"}
+            :
           </Typography>
+          </Grid>
+          <Grid  item xs={8}>
+          <Typography variant="subtitle1">
+             {data?.verifier?.display_title || "N/A"}
+          </Typography>
+          </Grid>
         </div>
       </div>
       <Divider className="divider-section" />
