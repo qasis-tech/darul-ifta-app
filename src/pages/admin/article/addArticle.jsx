@@ -86,46 +86,44 @@ export default function AddArticle() {
       });
   };
 
-  const handleSave = (params) => {
+  const handleSave = (params)=>{
     setLoader(true);
-    const { mufthi, language, title, articleFile } = params;
+    const { mufthi, language, title, content } = params;
 
-    const formData = new FormData();
-    formData.append("mufthi", mufthi);
-    formData.append("language", language);
-    formData.append("title", title);
-    formData.append("articleFile", content);
-
-    axios
-      .post(`${URLS.article}`, formData, {
-        headers: {
-          "content-type": "multipart/form-data",
-        },
-      })
-      .then((res) => {
-        // setLoader(false);
-        console.log("res article", res);
-        // if (res.success) {
-        //   setError({
-        //     visible: true,
-        //     message: res.message,
-        //     type: "success",
-        //     title: "Success",
-        //   });
-        //   // navigate(`${RouterList.admin.admin}/${RouterList.admin.article}`);
-        // } else {
-        //   setError({
-        //     visible: true,
-        //     message: res.message,
-        //     type: "warning",
-        //     title: "Warning",
-        //   });
-        // }
-      })
-      .catch((err) => {
-        setLoader(false);
-        console.log("Error in Article Add", err);
-      });
+    const payload={
+      mufthi:mufthi,
+      language:language,
+      title:title,
+      articleData:content,
+    }
+console.log("payloadd==========>",payload)
+    // axios
+    //   .post(`${URLS.article}`, payload, {
+    //   })
+    //   .then((res) => {
+    //     setLoader(false);
+    //     console.log("res article", res);
+    //     if (res.success) {
+    //       setError({
+    //         visible: true,
+    //         message: res.message,
+    //         type: "success",
+    //         title: "Success",
+    //       });
+    //       // navigate(`${RouterList.admin.admin}/${RouterList.admin.article}`);
+    //     } else {
+    //       setError({
+    //         visible: true,
+    //         message: res.message,
+    //         type: "warning",
+    //         title: "Warning",
+    //       });
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     setLoader(false);
+    //     console.log("Error in Article Add", err);
+    //   });
   };
   const navigate = useNavigate();
 
