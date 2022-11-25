@@ -2,9 +2,7 @@ import React, { useEffect, useState, useRef, useMemo } from "react";
 import axios from "axios";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { EditorState } from "draft-js";
-import { Editor } from "react-draft-wysiwyg";
-import JoditEditor from "jodit-react";
+import JoditEditor, { Jodit } from "jodit-react";
 
 import {
   TextField,
@@ -22,6 +20,7 @@ import SnackBar from "../../../components/common/Snackbar";
 
 import "./add.article.styles.scss";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import TextEditor from "../../../components/RichTextEditor";
 
 export default function AddArticle() {
   const [mufthiData, setMufthiData] = useState([]);
@@ -95,7 +94,7 @@ export default function AddArticle() {
     formData.append("mufthi", mufthi);
     formData.append("language", language);
     formData.append("title", title);
-    formData.append("articleFile", articleFile[0]);
+    formData.append("articleFile", content);
 
     axios
       .post(`${URLS.article}`, formData, {
@@ -104,24 +103,24 @@ export default function AddArticle() {
         },
       })
       .then((res) => {
-        setLoader(false);
+        // setLoader(false);
         console.log("res article", res);
-        if (res.success) {
-          setError({
-            visible: true,
-            message: res.message,
-            type: "success",
-            title: "Success",
-          });
-          // navigate(`${RouterList.admin.admin}/${RouterList.admin.article}`);
-        } else {
-          setError({
-            visible: true,
-            message: res.message,
-            type: "warning",
-            title: "Warning",
-          });
-        }
+        // if (res.success) {
+        //   setError({
+        //     visible: true,
+        //     message: res.message,
+        //     type: "success",
+        //     title: "Success",
+        //   });
+        //   // navigate(`${RouterList.admin.admin}/${RouterList.admin.article}`);
+        // } else {
+        //   setError({
+        //     visible: true,
+        //     message: res.message,
+        //     type: "warning",
+        //     title: "Warning",
+        //   });
+        // }
       })
       .catch((err) => {
         setLoader(false);
@@ -137,16 +136,27 @@ export default function AddArticle() {
     }
   };
 
-  const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty()
-  );
-
   const editor = useRef(null);
   const [content, setContent] = useState("");
+  const config = {
+    autofocus: true,
+    removeButtons: [
+      "copyformat",
+      "brush",
+      "table",
+      "eraser",
+      "font",
+      "selectall",
+      "fontsize",
+    ],
+    uploader: {
+      insertImageAsBase64URI: true,
+    },
+    placeholder: "Start typings...",
+    minHeight: 450,
+  };
 
-  const config = {};
-
-  console.log("editorState ===> ", content);
+  console.log("content ===> ", content);
 
   return (
     <Container maxWidth="md">
@@ -230,9 +240,9 @@ export default function AddArticle() {
                 ref={editor}
                 value={content}
                 config={config}
-                // tabIndex={5}
-                onBlur={(e) => setContent(e)} // preferred to use only this option to update the content for performance reasons
-                onChange={(e) => setContent(e)}
+                tabIndex={1} // tabIndex of textarea
+                onBlur={(newContent) => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
+                onChange={(newContent) => {}}
               />
 
               <div>{filename}</div>
