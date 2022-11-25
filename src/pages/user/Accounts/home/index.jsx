@@ -28,12 +28,12 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
   const [closePopup, setClosePopup] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
   const [isLoading, setLoader] = useState(false);
+  const uploadedImage = React.useRef(null);
 
   useEffect(() => {
     setUserDetails(userLoginDetails);
     let params = `?userid=${userLoginDetails?._id}`;
     let params2 = `?status=Published&userid=${userLoginDetails?._id}`;
-
     getQuestionListApi(params)
       .then((res) => {
         setLoader(false);
@@ -70,7 +70,19 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
       });
     return result;
   };
-
+  
+  const handleImageUpload = e => {
+    const [file] = e.target.files;
+    if (file) {
+      const reader = new FileReader();
+      const {current} = uploadedImage;
+      current.file = file;
+      reader.onload = (e) => {
+          current.src = e.target.result;
+      }
+      reader.readAsDataURL(file);
+    }
+  };
   const handleUserDetails = (val, field) => {
     const temp = { ...userDetails };
     temp[`${field}`] = val;
@@ -114,7 +126,8 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
               {showImage ? (
                 <span>
                   <img
-                    src={userLoginDetails?.profile_pic}
+                    // src={userLoginDetails?.profile_pic}
+                    ref={uploadedImage}
                     className="profile-img"
                     alt="profile images"
                     onError={handleImageError}
@@ -162,9 +175,10 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
                       hidden
                       accept="image/*"
                       type="file"
-                      onChange={(e) =>
-                        handleUserDetails(e.target.files, "profile_pic")
-                      }
+                      // onChange={(e) =>
+                      //   handleUserDetails(e.target.files, "profile_pic")
+                      // }
+                      onChange={handleImageUpload}
                     />
                     <PhotoCamera className="profile-icons" />
                   </IconButton>

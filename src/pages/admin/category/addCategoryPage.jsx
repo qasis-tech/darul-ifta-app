@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { startCase } from "lodash";
 
@@ -30,6 +30,7 @@ export default function AddCategories() {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm();
 
@@ -69,7 +70,7 @@ export default function AddCategories() {
   const token =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlZXRodTkwQGdtYWlsLmNvbSIsImlhdCI6MTY2NDAwMTE4NywiZXhwIjoxNjg5OTIxMTg3fQ.5wiCZurHaz4BmYPaQ67Hf3zFMInWcOdSCyUzYo-4YWQ";
 
-  const handleCreate = () => {
+  const handleCreate = (params) => {
     setLoader(true);
     const subCat = selectedSubCategory?.map((item) => {
       return {
@@ -77,8 +78,14 @@ export default function AddCategories() {
         active: true,
       };
     });
+    // let payload = { category: Category, subCategory: subCat };
+    const { category, subCategory} = params;
 
-    let payload = { category: selectedCategory?.category, subCategory: subCat };
+    const payload={
+      category:category,
+      subCategory:subCat,
+    }
+
     console.log("selectedCategory === ", payload);
     axios
       .post(`${URLS.category}`, payload, {
@@ -126,120 +133,108 @@ export default function AddCategories() {
         <Loader absolute />
       ) : (
         <Container maxWidth="md">
-        <Paper elevation={2}>
-        <div className="add-category-section">
-          <form onSubmit={handleSubmit(handleCreate)}>
-            <div className="add-category-container">
-              <div className="add-category-row">
-                <div className="col-md-12">
-                  <Autocomplete
-                    id="tags-filled-1"
-                    options={categoryList || []}
-                    getOptionLabel={(option) => option?.category || []}
-                    value={selectedCategory}
-                    onChange={(e, val) => setSelectedCategory(val)}
-                    onInputChange={(e, val) => {
-                      if (val)
-                        setCategoryList([
-                          ...categoryList,
-                          ...[{ category: val }],
-                        ]);
-                    }}
-                    // freeSolo
-                    // size="small"
-                    // renderTags={(value, getTagProps) =>
-                    //   value.map((option, index) => {
-                    //     return (
-                    //       <Chip
-                    //         variant="outlined"
-                    //         label={option}
-                    //         size="small"
-                    //         {...getTagProps({ index })}
-                    //       />
-                    //     );
-                    //   })
-                    // }
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        variant="outlined"
-                        label="Category"
-                        placeholder="Category"
-                        size="small"
-                        {...register("category", {
-                          required: "Category is required",
-                        })}
+          <Paper elevation={2}>
+            <div className="add-category-section">
+              <form onSubmit={handleSubmit(handleCreate)}>
+                <div className="add-category-container">
+                  <div className="add-category-row">
+                    <div className="col-md-12">
+                      <Controller
+                        control={control}
+                        name="Category"
+                        rules={{
+                          required: true,
+                          message: "Category is required",
+                        }}
+                        render={({ field: { onChange, value } }) => (
+                          <Autocomplete
+                            id="outlined-basic"
+                            size="small"
+                            options={categoryList}
+                            getOptionLabel={(option) => option.category || ""}
+                            onInputChange={(e, val) => {
+                              if (val)
+                                setCategoryList([
+                                  ...categoryList,
+                                  ...[{ category: val }],
+                                ]);
+                            }}
+                            value={value}
+                            onChange={(e, val) => onChange(val)}
+                            renderInput={(params) => (
+                              <TextField {...params} label="Category" />
+                            )}
+                          />
+                        )}
                       />
-                    )}
-                  />
-                  {!selectedCategory.category ? (
-                    <div className="error">{errors?.category?.message}</div>
-                  ) : null}
-                </div>
-                <div className="col-md-12 subcategory">
-                  <Autocomplete
-                    multiple
-                    id="tags-filled"
-                    options={
-                      selectedCategory?.subCategory?.length
-                        ? selectedCategory?.subCategory?.map(
-                            (option) => option.label
-                          )
-                        : []
-                    }
-                    freeSolo
-                    value={selectedSubCategory || []}
-                    onChange={(e, val) => setSelectedSubCategory(val)}
-                    size="small"
-                    renderTags={(value, getTagProps) =>
-                      value?.map((option, index) => (
-                        <Chip
-                          variant="outlined"
-                          label={option}
-                          size="small"
-                          {...getTagProps({ index })}
-                        />
-                      ))
-                    }
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        variant="outlined"
-                        label="Subcategory"
-                        placeholder="Subcategory"
+                      {errors.Category && (
+                        <div className="error">Category is required</div>
+                      )}
+                    </div>
+                    <div className="col-md-12 subcategory">
+                      <Autocomplete
+                        multiple
+                        id="tags-filled"
+                        options={
+                          selectedCategory?.subCategory?.length
+                            ? selectedCategory?.subCategory?.map(
+                                (option) => option.label
+                              )
+                            : []
+                        }
+                        freeSolo
+                        value={selectedSubCategory || []}
+                        onChange={(e, val) => setSelectedSubCategory(val)}
                         size="small"
-                        {...register("subCategory")}
+                        renderTags={(value, getTagProps) =>
+                          value?.map((option, index) => (
+                            <Chip
+                              variant="outlined"
+                              label={option}
+                              size="small"
+                              {...getTagProps({ index })}
+                            />
+                          ))
+                        }
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            variant="outlined"
+                            label="Subcategory"
+                            placeholder="Subcategory"
+                            size="small"
+                            {...register("subCategory")}
+                          />
+                        )}
                       />
-                    )}
-                  />
+                    </div>
+                  </div>
+                  <div className="btn-row">
+                    <div className="col-md-1">
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        className="form-btn"
+                        fullWidth
+                      >
+                        {startCase("Create")}
+                      </Button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div className="btn-row">
-                <div className="col-md-1">
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    className="form-btn"
-                    fullWidth
-                  >
-                    {startCase("Create")}
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </form>
+              </form>
 
-          {errorPopup.visible && (
-            <SnackBar
-              visible={errorPopup.visible}
-              message={errorPopup.message}
-              type={errorPopup.type}
-              title={errorPopup.title}
-              onClose={() => handleCloseError()}
-            />
-          )}
-        </div>
-        </Paper>
+              {errorPopup.visible && (
+                <SnackBar
+                  visible={errorPopup.visible}
+                  message={errorPopup.message}
+                  type={errorPopup.type}
+                  title={errorPopup.title}
+                  onClose={() => handleCloseError()}
+                />
+              )}
+            </div>
+          </Paper>
         </Container>
       )}
     </>

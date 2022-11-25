@@ -53,14 +53,14 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
   useEffect(() => {
     if (apiTriggeres?.userGetQuesList) {
       getQuestionList(
-        `?userid=${userLoginDetails?._id}&limit=5&skip=${page * rowsPerPage}`
+        `?userid=${userLoginDetails?._id}`
       );
     }
   }, [apiTriggeres]);
 
   useEffect(() => {
     getQuestionList(
-      `?userid=${userLoginDetails?._id}&limit=5&skip=${page * rowsPerPage}`
+      `?userid=${userLoginDetails?._id}`
     );
   }, [page]);
 
@@ -96,7 +96,7 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
   };
   const handleChangePage = (event, newPage) => setPage(newPage);
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
+    setRowsPerPage(event.target.value);
     setPage(0);
   };
 
@@ -128,7 +128,7 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
                   {questionData?.data?.length ? (
                     questionData?.data?.map((question) => {
                       return (
-                        <div>
+                          <div>
                           <QuestionContainer
                             key={question._id}
                             id={question?.slNo}
@@ -145,27 +145,17 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
                   ) : (
                     <div
                       className="d-flex justify-content-center align-items-center"
-                      style={{ minHeight: "200px" }}
-                    >
+                      style={{ minHeight: "200px" }}>
                       <NoDataAvailable noStyle noBg />
                     </div>
-                  )}
-                  <TablePagination
-                    rowsPerPageOptions={[5, 10, 20, 50]}
-                    component="div"
-                    count={questionData?.count}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                  />
+                  )} 
                 </TabPanel>
               );
             })}
           </>
         )}
       </Box>
-      {/* <div className="pagination-section">
+      <div className="pagination-section">
         <TablePagination
           rowsPerPageOptions={[5, 10, 20, 50]}
           component="div"
@@ -175,7 +165,7 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-      </div> */}
+      </div>
     </div>
   );
 };
