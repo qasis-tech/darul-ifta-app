@@ -108,7 +108,12 @@ export default function Category() {
                     ) : (
                       <TableRow>
                         <TableCell colSpan={3}>
-                          <NoDataAvailable noStyle />
+                        <div
+                                  className="d-flex justify-content-center align-items-center"
+                                  // style={{ minHeight: "326px" }}
+                                >
+                                  <NoDataAvailable noStyle noBg />
+                                </div>
                         </TableCell>
                       </TableRow>
                     )}
