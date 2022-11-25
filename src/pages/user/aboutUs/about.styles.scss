@@ -8,11 +8,15 @@
             color: $theme-primary-color;
         }
         .about-main-section{
+            padding-top: 3em;
             .image-section{
                 img{
                     border-top-left-radius: 350px;
                     border-top-right-radius: 350px;
                 }
+            }
+            .about-content-section{
+                padding: 4em;
             }
         }
     }

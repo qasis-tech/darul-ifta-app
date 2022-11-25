@@ -36,14 +36,45 @@ export default function AboutUs() {
                   alt="About Image"
                 />
               </Grid>
-              <Grid item xs={6} className="p-5">
-                <Grid item xs={12}>
-                  <Typography variant="subtitle1" x={{ lineHeight: 1.8, textAlign: "justify" }}>
+              <Grid item xs={6} className="p-5 about-content-section">
+                {/* <Grid item xs={12}>
+                  <Typography variant="h4">
+                    About Us
+                  </Typography>
+                </Grid> */}
+                <Grid item xs={12} marginTop={3}>
+                  <Typography
+                    variant="subtitle1"
+                    x={{ lineHeight: 1.8, textAlign: "justify" }}
+                  >
                     This DARUL IFTA KAUZARIYYA
                     (https://daruliftakauzariyya.com)is a site for online fatwas
                     (Islamic queries) running under the supervision of Al
                     Jamiathul Kauzariyya Fatwa board to guide the community to
                     authentic rulings of Islam.
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} marginTop={4}>
+                  <Typography
+                    variant="subtitle1"
+                    x={{ lineHeight: 1.8, textAlign: "justify" }}
+                  >
+                    For the last 47 years, the Jamiathul Kauzariyya Arabic
+                    college is providing enormous contributions to the Islamic
+                    community. Our organisation is the first Islamic institution
+                    in Kerala under Maslak-e-Deoband which was established on
+                    1972.
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={12} marginTop={4}>
+                  <Typography
+                    variant="subtitle1"
+                    x={{ lineHeight: 1.8, textAlign: "justify" }}
+                  >
+                    Within this short period of time, we have offered more than
+                    600 Ulamas & 2000 s of Huffaz and their servicing the Muslim
+                    ummah all over the world.
                   </Typography>
                 </Grid>
               </Grid>
