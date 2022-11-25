@@ -139,7 +139,7 @@ export default function AddArticle() {
 
   return (
     <Container maxWidth="md">
-      <Paper className="add-article-section">
+      <Paper elevation={2} className="add-article-section">
         {isLoader ? (
           <Loader />
         ) : (

@@ -7,7 +7,7 @@ import { startCase } from "lodash";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
-import { Chip } from "@mui/material";
+import { Chip, Container, Paper } from "@mui/material";
 
 import "./addcategory.styles.scss";
 
@@ -125,7 +125,9 @@ export default function AddCategories() {
       {isLoading ? (
         <Loader absolute />
       ) : (
-        <div className="add-category-section shadow">
+        <Container maxWidth="md">
+        <Paper elevation={2}>
+        <div className="add-category-section">
           <form onSubmit={handleSubmit(handleCreate)}>
             <div className="add-category-container">
               <div className="add-category-row">
@@ -237,6 +239,8 @@ export default function AddCategories() {
             />
           )}
         </div>
+        </Paper>
+        </Container>
       )}
     </>
   );

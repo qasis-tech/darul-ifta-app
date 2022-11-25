@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Paper, Typography } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import URLS from "../routes/routerList";
@@ -13,6 +13,7 @@ const QuestionContainer = (props) => {
       className="question-section"
       onClick={() => navigate(`${URLS.user.fatwasDetailsPage}/${props?.id}`)}
     >
+      <Paper elevation={2}>  
       <div className="question-container">
         <div className="row">
           <div className="col-md-12 heading-section">
@@ -62,6 +63,7 @@ const QuestionContainer = (props) => {
           </div>
         </div>
       </div>
+      </Paper>
     </section>
   );
 };

@@ -10,6 +10,7 @@ import {
   Autocomplete,
   Grid,
   Typography,
+  Paper,
 } from "@mui/material";
 
 import PrintIcon from "@mui/icons-material/Print";
@@ -427,361 +428,382 @@ export default function FatwasDetails() {
       {isLoading ? (
         <Loader />
       ) : (
-        <form onSubmit={handleSubmit(handlePublish)}>
-          <div className="fatwas-details-container">
-            <div className="fatwas-details-row">
-              <div className="col-md-4 first-col">
-                <Autocomplete
-                  id="languages"
-                  size="small"
-                  fullWidth
-                  options={languageList}
-                  getOptionLabel={(option) => option?.title || ""}
-                  value={selectedLanguage}
-                  disabled={
-                    state?.status === "Rejected" || state?.status === "Pending"
-                  }
-                  onChange={(event, newValue) => setSelectedLanguage(newValue)}
-                  isOptionEqualToValue={(option, value) =>
-                    option?.id === value?.id
-                  }
-                  renderInput={(params) => (
-                    <TextField {...params} label="Language" />
-                  )}
-                />
+        <Paper elevation={2}>
+          <form onSubmit={handleSubmit(handlePublish)}>
+            <div className="fatwas-details-container">
+              <div className="fatwas-details-row">
+                <div className="col-md-4 first-col">
+                  <Autocomplete
+                    id="languages"
+                    size="small"
+                    fullWidth
+                    options={languageList}
+                    getOptionLabel={(option) => option?.title || ""}
+                    value={selectedLanguage}
+                    disabled={
+                      state?.status === "Rejected" ||
+                      state?.status === "Pending"
+                    }
+                    onChange={(event, newValue) =>
+                      setSelectedLanguage(newValue)
+                    }
+                    isOptionEqualToValue={(option, value) =>
+                      option?.id === value?.id
+                    }
+                    renderInput={(params) => (
+                      <TextField {...params} label="Language" />
+                    )}
+                  />
 
-                {!selectedLanguage?.title && (
-                  <div className="error">{errors?.language?.message}</div>
-                )}
-              </div>
-              <div className="col-md-4 ">
-                <Autocomplete
-                  id="subCategory"
-                  size="small"
-                  fullWidth
-                  multiple
-                  disabled={
-                    state?.status === "Rejected" || state?.status === "Pending"
-                  }
-                  options={subCategoryData || null}
-                  getOptionLabel={(option) => option?.label || ""}
-                  isOptionEqualToValue={(option, value) =>
-                    option?._id === value?._id
-                  }
-                  onChange={(event, newValue) =>
-                    setSelectedSubCategory(newValue)
-                  }
-                  value={selectedSubCategory || null}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Category"
-                      disabled={state?.status === "rejected"}
-                    />
+                  {!selectedLanguage?.title && (
+                    <div className="error">{errors?.language?.message}</div>
                   )}
-                />
-              </div>
-              <div className="col-md-4  second-col">
-                <Autocomplete
-                  id="madhabList"
-                  size="small"
-                  value={selectedMadhab}
-                  fullWidth
-                  disabled={
-                    state?.status === "Rejected" || state?.status === "Pending"
-                  }
-                  onChange={(event, newValue) => {
-                    setSelectedMadhab(newValue);
-                  }}
-                  options={madhabData}
-                  getOptionLabel={(option) => option?.title || ""}
-                  isOptionEqualToValue={(option, value) =>
-                    option?._id === value?._id
-                  }
-                  renderInput={(params) => (
-                    <TextField {...params} label="Madhab" />
-                  )}
-                />
+                </div>
+                <div className="col-md-4 ">
+                  <Autocomplete
+                    id="subCategory"
+                    size="small"
+                    fullWidth
+                    multiple
+                    disabled={
+                      state?.status === "Rejected" ||
+                      state?.status === "Pending"
+                    }
+                    options={subCategoryData || null}
+                    getOptionLabel={(option) => option?.label || ""}
+                    isOptionEqualToValue={(option, value) =>
+                      option?._id === value?._id
+                    }
+                    onChange={(event, newValue) =>
+                      setSelectedSubCategory(newValue)
+                    }
+                    value={selectedSubCategory || null}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Category"
+                        disabled={state?.status === "rejected"}
+                      />
+                    )}
+                  />
+                </div>
+                <div className="col-md-4  second-col">
+                  <Autocomplete
+                    id="madhabList"
+                    size="small"
+                    value={selectedMadhab}
+                    fullWidth
+                    disabled={
+                      state?.status === "Rejected" ||
+                      state?.status === "Pending"
+                    }
+                    onChange={(event, newValue) => {
+                      setSelectedMadhab(newValue);
+                    }}
+                    options={madhabData}
+                    getOptionLabel={(option) => option?.title || ""}
+                    isOptionEqualToValue={(option, value) =>
+                      option?._id === value?._id
+                    }
+                    renderInput={(params) => (
+                      <TextField {...params} label="Madhab" />
+                    )}
+                  />
 
-                {!selectedMadhab?.title && (
-                  <div className="error">{errors?.madhab?.message}</div>
-                )}
+                  {!selectedMadhab?.title && (
+                    <div className="error">{errors?.madhab?.message}</div>
+                  )}
+                </div>
               </div>
-            </div>
-            <div className="qshort-section">
-              <div className="qshort-container">
-                <div className="qshort-row">
-                  <div className="col-md-12">
-                    <TextField
-                      id="outlined-multiline-flexible"
-                      label="Short Question"
-                      multiline
-                      fullWidth
-                      maxRows={4}
-                      value={shortQuestion}
-                      onChange={(e) => setShortQuestion(e.target.value)}
-                      disabled={
-                        state?.status === "Rejected" ||
-                        state?.status === "Pending"
-                      }
-                    />
-                    <div className="error">
-                      {errors?.shortQuestion?.message}
+              <div className="qshort-section">
+                <div className="qshort-container">
+                  <div className="qshort-row">
+                    <div className="col-md-12">
+                      <TextField
+                        id="outlined-multiline-flexible"
+                        label="Short Question"
+                        multiline
+                        fullWidth
+                        maxRows={4}
+                        value={shortQuestion}
+                        onChange={(e) => setShortQuestion(e.target.value)}
+                        disabled={
+                          state?.status === "Rejected" ||
+                          state?.status === "Pending"
+                        }
+                      />
+                      <div className="error">
+                        {errors?.shortQuestion?.message}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="qshort-section">
-              <div className="qshort-container">
-                <div className="qshort-row">
-                  <div className="col-md-12">
-                    <TextField
-                      id="outlined-multiline-flexible"
-                      label="Long Question"
-                      multiline
-                      fullWidth
-                      rows={4}
-                      value={longQuestion}
-                      onChange={(e) => setLongQuestion(e.target.value)}
-                      disabled={
-                        state?.status === "Rejected" ||
-                        state?.status === "Pending"
-                      }
-                    />
-                    <div className="error">{errors?.longQuestion?.message}</div>
+              <div className="qshort-section">
+                <div className="qshort-container">
+                  <div className="qshort-row">
+                    <div className="col-md-12">
+                      <TextField
+                        id="outlined-multiline-flexible"
+                        label="Long Question"
+                        multiline
+                        fullWidth
+                        rows={4}
+                        value={longQuestion}
+                        onChange={(e) => setLongQuestion(e.target.value)}
+                        disabled={
+                          state?.status === "Rejected" ||
+                          state?.status === "Pending"
+                        }
+                      />
+                      <div className="error">
+                        {errors?.longQuestion?.message}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            {state?.status !== "Rejected" && state?.status !== "Pending" && (
-              <>
-                <div className="fatwas-details-row written-section">
-                  <div className="col-md-3">
-                    <Autocomplete
-                      id="controllable-states-demo"
-                      size="small"
-                      value={selectedMufthi || ""}
-                      fullWidth
-                      options={mufthiList?.filter(
-                        (fl) =>
-                          fl?._id !== selectedMufthiVerified?._id &&
-                          fl?._id !== selectedCheckedAndApprove?._id
-                      )}
-                      onChange={(event, newValue) => {
-                        setSelectedMufthi(newValue);
-                      }}
-                      getOptionLabel={(option) => option?.name || ""}
-                      isOptionEqualToValue={(option, value) =>
-                        option._id === value._id
-                      }
-                      renderInput={(params) => (
-                        <TextField {...params} label="Assigned To" 
-                        {...register("assigned", { required: "Assigned To is required" })}
-                        />
-                      )}
-                    />
-                    {!selectedMufthi?.name && (
-                    <div className="error">{errors?.assigned?.message}</div>
-                  )}
-                  </div>
-
-                  {selectedMufthi?.user_type === "Student" && (
+              {state?.status !== "Rejected" && state?.status !== "Pending" && (
+                <>
+                  <div className="fatwas-details-row written-section">
                     <div className="col-md-3">
                       <Autocomplete
                         id="controllable-states-demo"
                         size="small"
-                        value={selectedCheckedAndApprove || ""}
+                        value={selectedMufthi || ""}
                         fullWidth
                         options={mufthiList?.filter(
                           (fl) =>
                             fl?._id !== selectedMufthiVerified?._id &&
-                            fl?._id !== selectedMufthi?._id
+                            fl?._id !== selectedCheckedAndApprove?._id
                         )}
                         onChange={(event, newValue) => {
-                          setSelectedCheckedAndApprove(newValue);
+                          setSelectedMufthi(newValue);
                         }}
                         getOptionLabel={(option) => option?.name || ""}
                         isOptionEqualToValue={(option, value) =>
                           option._id === value._id
                         }
                         renderInput={(params) => (
-                          <TextField {...params} label="Checked & Approve" />
+                          <TextField
+                            {...params}
+                            label="Assigned To"
+                            {...register("assigned", {
+                              required: "Assigned To is required",
+                            })}
+                          />
                         )}
                       />
-                      {/* {errors.assignedTo && (
+                      {!selectedMufthi?.name && (
+                        <div className="error">{errors?.assigned?.message}</div>
+                      )}
+                    </div>
+
+                    {selectedMufthi?.user_type === "Student" && (
+                      <div className="col-md-3">
+                        <Autocomplete
+                          id="controllable-states-demo"
+                          size="small"
+                          value={selectedCheckedAndApprove || ""}
+                          fullWidth
+                          options={mufthiList?.filter(
+                            (fl) =>
+                              fl?._id !== selectedMufthiVerified?._id &&
+                              fl?._id !== selectedMufthi?._id
+                          )}
+                          onChange={(event, newValue) => {
+                            setSelectedCheckedAndApprove(newValue);
+                          }}
+                          getOptionLabel={(option) => option?.name || ""}
+                          isOptionEqualToValue={(option, value) =>
+                            option._id === value._id
+                          }
+                          renderInput={(params) => (
+                            <TextField {...params} label="Checked & Approve" />
+                          )}
+                        />
+                        {/* {errors.assignedTo && (
                         <p className="text-danger">
                           {errors.assignedTo.message}
                         </p>
                       )} */}
-                    </div>
-                  )}
-                  {state?.status !== "Received to Darul Ifta" && (
-                    <div className="col-md-3">
-                      <Autocomplete
-                        id="mufthiList"
-                        size="small"
-                        fullWidth
-                        options={mufthiVerified.filter(
-                          (fl) =>
-                            fl?.user_type !== "Student" &&
-                            fl._id !== selectedCheckedAndApprove?._id
-                        )}
-                        value={selectedMufthiVerified || ""}
-                        onChange={(event, newValue) => {
-                          setSelectedMufthiVerified(newValue);
-                        }}
-                        getOptionLabel={(option) => option?.name || ""}
-                        isOptionEqualToValue={(option, value) =>
-                          option?._id === value?._id
-                        }
-                        renderInput={(params) => (
-                          <TextField {...params} label="Verified By" 
-                          {...register("Verified", { required: "Verified By is required" })}
-                          />
-                        )}
-                      />
-                      {!selectedMufthiVerified?.name && (
-                    <div className="error">{errors?.Verified?.message}</div>
-                  )}
-                    </div>
-                  )}
-                </div>
-                {state?.status !== "Received to Darul Ifta" && (
-                  <>
-                    <div className="qshort-section">
-                      <div className="qshort-container">
-                        <div className="qshort-row">
-                          <div className="col-md-12">
+                      </div>
+                    )}
+                    {state?.status !== "Received to Darul Ifta" && (
+                      <div className="col-md-3">
+                        <Autocomplete
+                          id="mufthiList"
+                          size="small"
+                          fullWidth
+                          options={mufthiVerified.filter(
+                            (fl) =>
+                              fl?.user_type !== "Student" &&
+                              fl._id !== selectedCheckedAndApprove?._id
+                          )}
+                          value={selectedMufthiVerified || ""}
+                          onChange={(event, newValue) => {
+                            setSelectedMufthiVerified(newValue);
+                          }}
+                          getOptionLabel={(option) => option?.name || ""}
+                          isOptionEqualToValue={(option, value) =>
+                            option?._id === value?._id
+                          }
+                          renderInput={(params) => (
                             <TextField
-                              id="fatwa-answers"
-                              label="Answer"
-                              placeholder="Answers..."
-                              multiline
-                              fullWidth
-                              rows={6}
-                              value={answer}
-                              onChange={(e) => setAnswer(e.target.value)}
-                              InputLabelProps={{ shrink: true }}
+                              {...params}
+                              label="Verified By"
+                              {...register("Verified", {
+                                required: "Verified By is required",
+                              })}
                             />
+                          )}
+                        />
+                        {!selectedMufthiVerified?.name && (
+                          <div className="error">
+                            {errors?.Verified?.message}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                  {state?.status !== "Received to Darul Ifta" && (
+                    <>
+                      <div className="qshort-section">
+                        <div className="qshort-container">
+                          <div className="qshort-row">
+                            <div className="col-md-12">
+                              <TextField
+                                id="fatwa-answers"
+                                label="Answer"
+                                placeholder="Answers..."
+                                multiline
+                                fullWidth
+                                rows={6}
+                                value={answer}
+                                onChange={(e) => setAnswer(e.target.value)}
+                                InputLabelProps={{ shrink: true }}
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
 
-                    {/* reference */}
+                      {/* reference */}
 
-                    {referenceList && (
-                      <FatwaAddComponent
-                        referenceList={referenceList}
-                        setReferance={setReferance}
-                      />
-                    )}
-                  </>
-                )}
-              </>
-            )}
+                      {referenceList && (
+                        <FatwaAddComponent
+                          referenceList={referenceList}
+                          setReferance={setReferance}
+                        />
+                      )}
+                    </>
+                  )}
+                </>
+              )}
 
-            <Grid
-              container
-              spacing={1}
-              sx={{ paddingTop: 5 }}
-              direction="row"
-              justifyContent="flex-end"
-              alignItems="center"
-            >
-              <Grid item sm={3}>
-                {(state?.status === "Mufti Answered" ||
-                  state?.status === "Completed Verification" ||
-                  state?.status === "Published") && (
-                  <Autocomplete
-                    id="status"
-                    size="small"
-                    options={status}
-                    value={selectedStatus || ""}
-                    onChange={(event, newValue) => handleChangeStatus(newValue)}
-                    getOptionLabel={(option) => option?.title || ""}
-                    isOptionEqualToValue={(option, value) =>
-                      option?.title === value?.title
-                    }
-                    renderInput={(params) => (
-                      <TextField {...params} label="Status" />
-                    )}
-                  />
+              <Grid
+                container
+                spacing={1}
+                sx={{ paddingTop: 5 }}
+                direction="row"
+                justifyContent="flex-end"
+                alignItems="center"
+              >
+                <Grid item sm={3}>
+                  {(state?.status === "Mufti Answered" ||
+                    state?.status === "Completed Verification" ||
+                    state?.status === "Published") && (
+                    <Autocomplete
+                      id="status"
+                      size="small"
+                      options={status}
+                      value={selectedStatus || ""}
+                      onChange={(event, newValue) =>
+                        handleChangeStatus(newValue)
+                      }
+                      getOptionLabel={(option) => option?.title || ""}
+                      isOptionEqualToValue={(option, value) =>
+                        option?.title === value?.title
+                      }
+                      renderInput={(params) => (
+                        <TextField {...params} label="Status" />
+                      )}
+                    />
+                  )}
+                </Grid>
+                {state?.status !== "Published" && (
+                  <Grid item sm={3}>
+                    {state?.status === "Received to Darul Ifta" ||
+                    state?.status === "Assigned Mufti" ||
+                    state?.status === "Mufti Answered" ||
+                    state?.status === "Completed Verification" ? (
+                      <Grid
+                        container
+                        direction="row"
+                        justifyContent="flex-end"
+                        alignItems="center"
+                      >
+                        <Button
+                          type="submit"
+                          variant="contained"
+                          className="form-btn"
+                          onClick={handlePublish}
+                        >
+                          {state?.status === "Received to Darul Ifta"
+                            ? "Assigned to mufti"
+                            : state?.status === "Assigned Mufti"
+                            ? "Mufthi Answered"
+                            : state?.status === "Mufti Answered"
+                            ? "Completed Verification"
+                            : state?.status === "Completed Verification"
+                            ? "Publish"
+                            : "Submit"}
+                        </Button>
+                      </Grid>
+                    ) : null}
+                  </Grid>
                 )}
               </Grid>
-              {state?.status !== "Published" && (
-                <Grid item sm={3}>
-                  {state?.status === "Received to Darul Ifta" ||
-                  state?.status === "Assigned Mufti" ||
-                  state?.status === "Mufti Answered" ||
-                  state?.status === "Completed Verification" ? (
-                    <Grid
-                      container
-                      direction="row"
-                      justifyContent="flex-end"
-                      alignItems="center"
-                    >
+
+              {/* Rejected */}
+              {state?.status === "Pending" && (
+                <>
+                  <div className="fatwabutton">
+                    <div className="accept-section">
                       <Button
                         type="submit"
                         variant="contained"
-                        className="form-btn"
-                        onClick={handlePublish}
+                        className="form-btn accept-btn"
+                        onClick={handleAccept}
                       >
-                        {state?.status === "Received to Darul Ifta"
-                          ? "Assigned to mufti"
-                          : state?.status === "Assigned Mufti"
-                          ? "Mufthi Answered"
-                          : state?.status === "Mufti Answered"
-                          ? "Completed Verification"
-                          : state?.status === "Completed Verification"
-                          ? "Publish"
-                          : "Submit"}
+                        Accept
                       </Button>
-                    </Grid>
-                  ) : null}
-                </Grid>
-              )}
-            </Grid>
+                    </div>
 
-            {/* Rejected */}
-            {state?.status === "Pending" && (
-              <>
-                <div className="fatwabutton">
-                  <div className="accept-section">
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      className="form-btn accept-btn"
-                      onClick={handleAccept}
-                    >
-                      Accept
-                    </Button>
-                  </div>
-
-                  <DialogComponent
-                    title="Reasons for Rejection"
-                    className="model-section"
-                    // msg="Please select any reason"
-                    mainComponent={<RejectedReasonSection state={state} />}
-                    fullWidth
-                    size="xl"
-                    close={closePopup}
-                  >
-                    <Button
-                      variant="contained"
-                      className="form-btn rejected"
+                    <DialogComponent
+                      title="Reasons for Rejection"
+                      className="model-section"
+                      // msg="Please select any reason"
+                      mainComponent={<RejectedReasonSection state={state} />}
                       fullWidth
-                      onClick={() => setClosePopup(false)}
+                      size="xl"
+                      close={closePopup}
                     >
-                      Reject
-                    </Button>
-                  </DialogComponent>
-                </div>
-              </>
-            )}
-          </div>
-        </form>
+                      <Button
+                        variant="contained"
+                        className="form-btn rejected"
+                        fullWidth
+                        onClick={() => setClosePopup(false)}
+                      >
+                        Reject
+                      </Button>
+                    </DialogComponent>
+                  </div>
+                </>
+              )}
+            </div>
+          </form>
+        </Paper>
       )}
       {errorPopup.visible && (
         <SnackBar

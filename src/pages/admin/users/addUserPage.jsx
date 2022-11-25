@@ -14,6 +14,7 @@ import "./adduser.styles.scss";
 import { URLS } from "../../../config/urls.config";
 import Loader from "../../../components/common/Loader";
 import SnackBar from "../../../components/common/Snackbar";
+import { Paper } from "@mui/material";
 
 const profileSchema = yup.object().shape({
   name: yup.string().required("Name is required"),
@@ -164,7 +165,8 @@ export default function AddUser() {
       {isLoading ? (
         <Loader absolute />
       ) : (
-        <div className="add-user-section shadow bg-white">
+        <Paper elevation={2}>
+        <div className="add-user-section  bg-white">
           <form onSubmit={handleSubmit(handleSave)}>
             <div className="add-user-container">
               <div className="add-user-row">
@@ -373,6 +375,7 @@ export default function AddUser() {
             />
           )}
         </div>
+        </Paper>
       )}
     </>
   );
