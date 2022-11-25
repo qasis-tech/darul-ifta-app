@@ -72,6 +72,7 @@ export default function AddCategories() {
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdlZXRodTkwQGdtYWlsLmNvbSIsImlhdCI6MTY2NDAwMTE4NywiZXhwIjoxNjg5OTIxMTg3fQ.5wiCZurHaz4BmYPaQ67Hf3zFMInWcOdSCyUzYo-4YWQ";
 
   const handleCreate = (params) => {
+    const { Category } = params;
     setLoader(true);
     const subCat = selectedSubCategory?.map((item) => {
       return {
@@ -79,45 +80,43 @@ export default function AddCategories() {
         active: true,
       };
     });
-    let payload = { category: selectedCategory?.category, subCategory: subCat };
-
-    console.log("222222222 === ", payload);
-    // axios
-    //   .post(`${URLS.category}`, payload, {
-    //     headers: {
-    //       Authorization: `${token}`,
-    //       "content-type": "application/json",
-    //     },
-    //   })
-    //   .then((res) => {
-    //     console.log("res post category", res);
-    //     setLoader(false);
-    //     if (res?.success) {
-    //       setError({
-    //         visible: true,
-    //         message: res.message,
-    //         type: "success",
-    //         title: "Success",
-    //       });
-    //     } else {
-    //       setError({
-    //         visible: true,
-    //         message: res.message,
-    //         type: "warning",
-    //         title: "Warning",
-    //       });
-    //     }
-    //     // navigate(-1);
-    //   })
-    //   .catch((err) => {
-    //     console.log("Error in Category Add", err);
-    //     setLoader(false);
-    //     setError({
-    //       visible: true,
-    //       message: "Tetingggg",
-    //       type: "error",
-    //     });
-    //   });
+    let payload = { category: Category?.category, subCategory: subCat };
+    axios
+      .post(`${URLS.category}`, payload, {
+        headers: {
+          Authorization: `${token}`,
+          "content-type": "application/json",
+        },
+      })
+      .then((res) => {
+        console.log("res post category", res);
+        if (res?.success) {
+          setError({
+            visible: true,
+            message: res.message,
+            type: "success",
+            title: "Success",
+          });
+          setLoader(false);
+        } else {
+          setError({
+            visible: true,
+            message: res.message,
+            type: "warning",
+            title: "Warning",
+          });
+          setLoader(false);
+        }
+      })
+      .catch((err) => {
+        console.log("Error in Category Add", err);
+        setLoader(false);
+        setError({
+          visible: true,
+          message: "Tetingggg",
+          type: "error",
+        });
+      });
   };
 
   const navigate = useNavigate();
@@ -198,7 +197,6 @@ export default function AddCategories() {
                             label="Subcategory"
                             placeholder="Subcategory"
                             size="small"
-                            {...register("subCategory")}
                           />
                         )}
                       />
