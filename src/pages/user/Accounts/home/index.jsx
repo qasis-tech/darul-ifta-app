@@ -175,7 +175,7 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
           <div className="col d-flex align-items-center details">
             <div className="">
               <div>
-                <Typography variant="h4">
+                <Typography className="user-name" variant="h4">
                   {userLoginDetails?.name || "N/A"}
                 </Typography>
               </div>
@@ -197,7 +197,7 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
                 </Typography>
               </div>
 
-              <div>
+              <div className="mb-2">
                 <Typography variant="subtitle2">
                   {userLoginDetails?.address || (
                     <span className="text-danger fs-6">
@@ -214,7 +214,7 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
                     // sx={{ padding: 1, margin: "5px 0", textAlign: "center" }}
                     // className="fw-bold shadow border-0"
                   >
-                    <Typography variant="subtitle2" align="center" p={1}>
+                    <Typography variant="subtitle2" className="fw-bold" align="center" p={1}>
                       Fatwas : {questionCount || "N/A"}
                     </Typography>
                   </Paper>
@@ -226,7 +226,7 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
                     // sx={{ padding: 1, margin: "5px 0", textAlign: "center" }}
                     // className="fw-bold shadow border-0"
                   >
-                    <Typography variant="subtitle2" align="center" p={1}>
+                    <Typography variant="subtitle2"  className="fw-bold" align="center" p={1}>
                       Answered : {answerCount || "N/A"}
                     </Typography>
                   </Paper>

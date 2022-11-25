@@ -25,7 +25,7 @@
     .MuiButtonBase-root {
       color: #409ea1 !important;
       font-weight: bolder !important;
-      font-size: 17px !important;
+      font-size:$main-font-size - 2!important;
     }
     .MuiTab-root.Mui-selected {
       color: #235775 !important;
@@ -79,6 +79,9 @@
   .details {
     @media screen and (max-width: 1000px) {
       justify-content: center;
+    }
+    .user-name{
+      font-family: $footer-font-style!important;
     }
   }
   .btn-section {

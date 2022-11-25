@@ -74,6 +74,9 @@
       // }
       .profile-icon {
         margin-left: 5px !important;
+        @media screen and (max-width:1000px) {
+          padding: 10px!important;
+        }
       }
     }
     ul li a {

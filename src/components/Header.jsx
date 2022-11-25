@@ -119,7 +119,7 @@ const HeaderComponent = ({ closePopup, userLoginDetails }) => {
                     {userLoginDetails ? (
                       <>
                         <IconButton
-                          className="profile-icon"
+                          className="profile-icon p-0"
                           onClick={handleClick}
                           size="small"
                           sx={{ ml: 2 }}
