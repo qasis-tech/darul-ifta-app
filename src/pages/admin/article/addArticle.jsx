@@ -28,6 +28,7 @@ export default function AddArticle() {
   const [file, setFile] = useState("");
   const [filename, setFileName] = useState();
   const [selectedMufthi, setSelectedMufthi] = useState([]);
+  const [content, setContent] = useState("");
   const languageList = [
     { id: 1, title: "English" },
     { id: 2, title: "Malayalam" },
@@ -46,6 +47,7 @@ export default function AddArticle() {
     setFile(e.target.files[0]);
     setFileName(e.target.files[0].name);
   };
+
   const handleCloseError = () => {
     setError({
       visible: false,
@@ -70,11 +72,7 @@ export default function AddArticle() {
   const getMufthiApi = () => {
     setLoader(true);
     axios
-      .get(`${URLS.user}${URLS.signup}?userType=Mufthi`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      .get(`${URLS.user}${URLS.signup}?userType=Mufthi`)
       .then(({ data }) => {
         setLoader(false);
         setMufthiData(data);
@@ -86,44 +84,41 @@ export default function AddArticle() {
       });
   };
 
-  const handleSave = (params)=>{
+  const handleSave = (params) => {
     setLoader(true);
-    const { mufthi, language, title, content } = params;
+    const { mufthi, language, title } = params;
+    const payload = {
+      mufthi: mufthi,
+      language: language,
+      title: title,
+      articleData: content,
+    };
 
-    const payload={
-      mufthi:mufthi,
-      language:language,
-      title:title,
-      articleData:content,
-    }
-console.log("payloadd==========>",payload)
-    // axios
-    //   .post(`${URLS.article}`, payload, {
-    //   })
-    //   .then((res) => {
-    //     setLoader(false);
-    //     console.log("res article", res);
-    //     if (res.success) {
-    //       setError({
-    //         visible: true,
-    //         message: res.message,
-    //         type: "success",
-    //         title: "Success",
-    //       });
-    //       // navigate(`${RouterList.admin.admin}/${RouterList.admin.article}`);
-    //     } else {
-    //       setError({
-    //         visible: true,
-    //         message: res.message,
-    //         type: "warning",
-    //         title: "Warning",
-    //       });
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     setLoader(false);
-    //     console.log("Error in Article Add", err);
-    //   });
+    axios
+      .post(`${URLS.article}`, payload)
+      .then((res) => {
+        setLoader(false);
+        if (res.success) {
+          setError({
+            visible: true,
+            message: res.message,
+            type: "success",
+            title: "Success",
+          });
+          // navigate(`${RouterList.admin.admin}/${RouterList.admin.article}`);
+        } else {
+          setError({
+            visible: true,
+            message: res.message,
+            type: "warning",
+            title: "Warning",
+          });
+        }
+      })
+      .catch((err) => {
+        setLoader(false);
+        console.log("Error in Article Add", err);
+      });
   };
   const navigate = useNavigate();
 
@@ -135,7 +130,7 @@ console.log("payloadd==========>",payload)
   };
 
   const editor = useRef(null);
-  const [content, setContent] = useState("");
+
   const config = {
     autofocus: true,
     removeButtons: [
@@ -154,7 +149,7 @@ console.log("payloadd==========>",payload)
     minHeight: 450,
   };
 
-  console.log("content ===> ", content);
+  console.log("content ===> 2222222222222222222 ", content);
 
   return (
     <Container maxWidth="md">
@@ -234,14 +229,15 @@ console.log("payloadd==========>",payload)
               <div className="error">{errors?.title?.message}</div>
 
               {/* Editor */}
-              <JoditEditor
+              <TextEditor content={content} setContent={setContent} />
+              {/* <JoditEditor
                 ref={editor}
                 value={content}
                 config={config}
                 tabIndex={1} // tabIndex of textarea
-                onBlur={(newContent) => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
-                onChange={(newContent) => {}}
-              />
+                // onBlur={(newContent) => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
+                onChange={(newContent) => setContent(newContent)}
+              /> */}
 
               <div>{filename}</div>
               <div className="error">{errors?.articleFile?.message}</div>

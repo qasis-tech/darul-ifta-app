@@ -20,6 +20,7 @@ export default function AddCategories() {
   const [selectedCategory, setSelectedCategory] = useState([]);
   const [selectedSubCategory, setSelectedSubCategory] = useState([]);
   const [isLoading, setLoader] = useState(false);
+
   const [errorPopup, setError] = useState({
     visible: false,
     message: "",
@@ -78,51 +79,45 @@ export default function AddCategories() {
         active: true,
       };
     });
-    // let payload = { category: Category, subCategory: subCat };
-    const { Category, subCategory} = params;
+    let payload = { category: selectedCategory?.category, subCategory: subCat };
 
-    const payload={
-      category:Category,
-      subCategory:subCat,
-    }
-
-    console.log("selectedCategory === ", payload);
-    axios
-      .post(`${URLS.category}`, payload, {
-        headers: {
-          Authorization: `${token}`,
-          "content-type": "application/json",
-        },
-      })
-      .then((res) => {
-        console.log("res post category", res);
-        setLoader(false);
-        if (res?.success) {
-          setError({
-            visible: true,
-            message: res.message,
-            type: "success",
-            title: "Success",
-          });
-        } else {
-          setError({
-            visible: true,
-            message: res.message,
-            type: "warning",
-            title: "Warning",
-          });
-        }
-        // navigate(-1);
-      })
-      .catch((err) => {
-        console.log("Error in Category Add", err);
-        setLoader(false);
-        setError({
-          visible: true,
-          message: "Tetingggg",
-          type: "error",
-        });
-      });
+    console.log("222222222 === ", payload);
+    // axios
+    //   .post(`${URLS.category}`, payload, {
+    //     headers: {
+    //       Authorization: `${token}`,
+    //       "content-type": "application/json",
+    //     },
+    //   })
+    //   .then((res) => {
+    //     console.log("res post category", res);
+    //     setLoader(false);
+    //     if (res?.success) {
+    //       setError({
+    //         visible: true,
+    //         message: res.message,
+    //         type: "success",
+    //         title: "Success",
+    //       });
+    //     } else {
+    //       setError({
+    //         visible: true,
+    //         message: res.message,
+    //         type: "warning",
+    //         title: "Warning",
+    //       });
+    //     }
+    //     // navigate(-1);
+    //   })
+    //   .catch((err) => {
+    //     console.log("Error in Category Add", err);
+    //     setLoader(false);
+    //     setError({
+    //       visible: true,
+    //       message: "Tetingggg",
+    //       type: "error",
+    //     });
+    //   });
   };
 
   const navigate = useNavigate();
