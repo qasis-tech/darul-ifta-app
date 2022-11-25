@@ -1,28 +1,27 @@
 import React, { useMemo, useRef, useState } from "react";
 import JoditEditor, { Jodit } from "jodit-react";
 
-const config = {
-  autofocus: true,
-  removeButtons: [
-    "copyformat",
-    "brush",
-    "table",
-    "eraser",
-    "font",
-    "selectall",
-    "fontsize",
-  ],
-  uploader: {
-    insertImageAsBase64URI: true,
-  },
-  placeholder: "Start typings...",
-  minHeight: 450,
-};
-
-const TextEditor = ({ content, setContent }) => {
+const TextEditor = ({ content, setContent, placeholder }) => {
   const editor = useRef(null);
 
-  console.log("content", content);
+  const config = {
+    autofocus: true,
+    removeButtons: [
+      "copyformat",
+      "brush",
+      "table",
+      "eraser",
+      "font",
+      "selectall",
+      "fontsize",
+    ],
+    uploader: {
+      insertImageAsBase64URI: true,
+    },
+    placeholder: placeholder ? placeholder : "Start typings...",
+    minHeight: 450,
+  };
+  console.log("content 007", content);
 
   return (
     <JoditEditor

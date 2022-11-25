@@ -26,6 +26,7 @@ import DialogComponent from "../../../components/DialogComponent";
 import RejectedReasonSection from "./components/RejectedReasonSection";
 import getQuestionListApi from "../../../services/getQuestionsList";
 import routerList from "../../../routes/routerList";
+import TextEditor from "../../../components/RichTextEditor";
 
 export default function FatwasDetails() {
   const { id } = useParams();
@@ -53,6 +54,9 @@ export default function FatwasDetails() {
   const [closePopup, setClosePopup] = useState(false);
   const [subCategoryData, setSubCategory] = useState([]);
   const [state, setQuestionDetails] = useState(null);
+
+  const [content, setContent] = useState("");
+
   const [errorPopup, setError] = useState({
     visible: false,
     message: "",
@@ -112,7 +116,7 @@ export default function FatwasDetails() {
           setSelectedMufthiVerified(res.data?.verifier);
           setSelectedCheckedAndApprove(res?.data?.checked_approved);
 
-          setAnswer(res.data?.answer);
+          setContent(res?.data?.answer);
           setSelectedMufthi(res?.data?.mufti);
 
           setSelectedStatus(
@@ -273,7 +277,7 @@ export default function FatwasDetails() {
       question: longQuestion,
       language: selectedLanguage?.title,
       status: state.status,
-      answer: answer,
+      answer: content,
       reference: referenceList,
       answered_date: state?.answered_date,
       verified_date: state?.verified_date,
@@ -314,14 +318,14 @@ export default function FatwasDetails() {
       if (!selectedMufthiVerified) {
         isError.status = true;
         isError.message = "Verified by is Invalid";
-      } else if (!answer) {
+      } else if (content === "") {
         isError.status = true;
         isError.message = "Answer is Invalid";
       } else {
         payload.answered_date = moment();
         payload.status = "Mufti Answered";
         payload.verifier = selectedMufthiVerified;
-        payload.answer = answer;
+        payload.answer = content;
         payload.reference = referenceList;
         payload.mufti_answered = true;
       }
@@ -336,10 +340,25 @@ export default function FatwasDetails() {
       payload.mufti = null;
     }
 
+    if (
+      state?.status !== "Pending" &&
+      state?.status !== "Received to Darul Ifta"
+    ) {
+      console.log("content 111", content);
+      if (content === "") {
+        isError.status = true;
+        isError.message = "Invalid answer";
+      } else {
+        isError.status = false;
+        isError.message = "";
+      }
+    }
+
     console.log("Result ===> ", payload);
+    console.log("isError ", isError);
 
     if (!isError.status) {
-      console.log("API Called ===> ");
+      console.log("API is CALLED ");
       axios
         .put(`${URLS.question}/${state._id}`, payload)
         .then((res) => {
@@ -357,10 +376,6 @@ export default function FatwasDetails() {
         });
     } else {
       setLoader(false);
-
-      // alert(isError.message);
-      // isError.status = false;
-      // isError.message = "";
     }
   };
 
@@ -372,6 +387,8 @@ export default function FatwasDetails() {
     setQuestionDetails(temp);
     setSelectedStatus(val);
   };
+
+  console.log("008", content);
 
   return (
     <div className="fatwas-details-section">
@@ -388,7 +405,7 @@ export default function FatwasDetails() {
             <span>{moment(state?.createdAt).format("DD-MMM-YYYY")}</span>
             {state?.status !== "Pending" && (
               <>
-               / <span className="id-style"> Updated : </span>
+                / <span className="id-style"> Updated : </span>
                 <span>{moment(state?.updatedAt).format("DD-MMM-YYYY")}</span>
               </>
             )}
@@ -672,7 +689,7 @@ export default function FatwasDetails() {
                         <div className="qshort-container">
                           <div className="qshort-row">
                             <div className="col-md-12">
-                              <TextField
+                              {/* <TextField
                                 id="fatwa-answers"
                                 label="Answer"
                                 placeholder="Answers..."
@@ -682,8 +699,22 @@ export default function FatwasDetails() {
                                 value={answer}
                                 onChange={(e) => setAnswer(e.target.value)}
                                 InputLabelProps={{ shrink: true }}
+                              /> */}
+                              {/* Editor */}
+                              <TextEditor
+                                content={content}
+                                setContent={setContent}
+                                placeholder="Answer..."
                               />
                             </div>
+                            {content === "" && !content && (
+                              <Typography
+                                variant="subtitle2"
+                                className="text-danger"
+                              >
+                                Answer is Invalid
+                              </Typography>
+                            )}
                           </div>
                         </div>
                       </div>
