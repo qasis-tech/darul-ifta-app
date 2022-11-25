@@ -333,7 +333,7 @@
     .single-chip {
       margin-left: 0.5em;
       color: white !important;
-      background-color: #409ea1;
+      background-color: $primary;
       font-family: $main-font-style;
       .MuiSvgIcon-root {
         color: white !important;
@@ -351,17 +351,18 @@
       }
     }
     .MuiButtonBase-root {
-      color: #409ea1 !important;
+      color: $primary !important;
       font-weight: bolder !important;
       font-size: $main-font-size - 2!important;
     }
     .MuiTab-root.Mui-selected {
-      color: #235775 !important;
+      background-color: #a3a3a433 !important;
       font-weight: bolder;
       font-size: 16px;
+      color: $theme-primary-color!important;
     }
     .MuiTabs-indicator {
-      background-color: #235775;
+      background-color: #a3a3a400;
     }
   }
 }
