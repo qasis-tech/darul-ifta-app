@@ -3,20 +3,87 @@
 .about-page{
     padding-top: 7em;
     .container{
+        .main-section{
+            padding: 0 4em!important;
+            padding-bottom: 3em!important;
+            @media screen and (max-width:1000px) {
+                padding: 0 2em!important;
+            }
+            .MuiTypography-root{
+                font-family: $malayalam-font-style!important;
+            }
+        }
         .main-heading{
             padding: 4em 0!important;
             color: $theme-primary-color;
         }
         .about-main-section{
             padding-top: 3em;
+            padding-bottom: 3em;
+            @media screen and (max-width:1000px) {
+                flex-direction: column;
+            }
             .image-section{
+                width: 100%;
+                height: 100%;
                 img{
                     border-top-left-radius: 350px;
                     border-top-right-radius: 350px;
+                    width: 100%;
                 }
             }
             .about-content-section{
                 padding: 4em;
+                .MuiTypography-root{
+                    font-family: $font-style!important;
+                }
+            }
+        }
+        
+    }
+    .about-second-section{
+        padding: 4em 0;
+        background-color: $primary;
+        margin-bottom: 2em;
+        @media screen and (max-width:1000px) {
+            flex-direction: column-reverse;
+        }
+        .about-second-content{
+            border-bottom-right-radius: 60px;
+            border-top-right-radius: 60px;
+            border-bottom-left-radius: 0;
+            border-top-left-radius: 0;
+
+        }
+        .image-section{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            .second-content{
+                margin-top: 6em;
+                @media screen and (max-width:1000px) {
+                    margin-top: 0;
+                }
+                .title{
+                    font-family: $footer-font-style!important;
+                    color: $white;
+                    line-height: 1.6;
+                    @media screen and (max-width:1000px) {
+                        font-size: 22px!important;
+                    }
+                }
+            }
+            .second-image{
+                @media screen and (max-width:1000px) {
+                    margin: 2em 0;
+                }
+                img{
+                    width: 100%;
+                    height: 225px;
+                    object-fit: cover;
+                    border-radius: 300px 300px 30px 30px;
+                }
             }
         }
     }
