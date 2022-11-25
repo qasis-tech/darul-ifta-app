@@ -179,7 +179,12 @@ export default function User() {
                     ) : (
                       <TableRow>
                         <TableCell colSpan={6}>
-                          <NoDataAvailable noStyle />
+                        <div
+                                  className="d-flex justify-content-center align-items-center"
+                                  // style={{ minHeight: "326px" }}
+                                >
+                                  <NoDataAvailable noStyle noBg />
+                                </div>
                         </TableCell>
                       </TableRow>
                     )}

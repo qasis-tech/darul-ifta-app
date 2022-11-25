@@ -118,20 +118,20 @@ export default function Dashboard() {
             value={counteList?.rejected || "N/A"}
           />
         </div>
-        <div className="table-section">
+        <div className="table-section mt-2">
           <div className="table-row">
             <div className="col-md-12">
               <div className="heading-container">
                 <div className="heading-row">
-                  <div className="col-md-2">
+                  <div className="col-md-6">
                     <h6>Latest Fatwas</h6>
                   </div>
-                  <div className="col-md-10">
+                  <div className="col-md-6 d-flex justify-content-end">
                     <TextField
                       label="Question ID"
                       placeholder="Question ID (only numbers)"
-                      fullWidth
                       size="small"
+                      fullWidth
                       type="number"
                       onChange={(e) => setSearchInput(e.target.value)}
                       value={searchInput}
@@ -173,7 +173,7 @@ export default function Dashboard() {
               {isLoading ? (
                 <Loader skeleton />
               ) : (
-                <TableContainer component={Paper}>
+                <TableContainer component={Paper} marginTop={2}>
                   <Table
                     sx={{ minWidth: 650, marginTop: "1em" }}
                     aria-label="simple table"

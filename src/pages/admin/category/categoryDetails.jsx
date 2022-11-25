@@ -8,7 +8,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
 import { useParams } from "react-router-dom";
-import { Chip } from "@mui/material";
+import { Chip, Container, Paper } from "@mui/material";
 
 import "./addcategory.styles.scss";
 
@@ -148,11 +148,12 @@ export default function CategoryDetails() {
       {isLoading ? (
         <Loader absolute />
       ) : (
-        <div className="add-category-section shadow">
+        <Container maxWidth="md">
+        <Paper elevation={2} className="add-category-section">
           <form onSubmit={handleSubmit(handleCreate)}>
             <div className="add-category-container">
               <div className="add-category-row align-items-start">
-                <div className="col-md-6">
+                <div className="col-md-12">
                   <TextField
                     type="text"
                     label="Category"
@@ -166,16 +167,14 @@ export default function CategoryDetails() {
                     <div className="error">{errors?.category?.message}</div>
                   )}
                 </div>
-                <div className="col-md-12">
-                  
-                </div>
-                <div className="col-md-6 subcategory mt-4">
                   {categoryDetails?.subCategory?.length &&
                     categoryDetails?.subCategory.map((item, index) => {
                       return (
+                        <div className="col-md-12 subcategory mt-4">
                         <TextField
                         className="me-3"
                           type="text"
+                          fullWidth
                           label="Subcategory"
                           size="small"
                           value={item?.label}
@@ -183,9 +182,9 @@ export default function CategoryDetails() {
                             handleSubCategory(e.target.value, index)
                           }
                         />
+                </div>
                       );
                     })}
-                </div>
               </div>
               <div className="btn-row">
                 <div className="col-md-1">
@@ -211,7 +210,8 @@ export default function CategoryDetails() {
               onClose={() => handleCloseError()}
             />
           )}
-        </div>
+        </Paper>
+        </Container>
       )}
     </>
   );

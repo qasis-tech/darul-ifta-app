@@ -3,7 +3,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { TextField, Button, Autocomplete } from "@mui/material";
+import { TextField, Button, Autocomplete, Paper } from "@mui/material";
 
 import { URLS } from "../../../config/urls.config";
 import RouterList from "../../../routes/routerList";
@@ -108,6 +108,7 @@ export default function ArticleDetails() {
   const postArticleUpdate = () => {};
 
   return (
+    <Paper elevation={2}>
     <div className="add-article-section">
       {isLoader ? (
         <Loader />
@@ -229,6 +230,8 @@ export default function ArticleDetails() {
           onClose={() => handleCloseError()}
         />
       )}
+      
     </div>
+    </Paper>
   );
 }

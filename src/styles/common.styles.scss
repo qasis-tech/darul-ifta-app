@@ -283,3 +283,11 @@ p{
 .MuiDivider-root {
   border-color: #606060!important;
 }
+
+
+.line-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+}

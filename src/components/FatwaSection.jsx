@@ -12,6 +12,7 @@ import {
   Typography,
   Box,
   Button,
+  Paper,
 } from "@mui/material";
 
 import CloseIcon from "@mui/icons-material/Close";
@@ -204,234 +205,240 @@ const HomePage = (props) => {
                 />
                 <VisitorDetails />
               </div>
-              <div className="col-md-9 tab-container shadow rounded">
-                <div className="row chip-section">
-                  <div className="">
-                    {!!categoriesChip?.category && (
-                      <Chip
-                        label={categoriesChip?.category?.category}
-                        className="single-chip"
-                        onDelete={() => handleDelete()}
-                      />
-                    )}
-                    {!!categoriesChip?.subcategory && (
-                      <Chip
-                        label={categoriesChip?.subcategory?.label}
-                        className="single-chip"
-                        onDelete={() => handleDelete()}
-                      />
-                    )}
-                    {!!categoriesChip?.madhab && (
-                      <Chip
-                        label={categoriesChip?.madhab?.title}
-                        className="single-chip"
-                        onDelete={() => handleDelete()}
-                      />
-                    )}
-                  </div>
-                </div>
-
-                <TextField
-                  label="Search"
-                  fullWidth
-                  size="small"
-                  className="search-btn"
-                  value={searchInput}
-                  onChange={(e) => setSearchInput(e.target.value)}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          sx={{
-                            visibility:
-                              searchInput !== "" ? "visible" : "hidden",
-                          }}
-                        >
-                          <CloseIcon
-                            onClick={() => {
-                              setSearchInput("");
-                              getQuestionList();
-                            }}
-                          />
-                        </IconButton>
-                        <IconButton
-                          onClick={() => {
-                            if (value === 0) {
-                              getQuestionList(`?search=${searchInput}`);
-                            } else if (value === 1) {
-                              getQuestionList(
-                                `?language=English&search=${searchInput}`
-                              );
-                            } else if (value === 2) {
-                              getQuestionList(
-                                `?language=Malayalam&search=${searchInput}`
-                              );
-                            } else if (value === 3) {
-                              getQuestionList(
-                                `?language=Urdu&search=${searchInput}`
-                              );
-                            } else if (value === 4) {
-                              getQuestionList(
-                                `?language=Arabic&search=${searchInput}`
-                              );
-                            }
-                          }}
-                        >
-                          <SearchIcon />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-
-                <Box sx={{ width: "100%" }}>
-                  <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                    <Tabs
-                      className="main-tab"
-                      value={value}
-                      onChange={handleChange}
-                      aria-label="basic tabs example"
-                    >
-                      <Tab className="tab-name" label="All" {...a11yProps(0)} />
-                      <Tab label="English" {...a11yProps(1)} />
-                      <Tab label="മലയാളം" {...a11yProps(2)} />
-                      <Tab label="اردو" {...a11yProps(3)} />
-                      <Tab
-                        label="العربيــــــــــــــــــة"
-                        {...a11yProps(4)}
-                      />
-                    </Tabs>
-                  </Box>
-                  {isLoading ? (
-                    <div>
-                      <Loader skeleton layers={2} />
+              <div className="col-md-9">
+                <Paper elevation={2} className="tab-container p-4">
+                  <div className="row chip-section">
+                    <div className="">
+                      {!!categoriesChip?.category && (
+                        <Chip
+                          label={categoriesChip?.category?.category}
+                          className="single-chip"
+                          onDelete={() => handleDelete()}
+                        />
+                      )}
+                      {!!categoriesChip?.subcategory && (
+                        <Chip
+                          label={categoriesChip?.subcategory?.label}
+                          className="single-chip"
+                          onDelete={() => handleDelete()}
+                        />
+                      )}
+                      {!!categoriesChip?.madhab && (
+                        <Chip
+                          label={categoriesChip?.madhab?.title}
+                          className="single-chip"
+                          onDelete={() => handleDelete()}
+                        />
+                      )}
                     </div>
-                  ) : (
-                    <>
-                      <TabPanel value={value} index={0}>
-                        {questionsData?.length ? (
-                          questionsData?.map((questions) => {
-                            return (
-                              <QuestionComponent
-                                key={questions?._id}
-                                shortquestion={questions?.short_question}
-                                question={questions?.question}
-                                questionCount={questions?.slNo}
-                                createdDate={formatDate(questions?.createdAt)}
-                                views={questions?.views}
-                                data={questions}
-                              />
-                            );
-                          })
-                        ) : (
-                          <div
-                          className="d-flex justify-content-center align-items-center"
-                          style={{ minHeight: "445px" }}
-                        >
-                          <NoDataAvailable noStyle noBg />
-                        </div>
-                        )}
-                      </TabPanel>
-                      <TabPanel value={value} index={1}>
-                        {questionsData?.length ? (
-                          questionsData?.map((questions) => {
-                            return (
-                              <QuestionComponent
-                                key={questions?._id}
-                                id={questions?._id}
-                                shortquestion={questions?.short_question}
-                                question={questions?.question}
-                                questionCount={questions?.slNo}
-                                createdDate={formatDate(questions?.createdAt)}
-                                views={questions?.views}
-                                data={questions}
-                              />
-                            );
-                          })
-                        ) : (
-                          <div
-                          className="d-flex justify-content-center align-items-center"
-                          style={{ minHeight: "445px" }}
-                        >
-                          <NoDataAvailable noStyle noBg />
-                        </div>
-                        )}
-                      </TabPanel>
-                      <TabPanel value={value} index={2}>
-                        {questionsData?.length ? (
-                          questionsData.map((questions) => {
-                            return (
-                              <QuestionComponent
-                                key={questions?._id}
-                                shortquestion={questions?.short_question}
-                                question={questions?.question}
-                                questionCount={questions?.slNo}
-                                createdDate={formatDate(questions?.createdAt)}
-                                views={questions?.views}
-                                data={questions}
-                              />
-                            );
-                          })
-                        ) : (
-                          <div
-                          className="d-flex justify-content-center align-items-center"
-                          style={{ minHeight: "445px" }}
-                        >
-                          <NoDataAvailable noStyle noBg />
-                        </div>
-                        )}
-                      </TabPanel>
-                      <TabPanel value={value} index={3}>
-                        {questionsData?.length ? (
-                          questionsData?.map((questions) => {
-                            return (
-                              <QuestionComponent
-                                key={questions?._id}
-                                shortquestion={questions?.short_question}
-                                question={questions?.question}
-                                questionCount={questions?.slNo}
-                                createdDate={formatDate(questions?.createdAt)}
-                                views={questions?.views}
-                                data={questions}
-                              />
-                            );
-                          })
-                        ) : (
-                          <div
-                          className="d-flex justify-content-center align-items-center"
-                          style={{ minHeight: "445px" }}
-                        >
-                          <NoDataAvailable noStyle noBg />
-                        </div>
-                        )}
-                      </TabPanel>
-                      <TabPanel value={value} index={4}>
-                        {questionsData?.length ? (
-                          questionsData?.map((questions) => {
-                            return (
-                              <QuestionComponent
-                                key={questions?._id}
-                                shortquestion={questions?.short_question}
-                                question={questions?.question}
-                                questionCount={questions?.slNo}
-                                createdDate={formatDate(questions?.createdAt)}
-                                views={questions?.views}
-                                data={questions}
-                              />
-                            );
-                          })
-                        ) : (
-                          <div
-                          className="d-flex justify-content-center align-items-center"
-                          style={{ minHeight: "445px" }}
-                        >
-                          <NoDataAvailable noStyle noBg />
-                        </div>
-                        )}
-                      </TabPanel>
-                    </>
-                  )}
-                </Box>
+                  </div>
+
+                  <TextField
+                    label="Search"
+                    fullWidth
+                    size="small"
+                    className="search-btn"
+                    value={searchInput}
+                    onChange={(e) => setSearchInput(e.target.value)}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            sx={{
+                              visibility:
+                                searchInput !== "" ? "visible" : "hidden",
+                            }}
+                          >
+                            <CloseIcon
+                              onClick={() => {
+                                setSearchInput("");
+                                getQuestionList();
+                              }}
+                            />
+                          </IconButton>
+                          <IconButton
+                            onClick={() => {
+                              if (value === 0) {
+                                getQuestionList(`?search=${searchInput}`);
+                              } else if (value === 1) {
+                                getQuestionList(
+                                  `?language=English&search=${searchInput}`
+                                );
+                              } else if (value === 2) {
+                                getQuestionList(
+                                  `?language=Malayalam&search=${searchInput}`
+                                );
+                              } else if (value === 3) {
+                                getQuestionList(
+                                  `?language=Urdu&search=${searchInput}`
+                                );
+                              } else if (value === 4) {
+                                getQuestionList(
+                                  `?language=Arabic&search=${searchInput}`
+                                );
+                              }
+                            }}
+                          >
+                            <SearchIcon />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+
+                  <Box sx={{ width: "100%" }}>
+                    <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                      <Tabs
+                        className="main-tab"
+                        value={value}
+                        onChange={handleChange}
+                        aria-label="basic tabs example"
+                      >
+                        <Tab
+                          className="tab-name"
+                          label="All"
+                          {...a11yProps(0)}
+                        />
+                        <Tab label="English" {...a11yProps(1)} />
+                        <Tab label="മലയാളം" {...a11yProps(2)} />
+                        <Tab label="اردو" {...a11yProps(3)} />
+                        <Tab
+                          label="العربيــــــــــــــــــة"
+                          {...a11yProps(4)}
+                        />
+                      </Tabs>
+                    </Box>
+                    {isLoading ? (
+                      <div>
+                        <Loader skeleton layers={2} />
+                      </div>
+                    ) : (
+                      <>
+                        <TabPanel value={value} index={0} className="main-tab">
+                          {questionsData?.length ? (
+                            questionsData?.map((questions) => {
+                              return (
+                                <QuestionComponent
+                                  key={questions?._id}
+                                  shortquestion={questions?.short_question}
+                                  question={questions?.question}
+                                  questionCount={questions?.slNo}
+                                  createdDate={formatDate(questions?.createdAt)}
+                                  views={questions?.views}
+                                  data={questions}
+                                />
+                              );
+                            })
+                          ) : (
+                            <div
+                              className="d-flex justify-content-center align-items-center"
+                              style={{ minHeight: "326px" }}
+                            >
+                              <NoDataAvailable noStyle noBg />
+                            </div>
+                          )}
+                        </TabPanel>
+                        <TabPanel value={value} index={1} className="main-tab">
+                          {questionsData?.length ? (
+                            questionsData?.map((questions) => {
+                              return (
+                                <QuestionComponent
+                                  key={questions?._id}
+                                  id={questions?._id}
+                                  shortquestion={questions?.short_question}
+                                  question={questions?.question}
+                                  questionCount={questions?.slNo}
+                                  createdDate={formatDate(questions?.createdAt)}
+                                  views={questions?.views}
+                                  data={questions}
+                                />
+                              );
+                            })
+                          ) : (
+                            <div
+                              className="d-flex justify-content-center align-items-center"
+                              style={{ minHeight: "326px" }}
+                            >
+                              <NoDataAvailable noStyle noBg />
+                            </div>
+                          )}
+                        </TabPanel>
+                        <TabPanel value={value} index={2} className="main-tab">
+                          {questionsData?.length ? (
+                            questionsData.map((questions) => {
+                              return (
+                                <QuestionComponent
+                                  key={questions?._id}
+                                  shortquestion={questions?.short_question}
+                                  question={questions?.question}
+                                  questionCount={questions?.slNo}
+                                  createdDate={formatDate(questions?.createdAt)}
+                                  views={questions?.views}
+                                  data={questions}
+                                />
+                              );
+                            })
+                          ) : (
+                            <div
+                              className="d-flex justify-content-center align-items-center"
+                              style={{ minHeight: "326px" }}
+                            >
+                              <NoDataAvailable noStyle noBg />
+                            </div>
+                          )}
+                        </TabPanel>
+                        <TabPanel value={value} index={3} className="main-tab">
+                          {questionsData?.length ? (
+                            questionsData?.map((questions) => {
+                              return (
+                                <QuestionComponent
+                                  key={questions?._id}
+                                  shortquestion={questions?.short_question}
+                                  question={questions?.question}
+                                  questionCount={questions?.slNo}
+                                  createdDate={formatDate(questions?.createdAt)}
+                                  views={questions?.views}
+                                  data={questions}
+                                />
+                              );
+                            })
+                          ) : (
+                            <div
+                              className="d-flex justify-content-center align-items-center"
+                              style={{ minHeight: "326px" }}
+                            >
+                              <NoDataAvailable noStyle noBg />
+                            </div>
+                          )}
+                        </TabPanel>
+                        <TabPanel value={value} index={4} className="main-tab">
+                          {questionsData?.length ? (
+                            questionsData?.map((questions) => {
+                              return (
+                                <QuestionComponent
+                                  key={questions?._id}
+                                  shortquestion={questions?.short_question}
+                                  question={questions?.question}
+                                  questionCount={questions?.slNo}
+                                  createdDate={formatDate(questions?.createdAt)}
+                                  views={questions?.views}
+                                  data={questions}
+                                />
+                              );
+                            })
+                          ) : (
+                            <div
+                              className="d-flex justify-content-center align-items-center"
+                              style={{ minHeight: "326px" }}
+                            >
+                              <NoDataAvailable noStyle noBg />
+                            </div>
+                          )}
+                        </TabPanel>
+                      </>
+                    )}
+                  </Box>
+                </Paper>
               </div>
             </div>
           </div>

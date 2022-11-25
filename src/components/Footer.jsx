@@ -57,7 +57,9 @@ const FooterComponent = () => {
                     Rules & Regulations
                   </li>
                   <li>
-                    <a href="https://daruliftakauzariyya.com/privacy-policy">
+                    <a  onClick={() =>
+                      navigate(`${routerList.user.privacypolicy}`)
+                    }>
                       Privacy Policy
                     </a>
                   </li>

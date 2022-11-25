@@ -197,7 +197,7 @@ export default function Fatwas() {
     <div className="admin-fatwas-section">
       <>
         <div>
-          <Paper className="fatwas-container">
+          <Paper elevation={2} className="fatwas-container">
             <div className="fatwas-row">
               <div className="col-md-2">
                 <Autocomplete
