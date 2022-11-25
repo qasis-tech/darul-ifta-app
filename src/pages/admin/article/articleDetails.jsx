@@ -3,7 +3,13 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { TextField, Button, Autocomplete, Paper } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Autocomplete,
+  Paper,
+  Container,
+} from "@mui/material";
 
 import { URLS } from "../../../config/urls.config";
 import RouterList from "../../../routes/routerList";
@@ -11,6 +17,7 @@ import RouterList from "../../../routes/routerList";
 import "./add.article.styles.scss";
 import Loader from "../../../components/common/Loader";
 import SnackBar from "../../../components/common/Snackbar";
+import TextEditor from "../../../components/RichTextEditor";
 
 export default function ArticleDetails() {
   const navigate = useNavigate();
@@ -19,6 +26,7 @@ export default function ArticleDetails() {
   const [isLoader, setLoader] = useState([]);
   const [selectedMufthi, setSelectedMufthi] = useState([]);
   const [articleDetails, setArticleDetails] = useState(null);
+  const [content, setContent] = useState("");
   const languageList = [
     { id: 1, title: "English" },
     { id: 2, title: "Malayalam" },
@@ -72,13 +80,6 @@ export default function ArticleDetails() {
 
   const getArticleDetailsApi = (list) => {
     setLoader(true);
-
-    // const formData = new FormData();
-    // formData.append("mufthi", mufthi);
-    // formData.append("language", language);
-    // formData.append("title", title);
-    // formData.append("articleFile", articleFile[0]);
-
     axios
       .get(`${URLS.article}/${id}`)
       .then((res) => {
@@ -86,6 +87,7 @@ export default function ArticleDetails() {
         console.log("res", res);
         setArticleDetails(res.data);
         setValue("title", res?.data?.title);
+        setContent(res?.data?.articleData);
 
         let index = list.findIndex((fl) => fl.name === res?.data?.mufthi);
         if (index !== -1) {
@@ -105,133 +107,136 @@ export default function ArticleDetails() {
       });
   };
 
-  const postArticleUpdate = () => {};
+  const postArticleUpdate = (params) => {
+    setLoader(true);
+    const { mufthi, language, title } = params;
+    const payload = {
+      mufthi: mufthi,
+      language: language,
+      title: title,
+      articleData: content,
+    };
+
+    axios
+      .post(`${URLS.article}`, payload)
+      .then((res) => {
+        setLoader(false);
+        if (res.success) {
+          setError({
+            visible: true,
+            message: res.message,
+            type: "success",
+            title: "Success",
+          });
+        } else {
+          setError({
+            visible: true,
+            message: res.message,
+            type: "warning",
+            title: "Warning",
+          });
+        }
+      })
+      .catch((err) => {
+        setLoader(false);
+        console.log("Error in Article Add", err);
+      });
+  };
 
   return (
-    <Paper elevation={2}>
-    <div className="add-article-section">
-      {isLoader ? (
-        <Loader />
-      ) : (
-        <form onSubmit={handleSubmit(postArticleUpdate)}>
-          <div className="add-article-container">
-            <div className="add-article-row">
-              <div className="col-md-6 first-col">
-                <Autocomplete
-                  disablePortal
-                  id="combo-box-demo"
-                  size="small"
-                  options={mufthiData}
-                  getOptionLabel={(option) => option.name || ""}
-                  isOptionEqualToValue={(option, value) =>
-                    option?._id === value?._id
-                  }
-                  onChange={(e, val) => {
-                    setSelectedMufthi(val);
-                  }}
-                  value={selectedMufthi}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Mufthi Name"
-                      // {...register("mufthi", {
-                      //   required: "Mufthi Name is required",
-                      // })}
+    <Container>
+      <Paper elevation={2}>
+        <div className="add-article-section">
+          {isLoader ? (
+            <Loader />
+          ) : (
+            <form onSubmit={handleSubmit(postArticleUpdate)}>
+              <div className="add-article-container">
+                <div className="add-article-row">
+                  <div className="col-md-6 first-col">
+                    <Autocomplete
+                      disablePortal
+                      id="combo-box-demo"
+                      size="small"
+                      options={mufthiData}
+                      getOptionLabel={(option) => option.name || ""}
+                      isOptionEqualToValue={(option, value) =>
+                        option?._id === value?._id
+                      }
+                      onChange={(e, val) => {
+                        setSelectedMufthi(val);
+                      }}
+                      value={selectedMufthi}
+                      renderInput={(params) => (
+                        <TextField {...params} label="Mufthi Name" />
+                      )}
                     />
-                  )}
-                />
-                {!selectedMufthi?.name && (
-                  <div className="error">{errors?.mufthi?.message}</div>
-                )}
-              </div>
-              <div className="col-md-6 second-col">
-                <Autocomplete
-                  disablePortal
-                  id="combo-box-demo"
-                  size="small"
-                  options={languageList}
-                  getOptionLabel={(option) => option.title || ""}
-                  isOptionEqualToValue={(option, value) =>
-                    option.id === value.id
-                  }
-                  onChange={(e, val) => setSelectedLanguage(val)}
-                  value={selectedLanguage}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Language"
-                      // {...register("language", {
-                      //   required: "Language is required",
-                      // })}
+                    {!selectedMufthi?.name && (
+                      <div className="error">{errors?.mufthi?.message}</div>
+                    )}
+                  </div>
+                  <div className="col-md-6 second-col">
+                    <Autocomplete
+                      disablePortal
+                      id="combo-box-demo"
+                      size="small"
+                      options={languageList}
+                      getOptionLabel={(option) => option.title || ""}
+                      isOptionEqualToValue={(option, value) =>
+                        option.id === value.id
+                      }
+                      onChange={(e, val) => setSelectedLanguage(val)}
+                      value={selectedLanguage}
+                      renderInput={(params) => (
+                        <TextField {...params} label="Language" />
+                      )}
                     />
-                  )}
-                />
-                {!selectedLanguage?.title && (
-                  <div className="error">{errors?.language?.message}</div>
-                )}
-              </div>
-            </div>
-            <div className="add-article-row">
-              <TextField
-                id="outlined-multiline-flexible"
-                label="Title"
-                multiline
-                fullWidth
-                rows={2}
-                {...register("title", { required: "Title is required" })}
-              />
-            </div>
-            <div className="error">{errors?.title?.message}</div>
-            <div className="add-article-row">
-              {articleDetails?.articleFile !== "" ? (
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: articleDetails?.htmlDoc,
-                  }}
-                />
-              ) : (
-                <Button
-                  variant="contained"
-                  className="file-btn"
-                  fullWidth
-                  component="label"
-                >
-                  Upload File
-                  <input
-                    type="file"
-                    hidden
-                    {...register("articleFile", { required: "Upload File" })}
+                    {!selectedLanguage?.title && (
+                      <div className="error">{errors?.language?.message}</div>
+                    )}
+                  </div>
+                </div>
+                <div className="add-article-row">
+                  <TextField
+                    id="outlined-multiline-flexible"
+                    label="Title"
+                    multiline
+                    fullWidth
+                    rows={2}
+                    {...register("title", { required: "Title is required" })}
                   />
-                </Button>
-              )}
-            </div>
-            <div className="error">{errors?.articleFile?.message}</div>
-            <div className="btn-section">
-              <div className="col-md-1">
-                <Button
-                  variant="contained"
-                  className="form-btn"
-                  type="submit"
-                  fullWidth
-                >
-                  SAVE
-                </Button>
+                </div>
+                <div className="error">{errors?.title?.message}</div>
+
+                {/* Editor */}
+                <TextEditor content={content} setContent={setContent} />
+
+                <div className="btn-section">
+                  <div className="col-md-1">
+                    <Button
+                      variant="contained"
+                      className="form-btn"
+                      type="submit"
+                      fullWidth
+                    >
+                      SAVE
+                    </Button>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </form>
-      )}
-      {errorPopup.visible && (
-        <SnackBar
-          visible={errorPopup.visible}
-          message={errorPopup.message}
-          type={errorPopup.type}
-          title={errorPopup.title}
-          onClose={() => handleCloseError()}
-        />
-      )}
-      
-    </div>
-    </Paper>
+            </form>
+          )}
+          {errorPopup.visible && (
+            <SnackBar
+              visible={errorPopup.visible}
+              message={errorPopup.message}
+              type={errorPopup.type}
+              title={errorPopup.title}
+              onClose={() => handleCloseError()}
+            />
+          )}
+        </div>
+      </Paper>
+    </Container>
   );
 }

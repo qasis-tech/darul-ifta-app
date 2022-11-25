@@ -50,7 +50,6 @@ export default function RelatedFatwas({ data }) {
         </div>
         {questionList?.length ? (
           questionList?.map((slicedques) => {
-            console.log("slicedques ==> ", slicedques);
             return (
               <div key={slicedques?._id} className="container">
                 <div className="col-md-12 sub-details my-3  py-2 px-2">
