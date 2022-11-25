@@ -19,7 +19,7 @@ const QuestionContainer = (props) => {
             <Typography variant="subtitle1">{props?.shortquestion}</Typography>
           </div>
           <div className="col-md-12 desc">
-            <Typography variant="paragraph">{props?.question}</Typography>
+            <Typography variant="paragraph" className="line-clamp">{props?.question}</Typography>
           </div>
           <div className="row q-footer">
             <div className="col-md-1 number-btn">
