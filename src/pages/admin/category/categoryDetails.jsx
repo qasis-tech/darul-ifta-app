@@ -14,7 +14,7 @@ import "./addcategory.styles.scss";
 
 import { URLS } from "../../../config/urls.config";
 import Loader from "../../../components/common/Loader";
-import SnackBar from "../../../components/common/Snackbar";
+import { toast } from "react-toastify";
 
 export default function CategoryDetails() {
   const navigate = useNavigate();
@@ -23,12 +23,7 @@ export default function CategoryDetails() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubCategory, setSelectedSubCategory] = useState([]);
   const [isLoading, setLoader] = useState(false);
-  const [errorPopup, setError] = useState({
-    visible: false,
-    message: "",
-    type: "error",
-    title: "",
-  });
+
   const { id } = useParams();
   const {
     register,
@@ -40,16 +35,6 @@ export default function CategoryDetails() {
   useEffect(() => {
     getCatgoryListApi();
   }, []);
-
-  const handleCloseError = () => {
-    setError({
-      visible: false,
-      message: "",
-      type: "",
-      titile: "",
-    });
-    navigate(-1);
-  };
 
   const getCatgoryListApi = () => {
     setLoader(true);
@@ -102,31 +87,27 @@ export default function CategoryDetails() {
       .put(`${URLS.category}/${id}`, payload)
       .then((res) => {
         console.log("res post category", res);
-        setLoader(false);
         if (res?.success) {
-          setError({
-            visible: true,
-            message: res.message,
-            type: "success",
-            title: "Success",
+          toast(res.message, {
+            onClose: () => {
+              setLoader(false);
+            },
           });
-          // navigate(-1);
         } else {
-          setError({
-            visible: true,
-            message: res.message,
-            type: "warning",
-            title: "Warning",
+          toast(res.message, {
+            onClose: () => {
+              setLoader(false);
+            },
           });
         }
       })
       .catch((err) => {
         console.log("Error in Category Add", err);
         setLoader(false);
-        setError({
-          visible: true,
-          message: "Tetingggg",
-          type: "error",
+        toast("Somthing went wrong, please try again later", {
+          onClose: () => {
+            setLoader(false);
+          },
         });
       });
   };
@@ -200,16 +181,6 @@ export default function CategoryDetails() {
               </div>
             </div>
           </form>
-
-          {errorPopup.visible && (
-            <SnackBar
-              visible={errorPopup.visible}
-              message={errorPopup.message}
-              type={errorPopup.type}
-              title={errorPopup.title}
-              onClose={() => handleCloseError()}
-            />
-          )}
         </Paper>
         </Container>
       )}

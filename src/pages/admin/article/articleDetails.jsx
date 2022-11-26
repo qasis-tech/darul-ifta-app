@@ -15,11 +15,12 @@ import { URLS } from "../../../config/urls.config";
 import RouterList from "../../../routes/routerList";
 
 import "./add.article.styles.scss";
+import { toast } from "react-toastify";
+
 import Loader from "../../../components/common/Loader";
-import SnackBar from "../../../components/common/Snackbar";
 import TextEditor from "../../../components/RichTextEditor";
 
-export default function ArticleDetails() {
+export default function ArticleDetails(close) {
   const navigate = useNavigate();
 
   const [mufthiData, setMufthiData] = useState([]);
@@ -34,22 +35,8 @@ export default function ArticleDetails() {
     { id: 4, title: "Urdu" },
   ];
   const [selectedLanguage, setSelectedLanguage] = useState([]);
-  const [errorPopup, setError] = useState({
-    visible: false,
-    message: "",
-    type: "error",
-    title: "",
-  });
+
   const { id } = useParams();
-  const handleCloseError = () => {
-    setError({
-      visible: false,
-      message: "",
-      type: "",
-      titile: "",
-    });
-    navigate(-1);
-  };
 
   const {
     register,
@@ -122,23 +109,27 @@ export default function ArticleDetails() {
       .then((res) => {
         setLoader(false);
         if (res.success) {
-          setError({
-            visible: true,
-            message: res.message,
-            type: "success",
-            title: "Success",
+          toast(res.message, {
+            onClose: () => {
+              setLoader(false);
+              close();
+            },
           });
         } else {
-          setError({
-            visible: true,
-            message: res.message,
-            type: "warning",
-            title: "Warning",
+          toast(res.message, {
+            onClose: () => {
+              setLoader(false);
+            },
           });
         }
       })
       .catch((err) => {
         setLoader(false);
+        toast("Somthing went wrong, please try again later", {
+          onClose: () => {
+            setLoader(false);
+          },
+        });
         console.log("Error in Article Add", err);
       });
   };
@@ -225,15 +216,6 @@ export default function ArticleDetails() {
                 </div>
               </div>
             </form>
-          )}
-          {errorPopup.visible && (
-            <SnackBar
-              visible={errorPopup.visible}
-              message={errorPopup.message}
-              type={errorPopup.type}
-              title={errorPopup.title}
-              onClose={() => handleCloseError()}
-            />
           )}
         </div>
       </Paper>

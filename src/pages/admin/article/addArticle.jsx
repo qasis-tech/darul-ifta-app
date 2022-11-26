@@ -14,7 +14,7 @@ import {
 
 import { URLS } from "../../../config/urls.config";
 import RouterList from "../../../routes/routerList";
-
+import { toast } from "react-toastify";
 import Loader from "../../../components/common/Loader";
 import SnackBar from "../../../components/common/Snackbar";
 
@@ -36,27 +36,6 @@ export default function AddArticle() {
     { id: 4, title: "Urdu" },
   ];
   const [selectedLanguage, setSelectedLanguage] = useState([]);
-  const [errorPopup, setError] = useState({
-    visible: false,
-    message: "",
-    type: "error",
-    title: "",
-  });
-
-  const getFileName = (e) => {
-    setFile(e.target.files[0]);
-    setFileName(e.target.files[0].name);
-  };
-
-  const handleCloseError = () => {
-    setError({
-      visible: false,
-      message: "",
-      type: "",
-      titile: "",
-    });
-    navigate(-1);
-  };
 
   const {
     register,
@@ -97,37 +76,31 @@ export default function AddArticle() {
     axios
       .post(`${URLS.article}`, payload)
       .then((res) => {
-        setLoader(false);
         if (res.success) {
-          setError({
-            visible: true,
-            message: res.message,
-            type: "success",
-            title: "Success",
+          toast(res.message, {
+            onClose: () => {
+              setLoader(false);
+            },
           });
-          // navigate(`${RouterList.admin.admin}/${RouterList.admin.article}`);
         } else {
-          setError({
-            visible: true,
-            message: res.message,
-            type: "warning",
-            title: "Warning",
+          toast(res.message, {
+            onClose: () => {
+              setLoader(false);
+            },
           });
         }
       })
       .catch((err) => {
         setLoader(false);
+        toast("Somthing went wrong, please try again later", {
+          onClose: () => {
+            setLoader(false);
+          },
+        });
         console.log("Error in Article Add", err);
       });
   };
   const navigate = useNavigate();
-
-  const changeHandler = (e) => {
-    if (e.target.files.length > 0) {
-      let filename = e.target.files[0].name;
-      console.log(filename);
-    }
-  };
 
   return (
     <Container maxWidth="md">
@@ -225,15 +198,6 @@ export default function AddArticle() {
               </div>
             </div>
           </form>
-        )}
-        {errorPopup.visible && (
-          <SnackBar
-            visible={errorPopup.visible}
-            message={errorPopup.message}
-            type={errorPopup.type}
-            title={errorPopup.title}
-            onClose={() => handleCloseError()}
-          />
         )}
       </Paper>
     </Container>

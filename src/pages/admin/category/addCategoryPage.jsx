@@ -14,19 +14,13 @@ import "./addcategory.styles.scss";
 import { URLS } from "../../../config/urls.config";
 import Loader from "../../../components/common/Loader";
 import SnackBar from "../../../components/common/Snackbar";
+import { toast } from "react-toastify";
 
 export default function AddCategories() {
   const [categoryList, setCategoryList] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState([]);
   const [selectedSubCategory, setSelectedSubCategory] = useState([]);
   const [isLoading, setLoader] = useState(false);
-
-  const [errorPopup, setError] = useState({
-    visible: false,
-    message: "",
-    type: "error",
-    title: "",
-  });
 
   const {
     register,
@@ -39,15 +33,7 @@ export default function AddCategories() {
     getCatgoryApi();
   }, []);
 
-  const handleCloseError = () => {
-    setError({
-      visible: false,
-      message: "",
-      type: "",
-      titile: "",
-    });
-    navigate(-1);
-  };
+  
 
   const getCatgoryApi = () => {
     setLoader(true);
@@ -91,35 +77,29 @@ export default function AddCategories() {
       .then((res) => {
         console.log("res post category", res);
         if (res?.success) {
-          setError({
-            visible: true,
-            message: res.message,
-            type: "success",
-            title: "Success",
+          toast(res.message, {
+            onClose: () => {
+              setLoader(false);
+            },
           });
-          setLoader(false);
         } else {
-          setError({
-            visible: true,
-            message: res.message,
-            type: "warning",
-            title: "Warning",
+          toast(res.message, {
+            onClose: () => {
+              setLoader(false);
+            },
           });
-          setLoader(false);
         }
       })
       .catch((err) => {
         console.log("Error in Category Add", err);
         setLoader(false);
-        setError({
-          visible: true,
-          message: "Tetingggg",
-          type: "error",
+        toast("Somthing went wrong, please try again later", {
+          onClose: () => {
+            setLoader(false);
+          },
         });
       });
   };
-
-  const navigate = useNavigate();
 
   return (
     <>
@@ -216,16 +196,6 @@ export default function AddCategories() {
                   </div>
                 </div>
               </form>
-
-              {errorPopup.visible && (
-                <SnackBar
-                  visible={errorPopup.visible}
-                  message={errorPopup.message}
-                  type={errorPopup.type}
-                  title={errorPopup.title}
-                  onClose={() => handleCloseError()}
-                />
-              )}
             </div>
           </Paper>
         </Container>
