@@ -11,6 +11,10 @@ import {
   Grid,
   Typography,
   Paper,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  Divider,
 } from "@mui/material";
 
 import PrintIcon from "@mui/icons-material/Print";
@@ -27,6 +31,7 @@ import RejectedReasonSection from "./components/RejectedReasonSection";
 import getQuestionListApi from "../../../services/getQuestionsList";
 import routerList from "../../../routes/routerList";
 import TextEditor from "../../../components/RichTextEditor";
+import { toast } from "react-toastify";
 
 export default function FatwasDetails() {
   const { id } = useParams();
@@ -54,6 +59,7 @@ export default function FatwasDetails() {
   const [closePopup, setClosePopup] = useState(false);
   const [subCategoryData, setSubCategory] = useState([]);
   const [state, setQuestionDetails] = useState(null);
+  const [rejectPopup, setRejectPopup] = useState(false);
 
   const [content, setContent] = useState("");
 
@@ -211,6 +217,7 @@ export default function FatwasDetails() {
       reject_reason: state?.reject_reason,
       checked_approved: null,
     };
+
     axios
       .put(`${URLS.question}/${state._id}`, payload)
       .then((res) => {
@@ -222,7 +229,7 @@ export default function FatwasDetails() {
             },
           });
           navigate(-1);
-        }else {
+        } else {
           toast(res.message, {
             onClose: () => {
               setLoader(false);
@@ -355,26 +362,26 @@ export default function FatwasDetails() {
     console.log("Result ===> ", payload);
     console.log("isError ", isError);
 
-    if (!isError.status) {
-      console.log("API is CALLED ");
-      axios
-        .put(`${URLS.question}/${state._id}`, payload)
-        .then((res) => {
-          setLoader(false);
-          console.log("res put accept api", res);
-          if (res?.success) {
-            navigate(
-              `${routerList.admin.admin}/${routerList.admin.adminfatwas}`
-            );
-          }
-        })
-        .catch((err) => {
-          setLoader(false);
-          console.error("Error in profile edit", err);
-        });
-    } else {
-      setLoader(false);
-    }
+    // if (!isError.status) {
+    //   console.log("API is CALLED ");
+    //   axios
+    //     .put(`${URLS.question}/${state._id}`, payload)
+    //     .then((res) => {
+    //       setLoader(false);
+    //       console.log("res put accept api", res);
+    //       if (res?.success) {
+    //         navigate(
+    //           `${routerList.admin.admin}/${routerList.admin.adminfatwas}`
+    //         );
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       setLoader(false);
+    //       console.error("Error in profile edit", err);
+    //     });
+    // } else {
+    //   setLoader(false);
+    // }
   };
 
   console.log("state =====>", state);
@@ -667,9 +674,7 @@ export default function FatwasDetails() {
                             <TextField
                               {...params}
                               label="Verified By"
-                              {...register("Verified", {
-                                required: "Verified By is required",
-                              })}
+                              // {...register("Verified")}
                             />
                           )}
                         />
@@ -773,7 +778,6 @@ export default function FatwasDetails() {
                         alignItems="center"
                       >
                         <Button
-                          type="submit"
                           variant="contained"
                           className="form-btn"
                           onClick={handlePublish}
@@ -795,43 +799,49 @@ export default function FatwasDetails() {
               </Grid>
 
               {/* Rejected */}
-              {state?.status === "Pending" && (
-                <>
-                  <div className="fatwabutton">
-                    <div className="accept-section">
-                      <Button
-                        type="submit"
-                        variant="contained"
-                        className="form-btn accept-btn"
-                        onClick={handleAccept}
-                      >
-                        Accept
-                      </Button>
-                    </div>
-
-                    <DialogComponent
-                      title="Reasons for Rejection"
-                      className="model-section"
-                      // msg="Please select any reason"
-                      mainComponent={<RejectedReasonSection state={state} />}
-                      fullWidth
-                      size="xl"
-                      close={closePopup}
-                    >
-                      <Button
-                        variant="contained"
-                        className="form-btn rejected"
-                        fullWidth
-                        onClick={() => setClosePopup(false)}
-                      >
-                        Reject
-                      </Button>
-                    </DialogComponent>
-                  </div>
-                </>
-              )}
             </div>
           </form>
+          <Grid container justifyContent={"end"} sx={{ p: 2 }}>
+            {state?.status === "Pending" && (
+              <>
+                <div className="fatwabutton">
+                  <Button
+                    variant="contained"
+                    className="form-btn accept-btn"
+                    onClick={handleAccept}
+                  >
+                    Accept
+                  </Button>
+
+                  <Button
+                    variant="contained"
+                    className="form-btn rejected bg-danger ms-4"
+                    onClick={() => setRejectPopup(true)}
+                  >
+                    Reject
+                  </Button>
+                </div>
+              </>
+            )}
+          </Grid>
+          <Dialog
+            fullWidth
+            maxWidth="md"
+            open={rejectPopup}
+            keepMounted
+            onClose={() => setRejectPopup(false)}
+            aria-describedby="alert-dialog-slide-description"
+          >
+            <DialogTitle>Reject question</DialogTitle>
+            <Divider />
+
+            <DialogContent>
+              <RejectedReasonSection
+                state={state}
+                close={() => setRejectPopup(false)}
+              />
+            </DialogContent>
+          </Dialog>
         </Paper>
       )}
     </div>

@@ -71,6 +71,46 @@ export default function AddArticle() {
       language: language,
       title: title,
       articleData: content,
+      status: "Published",
+    };
+
+    axios
+      .post(`${URLS.article}`, payload)
+      .then((res) => {
+        if (res.success) {
+          toast(res.message, {
+            onClose: () => {
+              setLoader(false);
+            },
+          });
+        } else {
+          toast(res.message, {
+            onClose: () => {
+              setLoader(false);
+            },
+          });
+        }
+      })
+      .catch((err) => {
+        setLoader(false);
+        toast("Somthing went wrong, please try again later", {
+          onClose: () => {
+            setLoader(false);
+          },
+        });
+        console.log("Error in Article Add", err);
+      });
+  };
+  const handleDraft = (params) => {
+    setLoader(true);
+    const { mufthi, language, title } = params;
+    const payload = {
+      mufthi: mufthi,
+      language: language,
+      title: title,
+      articleData: content,
+      status: "Drafted",
+      // "Published"
     };
 
     axios
@@ -192,6 +232,16 @@ export default function AddArticle() {
                     className="form-btn"
                     type="submit"
                     fullWidth
+                    onClick={() => handleSubmit()}
+                  >
+                    DRAFT
+                  </Button>
+                  <Button
+                    variant="contained"
+                    className="form-btn"
+                    type="submit"
+                    fullWidth
+                    {...register("submitType")}
                   >
                     SAVE
                   </Button>
