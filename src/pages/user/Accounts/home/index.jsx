@@ -1,37 +1,54 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
-import { Box, Button, Card, Paper, Typography } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Divider,
+  Paper,
+  Typography,
+} from "@mui/material";
 
 import SettingsIcon from "@mui/icons-material/Settings";
 import MessageIcon from "@mui/icons-material/Message";
 import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
-
 import DefaultImg1 from "../../../../assets/images/Minaret.svg";
 
 import UserTab from "../../../../components/UserTab";
 import DialogComponent from "../../../../components/DialogComponent";
 import AskFatwasComponent from "../../Accounts/askFatwas";
-
 import UserProfile from "../profile";
-import "./account.home.styles.scss";
-
 import { URLS } from "../../../../config/urls.config";
 import getQuestionListApi from "../../../../services/getQuestionsList";
 
-const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
+import "./account.home.styles.scss";
+import { addUserLoginDetails } from "../../../../redux/actions";
+
+const AccountHome = ({
+  userLoginDetails,
+  apiTriggeres,
+  addUserLoginDetails,
+}) => {
   const [showImage, setShowImage] = useState(true);
   const [questionCount, setQuestionCount] = useState(0);
   const [answerCount, setAnswerCount] = useState(0);
   const [closePopup, setClosePopup] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
   const [isLoading, setLoader] = useState(false);
+  const [profilePopup, setProfilePopup] = useState(false);
+  const [askPopup, setAskPopup] = useState(false);
+
   const uploadedImage = React.useRef(null);
 
+  const notify = () => toast("Wow so easy!");
+
   useEffect(() => {
-    console.log("777777777",userLoginDetails)
+    console.log("777777777", userLoginDetails);
     setUserDetails(userLoginDetails);
     let params = `?userid=${userLoginDetails?._id}`;
     let params2 = `?status=Published&userid=${userLoginDetails?._id}`;
@@ -56,33 +73,35 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
       });
   }, []);
 
-  useEffect(() => {}, [userLoginDetails],);
+  useEffect(() => {}, [userLoginDetails]);
 
-  const getFileObj = async (file) => {
-    console.log("file", file);
-    let result = await fetch(file)
-      .then((r) => r.blob())
-      .then((blobFile) => {
-        let imageName = file.split("/").pop();
-        let fileExt = imageName.split(".").pop();
-        return new File([blobFile], `${imageName}`, {
-          type: `image/${fileExt}`,
-        });
-      });
-    return result;
-  };
-  
-  const handleImageUpload = e => {
+  const handleImageUpload = (e) => {
+    setLoader(true);
     const [file] = e.target.files;
-    if (file) {
-      const reader = new FileReader();
-      const {current} = uploadedImage;
-      current.file = file;
-      reader.onload = (e) => {
-          current.src = e.target.result;
-      }
-      reader.readAsDataURL(file);
-    }
+    const formData = new FormData();
+    formData.append("user_type", userLoginDetails?.user_type);
+    formData.append("user_status", userLoginDetails?.user_status);
+    formData.append("profile_pic", file);
+
+    axios
+      .put(`${URLS.user}${URLS.signup}/${userLoginDetails?._id}`, formData, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        setLoader(false);
+        if (res?.success) {
+          toast(res.message);
+        } else {
+          toast(res.message);
+        }
+        addUserLoginDetails(res.data);
+      })
+      .catch((err) => {
+        setLoader(false);
+        console.error("Error in profile edit", err);
+      });
   };
   const handleUserDetails = (val, field) => {
     const temp = { ...userDetails };
@@ -116,36 +135,40 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
       });
   };
 
-  const handleImageError = (e) => setShowImage(false);
-
   return (
     <>
       <div className="profile-1 mt-2">
         <div className="container profile-container d-flex py-1 px-5">
           <div className="col d-flex flex-column align-items-center">
             <div className="profile-img">
-              {showImage ? (
-                <span>
-                  <img
-                    src={userLoginDetails?.profile_pic}
-                    ref={uploadedImage}
-                    className="profile-img"
-                    alt="profile images"
-                    onError={handleImageError}
-                  />
-                </span>
-              ) : (
-                <img
-                  className="profile-img"
-                  src={DefaultImg1}
-                  alt="Profile default image"
-                />
-              )}
+              <img
+                src={userLoginDetails?.profile_pic}
+                ref={uploadedImage}
+                className="profile-img"
+                alt="profile images"
+                onError={(e) => (e.target.src = DefaultImg1)}
+                onClick={notify}
+              />
             </div>
             <div className="">
               <div className="row">
                 <div className="col pointer">
-                  <DialogComponent
+                  <Dialog
+                    fullWidth
+                    maxWidth="md"
+                    open={profilePopup}
+                    keepMounted
+                    onClose={() => setProfilePopup(false)}
+                    aria-describedby="alert-dialog-slide-description"
+                  >
+                    <DialogTitle>User Profile</DialogTitle>
+                    <Divider />
+                    <DialogContent>
+                      <UserProfile close={() => setProfilePopup(false)} />
+                    </DialogContent>
+                  </Dialog>
+
+                  {/* <DialogComponent
                     title="User Profile"
                     title2={
                       userLoginDetails?.profileComplete === "Completed"
@@ -154,33 +177,28 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
                     }
                     className="model-section"
                     fullWidth
-                    mainComponent={<UserProfile closePopup={setClosePopup} />}
+                    mainComponent={
+                      <UserProfile close={() => setClosePopup(false)} />
+                    }
                     noBottom
                     size="xl"
                     close={closePopup}
                   >
                     <SettingsIcon className="profile-icons" />
-                  </DialogComponent>
+                  </DialogComponent> */}
+                  <SettingsIcon
+                    className="profile-icons"
+                    onClick={() => setProfilePopup(true)}
+                  />
                 </div>
 
-                {/* <div className="col d-flex align-items-center">
-                  <MessageIcon className="profile-icons" />
-                </div> */}
                 <div className="col">
                   <IconButton
                     color="primary"
                     aria-label="upload picture"
                     component="label"
                   >
-                    <input
-                      hidden
-                      accept="image/*"
-                      type="file"
-                      // onChange={(e) =>
-                      //   handleUserDetails(e.target.files, "profile_pic")
-                      // }
-                      onChange={handleImageUpload}
-                    />
+                    <input hidden type="file" onChange={handleImageUpload} />
                     <PhotoCamera className="profile-icons" />
                   </IconButton>
                 </div>
@@ -223,71 +241,56 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
               </div>
               <div className="row">
                 <div className="col">
-                  <Paper
-                    elevation={1}
-                    // variant="outlined"
-                    // sx={{ padding: 1, margin: "5px 0", textAlign: "center" }}
-                    // className="fw-bold shadow border-0"
-                  >
-                    <Typography variant="subtitle2" className="fw-bold" align="center" p={1}>
+                  <Paper elevation={1}>
+                    <Typography
+                      variant="subtitle2"
+                      className="fw-bold"
+                      align="center"
+                      p={1}
+                    >
                       Fatwas : {questionCount || "N/A"}
                     </Typography>
                   </Paper>
                 </div>
                 <div className="col">
-                  <Paper
-                    elevation={1}
-                    // variant="outlined"
-                    // sx={{ padding: 1, margin: "5px 0", textAlign: "center" }}
-                    // className="fw-bold shadow border-0"
-                  >
-                    <Typography variant="subtitle2"  className="fw-bold" align="center" p={1}>
+                  <Paper elevation={1}>
+                    <Typography
+                      variant="subtitle2"
+                      className="fw-bold"
+                      align="center"
+                      p={1}
+                    >
                       Answered : {answerCount || "N/A"}
                     </Typography>
                   </Paper>
-                  {/* <Card
-                    variant="outlined"
-                    sx={{ padding: 1, margin: "5px 0", textAlign: "center" }}
-                    className="fw-bold shadow border-0"
-                  >
-                  </Card> */}
                 </div>
 
                 <div className="btn-section">
-                  <DialogComponent
-                    title={
-                      userLoginDetails?.profileComplete === "Incomplete"
-                        ? "User Profile"
-                        : "Ask Questions"
-                    }
-                    title2={userLoginDetails?.profileComplete === "Incomplete"}
-                    className="model-section"
+                  <Dialog
                     fullWidth
-                    mainComponent={
-                      userLoginDetails?.profileComplete === "Incomplete" ? (
-                        <UserProfile closePopup={setClosePopup} />
-                      ) : (
-                        <AskFatwasComponent closePopup={setClosePopup} />
-                      )
-                    }
-                    noBottom
-                    size="xl"
-                    close={closePopup}
+                    maxWidth="md"
+                    open={askPopup}
+                    keepMounted
+                    onClose={() => setAskPopup(false)}
+                    aria-describedby="alert-dialog-slide-description"
                   >
-                    <Button
-                      variant="contained"
-                      className="submit-btn"
-                      fullWidth
-                      onClick={() => setClosePopup(false)}
-                    >
-                      Ask Fatwa
-                    </Button>
-                  </DialogComponent>
+                    <DialogTitle>User Profile</DialogTitle>
+                    <Divider />
+                    <DialogContent>
+                      <AskFatwasComponent close={() => setAskPopup(false)} />
+                    </DialogContent>
+                  </Dialog>
+
+                  <Button
+                    variant="contained"
+                    className="submit-btn mt-2"
+                    fullWidth
+                    onClick={() => setAskPopup(true)}
+                  >
+                    Ask Fatwa
+                  </Button>
                 </div>
               </div>
-              {/* <Box component="div" className="row" sx={{ p: 1 }}> */}
-
-              {/* </Box> */}
             </div>
           </div>
         </div>
@@ -301,4 +304,8 @@ const mapStateToProps = (state) => ({
   ...state,
 });
 
-export default connect(mapStateToProps)(AccountHome);
+const mapDispatchToProps = (dispatch) => ({
+  addUserLoginDetails: (payload) => dispatch(addUserLoginDetails(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AccountHome);

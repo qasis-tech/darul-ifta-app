@@ -3,12 +3,16 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store, persistor } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { ToastContainer, toast } from "react-toastify";
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import "react-toastify/dist/ReactToastify.css";
+import "react-toastify/dist/ReactToastify.min.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -20,6 +24,20 @@ root.render(
             clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
           >
             <App />
+            <ToastContainer
+              position="top-right"
+              autoClose={2000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+              // bodyClassName
+              // toastClassName
+            />
           </GoogleOAuthProvider>
         </BrowserRouter>
       </PersistGate>

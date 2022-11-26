@@ -16,19 +16,14 @@ import { addUserLoginDetails } from "../../../../redux/actions";
 import { StoreLocal } from "../../../../utils/localStore";
 
 import "./profile.styles.scss";
+import { toast } from "react-toastify";
 
-const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
+const Profile = ({ close, userLoginDetails, addUserLoginDetails }) => {
   const navigate = useNavigate();
 
   const [userDetails, setUserDetails] = useState(null);
   const [madbahList, setMadbahList] = useState([]);
   const [isLoading, setLoader] = useState(false);
-  const [errorPopup, setError] = useState({
-    visible: false,
-    message: "",
-    type: "error",
-    title: "",
-  });
 
   const {
     register,
@@ -40,7 +35,7 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
     setValue,
     getValues,
   } = useForm({ defaultValues: { madhab: "" } });
-  console.log("Errors:", errors.madhab);
+
   useEffect(() => {
     setUserDetails(userLoginDetails);
     getmadhabList().then((res) => {
@@ -54,22 +49,6 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
     setValue("mobileNumber", userLoginDetails?.phone);
     setValue("address", userLoginDetails?.address);
   }, []);
-
-  const handleUserDetails = (val, field) => {
-    const temp = { ...userDetails };
-    temp[`${field}`] = val;
-    setUserDetails(temp);
-  };
-
-  const handleCloseError = () => {
-    setError({
-      visible: false,
-      message: "",
-      type: "",
-      titile: "",
-    });
-    navigate(0);
-  };
 
   const handleUserUpdate = ({ mobileNumber, address, name, madhab }) => {
     setLoader(true);
@@ -89,27 +68,28 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
       })
       .then((res) => {
         if (res?.success) {
-          setError({
-            visible: true,
-            message: res.message,
-            type: "success",
-            title: "Success",
+          toast(res.message, {
+            onClose: () => {
+              setLoader(false);
+              addUserLoginDetails(res.data);
+              close();
+            },
           });
         } else {
-          setError({
-            visible: true,
-            message: res.message,
-            type: "warning",
-            title: "Warning",
+          toast(res.message, {
+            onClose: () => {
+              setLoader(false);
+            },
           });
         }
-        StoreLocal("@darul-ifta-user-login-details", res.data, () => {
-          addUserLoginDetails(res.data);
-          setLoader(false);
-        });
       })
       .catch((err) => {
         setLoader(false);
+        toast("Somthing went wrong, please try again later", {
+          onClose: () => {
+            setLoader(false);
+          },
+        });
         console.error("Error in profile edit", err);
       });
   };
@@ -117,7 +97,9 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
   return (
     <div>
       {isLoading ? (
-        <Loader skeleton />
+        <div style={{ minHeight: 340 }}>
+          <Loader skeleton />
+        </div>
       ) : (
         <form onSubmit={handleSubmit(handleUserUpdate)}>
           <div className="profile-section">
@@ -133,8 +115,6 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
                     InputLabelProps={{ shrink: userDetails?.name }}
                     {...register("name", {
                       required: "Name is required",
-                      onChange: (e) =>
-                        handleUserDetails(e.target.value, "name"),
                     })}
                   />
                   <div className="error">{errors?.name?.message}</div>
@@ -170,8 +150,6 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
                         value: 10,
                         message: "Mobile Number length must be 10 digit. ",
                       },
-                      onChange: (e) =>
-                        handleUserDetails(e.target.value, "phone"),
                     })}
                   />
 
@@ -214,8 +192,6 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
                     rows={4}
                     {...register("address", {
                       required: "Address is required",
-                      onChange: (e) =>
-                        handleUserDetails(e.target.value, "address"),
                     })}
                   />
                   <div className="error">{errors?.address?.message}</div>
@@ -235,15 +211,6 @@ const Profile = ({ closePopup, userLoginDetails, addUserLoginDetails }) => {
             </div>
           </div>
         </form>
-      )}
-      {errorPopup.visible && (
-        <SnackBar
-          visible={errorPopup.visible}
-          message={errorPopup.message}
-          type={errorPopup.type}
-          title={errorPopup.title}
-          onClose={() => handleCloseError()}
-        />
       )}
     </div>
   );

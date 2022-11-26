@@ -17,12 +17,9 @@ import { triggerApiCallStatus } from "../../../../redux/actions";
 import getSubCategoryList from "../../../../services/getSubCategoryList";
 import { authLogout } from "../../../../routes/auth";
 import routerList from "../../../../routes/routerList";
+import { toast } from "react-toastify";
 
-const AskFatwasComponent = ({
-  closePopup,
-  triggerApiCallStatus,
-  apiTriggeres,
-}) => {
+const AskFatwasComponent = ({ close, triggerApiCallStatus, apiTriggeres }) => {
   const navigate = useNavigate();
 
   const languageList = [
@@ -76,16 +73,6 @@ const AskFatwasComponent = ({
     }
   }, []);
 
-  const handleCloseError = () => {
-    setError({
-      visible: false,
-      message: "",
-      type: "",
-      title: "",
-    });
-    closePopup(true);
-  };
-
   const getCatgoryApi = () => {
     setLoader(true);
     axios
@@ -96,6 +83,13 @@ const AskFatwasComponent = ({
       })
       .catch((err) => {
         setLoader(false);
+        if (err.message === "Network Error") {
+          toast(
+            "Connection cannot establish, Please check your internet connection"
+          );
+        } else {
+          toast(err.message);
+        }
         console.log("error category", err);
       });
   };
@@ -110,11 +104,20 @@ const AskFatwasComponent = ({
       })
       .catch((err) => {
         setLoader(false);
+        if (err.message === "Network Error") {
+          toast(
+            "Connection cannot establish, Please check your internet connection"
+          );
+        } else {
+          toast(err.message);
+        }
         console.log("error madhab", err);
       });
   };
 
   const handleSubmitQuestion = ({ shortQuestion, question }) => {
+    // setLoader(true);
+    console.log("close();", close);
     let category;
     for (let i = 0; i < categoryData.length; i++) {
       let subCat = categoryData[i]?.subCategory;
@@ -127,7 +130,6 @@ const AskFatwasComponent = ({
       }
     }
 
-    setLoader(true);
     let payload = {
       user: userId,
       madhab: selectedMadhab._id,
@@ -137,6 +139,7 @@ const AskFatwasComponent = ({
       question: question,
       language: selectedLanguage.title,
     };
+
     axios
       .post(`${URLS.question}`, payload, {
         headers: {
@@ -144,7 +147,6 @@ const AskFatwasComponent = ({
         },
       })
       .then((res) => {
-        setLoader(false);
         let temp = { ...apiTriggeres };
         temp.userGetQuesList = true;
         if (res?.success) {
@@ -155,21 +157,18 @@ const AskFatwasComponent = ({
           setSelectedLanguage("");
           resetField("shortQuestion");
           resetField("question");
+
           setTimeout(() => {
-            setError({
-              visible: true,
-              message: res.message,
-              type: "success",
-              title: "Success",
+            toast(res.message, {
+              onClose: () => {
+                setLoader(false);
+                close();
+              },
             });
-          }, 1500);
+          }, 500);
         } else {
-          setError({
-            visible: true,
-            message: res.message,
-            type: "warning",
-            title: "Warning",
-          });
+          toast(res.message);
+          setLoader(false);
           if (res?.message === "User not exists..!") {
             authLogout(() => {
               navigate(`${routerList.user.home}`);
@@ -179,6 +178,7 @@ const AskFatwasComponent = ({
       })
       .catch((err) => {
         setLoader(false);
+        toast(err.message);
         console.log("Errors in ask fatwa", err);
       });
   };
@@ -321,15 +321,6 @@ const AskFatwasComponent = ({
             </div>
           </div>
         </form>
-      )}
-      {errorPopup.visible && (
-        <SnackBar
-          visible={errorPopup.visible}
-          message={errorPopup.message}
-          type={errorPopup.type}
-          title={errorPopup.title}
-          onClose={() => handleCloseError()}
-        />
       )}
     </div>
   );
