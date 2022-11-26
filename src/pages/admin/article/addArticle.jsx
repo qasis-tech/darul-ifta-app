@@ -82,6 +82,7 @@ export default function AddArticle() {
               setLoader(false);
             },
           });
+          navigate(-1)
         } else {
           toast(res.message, {
             onClose: () => {

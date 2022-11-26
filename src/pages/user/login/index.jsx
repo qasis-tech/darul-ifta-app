@@ -17,12 +17,11 @@ import "../../../styles/common.styles.scss";
 import "./login.styles.scss";
 import { useNavigate } from "react-router-dom";
 import routerList from "../../../routes/routerList";
-import ButtonComponent from "../../../components/ButtonComponent";
 import { StoreLocal } from "../../../utils/localStore";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Loader from "../../../components/common/Loader";
-import SnackBar from "../../../components/common/Snackbar";
+import { toast } from "react-toastify";
 import { addUserLoginDetails } from "../../../redux/actions";
 
 const Login = (props) => {
@@ -32,13 +31,6 @@ const Login = (props) => {
   const [isLoading, setLoader] = useState(false);
   const [imgSrc, setImgsrc] = useState([]);
 
-  const [errorPopup, setErrorPopup] = useState({
-    visible: false,
-    message: "",
-    type: "error",
-    title: "",
-  });
-
   const {
     register,
     handleSubmit,
@@ -46,27 +38,18 @@ const Login = (props) => {
     formState: { errors },
   } = useForm();
 
-  const setError = (value) => {
-    setErrorPopup(value);
-    setTimeout(() => {
-      setErrorPopup({
-        visible: false,
-        message: "",
-        type: "error",
-        title: "",
-      });
-    }, 3500);
-  };
+  // const setError = (value) => {
+  //   setErrorPopup(value);
+  //   setTimeout(() => {
+  //     setErrorPopup({
+  //       visible: false,
+  //       message: "",
+  //       type: "error",
+  //       title: "",
+  //     });
+  //   }, 3500);
+  // };
 
-  const handleCloseError = () => {
-    setError({
-      ...errorPopup,
-      visible: false,
-      message: "",
-      type: "",
-      titile: "",
-    });
-  };
 
   const handleContinue = ({ email }) => {
     setLoader(true);
@@ -76,18 +59,27 @@ const Login = (props) => {
         console.log("res email", res);
         setLoader(false);
         if (res?.success) {
-          setImgsrc(res?.data);
-          setScreens("password");
+          toast(res.message, {
+            onClose: () => {
+              setImgsrc(res?.data);
+              setScreens("password");
+            },
+          });
         } else {
-          setError({
-            visible: true,
-            message: res.message,
-            type: "error",
+          toast(res.message, {
+            onClose: () => {
+              setLoader(false);
+            },
           });
         }
       })
       .catch((err) => {
         setLoader(false);
+        toast("Somthing went wrong, please try again later", {
+          onClose: () => {
+            setLoader(false);
+          },
+        });
         console.log("error login", err);
       });
   };
@@ -106,28 +98,30 @@ const Login = (props) => {
         setLoader(false);
         console.log("res login", data);
         if (data.success && data.data) {
-          setError({
-            visible: true,
-            message: data.message,
-            type: "success",
-            title: "Success",
+          toast(data.message, {
+            onClose: () => {
+              setLoader(false);
+            },
           });
           StoreLocal("@darul-ifta-user-login-details", data.data, () => {
             props.addUserLoginDetails(data.data);
             navigate(`${routerList.user.accountUser}`);
           });
-        }
-        else {
-          setError({
-            visible: true,
-            message: data.message,
-            type: "warning",
-            title: "Warning",
+        } else {
+          toast(data.message, {
+            onClose: () => {
+              setLoader(false);
+            },
           });
         }
       })
       .catch((err) => {
         setLoader(false);
+        toast("Somthing went wrong, please try again later", {
+          onClose: () => {
+            setLoader(false);
+          },
+        });
         console.log("error login", err);
       });
   };
@@ -169,9 +163,7 @@ const Login = (props) => {
       >
         <div className="formWraper">
           <div className="welcome-section">
-            <div className="welcomeDiv">
-              {/* <h2>Welcome Back!</h2> */}
-            </div>
+            <div className="welcomeDiv">{/* <h2>Welcome Back!</h2> */}</div>
           </div>
 
           <div className="main-div">
@@ -309,14 +301,6 @@ const Login = (props) => {
           </div>
         </div>
       </div>
-
-      <SnackBar
-        visible={errorPopup.visible}
-        message={errorPopup.message}
-        type={errorPopup.type}
-        title={errorPopup.title}
-        onClose={() => handleCloseError()}
-      />
     </section>
   );
 };
@@ -328,4 +312,4 @@ const mapDispatchToProps = (dispatch) => ({
   addUserLoginDetails: (payload) => dispatch(addUserLoginDetails(payload)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

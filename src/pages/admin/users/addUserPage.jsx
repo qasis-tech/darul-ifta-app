@@ -5,30 +5,15 @@ import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { toast } from "react-toastify";
 import * as yup from "yup";
 import "yup-phone";
 import "./adduser.styles.scss";
 
 import { URLS } from "../../../config/urls.config";
 import Loader from "../../../components/common/Loader";
-import SnackBar from "../../../components/common/Snackbar";
 import { Paper } from "@mui/material";
 
-const profileSchema = yup.object().shape({
-  name: yup.string().required("Name is required"),
-  madhab: yup.string().required("Madhab is required"),
-  address: yup.string().required("Address is required"),
-  email: yup.string().required("Email is required"),
-  displayName: yup.string().required("Display Name is required"),
-  password: yup.string().required("Password is required"),
-  status: yup.string().required("Status is required"),
-  mobileNumber: yup
-    .string()
-    .phone("IN", true, "Mobile Number is invalid")
-    .required(),
-});
 export default function AddUser() {
   const [madhabData, setMadhabData] = useState([]);
   const [selectedMadhab, setSelectedMadhab] = useState([]);
@@ -48,12 +33,6 @@ export default function AddUser() {
     { label: "User", value: "user" },
   ];
 
-  const [errorPopup, setError] = useState({
-    visible: false,
-    message: "",
-    type: "error",
-    title: "",
-  });
   const {
     register,
     handleSubmit,
@@ -73,16 +52,6 @@ export default function AddUser() {
     if (user) setUserToken(user.initial_token);
   }, []);
 
-  const handleCloseError = () => {
-    setError({
-      visible: false,
-      message: "",
-      type: "",
-      titile: "",
-    });
-    navigate(-1);
-  };
-
   const getmadhabApi = () => {
     setLoader(true);
     axios
@@ -96,12 +65,6 @@ export default function AddUser() {
         console.log("error madhab", err);
         setMadhabData([]);
       });
-  };
-
-  const handleUserDetails = (val, field) => {
-    const temp = { ...userDetails };
-    temp[`${field}`] = val;
-    setUserDetails(temp);
   };
 
   const handleSave = ({
@@ -135,26 +98,29 @@ export default function AddUser() {
         },
       })
       .then((res) => {
-        setLoader(false);
         console.log("res user save ===>>", res);
         if (res?.success) {
-          setError({
-            visible: true,
-            message: res.message,
-            type: "success",
-            title: "Success",
+          toast(res.message, {
+            onClose: () => {
+              setLoader(false);
+            },
           });
+          navigate(-1)
         } else {
-          setError({
-            visible: true,
-            message: res.message,
-            type: "warning",
-            title: "Warning",
+          toast(res.message, {
+            onClose: () => {
+              setLoader(false);
+            },
           });
         }
       })
       .catch((err) => {
         setLoader(false);
+        toast("Somthing went wrong, please try again later", {
+          onClose: () => {
+            setLoader(false);
+          },
+        });
         console.log("Errors in user save", err);
       });
   };
@@ -364,16 +330,6 @@ export default function AddUser() {
               </div>
             </div>
           </form>
-
-          {errorPopup.visible && (
-            <SnackBar
-              visible={errorPopup.visible}
-              message={errorPopup.message}
-              type={errorPopup.type}
-              title={errorPopup.title}
-              onClose={() => handleCloseError()}
-            />
-          )}
         </div>
         </Paper>
       )}

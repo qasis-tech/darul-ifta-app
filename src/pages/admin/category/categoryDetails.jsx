@@ -18,6 +18,7 @@ import { toast } from "react-toastify";
 
 export default function CategoryDetails() {
   const navigate = useNavigate();
+
   const [categoryList, setCategoryList] = useState([]);
   const [categoryDetails, setCategoryDetails] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -93,6 +94,7 @@ export default function CategoryDetails() {
               setLoader(false);
             },
           });
+          navigate(-1);
         } else {
           toast(res.message, {
             onClose: () => {
@@ -130,58 +132,58 @@ export default function CategoryDetails() {
         <Loader absolute />
       ) : (
         <Container maxWidth="md">
-        <Paper elevation={2} className="add-category-section">
-          <form onSubmit={handleSubmit(handleCreate)}>
-            <div className="add-category-container">
-              <div className="add-category-row align-items-start">
-                <div className="col-md-12">
-                  <TextField
-                    type="text"
-                    label="Category"
-                    fullWidth
-                    size="small"
-                    value={categoryDetails?.category}
-                    onChange={(e) => handleCategory(e.target.value)}
-                  />
+          <Paper elevation={2} className="add-category-section">
+            <form onSubmit={handleSubmit(handleCreate)}>
+              <div className="add-category-container">
+                <div className="add-category-row align-items-start">
+                  <div className="col-md-12">
+                    <TextField
+                      type="text"
+                      label="Category"
+                      fullWidth
+                      size="small"
+                      value={categoryDetails?.category}
+                      onChange={(e) => handleCategory(e.target.value)}
+                    />
 
-                  {!selectedCategory?.category && (
-                    <div className="error">{errors?.category?.message}</div>
-                  )}
-                </div>
+                    {!selectedCategory?.category && (
+                      <div className="error">{errors?.category?.message}</div>
+                    )}
+                  </div>
                   {categoryDetails?.subCategory?.length &&
                     categoryDetails?.subCategory.map((item, index) => {
                       return (
                         <div className="col-md-12 subcategory mt-4">
-                        <TextField
-                        className="me-3"
-                          type="text"
-                          fullWidth
-                          label="Subcategory"
-                          size="small"
-                          value={item?.label}
-                          onChange={(e) =>
-                            handleSubCategory(e.target.value, index)
-                          }
-                        />
-                </div>
+                          <TextField
+                            className="me-3"
+                            type="text"
+                            fullWidth
+                            label="Subcategory"
+                            size="small"
+                            value={item?.label}
+                            onChange={(e) =>
+                              handleSubCategory(e.target.value, index)
+                            }
+                          />
+                        </div>
                       );
                     })}
-              </div>
-              <div className="btn-row">
-                <div className="col-md-1">
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    className="form-btn"
-                    fullWidth
-                  >
-                    {startCase("Update")}
-                  </Button>
+                </div>
+                <div className="btn-row">
+                  <div className="col-md-1">
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      className="form-btn"
+                      fullWidth
+                    >
+                      {startCase("Update")}
+                    </Button>
+                  </div>
                 </div>
               </div>
-            </div>
-          </form>
-        </Paper>
+            </form>
+          </Paper>
         </Container>
       )}
     </>

@@ -19,7 +19,7 @@ import getCategoryListApi from "../../../services/getCategoryList";
 import getmadhabList from "../../../services/getMadhabList";
 import SnackBar from "../../../components/common/Snackbar";
 import { URLS } from "../../../config/urls.config";
-
+import { toast } from "react-toastify";
 import "./fatwas.details.styles.scss";
 import Loader from "../../../components/common/Loader";
 import DialogComponent from "../../../components/DialogComponent";
@@ -56,13 +56,6 @@ export default function FatwasDetails() {
   const [state, setQuestionDetails] = useState(null);
 
   const [content, setContent] = useState("");
-
-  const [errorPopup, setError] = useState({
-    visible: false,
-    message: "",
-    type: "error",
-    title: "",
-  });
 
   const languageList = [
     { id: 1, title: "English" },
@@ -132,16 +125,6 @@ export default function FatwasDetails() {
         });
     }
   }, []);
-
-  const handleCloseError = () => {
-    setError({
-      visible: false,
-      message: "",
-      type: "",
-      titile: "",
-    });
-    navigate(-1);
-  };
 
   const getCategory = () => {
     setLoader(true);
@@ -231,14 +214,29 @@ export default function FatwasDetails() {
     axios
       .put(`${URLS.question}/${state._id}`, payload)
       .then((res) => {
-        setLoader(false);
         console.log("res put accept api", res);
         if (res?.success) {
+          toast(res.message, {
+            onClose: () => {
+              setLoader(false);
+            },
+          });
           navigate(-1);
+        }else {
+          toast(res.message, {
+            onClose: () => {
+              setLoader(false);
+            },
+          });
         }
       })
       .catch((err) => {
         setLoader(false);
+        toast("Somthing went wrong, please try again later", {
+          onClose: () => {
+            setLoader(false);
+          },
+        });
         console.error("Error in profile edit", err);
       });
   };
@@ -835,15 +833,6 @@ export default function FatwasDetails() {
             </div>
           </form>
         </Paper>
-      )}
-      {errorPopup.visible && (
-        <SnackBar
-          visible={errorPopup.visible}
-          message={errorPopup.message}
-          type={errorPopup.type}
-          title={errorPopup.title}
-          onClose={() => handleCloseError()}
-        />
       )}
     </div>
   );

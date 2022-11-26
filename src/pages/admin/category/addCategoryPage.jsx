@@ -17,6 +17,9 @@ import SnackBar from "../../../components/common/Snackbar";
 import { toast } from "react-toastify";
 
 export default function AddCategories() {
+
+  const navigate = useNavigate();
+
   const [categoryList, setCategoryList] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState([]);
   const [selectedSubCategory, setSelectedSubCategory] = useState([]);
@@ -82,6 +85,7 @@ export default function AddCategories() {
               setLoader(false);
             },
           });
+          navigate(-1)
         } else {
           toast(res.message, {
             onClose: () => {

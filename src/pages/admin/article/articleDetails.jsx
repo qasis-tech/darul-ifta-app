@@ -20,7 +20,7 @@ import { toast } from "react-toastify";
 import Loader from "../../../components/common/Loader";
 import TextEditor from "../../../components/RichTextEditor";
 
-export default function ArticleDetails(close) {
+export default function ArticleDetails() {
   const navigate = useNavigate();
 
   const [mufthiData, setMufthiData] = useState([]);
@@ -112,9 +112,9 @@ export default function ArticleDetails(close) {
           toast(res.message, {
             onClose: () => {
               setLoader(false);
-              close();
             },
           });
+          navigate(-1)
         } else {
           toast(res.message, {
             onClose: () => {

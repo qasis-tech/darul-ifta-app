@@ -6,30 +6,14 @@ import { useParams } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import "yup-phone";
 import "./adduser.styles.scss";
 
 import { URLS } from "../../../config/urls.config";
 import Loader from "../../../components/common/Loader";
 import SnackBar from "../../../components/common/Snackbar";
 import { Paper } from "@mui/material";
+import { toast } from "react-toastify";
 
-// const profileSchema = yup.object().shape({
-//   name: yup.string().required("Name is required"),
-//   madhab: yup.string().required("Madhab is required"),
-//   address: yup.string().required("Address is required"),
-//   email: yup.string().required("Email is required"),
-//   displayName: yup.string().required("Display Name is required"),
-//   password: yup.string().required("Password is required"),
-//   status: yup.string().required("Status is required"),
-//   mobileNumber: yup
-//     .string()
-//     .phone("IN", true, "Mobile Number is invalid")
-//     .required(),
-// });
 
 export default function UserDetails() {
   const [madhabData, setMadhabData] = useState([]);
@@ -40,13 +24,6 @@ export default function UserDetails() {
   const [userToken, setUserToken] = useState([]);
   const [userData, setUserData] = useState([]);
   const [isLoading, setLoader] = useState(false);
-  const [errorPopup, setError] = useState({
-    visible: false,
-    message: "",
-    type: "error",
-    title: "",
-  });
-
   const roles = [
     { label: "Mufthi", value: "mufti" },
     { label: "Student", value: "student" },
@@ -80,16 +57,6 @@ export default function UserDetails() {
       setUserToken(user.initial_token);
     }
   }, []);
-
-  const handleCloseError = () => {
-    setError({
-      visible: false,
-      message: "",
-      type: "",
-      titile: "",
-    });
-    navigate(-1);
-  };
 
   const getmadhabApi = () => {
     setLoader(true);
@@ -149,23 +116,27 @@ export default function UserDetails() {
         setLoader(false);
         console.log("res user save ===>>", res);
         if (res?.success) {
-          setError({
-            visible: true,
-            message: res.message,
-            type: "success",
-            title: "Success",
+          toast(res.message, {
+            onClose: () => {
+              setLoader(false);
+            },
           });
+          navigate(-1);
         } else {
-          setError({
-            visible: true,
-            message: res.message,
-            type: "warning",
-            title: "Warning",
+          toast(res.message, {
+            onClose: () => {
+              setLoader(false);
+            },
           });
         }
       })
       .catch((err) => {
         setLoader(false);
+        toast("Somthing went wrong, please try again later", {
+          onClose: () => {
+            setLoader(false);
+          },
+        });
         console.log("Errors in user save", err);
       });
   };
@@ -404,16 +375,6 @@ export default function UserDetails() {
               </div>
             </div>
           </form>
-
-          {errorPopup.visible && (
-            <SnackBar
-              visible={errorPopup.visible}
-              message={errorPopup.message}
-              type={errorPopup.type}
-              title={errorPopup.title}
-              onClose={() => handleCloseError()}
-            />
-          )}
         </Paper>
       )}
     </>
