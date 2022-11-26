@@ -31,6 +31,7 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
   const uploadedImage = React.useRef(null);
 
   useEffect(() => {
+    console.log("777777777",userLoginDetails)
     setUserDetails(userLoginDetails);
     let params = `?userid=${userLoginDetails?._id}`;
     let params2 = `?status=Published&userid=${userLoginDetails?._id}`;
@@ -55,7 +56,7 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
       });
   }, []);
 
-  useEffect(() => {}, [userLoginDetails]);
+  useEffect(() => {}, [userLoginDetails],);
 
   const getFileObj = async (file) => {
     console.log("file", file);
@@ -99,7 +100,7 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
     formData.append("address", userLoginDetails?.address);
     formData.append("street_address", userLoginDetails?.address);
     formData.append("pin_code", userLoginDetails?.pin_code);
-    formData.append("profile_pic", val[0]);
+    formData.append("profile_pic", userLoginDetails?.profile_pic);
 
     axios
       .put(`${URLS.user}${URLS.signup}/${userLoginDetails._id}`, formData, {
@@ -126,7 +127,7 @@ const AccountHome = ({ userLoginDetails, apiTriggeres }) => {
               {showImage ? (
                 <span>
                   <img
-                    // src={userLoginDetails?.profile_pic}
+                    src={userLoginDetails?.profile_pic}
                     ref={uploadedImage}
                     className="profile-img"
                     alt="profile images"
