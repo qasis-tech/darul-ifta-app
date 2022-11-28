@@ -55,6 +55,7 @@
                 align-content: center;
                 @media screen and (max-width:1000px) {
                     padding: 0!important;
+                    display: none;
                 }
                 .main{
                     font-family: $footer-font-style!important;
