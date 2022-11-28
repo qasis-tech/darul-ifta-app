@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 import { toast } from "react-toastify";
@@ -83,10 +83,10 @@ export default function FatwasDetails() {
   const {
     register,
     handleSubmit,
-    watch,
+    control,
+    setValue,
     formState: { errors },
   } = useForm();
-
   useEffect(() => {
     getCategory();
     getSubcategory();
@@ -104,10 +104,16 @@ export default function FatwasDetails() {
           setSelectedCategory(res.data?.category[0]);
           setSelectedSubCategory(res.data?.sub_category);
           setSelectedMadhab(res.data?.madhab);
-
-          setSelectedLanguage(
-            languageList.filter((fl) => fl.title === res?.data?.language)[0]
+      
+          // setSelectedLanguage(
+          //   languageList.filter((fl) => fl.title === res?.data?.language)[0]
+          // );
+          let index1 = languageList.findIndex(
+            (fl) => fl.title === res?.data?.language
           );
+          if (index1 !== -1) {
+            setValue("language", languageList[index1]);
+          }
           setShortQuestion(res.data?.short_question);
           setLongQuestion(res.data?.question);
           setSelectedMufthi(res.data?.mufti);
@@ -270,7 +276,9 @@ export default function FatwasDetails() {
       });
   };
 
-  const handlePublish = () => {
+  const handlePublish = (params) => {
+    console.log("clickedddd",params)
+    const {  language} = params;
     setLoader(true);
 
     let payload = {
@@ -279,7 +287,7 @@ export default function FatwasDetails() {
       sub_category: selectedSubCategory,
       short_question: shortQuestion,
       question: longQuestion,
-      language: selectedLanguage?.title,
+      language: language?.title,
       status: state.status,
       answer: content,
       reference: referenceList,
@@ -292,6 +300,7 @@ export default function FatwasDetails() {
       reject_by: state?.reject_by,
       mufti_answered: state?.mufti_answered,
       reject_reason: state?.reject_reason,
+      assigned_to:state?.assigned_to
     };
 
     let isError = { status: false, message: "" };
@@ -454,33 +463,37 @@ export default function FatwasDetails() {
             <div className="fatwas-details-container">
               <div className="fatwas-details-row">
                 <div className="col-md-4 first-col">
-                  <Autocomplete
-                    id="languages"
-                    size="small"
-                    fullWidth
-                    options={languageList}
-                    getOptionLabel={(option) => option?.title || ""}
-                    value={selectedLanguage}
-                    disabled={
-                      state?.status === "Rejected" ||
-                      state?.status === "Pending"
-                    }
-                    onChange={(event, newValue) =>
-                      setSelectedLanguage(newValue)
-                    }
-                    isOptionEqualToValue={(option, value) =>
-                      option?.id === value?.id
-                    }
-                    renderInput={(params) => (
-                      <TextField {...params} label="Language" />
+                <Controller
+                      control={control}
+                      name="language"
+                      rules={{ required: true }}
+                      render={({ field: { onChange, value } }) => (
+                        <Autocomplete
+                          id="language"
+                          size="small"
+                          options={languageList}
+                          getOptionLabel={(option) => option.title || ""}
+                          isOptionEqualToValue={(option, value) =>
+                            option.id === value.id
+                          }
+                          value={value}
+                          onChange={(e, val) => onChange(val)}
+                          renderInput={(params) => (
+                            <TextField {...params} label="Language" />
+                          )}
+                        />
+                      )}
+                    />
+                    {errors?.language && (
+                      <div className="error py-1">Language is required</div>
                     )}
-                  />
-
-                  {!selectedLanguage?.title && (
-                    <div className="error">{errors?.language?.message}</div>
-                  )}
                 </div>
                 <div className="col-md-4 ">
+                <Controller
+                    control={control}
+                    name="category"
+                    rules={{ required: true, message: "Category is required" }}
+                    render={({ field: { onChange, value } }) => (
                   <Autocomplete
                     id="subCategory"
                     size="small"
@@ -507,32 +520,41 @@ export default function FatwasDetails() {
                       />
                     )}
                   />
+                  )}
+                  />
+                  {errors.category && (
+                    <div className="error">Category is required</div>
+                  )}
                 </div>
                 <div className="col-md-4  second-col">
-                  <Autocomplete
-                    id="madhabList"
-                    size="small"
-                    value={selectedMadhab}
-                    fullWidth
-                    disabled={
-                      state?.status === "Rejected" ||
-                      state?.status === "Pending"
-                    }
-                    onChange={(event, newValue) => {
-                      setSelectedMadhab(newValue);
-                    }}
-                    options={madhabData}
-                    getOptionLabel={(option) => option?.title || ""}
-                    isOptionEqualToValue={(option, value) =>
-                      option?._id === value?._id
-                    }
-                    renderInput={(params) => (
-                      <TextField {...params} label="Madhab" />
+                  <Controller
+                    control={control}
+                    name="madhab"
+                    rules={{ required: true, message: "madhab is required" }}
+                    render={({ field: { onChange, value } }) => (
+                      <Autocomplete
+                        id="madhabList"
+                        size="small"
+                        value={selectedMadhab}
+                        fullWidth
+                        disabled={
+                          state?.status === "Rejected" ||
+                          state?.status === "Pending"
+                        }
+                        onChange={(e, val) => onChange(val)}
+                        options={madhabData}
+                        getOptionLabel={(option) => option?.title || ""}
+                        isOptionEqualToValue={(option, value) =>
+                          option?._id === value?._id
+                        }
+                        renderInput={(params) => (
+                          <TextField {...params} label="Madhab" />
+                        )}
+                      />
                     )}
                   />
-
-                  {!selectedMadhab?.title && (
-                    <div className="error">{errors?.madhab?.message}</div>
+                  {errors.madhab && (
+                    <div className="error">madhab is required</div>
                   )}
                 </div>
               </div>
@@ -552,6 +574,9 @@ export default function FatwasDetails() {
                           state?.status === "Rejected" ||
                           state?.status === "Pending"
                         }
+                        {...register("shortQuestion", {
+                          required: "Short Question is required",
+                        })}
                       />
                       <div className="error">
                         {errors?.shortQuestion?.message}
@@ -576,6 +601,9 @@ export default function FatwasDetails() {
                           state?.status === "Rejected" ||
                           state?.status === "Pending"
                         }
+                        {...register("longQuestion", {
+                          required: "Long Question is required",
+                        })}
                       />
                       <div className="error">
                         {errors?.longQuestion?.message}
@@ -588,35 +616,39 @@ export default function FatwasDetails() {
                 <>
                   <div className="fatwas-details-row written-section">
                     <div className="col-md-3">
-                      <Autocomplete
-                        id="controllable-states-demo"
-                        size="small"
-                        value={selectedMufthi || ""}
-                        fullWidth
-                        options={mufthiList?.filter(
-                          (fl) =>
-                            fl?._id !== selectedMufthiVerified?._id &&
-                            fl?._id !== selectedCheckedAndApprove?._id
-                        )}
-                        onChange={(event, newValue) => {
-                          setSelectedMufthi(newValue);
+                      <Controller
+                        control={control}
+                        name="assignedTo"
+                        rules={{
+                          required: true,
+                          message: "Assigned To is required",
                         }}
-                        getOptionLabel={(option) => option?.name || ""}
-                        isOptionEqualToValue={(option, value) =>
-                          option._id === value._id
-                        }
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            label="Assigned To"
-                            {...register("assigned", {
-                              required: "Assigned To is required",
-                            })}
+                        render={({ field: { onChange, value } }) => (
+                          <Autocomplete
+                            id="controllable-states-demo"
+                            size="small"
+                            value={value}
+                            fullWidth
+                            options={mufthiList?.filter(
+                              (fl) =>
+                                fl?._id !== selectedMufthiVerified?._id &&
+                                fl?._id !== selectedCheckedAndApprove?._id
+                            )}
+                            onChange={(event, newValue) => {
+                              setSelectedMufthi(newValue);
+                            }}
+                            getOptionLabel={(option) => option?.name || ""}
+                            isOptionEqualToValue={(option, value) =>
+                              option._id === value._id
+                            }
+                            renderInput={(params) => (
+                              <TextField {...params} label="Assigned To" />
+                            )}
                           />
                         )}
                       />
-                      {!selectedMufthi?.name && (
-                        <div className="error">{errors?.assigned?.message}</div>
+                      {errors.assignedTo && (
+                        <div className="error">Assigned To is required</div>
                       )}
                     </div>
 
