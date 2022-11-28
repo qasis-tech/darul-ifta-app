@@ -261,7 +261,12 @@ export default function Dashboard() {
                       ) : (
                         <TableRow>
                           <TableCell colSpan={7}>
-                            <NoDataAvailable noStyle />
+                            <div
+                              className="d-flex justify-content-center align-items-center"
+                              style={{ minHeight: "80px" }}
+                            >
+                              <NoDataAvailable noStyle noBg />
+                            </div>
                           </TableCell>
                         </TableRow>
                       )}

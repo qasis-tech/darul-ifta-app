@@ -122,7 +122,12 @@ export default function Article() {
                     ) : (
                       <TableRow>
                         <TableCell colSpan={5}>
-                          <NoDataAvailable />
+                          <div
+                            className="d-flex justify-content-center align-items-center"
+                            style={{ minHeight: "80px" }}
+                          >
+                            <NoDataAvailable noStyle noBg />
+                          </div>
                         </TableCell>
                       </TableRow>
                     )}
