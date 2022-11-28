@@ -114,9 +114,9 @@ export default function FatwasDetails() {
 
           setValue("shortQuestion", res.data?.short_question);
           setValue("longQuestion", res.data?.question);
-          setSelectedMufthi(res.data?.mufti);
+          setValue("assignedTo", res.data?.assignedTo?.display_title);
           setSelectedMufthiVerified(res.data?.verifier);
-          setSelectedCheckedAndApprove(res?.data?.checked_approved);
+          setValue("checkedAndApproved", res?.data?.checked_approved);
 
           setContent(res?.data?.answer);
           setSelectedMufthi(res?.data?.mufti);
@@ -276,7 +276,15 @@ export default function FatwasDetails() {
 
   const handlePublish = (params) => {
     console.log("clickedddd", params);
-    const { language, longQuestion, shortQuestion, madhab, category ,verifier} = params;
+    const {
+      language,
+      longQuestion,
+      shortQuestion,
+      madhab,
+      category,
+      verifier,
+      assignedTo,
+    } = params;
     setLoader(true);
 
     let payload = {
@@ -293,12 +301,11 @@ export default function FatwasDetails() {
       verified_date: state?.verified_date,
       answered_by: state?.answered_by,
       verified_by: state?.verified_by,
-      mufti: selectedMufthi,
+      mufti: assignedTo?.display_title,
       verifier: verifier,
       reject_by: state?.reject_by,
       mufti_answered: state?.mufti_answered,
       reject_reason: state?.reject_reason,
-      assigned_to: state?.assigned_to,
     };
 
     let isError = { status: false, message: "" };
@@ -476,7 +483,11 @@ export default function FatwasDetails() {
                         value={value}
                         onChange={(e, val) => onChange(val)}
                         renderInput={(params) => (
-                          <TextField {...params} label="Language" />
+                          <TextField
+                            {...params}
+                            label="Language"
+                            InputLabelProps={{ shrink: true }}
+                          />
                         )}
                       />
                     )}
@@ -511,6 +522,7 @@ export default function FatwasDetails() {
                           <TextField
                             {...params}
                             label="Category"
+                            InputLabelProps={{ shrink: true }}
                             disabled={state?.status === "rejected"}
                           />
                         )}
@@ -543,7 +555,11 @@ export default function FatwasDetails() {
                         value={value}
                         onChange={(e, val) => onChange(val)}
                         renderInput={(params) => (
-                          <TextField {...params} label="Madhab" />
+                          <TextField
+                            {...params}
+                            label="Madhab"
+                            InputLabelProps={{ shrink: true }}
+                          />
                         )}
                       />
                     )}
@@ -569,6 +585,7 @@ export default function FatwasDetails() {
                           state?.status === "Rejected" ||
                           state?.status === "Pending"
                         }
+                        InputLabelProps={{ shrink: true }}
                         {...register("shortQuestion", {
                           required: "Short Question is required",
                         })}
@@ -596,6 +613,7 @@ export default function FatwasDetails() {
                           state?.status === "Rejected" ||
                           state?.status === "Pending"
                         }
+                        InputLabelProps={{ shrink: true }}
                         {...register("longQuestion", {
                           required: "Long Question is required",
                         })}
@@ -634,54 +652,68 @@ export default function FatwasDetails() {
                             value={value}
                             onChange={(e, newValue) => onChange(newValue)}
                             renderInput={(params) => (
-                              <TextField {...params} label="Assigned To" />
+                              <TextField
+                                {...params}
+                                label="Assigned To"
+                                InputLabelProps={{ shrink: true }}
+                              />
                             )}
                           />
                         )}
                       />
                       {errors.assignedTo && (
-                        <div className="error"> Assigned Mufthi is required</div>
+                        <div className="error">
+                          {" "}
+                          Assigned Mufthi is required
+                        </div>
                       )}
                     </div>
 
                     {selectedMufthi?.user_type === "Student" && (
                       <div className="col-md-3">
                         <Controller
-                      control={control}
-                      name="checkedAndApproved"
-                      rules={{ required: true }}
-                      render={({ field: { onChange, value } }) => (
-                        <Autocomplete
-                          id="controllable-states-demo"
-                          size="small"
-                          value={selectedCheckedAndApprove || ""}
-                          fullWidth
-                          options={mufthiList?.filter(
-                            (fl) =>
-                              fl?._id !== selectedMufthiVerified?._id &&
-                              fl?._id !== selectedMufthi?._id
+                          control={control}
+                          name="checkedAndApproved"
+                          rules={{ required: true }}
+                          render={({ field: { onChange, value } }) => (
+                            <Autocomplete
+                              id="controllable-states-demo"
+                              size="small"
+                              value={selectedCheckedAndApprove || ""}
+                              fullWidth
+                              options={mufthiList?.filter(
+                                (fl) =>
+                                  fl?._id !== selectedMufthiVerified?._id &&
+                                  fl?._id !== selectedMufthi?._id
+                              )}
+                              // onChange={(event, newValue) => {
+                              //   setSelectedCheckedAndApprove(newValue);
+                              // }}
+                              onChange={(e, newValue) => onChange(newValue)}
+                              getOptionLabel={(option) => option?.name || ""}
+                              isOptionEqualToValue={(option, value) =>
+                                option._id === value._id
+                              }
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  label="Checked & Approve"
+                                  InputLabelProps={{ shrink: true }}
+                                />
+                              )}
+                            />
                           )}
-                          // onChange={(event, newValue) => {
-                          //   setSelectedCheckedAndApprove(newValue);
-                          // }}
-                          getOptionLabel={(option) => option?.name || ""}
-                          isOptionEqualToValue={(option, value) =>
-                            option._id === value._id
-                          }
-                          renderInput={(params) => (
-                            <TextField {...params} label="Checked & Approve" />
-                          )}
-                        />
-                        )}
                         />
                         {/* {errors.assignedTo && (
                         <p className="text-danger">
                           {errors.assignedTo.message}
                         </p>
                       )} */}
-                      {errors?.checkedAndApproved && (
-                      <div className="error py-1">checked and approved is required</div>
-                    )}
+                        {errors?.checkedAndApproved && (
+                          <div className="error py-1">
+                            checked and approved is required
+                          </div>
+                        )}
                       </div>
                     )}
                     {state?.status !== "Received to Darul Ifta" && (
@@ -715,6 +747,7 @@ export default function FatwasDetails() {
                                 <TextField
                                   {...params}
                                   label="Verified By"
+                                  InputLabelProps={{ shrink: true }}
                                   // {...register("Verified")}
                                 />
                               )}
@@ -722,8 +755,8 @@ export default function FatwasDetails() {
                           )}
                         />
                         {errors?.verifiedBy && (
-                      <div className="error py-1">Mufthi is required</div>
-                    )}
+                          <div className="error py-1">Mufthi is required</div>
+                        )}
                       </div>
                     )}
                   </div>
