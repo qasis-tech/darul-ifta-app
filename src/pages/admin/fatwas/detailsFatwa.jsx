@@ -102,20 +102,18 @@ export default function FatwasDetails() {
 
           setQuestionDetails(res.data);
           setSelectedCategory(res.data?.category[0]);
-          setSelectedSubCategory(res.data?.sub_category);
-          setSelectedMadhab(res.data?.madhab);
-      
-          // setSelectedLanguage(
-          //   languageList.filter((fl) => fl.title === res?.data?.language)[0]
-          // );
+          setValue("category", res.data?.sub_category);
+          setValue("madhab", res.data?.madhab);
+
           let index1 = languageList.findIndex(
             (fl) => fl.title === res?.data?.language
           );
           if (index1 !== -1) {
             setValue("language", languageList[index1]);
           }
-          setShortQuestion(res.data?.short_question);
-          setLongQuestion(res.data?.question);
+
+          setValue("shortQuestion", res.data?.short_question);
+          setValue("longQuestion", res.data?.question);
           setSelectedMufthi(res.data?.mufti);
           setSelectedMufthiVerified(res.data?.verifier);
           setSelectedCheckedAndApprove(res?.data?.checked_approved);
@@ -277,14 +275,14 @@ export default function FatwasDetails() {
   };
 
   const handlePublish = (params) => {
-    console.log("clickedddd",params)
-    const {  language} = params;
+    console.log("clickedddd", params);
+    const { language, longQuestion, shortQuestion, madhab, category } = params;
     setLoader(true);
 
     let payload = {
-      madhab: selectedMadhab,
+      madhab: madhab,
       category: selectedCategory,
-      sub_category: selectedSubCategory,
+      sub_category: category,
       short_question: shortQuestion,
       question: longQuestion,
       language: language?.title,
@@ -300,7 +298,7 @@ export default function FatwasDetails() {
       reject_by: state?.reject_by,
       mufti_answered: state?.mufti_answered,
       reject_reason: state?.reject_reason,
-      assigned_to:state?.assigned_to
+      assigned_to: state?.assigned_to,
     };
 
     let isError = { status: false, message: "" };
@@ -310,6 +308,7 @@ export default function FatwasDetails() {
       payload.answer = null;
       payload.mufti = null;
       payload.reference = null;
+      payload.status = "Received to Darul Ifta";
     } else if (state?.status === "Received to Darul Ifta") {
       payload.verifier = null;
       payload.answer = null;
@@ -370,26 +369,20 @@ export default function FatwasDetails() {
     console.log("Result ===> ", payload);
     console.log("isError ", isError);
 
-    if (!isError.status) {
-      console.log("API is CALLED ");
-      axios
-        .put(`${URLS.question}/${state._id}`, payload)
-        .then((res) => {
-          setLoader(false);
-          console.log("res put accept api", res);
-          if (res?.success) {
-            navigate(
-              `${routerList.admin.admin}/${routerList.admin.adminfatwas}`
-            );
-          }
-        })
-        .catch((err) => {
-          setLoader(false);
-          console.error("Error in profile edit", err);
-        });
-    } else {
-      setLoader(false);
-    }
+    console.log("API is CALLED ");
+    axios
+      .put(`${URLS.question}/${state._id}`, payload)
+      .then((res) => {
+        setLoader(false);
+        console.log("res put accept api", res);
+        if (res?.success) {
+          navigate(`${routerList.admin.admin}/${routerList.admin.adminfatwas}`);
+        }
+      })
+      .catch((err) => {
+        setLoader(false);
+        console.error("Error in profile edit", err);
+      });
   };
 
   console.log("state =====>", state);
@@ -463,64 +456,66 @@ export default function FatwasDetails() {
             <div className="fatwas-details-container">
               <div className="fatwas-details-row">
                 <div className="col-md-4 first-col">
-                <Controller
-                      control={control}
-                      name="language"
-                      rules={{ required: true }}
-                      render={({ field: { onChange, value } }) => (
-                        <Autocomplete
-                          id="language"
-                          size="small"
-                          options={languageList}
-                          getOptionLabel={(option) => option.title || ""}
-                          isOptionEqualToValue={(option, value) =>
-                            option.id === value.id
-                          }
-                          value={value}
-                          onChange={(e, val) => onChange(val)}
-                          renderInput={(params) => (
-                            <TextField {...params} label="Language" />
-                          )}
-                        />
-                      )}
-                    />
-                    {errors?.language && (
-                      <div className="error py-1">Language is required</div>
-                    )}
-                </div>
-                <div className="col-md-4 ">
-                <Controller
+                  <Controller
                     control={control}
-                    name="category"
-                    rules={{ required: true, message: "Category is required" }}
+                    name="language"
+                    rules={{ required: true }}
                     render={({ field: { onChange, value } }) => (
-                  <Autocomplete
-                    id="subCategory"
-                    size="small"
-                    fullWidth
-                    multiple
-                    disabled={
-                      state?.status === "Rejected" ||
-                      state?.status === "Pending"
-                    }
-                    options={subCategoryData || null}
-                    getOptionLabel={(option) => option?.label || ""}
-                    isOptionEqualToValue={(option, value) =>
-                      option?._id === value?._id
-                    }
-                    onChange={(event, newValue) =>
-                      setSelectedSubCategory(newValue)
-                    }
-                    value={selectedSubCategory || null}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Category"
-                        disabled={state?.status === "rejected"}
+                      <Autocomplete
+                        id="language"
+                        size="small"
+                        disabled={
+                          state?.status === "Rejected" ||
+                          state?.status === "Pending"
+                        }
+                        options={languageList}
+                        getOptionLabel={(option) => option.title || ""}
+                        isOptionEqualToValue={(option, value) =>
+                          option.id === value.id
+                        }
+                        value={value}
+                        onChange={(e, val) => onChange(val)}
+                        renderInput={(params) => (
+                          <TextField {...params} label="Language" />
+                        )}
                       />
                     )}
                   />
+                  {errors?.language && (
+                    <div className="error py-1">Language is required</div>
                   )}
+                </div>
+                <div className="col-md-4 ">
+                  <Controller
+                    control={control}
+                    name="category"
+                    rules={{ required: true }}
+                    render={({ field: { onChange, value } }) => (
+                      <Autocomplete
+                        id="category"
+                        size="small"
+                        fullWidth
+                        multiple
+                        disabled={
+                          state?.status === "Rejected" ||
+                          state?.status === "Pending"
+                        }
+                        options={subCategoryData || null}
+                        getOptionLabel={(option) => option?.label || ""}
+                        isOptionEqualToValue={(option, value) =>
+                          option?._id === value?._id
+                        }
+                        onChange={(event, newValue) => onChange(newValue)}
+                        value={value}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Category"
+                            disabled={state?.status === "rejected"}
+                          />
+                        )}
+                      />
+                    )}
                   />
                   {errors.category && (
                     <div className="error">Category is required</div>
@@ -530,23 +525,23 @@ export default function FatwasDetails() {
                   <Controller
                     control={control}
                     name="madhab"
-                    rules={{ required: true, message: "madhab is required" }}
+                    rules={{ required: true }}
                     render={({ field: { onChange, value } }) => (
                       <Autocomplete
                         id="madhabList"
                         size="small"
-                        value={selectedMadhab}
                         fullWidth
                         disabled={
                           state?.status === "Rejected" ||
                           state?.status === "Pending"
                         }
-                        onChange={(e, val) => onChange(val)}
                         options={madhabData}
                         getOptionLabel={(option) => option?.title || ""}
                         isOptionEqualToValue={(option, value) =>
                           option?._id === value?._id
                         }
+                        value={value}
+                        onChange={(e, val) => onChange(val)}
                         renderInput={(params) => (
                           <TextField {...params} label="Madhab" />
                         )}
@@ -568,8 +563,8 @@ export default function FatwasDetails() {
                         multiline
                         fullWidth
                         maxRows={4}
-                        value={shortQuestion}
-                        onChange={(e) => setShortQuestion(e.target.value)}
+                        // value={shortQuestion}
+                        // onChange={(e) => setShortQuestion(e.target.value)}
                         disabled={
                           state?.status === "Rejected" ||
                           state?.status === "Pending"
@@ -595,8 +590,8 @@ export default function FatwasDetails() {
                         multiline
                         fullWidth
                         rows={4}
-                        value={longQuestion}
-                        onChange={(e) => setLongQuestion(e.target.value)}
+                        // value={longQuestion}
+                        // onChange={(e) => setLongQuestion(e.target.value)}
                         disabled={
                           state?.status === "Rejected" ||
                           state?.status === "Pending"
@@ -621,26 +616,23 @@ export default function FatwasDetails() {
                         name="assignedTo"
                         rules={{
                           required: true,
-                          message: "Assigned To is required",
                         }}
                         render={({ field: { onChange, value } }) => (
                           <Autocomplete
-                            id="controllable-states-demo"
+                            id="assignedTo"
                             size="small"
-                            value={value}
                             fullWidth
                             options={mufthiList?.filter(
                               (fl) =>
                                 fl?._id !== selectedMufthiVerified?._id &&
                                 fl?._id !== selectedCheckedAndApprove?._id
                             )}
-                            onChange={(event, newValue) => {
-                              setSelectedMufthi(newValue);
-                            }}
                             getOptionLabel={(option) => option?.name || ""}
                             isOptionEqualToValue={(option, value) =>
                               option._id === value._id
                             }
+                            value={value}
+                            onChange={(e, newValue) => onChange(newValue)}
                             renderInput={(params) => (
                               <TextField {...params} label="Assigned To" />
                             )}
@@ -798,7 +790,8 @@ export default function FatwasDetails() {
                 </Grid>
                 {state?.status !== "Published" && (
                   <Grid item sm={3}>
-                    {state?.status === "Received to Darul Ifta" ||
+                    {state?.status === "Pending" ||
+                    state?.status === "Received to Darul Ifta" ||
                     state?.status === "Assigned Mufti" ||
                     state?.status === "Mufti Answered" ||
                     state?.status === "Completed Verification" ? (
@@ -811,9 +804,12 @@ export default function FatwasDetails() {
                         <Button
                           variant="contained"
                           className="form-btn"
-                          onClick={handlePublish}
+                          type="submit"
+                          // onClick={handlePublish}
                         >
-                          {state?.status === "Received to Darul Ifta"
+                          {state?.status === "Pending"
+                            ? "Accept"
+                            : state?.status === "Received to Darul Ifta"
                             ? "Assigned to mufti"
                             : state?.status === "Assigned Mufti"
                             ? "Mufthi Answered"
@@ -823,16 +819,24 @@ export default function FatwasDetails() {
                             ? "Publish"
                             : "Submit"}
                         </Button>
+
+                        {state?.status === "Pending" && (
+                          <Button
+                            variant="contained"
+                            className="form-btn rejected bg-danger ms-4"
+                            onClick={() => setRejectPopup(true)}
+                          >
+                            Reject
+                          </Button>
+                        )}
                       </Grid>
                     ) : null}
                   </Grid>
                 )}
               </Grid>
-
-              {/* Rejected */}
             </div>
           </form>
-          <Grid container justifyContent={"end"} sx={{ p: 2 }}>
+          {/* <Grid container justifyContent={"end"} sx={{ p: 2 }}>
             {state?.status === "Pending" && (
               <>
                 <div className="fatwabutton">
@@ -854,7 +858,7 @@ export default function FatwasDetails() {
                 </div>
               </>
             )}
-          </Grid>
+          </Grid> */}
           <Dialog
             fullWidth
             maxWidth="md"

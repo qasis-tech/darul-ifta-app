@@ -96,38 +96,38 @@ export default function UserDetails() {
       password,
     };
 
-    // axios
-    //   .put(`${URLS.user}${URLS.signup}/${id}`, payload, {
-    //     headers: {
-    //       Authorization: `${userToken}`,
-    //     },
-    //   })
-    //   .then((res) => {
-    //     setLoader(false);
-    //     if (res?.success) {
-    //       toast(res.message, {
-    //         onClose: () => {
-    //           setLoader(false);
-    //           navigate(`${routerList.admin.admin}/${routerList.admin.user}`);
-    //         },
-    //       });
-    //     } else {
-    //       toast(res.message, {
-    //         onClose: () => {
-    //           setLoader(false);
-    //         },
-    //       });
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     setLoader(false);
-    //     toast("Somthing went wrong, please try again later", {
-    //       onClose: () => {
-    //         setLoader(false);
-    //       },
-    //     });
-    //     console.log("Errors in user save", err);
-    //   });
+    axios
+      .put(`${URLS.user}${URLS.signup}/${id}`, payload, {
+        headers: {
+          Authorization: `${userToken}`,
+        },
+      })
+      .then((res) => {
+        setLoader(false);
+        if (res?.success) {
+          toast(res.message, {
+            onClose: () => {
+              setLoader(false);
+              navigate(`${routerList.admin.admin}/${routerList.admin.user}`);
+            },
+          });
+        } else {
+          toast(res.message, {
+            onClose: () => {
+              setLoader(false);
+            },
+          });
+        }
+      })
+      .catch((err) => {
+        setLoader(false);
+        toast("Somthing went wrong, please try again later", {
+          onClose: () => {
+            setLoader(false);
+          },
+        });
+        console.log("Errors in user save", err);
+      });
   };
 
   const getUserApi = (madhabList) => {
@@ -143,7 +143,6 @@ export default function UserDetails() {
         setValue("displayName", data?.display_title);
         setValue("email", data?.email);
         setValue("mobileNumber", data?.phone);
-        setValue("status", data?.user_status);
 
         let indexRoles = roles.findIndex(
           (value) => value.label === data.user_type
@@ -153,12 +152,12 @@ export default function UserDetails() {
         let index = madhabList.findIndex(
           (value) => value.title === data?.madhab
         );
-        setSelectedMadhab(madhabList[index]);
+        setValue("madhab", madhabList[index]);
 
         let indexStatus = status?.findIndex(
           (value) => value.title === data?.user_status
         );
-        setSelectedStatus(status[indexStatus]);
+        setValue("status", status[indexStatus]);
       })
       .catch((err) => {
         setLoader(false);
@@ -233,25 +232,25 @@ export default function UserDetails() {
                 <div className="error">{errors?.mobileNumber?.message}</div>
               </Grid>
               <Grid item md={6}>
-                <Autocomplete
-                  // disablePortal
-                  id="combo-box-demo"
-                  size="small"
-                  options={roles}
-                  getOptionLabel={(option) => option.label || ""}
-                  isOptionEqualToValue={(option, value) =>
-                    option.label === value.label
-                  }
-                  onChange={(e, val) => {
-                    console.log("E,VAL", e, val);
-                    setSelectedRoles(val);
-                  }}
-                  value={selectedRoles}
-                  // {...register("roles", {
-                  //   required: "Madhab is required",
-                  // })}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Roles" />
+                <Controller
+                  control={control}
+                  name="roles"
+                  rules={{ required: true }}
+                  render={({ field: { onChange, value } }) => (
+                    <Autocomplete
+                      id="combo-box-demo"
+                      size="small"
+                      options={roles}
+                      getOptionLabel={(option) => option.label || ""}
+                      isOptionEqualToValue={(option, value) =>
+                        option.label === value.label
+                      }
+                      onChange={(e, val) => onChange(val)}
+                      value={value}
+                      renderInput={(params) => (
+                        <TextField {...params} label="Roles" />
+                      )}
+                    />
                   )}
                 />
               </Grid>
