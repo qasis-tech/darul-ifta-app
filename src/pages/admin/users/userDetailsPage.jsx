@@ -96,7 +96,6 @@ export default function UserDetails() {
       password,
     };
 
-    console.log("1111111111", payload);
     // axios
     //   .put(`${URLS.user}${URLS.signup}/${id}`, payload, {
     //     headers: {

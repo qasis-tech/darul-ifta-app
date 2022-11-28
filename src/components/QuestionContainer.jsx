@@ -78,17 +78,16 @@ const QuestionContainer = (props) => {
                   <Typography variant="subtitle1" className="writtenby-section">
                     Views
                   </Typography>
-                  </Grid>
-                  <Grid item xs={1} md={1}>
+                </Grid>
+                <Grid item xs={1} md={1}>
                   <Typography variant="subtitle1" className="colon mx-1">
                     {" "}
                     :{" "}
                   </Typography>
-                  </Grid>
-                  <Grid item xs={8} md={6}>
+                </Grid>
+                <Grid item xs={8} md={6}>
                   <Typography variant="subtitle1">{props?.views}</Typography>
-                  </Grid>
-               
+                </Grid>
               </Grid>
             </Grid>
           </div>
