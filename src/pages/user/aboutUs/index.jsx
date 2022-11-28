@@ -132,7 +132,7 @@ export default function AboutUs() {
                     നിങ്ങളുടെ യഥാർത്ഥ പിന്തുണ പ്രതീക്ഷിക്കുന്നു.
                   </Typography>
                 </Grid>
-                <Grid item md={12} marginBottom={3}>
+                <Grid item md={12} marginBottom={3} paddingBottom={2}>
                   <Typography
                     variant="subtitle1"
                     x={{ lineHeight: 1.8, textAlign: "justify" }}

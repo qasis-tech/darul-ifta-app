@@ -15,7 +15,7 @@ export default function QuestionNumber({ data }) {
           container
           item
           sm={12}
-          md={1.2}
+          md={1.6}
           direction="row"
           justifyContent="center"
           alignItems="center"
@@ -36,6 +36,7 @@ export default function QuestionNumber({ data }) {
           container
           item
           sm={2}
+          md={3}
           direction="row"
           justifyContent="center"
           alignItems="center"
@@ -56,6 +57,7 @@ export default function QuestionNumber({ data }) {
           container
           item
           sm={2}
+          md={3}
           direction="row"
           justifyContent="center"
           alignItems="center"
