@@ -361,26 +361,26 @@ export default function FatwasDetails() {
     console.log("Result ===> ", payload);
     console.log("isError ", isError);
 
-    // if (!isError.status) {
-    //   console.log("API is CALLED ");
-    //   axios
-    //     .put(`${URLS.question}/${state._id}`, payload)
-    //     .then((res) => {
-    //       setLoader(false);
-    //       console.log("res put accept api", res);
-    //       if (res?.success) {
-    //         navigate(
-    //           `${routerList.admin.admin}/${routerList.admin.adminfatwas}`
-    //         );
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       setLoader(false);
-    //       console.error("Error in profile edit", err);
-    //     });
-    // } else {
-    //   setLoader(false);
-    // }
+    if (!isError.status) {
+      console.log("API is CALLED ");
+      axios
+        .put(`${URLS.question}/${state._id}`, payload)
+        .then((res) => {
+          setLoader(false);
+          console.log("res put accept api", res);
+          if (res?.success) {
+            navigate(
+              `${routerList.admin.admin}/${routerList.admin.adminfatwas}`
+            );
+          }
+        })
+        .catch((err) => {
+          setLoader(false);
+          console.error("Error in profile edit", err);
+        });
+    } else {
+      setLoader(false);
+    }
   };
 
   console.log("state =====>", state);
