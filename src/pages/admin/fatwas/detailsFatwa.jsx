@@ -276,7 +276,7 @@ export default function FatwasDetails() {
 
   const handlePublish = (params) => {
     console.log("clickedddd", params);
-    const { language, longQuestion, shortQuestion, madhab, category } = params;
+    const { language, longQuestion, shortQuestion, madhab, category ,verifier} = params;
     setLoader(true);
 
     let payload = {
@@ -294,7 +294,7 @@ export default function FatwasDetails() {
       answered_by: state?.answered_by,
       verified_by: state?.verified_by,
       mufti: selectedMufthi,
-      verifier: selectedMufthiVerified,
+      verifier: verifier,
       reject_by: state?.reject_by,
       mufti_answered: state?.mufti_answered,
       reject_reason: state?.reject_reason,
@@ -640,12 +640,17 @@ export default function FatwasDetails() {
                         )}
                       />
                       {errors.assignedTo && (
-                        <div className="error">Assigned To is required</div>
+                        <div className="error"> Assigned Mufthi is required</div>
                       )}
                     </div>
 
                     {selectedMufthi?.user_type === "Student" && (
                       <div className="col-md-3">
+                        <Controller
+                      control={control}
+                      name="checkedAndApproved"
+                      rules={{ required: true }}
+                      render={({ field: { onChange, value } }) => (
                         <Autocomplete
                           id="controllable-states-demo"
                           size="small"
@@ -656,9 +661,9 @@ export default function FatwasDetails() {
                               fl?._id !== selectedMufthiVerified?._id &&
                               fl?._id !== selectedMufthi?._id
                           )}
-                          onChange={(event, newValue) => {
-                            setSelectedCheckedAndApprove(newValue);
-                          }}
+                          // onChange={(event, newValue) => {
+                          //   setSelectedCheckedAndApprove(newValue);
+                          // }}
                           getOptionLabel={(option) => option?.name || ""}
                           isOptionEqualToValue={(option, value) =>
                             option._id === value._id
@@ -667,45 +672,58 @@ export default function FatwasDetails() {
                             <TextField {...params} label="Checked & Approve" />
                           )}
                         />
+                        )}
+                        />
                         {/* {errors.assignedTo && (
                         <p className="text-danger">
                           {errors.assignedTo.message}
                         </p>
                       )} */}
+                      {errors?.checkedAndApproved && (
+                      <div className="error py-1">checked and approved is required</div>
+                    )}
                       </div>
                     )}
                     {state?.status !== "Received to Darul Ifta" && (
                       <div className="col-md-3">
-                        <Autocomplete
-                          id="mufthiList"
-                          size="small"
-                          fullWidth
-                          options={mufthiVerified.filter(
-                            (fl) =>
-                              fl?.user_type !== "Student" &&
-                              fl._id !== selectedCheckedAndApprove?._id
-                          )}
-                          value={selectedMufthiVerified || ""}
-                          onChange={(event, newValue) => {
-                            setSelectedMufthiVerified(newValue);
+                        <Controller
+                          control={control}
+                          name="verifiedBy"
+                          rules={{
+                            required: true,
                           }}
-                          getOptionLabel={(option) => option?.name || ""}
-                          isOptionEqualToValue={(option, value) =>
-                            option?._id === value?._id
-                          }
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              label="Verified By"
-                              // {...register("Verified")}
+                          render={({ field: { onChange, value } }) => (
+                            <Autocomplete
+                              id="verifiedby"
+                              size="small"
+                              fullWidth
+                              options={mufthiVerified.filter(
+                                (fl) =>
+                                  fl?.user_type !== "Student" &&
+                                  fl._id !== selectedCheckedAndApprove?._id
+                              )}
+                              // onChange={(event, newValue) => {
+                              //   setSelectedMufthiVerified(newValue);
+                              // }}
+                              getOptionLabel={(option) => option?.name || ""}
+                              isOptionEqualToValue={(option, value) =>
+                                option?._id === value?._id
+                              }
+                              value={value}
+                              onChange={(e, val) => onChange(val)}
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  label="Verified By"
+                                  // {...register("Verified")}
+                                />
+                              )}
                             />
                           )}
                         />
-                        {!selectedMufthiVerified?.name && (
-                          <div className="error">
-                            {errors?.Verified?.message}
-                          </div>
-                        )}
+                        {errors?.verifiedBy && (
+                      <div className="error py-1">Mufthi is required</div>
+                    )}
                       </div>
                     )}
                   </div>

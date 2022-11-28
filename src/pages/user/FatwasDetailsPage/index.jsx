@@ -28,7 +28,7 @@ export default function FatwasDetailsPage() {
       getQuestionListApi(`/${id}`)
         .then((res) => {
           setLoader(false);
-          setQuestionDetails(res?.data[0]);
+          setQuestionDetails(res?.data);
         })
         .catch((err) => {
           setLoader(false);
