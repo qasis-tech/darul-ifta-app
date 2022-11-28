@@ -254,7 +254,7 @@ export default function AddArticle() {
                     )}
                   />
 
-                  {errors?.status && (
+                  {!selectedStatus?.title  && (
                     <div className="error">{errors?.status?.message}</div>
                   )}
                 </Grid>
