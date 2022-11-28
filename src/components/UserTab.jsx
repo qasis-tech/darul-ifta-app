@@ -40,27 +40,17 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
   const [value, setValue] = useState(0);
   const [questionData, setQuestionData] = useState([]);
   const [isLoading, setLoader] = useState(false);
+  const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const STATUS = ["", "Published", "Pending", "Rejected"];
 
   useEffect(() => {
+    console.log("page * rowsPerPage", page, rowsPerPage);
     getQuestionList(
-      `?userid=${userLoginDetails?._id}&limit=5&skip=${page * rowsPerPage}`
-    );
-  }, []);
-
-  useEffect(() => {
-    if (apiTriggeres?.userGetQuesList) {
-      getQuestionList(
-        `?userid=${userLoginDetails?._id}`
-      );
-    }
-  }, [apiTriggeres]);
-
-  useEffect(() => {
-    getQuestionList(
-      `?userid=${userLoginDetails?._id}`
+      `?userid=${userLoginDetails?._id}&skip=${
+        page * rowsPerPage
+      }&limit=${limit}`
     );
   }, [page]);
 
@@ -128,7 +118,7 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
                   {questionData?.data?.length ? (
                     questionData?.data?.map((question) => {
                       return (
-                          <div>
+                        <div>
                           <QuestionContainer
                             key={question._id}
                             id={question?.slNo}
@@ -145,10 +135,11 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
                   ) : (
                     <div
                       className="d-flex justify-content-center align-items-center"
-                      style={{ minHeight: "200px" }}>
+                      style={{ minHeight: "200px" }}
+                    >
                       <NoDataAvailable noStyle noBg />
                     </div>
-                  )} 
+                  )}
                 </TabPanel>
               );
             })}
@@ -157,13 +148,12 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
       </Box>
       <div className="pagination-section">
         <TablePagination
-          rowsPerPageOptions={[5, 10, 20, 50]}
+          rowsPerPageOptions={[5]}
           component="div"
           count={questionData?.count}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </div>
     </div>

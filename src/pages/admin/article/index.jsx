@@ -35,11 +35,7 @@ export default function Article() {
   const getArticleApi = () => {
     setLoader(true);
     axios
-      .get(`${URLS.article}`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      .get(`${URLS.article}`)
       .then(({ data }) => {
         console.log("res Article", data);
         setLoader(false);
@@ -87,7 +83,6 @@ export default function Article() {
                       <TableCell>Date of created</TableCell>
                       <TableCell>Date of published</TableCell>
                       <TableCell>Status</TableCell>
-                      <TableCell align="center">Action</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -105,16 +100,21 @@ export default function Article() {
                             <TableCell>{index + 1}</TableCell>
                             <TableCell>{article.title}</TableCell>
                             <TableCell>
-                              {formatDate(article.createdAt)}
+                              {formatDate(article?.createdAt)}
                             </TableCell>
                             <TableCell>
-                              {formatDate(article.updatedAt)}
+                              {formatDate(article?.updatedAt)}
                             </TableCell>
                             <TableCell>
-                              <span className="published">Published</span>
-                            </TableCell>
-                            <TableCell align="center">
-                              <EditIcon className="edit-icon" />
+                              <span
+                                className={
+                                  article?.status === "Published"
+                                    ? "published"
+                                    : "rejected"
+                                }
+                              >
+                                {article?.status || "N/A"}
+                              </span>
                             </TableCell>
                           </TableRow>
                         );

@@ -10,32 +10,39 @@ import {
   Autocomplete,
   Paper,
   Container,
+  Grid,
 } from "@mui/material";
 
 import { URLS } from "../../../config/urls.config";
 import RouterList from "../../../routes/routerList";
 import { toast } from "react-toastify";
 import Loader from "../../../components/common/Loader";
-import SnackBar from "../../../components/common/Snackbar";
 
 import "./add.article.styles.scss";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import TextEditor from "../../../components/RichTextEditor";
 
 export default function AddArticle() {
+  const navigate = useNavigate();
+
   const [mufthiData, setMufthiData] = useState([]);
   const [isLoader, setLoader] = useState([]);
-  const [file, setFile] = useState("");
-  const [filename, setFileName] = useState();
+
   const [selectedMufthi, setSelectedMufthi] = useState([]);
   const [content, setContent] = useState("");
+  const [selectedLanguage, setSelectedLanguage] = useState([]);
+  const [selectedStatus, setSelectedStatus] = useState([]);
+
   const languageList = [
     { id: 1, title: "English" },
     { id: 2, title: "Malayalam" },
     { id: 3, title: "Arabic" },
     { id: 4, title: "Urdu" },
   ];
-  const [selectedLanguage, setSelectedLanguage] = useState([]);
+
+  const status = [
+    { id: 1, title: "Published" },
+    { id: 2, title: "Drafted" },
+  ];
 
   const {
     register,
@@ -65,14 +72,16 @@ export default function AddArticle() {
 
   const handleSave = (params) => {
     setLoader(true);
-    const { mufthi, language, title } = params;
+    const { mufthi, language, title, status } = params;
     const payload = {
-      mufthi: mufthi,
-      language: language,
-      title: title,
+      mufthi,
+      language,
+      title,
       articleData: content,
-      status: "Published",
+      status,
     };
+
+    console.log("Published", params);
 
     axios
       .post(`${URLS.article}`, payload)
@@ -81,6 +90,9 @@ export default function AddArticle() {
           toast(res.message, {
             onClose: () => {
               setLoader(false);
+              navigate(
+                `${RouterList?.admin.admin}/${RouterList.admin.article}`
+              );
             },
           });
         } else {
@@ -93,7 +105,7 @@ export default function AddArticle() {
       })
       .catch((err) => {
         setLoader(false);
-        toast("Somthing went wrong, please try again later", {
+        toast(err.message, {
           onClose: () => {
             setLoader(false);
           },
@@ -101,47 +113,28 @@ export default function AddArticle() {
         console.log("Error in Article Add", err);
       });
   };
-  const handleDraft = (params) => {
-    setLoader(true);
-    const { mufthi, language, title } = params;
-    const payload = {
-      mufthi: mufthi,
-      language: language,
-      title: title,
-      articleData: content,
-      status: "Drafted",
-      // "Published"
-    };
 
-    axios
-      .post(`${URLS.article}`, payload)
-      .then((res) => {
-        if (res.success) {
-          toast(res.message, {
-            onClose: () => {
-              setLoader(false);
-            },
-          });
-          navigate(-1)
-        } else {
-          toast(res.message, {
-            onClose: () => {
-              setLoader(false);
-            },
-          });
-        }
-      })
-      .catch((err) => {
-        setLoader(false);
-        toast("Somthing went wrong, please try again later", {
-          onClose: () => {
-            setLoader(false);
-          },
-        });
-        console.log("Error in Article Add", err);
-      });
+  const editor = useRef(null);
+
+  const config = {
+    autofocus: true,
+    removeButtons: [
+      "copyformat",
+      "brush",
+      "table",
+      "eraser",
+      "font",
+      "selectall",
+      "fontsize",
+    ],
+    uploader: {
+      insertImageAsBase64URI: true,
+    },
+    placeholder: "Start typings...",
+    minHeight: 450,
   };
-  const navigate = useNavigate();
+
+  console.log("content", content);
 
   return (
     <Container maxWidth="md">
@@ -221,32 +214,61 @@ export default function AddArticle() {
               <div className="error">{errors?.title?.message}</div>
 
               {/* Editor */}
-              <TextEditor content={content} setContent={setContent} />
 
-              <div>{filename}</div>
+              <JoditEditor
+                ref={editor}
+                value={content}
+                config={config}
+                // tabIndex={1} // tabIndex of textarea
+                onBlur={(newContent) => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
+                // onChange={(newContent) => setContent(newContent)}
+              />
+
               <div className="error">{errors?.articleFile?.message}</div>
-              <div className="btn-section">
-                <div className="col-md-1">
+              <Grid
+                container
+                spacing={3}
+                sx={{ marginY: 2 }}
+                justifyContent="end"
+              >
+                <Grid item xs={3}>
+                  <Autocomplete
+                    id="articleStatusList"
+                    size="small"
+                    fullWidth
+                    options={status}
+                    getOptionLabel={(option) => option.title || ""}
+                    isOptionEqualToValue={(option, value) =>
+                      option?.id === value?.id
+                    }
+                    value={selectedStatus}
+                    onChange={(e, val) => setSelectedStatus(val)}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Status"
+                        {...register("status", {
+                          required: "Status is required",
+                        })}
+                      />
+                    )}
+                  />
+
+                  {errors?.status && (
+                    <div className="error">{errors?.status?.message}</div>
+                  )}
+                </Grid>
+                <Grid item>
                   <Button
                     variant="contained"
                     className="form-btn"
                     type="submit"
                     fullWidth
-                    onClick={() => handleSubmit()}
-                  >
-                    DRAFT
-                  </Button>
-                  <Button
-                    variant="contained"
-                    className="form-btn"
-                    type="submit"
-                    fullWidth
-                    {...register("submitType")}
                   >
                     SAVE
                   </Button>
-                </div>
-              </div>
+                </Grid>
+              </Grid>
             </div>
           </form>
         )}

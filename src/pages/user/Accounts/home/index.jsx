@@ -153,39 +153,6 @@ const AccountHome = ({
             <div className="">
               <div className="row">
                 <div className="col pointer">
-                  <Dialog
-                    fullWidth
-                    maxWidth="md"
-                    open={profilePopup}
-                    keepMounted
-                    onClose={() => setProfilePopup(false)}
-                    aria-describedby="alert-dialog-slide-description"
-                  >
-                    <DialogTitle>User Profile</DialogTitle>
-                    <Divider />
-                    <DialogContent>
-                      <UserProfile close={() => setProfilePopup(false)} />
-                    </DialogContent>
-                  </Dialog>
-
-                  {/* <DialogComponent
-                    title="User Profile"
-                    title2={
-                      userLoginDetails?.profileComplete === "Completed"
-                        ? ""
-                        : "user must completed profile then only permission to ask question"
-                    }
-                    className="model-section"
-                    fullWidth
-                    mainComponent={
-                      <UserProfile close={() => setClosePopup(false)} />
-                    }
-                    noBottom
-                    size="xl"
-                    close={closePopup}
-                  >
-                    <SettingsIcon className="profile-icons" />
-                  </DialogComponent> */}
                   <SettingsIcon
                     className="profile-icons"
                     onClick={() => setProfilePopup(true)}
@@ -295,6 +262,20 @@ const AccountHome = ({
           </div>
         </div>
         <UserTab />
+        <Dialog
+          fullWidth
+          maxWidth="md"
+          open={profilePopup}
+          keepMounted
+          onClose={() => setProfilePopup(false)}
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle>User Profile</DialogTitle>
+          <Divider />
+          <DialogContent>
+            <UserProfile close={() => setProfilePopup(false)} />
+          </DialogContent>
+        </Dialog>
       </div>
     </>
   );

@@ -3,6 +3,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
+import { toast } from "react-toastify";
 
 import {
   Button,
@@ -30,7 +31,6 @@ import RejectedReasonSection from "./components/RejectedReasonSection";
 import getQuestionListApi from "../../../services/getQuestionsList";
 import routerList from "../../../routes/routerList";
 import TextEditor from "../../../components/RichTextEditor";
-import { toast } from "react-toastify";
 
 export default function FatwasDetails() {
   const { id } = useParams();

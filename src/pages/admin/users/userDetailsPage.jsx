@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import TextField from "@mui/material/TextField";
@@ -11,9 +11,9 @@ import "./adduser.styles.scss";
 import { URLS } from "../../../config/urls.config";
 import Loader from "../../../components/common/Loader";
 import SnackBar from "../../../components/common/Snackbar";
-import { Paper } from "@mui/material";
+import { Container, Grid, Paper } from "@mui/material";
 import { toast } from "react-toastify";
-
+import routerList from "../../../routes/routerList";
 
 export default function UserDetails() {
   const [madhabData, setMadhabData] = useState([]);
@@ -39,10 +39,9 @@ export default function UserDetails() {
     register,
     handleSubmit,
     setValue,
+    control,
     formState: { errors },
-  } = useForm({
-    // resolver: yupResolver(profileSchema),
-  });
+  } = useForm({});
 
   useEffect(() => {
     getmadhabApi();
@@ -61,11 +60,7 @@ export default function UserDetails() {
   const getmadhabApi = () => {
     setLoader(true);
     axios
-      .get(URLS.madhab, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      .get(URLS.madhab)
       .then((res) => {
         setLoader(false);
         setMadhabData(res.data);
@@ -76,11 +71,6 @@ export default function UserDetails() {
         console.log("error madhab", err);
         setMadhabData([]);
       });
-  };
-  const handleUserDetails = (val, field) => {
-    const temp = { ...userDetails };
-    temp[`${field}`] = val;
-    setUserDetails(temp);
   };
 
   const handleSave = ({
@@ -109,19 +99,17 @@ export default function UserDetails() {
       .put(`${URLS.user}${URLS.signup}/${id}`, payload, {
         headers: {
           Authorization: `${userToken}`,
-          "Content-Type": "application/json",
         },
       })
       .then((res) => {
         setLoader(false);
-        console.log("res user save ===>>", res);
         if (res?.success) {
           toast(res.message, {
             onClose: () => {
               setLoader(false);
+              navigate(`${routerList.admin.admin}/${routerList.admin.user}`);
             },
           });
-          navigate(-1);
         } else {
           toast(res.message, {
             onClose: () => {
@@ -140,6 +128,7 @@ export default function UserDetails() {
         console.log("Errors in user save", err);
       });
   };
+
   const getUserApi = (madhabList) => {
     setLoader(true);
     axios
@@ -180,160 +169,143 @@ export default function UserDetails() {
   const navigate = useNavigate();
 
   return (
-    <>
+    <Container>
       {isLoading ? (
         <Loader absolute />
       ) : (
         <Paper elevation={2} className="add-user-section  bg-white">
           <form onSubmit={handleSubmit(handleSave)}>
-            <div className="add-user-container">
-              <div className="add-user-row">
-                <div className="col-md-6 first-col">
-                  <TextField
-                    id="outlined-basic"
-                    label="Name"
-                    size="small"
-                    fullWidth
-                    variant="outlined"
-                    {...register("name", { required: "Name is required" })}
-                  />
-                  <div className="error">{errors?.name?.message}</div>
-                </div>
-                <div className="col-md-6 second-col">
-                  <TextField
-                    id="outlined-basic"
-                    label="Display Name"
-                    size="small"
-                    fullWidth
-                    variant="outlined"
-                    {...register("displayName", {
-                      required: "Display Name is required",
-                    })}
-                  />
-                  <div className="error">{errors?.displayName?.message}</div>
-                </div>
-              </div>
-              <div className="add-user-row">
-                <div className="col-md-6 first-col">
-                  <TextField
-                    id="outlined-basic"
-                    label="Email"
-                    size="small"
-                    fullWidth
-                    variant="outlined"
-                    {...register("email", {
-                      required: "Email ID is required",
-                      pattern: {
-                        value:
-                          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                        message: "Invalid email Id ( eg: example@mail.com ) ",
-                      },
-                    })}
-                  />
-                  <div className="error">{errors?.email?.message}</div>
-                </div>
-                <div className="col-md-6 second-col">
-                  <TextField
-                    id="outlined-basic"
-                    label="Whatsapp Number"
-                    size="small"
-                    fullWidth
-                    variant="outlined"
-                    {...register("mobileNumber", {
-                      required: "Mobile Number is required",
-                    })}
-                  />
-                  <div className="error">{errors?.mobileNumber?.message}</div>
-                </div>
-              </div>
-              <div className="add-user-row">
-                <div className="col-md-6 first-col">
-                  <TextField
-                    id="outlined-basic"
-                    label="Password"
-                    type="password"
-                    size="small"
-                    fullWidth
-                    variant="outlined"
-                    {...register("password", {
-                      // required: "Password is required",
-                      // minLength: {
-                      //   value: 8,
-                      //   message: "Minimum 8 character",
-                      // },
-                    })}
-                  />
-                  <div className="error">{errors?.password?.message}</div>
-                </div>
-                <div className="col-md-3 second-col">
-                  <Autocomplete
-                    // disablePortal
-                    id="combo-box-demo"
-                    size="small"
-                    options={roles}
-                    getOptionLabel={(option) => option.label || ""}
-                    isOptionEqualToValue={(option, value) =>
-                      option.label === value.label
-                    }
-                    onChange={(e, val) => {
-                      console.log("E,VAL", e, val);
-                      setSelectedRoles(val);
-                    }}
-                    value={selectedRoles}
-                    // {...register("roles", {
-                    //   required: "Madhab is required",
-                    // })}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Roles" />
-                    )}
-                  />
-                </div>
-                <div className="col-md-3 second-col">
-                  <Autocomplete
-                    disablePortal
-                    id="combo-box-demo"
-                    size="small"
-                    options={madhabData}
-                    getOptionLabel={(option) => option.title || ""}
-                    isOptionEqualToValue={(option, value) =>
-                      option._id === value._id
-                    }
-                    onChange={(e, val) => {
-                      setSelectedMadhab(val);
-                      console.log("valueee==>", val);
-                    }}
-                    value={selectedMadhab}
-                    // {...register("madhab", {
-                    //   required: "Madhab is required",
-                    // })}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Madhab" />
-                    )}
-                  />
-
-                  {!selectedMadhab?.title && (
-                    <div className="error">{errors?.madhab?.message}</div>
+            <Grid container rowSpacing={3} columnSpacing={4}>
+              <Grid item md={6}>
+                <TextField
+                  id="outlined-basic"
+                  label="Name"
+                  size="small"
+                  fullWidth
+                  variant="outlined"
+                  {...register("name", { required: "Name is required" })}
+                />
+                <div className="error">{errors?.name?.message}</div>
+              </Grid>
+              <Grid item md={6}>
+                <TextField
+                  id="outlined-basic"
+                  label="Display Name"
+                  size="small"
+                  fullWidth
+                  variant="outlined"
+                  {...register("displayName", {
+                    required: "Display Name is required",
+                  })}
+                />
+                <div className="error">{errors?.displayName?.message}</div>
+              </Grid>
+              <Grid item md={6}>
+                <TextField
+                  id="outlined-basic"
+                  label="Email"
+                  size="small"
+                  fullWidth
+                  variant="outlined"
+                  {...register("email", {
+                    required: "Email ID is required",
+                    pattern: {
+                      value:
+                        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                      message: "Invalid email Id ( eg: example@mail.com ) ",
+                    },
+                  })}
+                />
+                <div className="error">{errors?.email?.message}</div>
+              </Grid>
+              <Grid item md={6}>
+                <TextField
+                  id="outlined-basic"
+                  label="Whatsapp Number"
+                  size="small"
+                  fullWidth
+                  variant="outlined"
+                  {...register("mobileNumber", {
+                    required: "Mobile Number is required",
+                  })}
+                />
+                <div className="error">{errors?.mobileNumber?.message}</div>
+              </Grid>
+              <Grid item md={6}>
+                <Autocomplete
+                  // disablePortal
+                  id="combo-box-demo"
+                  size="small"
+                  options={roles}
+                  getOptionLabel={(option) => option.label || ""}
+                  isOptionEqualToValue={(option, value) =>
+                    option.label === value.label
+                  }
+                  onChange={(e, val) => {
+                    console.log("E,VAL", e, val);
+                    setSelectedRoles(val);
+                  }}
+                  value={selectedRoles}
+                  // {...register("roles", {
+                  //   required: "Madhab is required",
+                  // })}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Roles" />
                   )}
-                </div>
-              </div>
-              <div className="add-user-row">
-                <div className="col-md-6 first-col">
-                  <TextField
-                    id="outlined-basic"
-                    label="Address"
-                    // size="small"
-                    rows={3}
-                    multiline
-                    fullWidth
-                    variant="outlined"
-                    {...register("address", {
-                      required: "Address is required",
-                    })}
-                  />
+                />
+              </Grid>
+              <Grid item md={6}>
+                <Controller
+                  control={control}
+                  name="madhab"
+                  rules={{ required: true }}
+                  render={({ field: { onChange, value } }) => (
+                    <Autocomplete
+                      disablePortal
+                      id="userMadhabList"
+                      size="small"
+                      options={madhabData}
+                      getOptionLabel={(option) => option.title || ""}
+                      isOptionEqualToValue={(option, value) =>
+                        option._id === value._id
+                      }
+                      onChange={(e, val) => onChange(val)}
+                      value={value}
+                      renderInput={(params) => (
+                        <TextField {...params} label="Madhab" />
+                      )}
+                    />
+                  )}
+                />
+
+                {errors?.madhab && (
+                  <div className="error">Madhab is required</div>
+                )}
+              </Grid>
+
+              <Grid item md={6}>
+                <TextField
+                  id="outlined-basic"
+                  label="Address"
+                  rows={3}
+                  multiline
+                  fullWidth
+                  variant="outlined"
+                  {...register("address", {
+                    required: "Address is required",
+                  })}
+                />
+                {errors?.address && (
                   <div className="error">{errors?.address?.message}</div>
-                </div>
-                <div className="col-md-6 second-col">
-                  {status?.length && (
+                )}
+              </Grid>
+
+              <Grid item md={6}>
+                <Controller
+                  control={control}
+                  name="status"
+                  rules={{ required: true }}
+                  render={({ field: { onChange, value } }) => (
                     <Autocomplete
                       disablePortal
                       id="combo-box-demo"
@@ -343,40 +315,28 @@ export default function UserDetails() {
                       isOptionEqualToValue={(option, value) =>
                         option.id === value.id
                       }
-                      onChange={(e, val) => setSelectedStatus(val)}
-                      value={selectedStatus}
+                      value={value}
+                      onChange={(e, val) => onChange(val)}
                       renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Active Status"
-                          // {...register("status", {
-                          //   required: "Status is required",
-                          // })}
-                        />
+                        <TextField {...params} label="Active Status" />
                       )}
                     />
                   )}
-                  {!selectedStatus?.title && (
-                    <div className="error">{errors?.status?.message}</div>
-                  )}
-                </div>
-              </div>
-              <div className="btn-section">
-                <div className="col-md-1">
-                  <Button
-                    variant="contained"
-                    className="form-btn"
-                    type="submit"
-                    fullWidth
-                  >
-                    Update
-                  </Button>
-                </div>
-              </div>
-            </div>
+                />
+
+                {errors?.status && (
+                  <div className="error">Status is required</div>
+                )}
+              </Grid>
+            </Grid>
+            <Grid container md={12} justifyContent="end">
+              <Button variant="contained" className="form-btn" type="submit">
+                Update
+              </Button>
+            </Grid>
           </form>
         </Paper>
       )}
-    </>
+    </Container>
   );
 }
