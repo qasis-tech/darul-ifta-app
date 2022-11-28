@@ -14,6 +14,11 @@
                     font-family: $malayalam-font-style!important;
                 }
             }
+            .sub-heading{
+                @media screen and (max-width:1000px) {
+                    padding-bottom: 4em;
+                }
+            }
             .main-heading{
                 padding-top: 4em;
                 padding-bottom: 2em!important;
@@ -22,6 +27,8 @@
             .second-section{
                 @media screen and (max-width:1000px) {
                     flex-direction: column;
+                    padding-left: 0!important;
+                    padding-right: 0!important;
                 }
                 .sub-main{
                     @media screen and (max-width:1000px) {
@@ -46,6 +53,9 @@
                 justify-content: center;
                 align-items: center;
                 align-content: center;
+                @media screen and (max-width:1000px) {
+                    padding: 0!important;
+                }
                 .main{
                     font-family: $footer-font-style!important;
                     color: $theme-primary-color;

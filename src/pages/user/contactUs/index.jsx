@@ -17,8 +17,8 @@ export default function ContactUs() {
                     Contact Us
                   </Typography>
                 </Grid>
-                <Grid item md={12} className="d-flex align-items-center">
-                  <Typography variant="subtile1" align="center">
+                <Grid item md={12} className="d-flex justify-content-center align-items-center">
+                  <Typography variant="subtile1" align="center" className="sub-heading">
                     AL JAMIATHUL KAUZARIYYA ARABIC COLLEGE
                   </Typography>
                 </Grid>
@@ -27,7 +27,7 @@ export default function ContactUs() {
           </Grid>
 
           <Grid spacing={2} className="p-4 d-flex second-section">
-            <Grid item xs={6} spacing={4} className="p-4 d-flex sub-main">
+            <Grid item xs={12} md={6} spacing={4} className="p-4 d-flex sub-main">
               <Grid item xs={4} className="p-3 sub">
                 <ImportContactsIcon className="icons" />
                 <Typography variant="h6" align="center" marginBottom={1}>
@@ -59,11 +59,11 @@ export default function ContactUs() {
                   Phone
                 </Typography>
                 <Typography variant="subtitle1" align="center">
-                  +91 9809 677 219 ( office )
+                  +91 9809 677 219<br/> ( office )
                 </Typography>
               </Grid>
             </Grid>
-            <Grid item xs={6} className="p-5 sub-title w-50">
+            <Grid item xs={12} md={6} className="p-5 sub-title w-50">
               <Grid item xs={12}>
                 <Typography variant="h4" align="center" className="main">
                   Contact Us

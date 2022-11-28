@@ -23,7 +23,6 @@ import getCategoryListApi from "../../../services/getCategoryList";
 import getmadhabList from "../../../services/getMadhabList";
 import SnackBar from "../../../components/common/Snackbar";
 import { URLS } from "../../../config/urls.config";
-import { toast } from "react-toastify";
 import "./fatwas.details.styles.scss";
 import Loader from "../../../components/common/Loader";
 import DialogComponent from "../../../components/DialogComponent";
