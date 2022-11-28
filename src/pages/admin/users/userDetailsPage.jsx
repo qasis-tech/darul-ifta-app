@@ -80,6 +80,7 @@ export default function UserDetails() {
     mobileNumber,
     password,
     address,
+    madhab,
   }) => {
     setLoader(true);
     let payload = {
@@ -88,45 +89,46 @@ export default function UserDetails() {
       display_title: displayName,
       phone: mobileNumber,
       user_type: selectedRoles.label,
-      madhab: selectedMadhab.title,
+      madhab: madhab.title,
       address: address,
       user_password: password,
       user_status: selectedStatus.title,
       password,
     };
 
-    axios
-      .put(`${URLS.user}${URLS.signup}/${id}`, payload, {
-        headers: {
-          Authorization: `${userToken}`,
-        },
-      })
-      .then((res) => {
-        setLoader(false);
-        if (res?.success) {
-          toast(res.message, {
-            onClose: () => {
-              setLoader(false);
-              navigate(`${routerList.admin.admin}/${routerList.admin.user}`);
-            },
-          });
-        } else {
-          toast(res.message, {
-            onClose: () => {
-              setLoader(false);
-            },
-          });
-        }
-      })
-      .catch((err) => {
-        setLoader(false);
-        toast("Somthing went wrong, please try again later", {
-          onClose: () => {
-            setLoader(false);
-          },
-        });
-        console.log("Errors in user save", err);
-      });
+    console.log("1111111111", payload);
+    // axios
+    //   .put(`${URLS.user}${URLS.signup}/${id}`, payload, {
+    //     headers: {
+    //       Authorization: `${userToken}`,
+    //     },
+    //   })
+    //   .then((res) => {
+    //     setLoader(false);
+    //     if (res?.success) {
+    //       toast(res.message, {
+    //         onClose: () => {
+    //           setLoader(false);
+    //           navigate(`${routerList.admin.admin}/${routerList.admin.user}`);
+    //         },
+    //       });
+    //     } else {
+    //       toast(res.message, {
+    //         onClose: () => {
+    //           setLoader(false);
+    //         },
+    //       });
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     setLoader(false);
+    //     toast("Somthing went wrong, please try again later", {
+    //       onClose: () => {
+    //         setLoader(false);
+    //       },
+    //     });
+    //     console.log("Errors in user save", err);
+    //   });
   };
 
   const getUserApi = (madhabList) => {

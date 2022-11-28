@@ -241,7 +241,7 @@ const AccountHome = ({
                     onClose={() => setAskPopup(false)}
                     aria-describedby="alert-dialog-slide-description"
                   >
-                    <DialogTitle>User Profile</DialogTitle>
+                    <DialogTitle>Ask Fatwas</DialogTitle>
                     <Divider />
                     <DialogContent>
                       <AskFatwasComponent close={() => setAskPopup(false)} />
