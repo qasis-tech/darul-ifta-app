@@ -141,6 +141,14 @@
       display: unset;
     }
   }
+
+}
+#account-menu{
+  .MuiMenu-paper{
+    @media screen and (max-width:1000px) {
+      width: 27%;
+    }
+  }
 }
 // .header-border{
 
