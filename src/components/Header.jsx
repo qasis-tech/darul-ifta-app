@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import { Container, Nav, Navbar } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 import {
   Avatar,
@@ -16,7 +17,6 @@ import PersonIcon from "@mui/icons-material/Person";
 
 import { authLogout } from "../routes/auth";
 import routerList from "../routes/routerList";
-import Snackbar from "../components/common/Snackbar";
 import LogoImage from "../assets/logo-main-logo-blue.svg";
 import Logout from "@mui/icons-material/Logout";
 
@@ -27,22 +27,6 @@ const HeaderComponent = ({ closePopup, userLoginDetails }) => {
   const open = Boolean(anchorEl);
   const handleClick = (event) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
-
-  const [errorPopup, setError] = useState({
-    visible: false,
-    message: "",
-    title: "",
-  });
-
-  const handleCloseError = () => {
-    setError({
-      visible: false,
-      message: "",
-      type: "sucess",
-      titile: "",
-    });
-    closePopup(true);
-  };
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -182,11 +166,7 @@ const HeaderComponent = ({ closePopup, userLoginDetails }) => {
                             onClick={() => {
                               authLogout(() => {
                                 navigate(`${routerList.user.home}`);
-                                setError({
-                                  visible: true,
-                                  message: "logged out sucessfully",
-                                  type: "success",
-                                });
+                                toast("logged out sucessfully")
                               });
                             }}
                           >
@@ -211,15 +191,6 @@ const HeaderComponent = ({ closePopup, userLoginDetails }) => {
             </Navbar.Collapse>
           </Container>
         </Navbar>
-        {errorPopup.visible && (
-          <Snackbar
-            visible={errorPopup.visible}
-            message={errorPopup.message}
-            type={errorPopup.type}
-            title={errorPopup.title}
-            onClose={() => handleCloseError()}
-          />
-        )}
       </div>
     </div>
   );
