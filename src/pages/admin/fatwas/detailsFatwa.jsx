@@ -31,30 +31,21 @@ import Loader from "../../../components/common/Loader";
 import RejectedReasonSection from "./components/RejectedReasonSection";
 import getQuestionListApi from "../../../services/getQuestionsList";
 import routerList from "../../../routes/routerList";
+import TextEditor from "../../../components/RichTextEditor";
 
 export default function FatwasDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [categoryData, setCategoryData] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
-
   const [madhabData, setMadhabData] = useState([]);
-
   const [referenceList, setReferance] = useState([]);
-
   const [mufthiList, setMufthiList] = useState([]);
-  const [selectedMufthi, setSelectedMufthi] = useState(null);
-
-  const [selectedCheckedAndApprove, setSelectedCheckedAndApprove] =
-    useState(null);
   const [selectedStatus, setSelectedStatus] = useState([]);
-
   const [isLoading, setLoader] = useState(false);
-
   const [subCategoryData, setSubCategory] = useState([]);
   const [state, setQuestionDetails] = useState(null);
   const [rejectPopup, setRejectPopup] = useState(false);
-
   const [content, setContent] = useState(null);
 
   const languageList = [
@@ -622,7 +613,7 @@ export default function FatwasDetails() {
                               options={mufthiList?.filter(
                                 (fl) =>
                                   fl?._id !== getValues("assignedTo._id") &&
-                                  fl?._id !== "Students" &&
+                                  fl?.user_type !== "Students" &&
                                   fl?._id !== getValues("verifier._id")
                               )}
                               getOptionLabel={(option) => option?.name || ""}
@@ -682,33 +673,30 @@ export default function FatwasDetails() {
                       )}
                     </div>
                   </div>
+
                   {state?.status !== "Received to Darul Ifta" && (
                     <>
                       <div className="qshort-section">
                         <div className="qshort-container">
                           <div className="qshort-row">
                             <div className="col-md-12">
-                              <JoditEditor
+                              <TextEditor
                                 ref={editor}
-                                value={content}
-                                config={config}
-                                onBlur={(newContent) => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
-                                // onChange={(newContent) => setContent(newContent)}
+                                content={content}
+                                setContent={setContent}
                               />
                             </div>
                           </div>
                         </div>
                       </div>
-
-                      {/* reference */}
-                      {referenceList && (
-                        <FatwaAddComponent
-                          referenceList={referenceList}
-                          setReferance={setReferance}
-                        />
-                      )}
                     </>
                   )}
+
+                  {/* reference */}
+                  <FatwaAddComponent
+                    referenceList={referenceList}
+                    setReferance={setReferance}
+                  />
                 </>
               )}
 

@@ -125,7 +125,7 @@ export default function ArticleDetails() {
       });
   };
 
-  const postArticleUpdate = (params) => {
+  const putArticleUpdate = (params) => {
     setLoader(true);
     const { mufthi, language, title, status } = params;
     const payload = {
@@ -137,7 +137,7 @@ export default function ArticleDetails() {
     };
 
     axios
-      .post(`${URLS.article}`, payload)
+      .put(`${URLS.article}/${id}`, payload)
       .then((res) => {
         setLoader(false);
         if (res.success) {
@@ -173,7 +173,7 @@ export default function ArticleDetails() {
           {isLoader ? (
             <Loader />
           ) : (
-            <form onSubmit={handleSubmit(postArticleUpdate)}>
+            <form onSubmit={handleSubmit(putArticleUpdate)}>
               <div className="add-article-container">
                 <div className="add-article-row">
                   <div className="col-md-6 first-col">

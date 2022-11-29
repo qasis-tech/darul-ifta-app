@@ -124,23 +124,19 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
               {[0, 1, 2, 3, 4].map((item) => {
                 return (
                   <TabPanel value={value} index={item} key={item}>
-                    {questionData?.data?.length ? (
+                    {questionData && questionData?.data?.length ? (
                       questionData?.data?.map((question) => {
                         return (
-                          <div>
-                            <div>
-                              <QuestionContainer
-                                key={question._id}
-                                id={question?.slNo}
-                                shortquestion={question.short_question}
-                                question={question.question}
-                                questionCount={question.slNo}
-                                createdDate={formatDate(question.createdAt)}
-                                views={question.views}
-                                data={question}
-                              />
-                            </div>
-                          </div>
+                          <QuestionContainer
+                            key={question._id}
+                            id={question?.slNo}
+                            shortquestion={question.short_question}
+                            question={question.question}
+                            questionCount={question.slNo}
+                            createdDate={formatDate(question.createdAt)}
+                            views={question.views}
+                            data={question}
+                          />
                         );
                       })
                     ) : (
@@ -151,22 +147,25 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
                         <NoDataAvailable noStyle noBg />
                       </div>
                     )}
+
+                    {questionData && (
+                      <div className="pagination-section">
+                        <TablePagination
+                          rowsPerPageOptions={[5]}
+                          component="div"
+                          count={questionData && questionData?.count}
+                          rowsPerPage={rowsPerPage}
+                          page={page}
+                          onPageChange={handleChangePage}
+                        />
+                      </div>
+                    )}
                   </TabPanel>
                 );
               })}
             </>
           )}
         </Box>
-      </div>
-      <div className="pagination-section">
-        <TablePagination
-          rowsPerPageOptions={[5]}
-          component="div"
-          count={questionData?.count}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-        />
       </div>
     </div>
   );
