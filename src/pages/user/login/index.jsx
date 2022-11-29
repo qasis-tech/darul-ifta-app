@@ -6,7 +6,7 @@ import jwt_decode from "jwt-decode";
 import { useForm } from "react-hook-form";
 import { connect } from "react-redux";
 
-import { TextField, InputAdornment, IconButton } from "@mui/material";
+import { TextField, InputAdornment, IconButton, Grid, Paper } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import Avatar from "@mui/material/Avatar";
@@ -161,13 +161,13 @@ const Login = (props) => {
         className="container login-container"
         style={{ backgroundImage: `url(${BackgroundImage})` }}
       >
-        <div className="formWraper">
-          <div className="welcome-section">
+        <Grid  spacing={2} className="formWraper">
+          <Grid item md={6}  className="welcome-section">
             <div className="welcomeDiv">{/* <h2>Welcome Back!</h2> */}</div>
-          </div>
+          </Grid>
 
-          <div className="main-div">
-            <div className="formDiv">
+          <Grid item md={6} sm={6}  className="main-div">
+            <Paper elevation={2} className="formDiv">
               <h2>Sign in</h2>
 
               {screens === "email" ? (
@@ -297,9 +297,9 @@ const Login = (props) => {
                   Back to home
                 </a>
               </div>
-            </div>
-          </div>
-        </div>
+            </Paper>
+          </Grid>
+        </Grid>
       </div>
     </section>
   );
