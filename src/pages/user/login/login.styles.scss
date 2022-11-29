@@ -19,7 +19,7 @@
   }
   .formWraper {
     display: flex;
-    width: 90%;
+   width: 90%;
     // height: 65%;
     border-radius: 10px;
     @media screen and (min-width: 320px) and (max-width: 760px) {
@@ -34,12 +34,15 @@
     }
   }
   .formDiv {
-   // width: 60%;
+   width: 60%;
     padding: 40px 56px;
     // background-color: white;
     // border-radius: 5px;
     @media screen and (min-width: 768px) and (max-width: 1024px) {
-      width: 70%;
+      width: 55%;
+    }
+    @media screen and (min-width: 2000px) and (max-width: 2600px) {
+      width: 45%;
     }
     @media screen and (min-width: 320px) and (max-width: 760px) {
       padding: 40px 17px;
@@ -99,6 +102,10 @@
     justify-content: center;
     flex-direction: column;
     margin-top: 0.5em;
+    .S9gUrf-YoZ4jf{
+      display: flex;
+      justify-content: center;
+    }
     .icon {
       padding: 8px;
       width: 100%;

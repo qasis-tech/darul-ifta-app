@@ -6,7 +6,13 @@ import jwt_decode from "jwt-decode";
 import { useForm } from "react-hook-form";
 import { connect } from "react-redux";
 
-import { TextField, InputAdornment, IconButton, Grid, Paper } from "@mui/material";
+import {
+  TextField,
+  InputAdornment,
+  IconButton,
+  Grid,
+  Paper,
+} from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import Avatar from "@mui/material/Avatar";
@@ -49,7 +55,6 @@ const Login = (props) => {
   //     });
   //   }, 3500);
   // };
-
 
   const handleContinue = ({ email }) => {
     setLoader(true);
@@ -156,17 +161,67 @@ const Login = (props) => {
   };
 
   return (
-    <section className="login-section">
-      {/* <div
+    <section
+      className="login-section"
+      style={{ backgroundImage: `url(${BackgroundImage})` }}
+    >
+      {/* <Grid
+        container
+        spacing={2}
+        className="d-flex justify-content-between p-5"
+        style={{ height: "100%" }}
+      >
+        <Grid item xs={7} md={8}></Grid>
+        <Grid
+          item
+          xs={5}
+          md={4}
+          className="d-flex justify-content-center align-items-center align-content-center"
+        >
+          <Paper elevation={2} className="w-100 p-5">
+          <Grid item xs={12}>
+          <h2>Sign in</h2>
+          </Grid>
+            <form onSubmit={handleSubmit(handleContinue)}>
+              <TextField
+                fullWidth
+                id="standard-basic"
+                label="Email Address"
+                variant="standard"
+                className="email"
+                {...register("email", {
+                  required: "Email ID is required",
+                  pattern: {
+                    value:
+                      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                    message: "Invalid email Id ( eg: example@mail.com ) ",
+                  },
+                })}
+              />
+              <div className="error">{errors?.email?.message}</div>
+              <div className="signin-btn">
+                {isLoading ? (
+                  <Loader skeleton layers={1} />
+                ) : (
+                  <button className="btn" type="submit">
+                    Continue
+                  </button>
+                )}
+              </div>
+            </form>
+          </Paper>
+        </Grid>
+      </Grid> */}
+      <div
         className="container login-container"
         style={{ backgroundImage: `url(${BackgroundImage})` }}
       >
         <Grid  spacing={2} className="formWraper">
-          <Grid item md={6}  className="welcome-section">
-            <div className="welcomeDiv"> <h2>Welcome Back!</h2> </div>
+          <Grid item md={6} xs={6} lg={6}  className="welcome-section">
+            {/* <div className="welcomeDiv"> <h2>Welcome Back!</h2> </div> */}
           </Grid>
 
-          <Grid item md={6} sm={6}  className="main-div">
+          <Grid item md={6} sm={6} lg={6}   className="main-div d-flex justify-content-center">
             <Paper elevation={2} className="formDiv">
               <h2>Sign in</h2>
 
@@ -258,7 +313,7 @@ const Login = (props) => {
                   <Loader skeleton layers={1} />
                 ) : (
                   <>
-                    <GoogleLogin
+                    {/* <GoogleLogin
                       clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                       buttonText="Continue with Google"
                       onSuccess={(aa) => {
@@ -268,7 +323,7 @@ const Login = (props) => {
                         console.log("Fail", ee);
                       }}
                       cookiePolicy={"single_host_origin"}
-                    />
+                    /> */}
                     <GoogleLogin
                       onSuccess={(res) => {
                         const decoded = jwt_decode(res?.credential);
@@ -284,10 +339,10 @@ const Login = (props) => {
                       }}
                     />
 
-                    <div className="facebook icon text">
+                    {/* <div className="facebook icon text">
                       <FacebookIcon className="icons-size " />
                       Continue with Facebook
-                    </div>
+                    </div> */}
                   </>
                 )}
               </div>
@@ -300,7 +355,7 @@ const Login = (props) => {
             </Paper>
           </Grid>
         </Grid> 
-      </div>*/}
+      </div>
     </section>
   );
 };
