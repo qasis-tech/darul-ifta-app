@@ -47,7 +47,7 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
   const [value, setValue] = useState(0);
   const [questionData, setQuestionData] = useState([]);
   const [isLoading, setLoader] = useState(false);
-  const [limit, setLimit] = useState(2);
+  const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
   const [nodata, setNodata] = useState();
   const [rowsPerPage, setRowsPerPage] = useState(5);

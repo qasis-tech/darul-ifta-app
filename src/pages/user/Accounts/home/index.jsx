@@ -244,7 +244,13 @@ const AccountHome = ({
                     <DialogTitle>Ask Fatwas</DialogTitle>
                     <Divider />
                     <DialogContent>
-                      <AskFatwasComponent close={() => setAskPopup(false)} />
+                      <AskFatwasComponent
+                        close={() => {
+                          userLoginDetails?.profileComplete === "Completed"
+                            ? setProfilePopup(true)
+                            : setAskPopup(false);
+                        }}
+                      />
                     </DialogContent>
                   </Dialog>
 
