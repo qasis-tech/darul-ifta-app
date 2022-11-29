@@ -22,6 +22,8 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
 
+import Tooltip from '@mui/material/Tooltip';
+
 import "./admin.fatwas.styles.scss";
 
 import { URLS } from "../../../config/urls.config";
@@ -420,7 +422,7 @@ export default function Fatwas() {
                       <TableCell>Category</TableCell>
                       <TableCell>Madhab</TableCell>
                       <TableCell>Mufthi</TableCell>
-                      <TableCell style={{ width: "17%" }}>Status</TableCell>
+                      <TableCell>Status</TableCell>
                     </TableRow>
                   </TableHead>
 
@@ -463,7 +465,8 @@ export default function Fatwas() {
                                 {question.mufti?.display_title || "N/A"}
                               </span>
                             </TableCell>
-                            <TableCell style={{ width: "17%" }}>
+                            <TableCell>
+                            <Tooltip title="Pending" arrow>
                               <span
                                 className={
                                   question?.status === "Pending"
@@ -489,6 +492,7 @@ export default function Fatwas() {
                               >
                                 {question?.status}
                               </span>
+                              </Tooltip>
                             </TableCell>
                           </TableRow>
                         );

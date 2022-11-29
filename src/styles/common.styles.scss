@@ -146,6 +146,12 @@ p{
   border-radius: 20px;
   color: white;
   
+  display: inline-block;
+  width: 100px;
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+  
 }
 .activestatus {
   background-color: green;
