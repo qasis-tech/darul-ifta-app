@@ -17,7 +17,9 @@ export default function RelatedFatwas({ data }) {
 
   useEffect(() => {
     getQuestionList(
-      `?subCategory=${encodeURIComponent(subCategoryLabel)}&limit=3`
+      `?status=Published&subCategory=${encodeURIComponent(
+        subCategoryLabel
+      )}&limit=3`
     );
   }, []);
 

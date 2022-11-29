@@ -244,13 +244,7 @@ const AccountHome = ({
                     <DialogTitle>Ask Fatwas</DialogTitle>
                     <Divider />
                     <DialogContent>
-                      <AskFatwasComponent
-                        close={() => {
-                          userLoginDetails?.profileComplete === "Completed"
-                            ? setProfilePopup(true)
-                            : setAskPopup(false);
-                        }}
-                      />
+                      <AskFatwasComponent close={() => setAskPopup(false)} />
                     </DialogContent>
                   </Dialog>
 
@@ -258,7 +252,11 @@ const AccountHome = ({
                     variant="contained"
                     className="submit-btn mt-2"
                     fullWidth
-                    onClick={() => setAskPopup(true)}
+                    onClick={() => {
+                      userLoginDetails?.profileComplete === "Completed"
+                        ? setAskPopup(true)
+                        : setProfilePopup(true);
+                    }}
                   >
                     Ask Fatwa
                   </Button>
