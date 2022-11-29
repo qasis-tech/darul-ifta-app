@@ -21,8 +21,14 @@
       }
     }
     .sub-details {
-      border: 1px solid $primary;
+      border-bottom: 1px solid $primary;
+      border-radius: 5px;
       cursor: pointer;
+      .main-title{
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
       .title {
         font-size: $theme-f1;
         font-family: $font-style;

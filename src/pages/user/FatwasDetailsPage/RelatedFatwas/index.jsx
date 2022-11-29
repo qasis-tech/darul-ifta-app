@@ -1,4 +1,4 @@
-import { Chip, Typography } from "@mui/material";
+import { Chip, Grid, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { URLS } from "../../../../config/urls.config";
@@ -36,7 +36,7 @@ export default function RelatedFatwas({ data }) {
         );
       })
       .catch((err) => {
-        console.error("Error in getQuestionListApi", err);
+        //  console.error("Error in getQuestionListApi", err);
         setLoader(false);
         setQuestionList([]);
       });
@@ -55,9 +55,11 @@ export default function RelatedFatwas({ data }) {
             return (
               <div key={slicedques?._id} className="container">
                 <div className="col-md-12 sub-details my-3  py-2 px-2">
-                  <Typography className="title">
-                    {slicedques?.short_question}
-                  </Typography>
+                  <Grid item xs={12} md={12} className="line-clamp">
+                    <Typography variant="paragraph" className="title">
+                      {slicedques?.short_question}
+                    </Typography>
+                  </Grid>
                   <div className="row d-flex sub-btn justify-content-between mt-2 pb-1">
                     <div className="col-md-6">
                       <Chip
@@ -69,7 +71,7 @@ export default function RelatedFatwas({ data }) {
                     </div>
                     <div className="col-md-6">
                       <Chip
-                        label="ReadMore"
+                        label="Read More"
                         className="id-button"
                         onClick={() =>
                           navigate(`${routerList.user.fatwasDetailsPage}`, {
