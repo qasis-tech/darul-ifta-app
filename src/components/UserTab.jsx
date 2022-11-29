@@ -47,7 +47,7 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
   const [value, setValue] = useState(0);
   const [questionData, setQuestionData] = useState([]);
   const [isLoading, setLoader] = useState(false);
-  const [limit, setLimit] = useState(5);
+  const [limit, setLimit] = useState(2);
   const [page, setPage] = useState(0);
   const [nodata, setNodata] = useState();
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -92,7 +92,7 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
         : `?status=${STATUS[newValue]}&userid=${userLoginDetails?._id}`
     );
   };
-  const handleChangePage = (event, newPage) => setPage(newPage);
+  const handleChangePage = (e, newPage) => setPage(newPage);
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(event.target.value);
     setPage(0);
@@ -140,14 +140,6 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
                                 data={question}
                               />
                             </div>
-                            <TablePagination
-                              rowsPerPageOptions={[5]}
-                              component="div"
-                              count={questionData?.count}
-                              rowsPerPage={rowsPerPage}
-                              page={page}
-                              onPageChange={handleChangePage}
-                            />
                           </div>
                         );
                       })
@@ -166,7 +158,7 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
           )}
         </Box>
       </div>
-      {/* <div className="pagination-section">
+      <div className="pagination-section">
         <TablePagination
           rowsPerPageOptions={[5]}
           component="div"
@@ -175,7 +167,7 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
           page={page}
           onPageChange={handleChangePage}
         />
-      </div> */}
+      </div>
     </div>
   );
 };
