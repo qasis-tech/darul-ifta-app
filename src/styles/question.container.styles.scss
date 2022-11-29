@@ -48,7 +48,6 @@
           }
           .w-name{
             @media screen and (max-width:1000px) {
-              
               padding-bottom: 5px!important;
             }
             h5{
@@ -59,7 +58,7 @@
         .writtenby-section{
           color: $theme-primary-color;
           @media screen and (max-width:1000px) {
-            min-width: 27%;
+            min-width: 30%;
           }
         }
         .colon{
