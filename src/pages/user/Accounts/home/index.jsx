@@ -137,7 +137,7 @@ const AccountHome = ({
 
   return (
     <>
-      <div className="profile-1 mt-2">
+      <div className="profile-1">
         <div className="container profile-container d-flex py-1 px-5">
           <div className="col d-flex flex-column align-items-center">
             <div className="profile-img">
