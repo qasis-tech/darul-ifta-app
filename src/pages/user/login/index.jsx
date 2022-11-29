@@ -157,13 +157,13 @@ const Login = (props) => {
 
   return (
     <section className="login-section">
-      <div
+      {/* <div
         className="container login-container"
         style={{ backgroundImage: `url(${BackgroundImage})` }}
       >
         <Grid  spacing={2} className="formWraper">
           <Grid item md={6}  className="welcome-section">
-            <div className="welcomeDiv">{/* <h2>Welcome Back!</h2> */}</div>
+            <div className="welcomeDiv"> <h2>Welcome Back!</h2> </div>
           </Grid>
 
           <Grid item md={6} sm={6}  className="main-div">
@@ -258,7 +258,7 @@ const Login = (props) => {
                   <Loader skeleton layers={1} />
                 ) : (
                   <>
-                    {/* <GoogleLogin
+                    <GoogleLogin
                       clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                       buttonText="Continue with Google"
                       onSuccess={(aa) => {
@@ -268,7 +268,7 @@ const Login = (props) => {
                         console.log("Fail", ee);
                       }}
                       cookiePolicy={"single_host_origin"}
-                    /> */}
+                    />
                     <GoogleLogin
                       onSuccess={(res) => {
                         const decoded = jwt_decode(res?.credential);
@@ -284,10 +284,10 @@ const Login = (props) => {
                       }}
                     />
 
-                    {/* <div className="facebook icon text">
+                    <div className="facebook icon text">
                       <FacebookIcon className="icons-size " />
                       Continue with Facebook
-                    </div> */}
+                    </div>
                   </>
                 )}
               </div>
@@ -299,8 +299,8 @@ const Login = (props) => {
               </div>
             </Paper>
           </Grid>
-        </Grid>
-      </div>
+        </Grid> 
+      </div>*/}
     </section>
   );
 };
