@@ -60,7 +60,6 @@ export default function FatwaAddComponent({ referenceList, setReferance }) {
           </div>
           <div className="col-md-4 add-button">
             <Button variant="contained" className="add-btn">
-              {" "}
               <AddIcon onClick={() => append()} />
             </Button>
           </div>
