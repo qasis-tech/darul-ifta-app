@@ -622,7 +622,7 @@ export default function FatwasDetails() {
                               options={mufthiList?.filter(
                                 (fl) =>
                                   fl?._id !== getValues("assignedTo._id") &&
-                                  fl?._id !== "Students" &&
+                                  fl?.user_type !== "Students" &&
                                   fl?._id !== getValues("verifier._id")
                               )}
                               getOptionLabel={(option) => option?.name || ""}
