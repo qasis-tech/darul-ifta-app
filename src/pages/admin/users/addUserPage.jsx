@@ -29,7 +29,7 @@ export default function AddUser() {
   const [isLoading, setLoader] = useState(false);
   const roles = [
     { label: "Mufthi", value: "mufti" },
-    { label: "Student", value: "student" },
+    { label: "Students", value: "students" },
     { label: "User", value: "user" },
   ];
 
@@ -105,7 +105,7 @@ export default function AddUser() {
               setLoader(false);
             },
           });
-          navigate(-1)
+          navigate(-1);
         } else {
           toast(res.message, {
             onClose: () => {
@@ -132,205 +132,213 @@ export default function AddUser() {
         <Loader absolute />
       ) : (
         <Paper elevation={2}>
-        <div className="add-user-section  bg-white">
-          <form onSubmit={handleSubmit(handleSave)}>
-            <div className="add-user-container">
-              <div className="add-user-row">
-                <div className="col-md-6 first-col">
-                  <TextField
-                    id="userAddName"
-                    label="Name"
-                    size="small"
-                    fullWidth
-                    variant="outlined"
-                    {...register("name", { required: "Name is required" })}
-                  />
-                  <div className="error">{errors?.name?.message}</div>
+          <div className="add-user-section  bg-white">
+            <form onSubmit={handleSubmit(handleSave)}>
+              <div className="add-user-container">
+                <div className="add-user-row">
+                  <div className="col-md-6 first-col">
+                    <TextField
+                      id="userAddName"
+                      label="Name"
+                      size="small"
+                      fullWidth
+                      variant="outlined"
+                      {...register("name", { required: "Name is required" })}
+                    />
+                    <div className="error">{errors?.name?.message}</div>
+                  </div>
+                  <div className="col-md-6 second-col">
+                    <TextField
+                      id="userAddDisplayName"
+                      label="Display Name"
+                      size="small"
+                      fullWidth
+                      variant="outlined"
+                      {...register("displayName", {
+                        required: "Display Name is required",
+                      })}
+                    />
+                    <div className="error">{errors?.displayName?.message}</div>
+                  </div>
                 </div>
-                <div className="col-md-6 second-col">
-                  <TextField
-                    id="userAddDisplayName"
-                    label="Display Name"
-                    size="small"
-                    fullWidth
-                    variant="outlined"
-                    {...register("displayName", {
-                      required: "Display Name is required",
-                    })}
-                  />
-                  <div className="error">{errors?.displayName?.message}</div>
+                <div className="add-user-row">
+                  <div className="col-md-6 first-col">
+                    <TextField
+                      id="userAddEmail"
+                      label="Email"
+                      size="small"
+                      fullWidth
+                      variant="outlined"
+                      {...register("email", {
+                        required: "Email ID is required",
+                        pattern: {
+                          value:
+                            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                          message: "Invalid email Id ( eg: example@mail.com ) ",
+                        },
+                      })}
+                    />
+                    <div className="error">{errors?.email?.message}</div>
+                  </div>
+                  <div className="col-md-6 second-col">
+                    <TextField
+                      id="userAddMobileNumber"
+                      label="Whatsapp Number"
+                      size="small"
+                      type="number"
+                      fullWidth
+                      variant="outlined"
+                      // {...register("mobileNumber", {
+                      //   required: "Mobile Number is required",
+                      // })}
+                      {...register("mobileNumber", {
+                        required: "Please enter Mobile Number",
+                        minLength: {
+                          value: 10,
+                          message: "Mobile Number length must be 10 digit. ",
+                        },
+                        maxLength: {
+                          value: 10,
+                          message: "Mobile Number length must be 10 digit. ",
+                        },
+                      })}
+                    />
+                    <div className="error">{errors?.mobileNumber?.message}</div>
+                  </div>
                 </div>
-              </div>
-              <div className="add-user-row">
-                <div className="col-md-6 first-col">
-                  <TextField
-                    id="userAddEmail"
-                    label="Email"
-                    size="small"
-                    fullWidth
-                    variant="outlined"
-                    {...register("email", {
-                      required: "Email ID is required",
-                      pattern: {
-                        value:
-                          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                        message: "Invalid email Id ( eg: example@mail.com ) ",
-                      },
-                    })}
-                  />
-                  <div className="error">{errors?.email?.message}</div>
-                </div>
-                <div className="col-md-6 second-col">
-                  <TextField
-                    id="userAddMobileNumber"
-                    label="Whatsapp Number"
-                    size="small"
-                    type="number"
-                    fullWidth
-                    variant="outlined"
-                    // {...register("mobileNumber", {
-                    //   required: "Mobile Number is required",
-                    // })}
-                    {...register("mobileNumber", {
-                      required: "Please enter Mobile Number",
-                    minLength: {
-                      value: 10,
-                      message: "Mobile Number length must be 10 digit. ",
-                    },
-                    maxLength: {
-                      value: 10,
-                      message: "Mobile Number length must be 10 digit. ",
-                    },
-              
-                    })}
-                  />
-                  <div className="error">{errors?.mobileNumber?.message}</div>
-                </div>
-              </div>
-              <div className="add-user-row">
-                <div className="col-md-6 first-col">
-                  <TextField
-                    id="userAddPassword"
-                    label="Password"
-                    type="password"
-                    size="small"
-                    fullWidth
-                    variant="outlined"
-                    {...register("password", {
-                      required: "Password is required",
-                      minLength: {
-                        value: 8,
-                        message: "Minimum 8 character",
-                      },
-                    })}
-                  />
-                  <div className="error">{errors?.password?.message}</div>
-                </div>
-                <div className="col-md-3 second-col">
-                  <Autocomplete
-                    disablePortal
-                    id="userAddRoles"
-                    size="small"
-                    options={roles}
-                    getOptionLabel={(option) => option.label || ""}
-                    isOptionEqualToValue={(option, value) => {
-                      return option.label === value.label;
-                    }}
-                    onChange={(e, val) => setSelectedRoles(val)}
-                    value={selectedRoles || null}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Roles" 
-                      {...register("roles", {
-                        required: "Roles is required",
-                      })}/>
-                    )}
-                  />
-                  {!selectedRoles?.label && (
-                    <div className="error">{errors?.roles?.message}</div>
-                  )}
-                </div>
-                <div className="col-md-3 second-col">
-                  <Autocomplete
-                    disablePortal
-                    id="userAddMadhab"
-                    size="small"
-                    options={madhabData}
-                    getOptionLabel={(option) => option.title || ""}
-                    isOptionEqualToValue={(option, value) =>
-                      option._id === value._id
-                    }
-                    onChange={(e, val) => setSelectedMadhab(val)}
-                    value={selectedMadhab}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Madhab" 
-                      {...register("madhab", {
-                        required: "Madhab is required",
-                      })}/>
-                    )}
-                  />
-
-                  {!selectedMadhab?.title && (
-                    <div className="error">{errors?.madhab?.message}</div>
-                  )}
-                </div>
-              </div>
-              <div className="add-user-row">
-                <div className="col-md-6 first-col">
-                  <TextField
-                    id="userAddAddress"
-                    label="Address"
-                    // size="small"
-                    rows={3}
-                    multiline
-                    fullWidth
-                    variant="outlined"
-                    {...register("address", {
-                      required: "Address is required",
-                    })}
-                  />
-                  <div className="error">{errors?.address?.message}</div>
-                </div>
-                <div className="col-md-6 second-col">
-                  {status?.length && (
+                <div className="add-user-row">
+                  <div className="col-md-6 first-col">
+                    <TextField
+                      id="userAddPassword"
+                      label="Password"
+                      type="password"
+                      size="small"
+                      fullWidth
+                      variant="outlined"
+                      {...register("password", {
+                        required: "Password is required",
+                        minLength: {
+                          value: 8,
+                          message: "Minimum 8 character",
+                        },
+                      })}
+                    />
+                    <div className="error">{errors?.password?.message}</div>
+                  </div>
+                  <div className="col-md-3 second-col">
                     <Autocomplete
                       disablePortal
-                      id="userAddStatus"
+                      id="userAddRoles"
                       size="small"
-                      options={status}
-                      getOptionLabel={(option) => option.title || ""}
-                      isOptionEqualToValue={(option, value) =>
-                        option.id === value.id
-                      }
-                      onChange={(e, val) => setSelectedStatus(val)}
-                      value={selectedStatus}
+                      options={roles}
+                      getOptionLabel={(option) => option.label || ""}
+                      isOptionEqualToValue={(option, value) => {
+                        return option.label === value.label;
+                      }}
+                      onChange={(e, val) => setSelectedRoles(val)}
+                      value={selectedRoles || null}
                       renderInput={(params) => (
-                        <TextField {...params} label="Active Status" 
-                        {...register("status", {
-                          required: "Status is required",
-                        })}/>
+                        <TextField
+                          {...params}
+                          label="Roles"
+                          {...register("roles", {
+                            required: "Roles is required",
+                          })}
+                        />
                       )}
                     />
-                  )}
-                  {!selectedStatus?.title && (
-                    <div className="error">{errors?.status?.message}</div>
-                  )}
+                    {!selectedRoles?.label && (
+                      <div className="error">{errors?.roles?.message}</div>
+                    )}
+                  </div>
+                  <div className="col-md-3 second-col">
+                    <Autocomplete
+                      disablePortal
+                      id="userAddMadhab"
+                      size="small"
+                      options={madhabData}
+                      getOptionLabel={(option) => option.title || ""}
+                      isOptionEqualToValue={(option, value) =>
+                        option._id === value._id
+                      }
+                      onChange={(e, val) => setSelectedMadhab(val)}
+                      value={selectedMadhab}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Madhab"
+                          {...register("madhab", {
+                            required: "Madhab is required",
+                          })}
+                        />
+                      )}
+                    />
+
+                    {!selectedMadhab?.title && (
+                      <div className="error">{errors?.madhab?.message}</div>
+                    )}
+                  </div>
+                </div>
+                <div className="add-user-row">
+                  <div className="col-md-6 first-col">
+                    <TextField
+                      id="userAddAddress"
+                      label="Address"
+                      // size="small"
+                      rows={3}
+                      multiline
+                      fullWidth
+                      variant="outlined"
+                      {...register("address", {
+                        required: "Address is required",
+                      })}
+                    />
+                    <div className="error">{errors?.address?.message}</div>
+                  </div>
+                  <div className="col-md-6 second-col">
+                    {status?.length && (
+                      <Autocomplete
+                        disablePortal
+                        id="userAddStatus"
+                        size="small"
+                        options={status}
+                        getOptionLabel={(option) => option.title || ""}
+                        isOptionEqualToValue={(option, value) =>
+                          option.id === value.id
+                        }
+                        onChange={(e, val) => setSelectedStatus(val)}
+                        value={selectedStatus}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Active Status"
+                            {...register("status", {
+                              required: "Status is required",
+                            })}
+                          />
+                        )}
+                      />
+                    )}
+                    {!selectedStatus?.title && (
+                      <div className="error">{errors?.status?.message}</div>
+                    )}
+                  </div>
+                </div>
+                <div className="btn-section">
+                  <div className="col-md-1">
+                    <Button
+                      variant="contained"
+                      className="form-btn"
+                      type="submit"
+                      fullWidth
+                    >
+                      SAVE
+                    </Button>
+                  </div>
                 </div>
               </div>
-              <div className="btn-section">
-                <div className="col-md-1">
-                  <Button
-                    variant="contained"
-                    className="form-btn"
-                    type="submit"
-                    fullWidth
-                  >
-                    SAVE
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
+            </form>
+          </div>
         </Paper>
       )}
     </>

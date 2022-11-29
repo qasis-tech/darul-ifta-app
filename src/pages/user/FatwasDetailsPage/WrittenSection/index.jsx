@@ -25,9 +25,7 @@ export default function WrittenSection({ data }) {
           </Typography>
         </div>
       </div>
-
       <Divider className="divider-section" />
-
       <div className="container d-flex main-section my-2">
         <div className="col-md-6  d-flex ">
           <Grid item xs={3}>
