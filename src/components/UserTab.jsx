@@ -42,11 +42,12 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
   const [isLoading, setLoader] = useState(false);
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
+  const [nodata, setNodata] = useState();
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const STATUS = ["", "Published", "Pending", "Rejected"];
 
   useEffect(() => {
-    console.log("page * rowsPerPage", page, rowsPerPage);
+    console.log("pagination", page, rowsPerPage);
     getQuestionList(
       `?userid=${userLoginDetails?._id}&skip=${
         page * rowsPerPage
@@ -119,18 +120,28 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
                     questionData?.data?.map((question) => {
                       return (
                         <div>
-                          <QuestionContainer
-                            key={question._id}
-                            id={question?.slNo}
-                            shortquestion={question.short_question}
-                            question={question.question}
-                            questionCount={question.slNo}
-                            createdDate={formatDate(question.createdAt)}
-                            views={question.views}
-                            data={question}
-                          />
+                          <div>
+                            <QuestionContainer
+                              key={question._id}
+                              id={question?.slNo}
+                              shortquestion={question.short_question}
+                              question={question.question}
+                              questionCount={question.slNo}
+                              createdDate={formatDate(question.createdAt)}
+                              views={question.views}
+                              data={question}
+                            />
+                          </div>
+                            <TablePagination
+                              rowsPerPageOptions={[5]}
+                              component="div"
+                              count={questionData?.count}
+                              rowsPerPage={rowsPerPage}
+                              page={page}
+                              onPageChange={handleChangePage}
+                            />
                         </div>
-                      );
+                      )
                     })
                   ) : (
                     <div
@@ -146,7 +157,7 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
           </>
         )}
       </Box>
-      <div className="pagination-section">
+      {/* <div className="pagination-section">
         <TablePagination
           rowsPerPageOptions={[5]}
           component="div"
@@ -155,7 +166,7 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
           page={page}
           onPageChange={handleChangePage}
         />
-      </div>
+      </div> */}
     </div>
   );
 };
