@@ -173,13 +173,13 @@ const AccountHome = ({
             </div>
           </div>
           <div className="col d-flex align-items-center details">
-            <div className="">
+            <div className="details-responsive">
               <div>
                 <Typography className="user-name" variant="h4">
                   {userLoginDetails?.name || "N/A"}
                 </Typography>
               </div>
-              <div>
+              <div className="second-section">
                 <Typography variant="subtitle2">
                   {userLoginDetails?.phone || (
                     <span className="text-danger fs-6">

@@ -28,12 +28,13 @@
       font-size:$main-font-size - 2!important;
     }
     .MuiTab-root.Mui-selected {
-      color: #235775 !important;
+      background-color: #a3a3a433 !important;
       font-weight: bolder;
-      font-size: 17px;
+      font-size: 14px;
+      color: $theme-primary-color!important;
     }
     .MuiTabs-indicator {
-      background-color: #235775;
+      background-color: #a3a3a400;
     }
   }
 
@@ -80,6 +81,14 @@
     @media screen and (max-width: 1000px) {
       justify-content: center;
     }
+    .details-responsive,.second-section{
+      @media screen and (max-width: 1000px) {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+    }
     .user-name{
       font-family: $footer-font-style!important;
     }
@@ -120,7 +129,7 @@
   background-color: #d8d8d8;
 }
 
-#simple-tabpanel-0{
+#simple-tabpanel-0,#simple-tabpanel-1,#simple-tabpanel-2,#simple-tabpanel-3,#simple-tabpanel-4{
   .MuiBox-root {
     padding: 0!important;
   }

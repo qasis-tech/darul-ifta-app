@@ -46,7 +46,7 @@ const Slider = () => {
             </div>
           </div>
         </Carousel.Item>
-        <Carousel.Item>
+        {/* <Carousel.Item>
           <div className="row col-md-12">
             <div className="col-md-9 main-slider-section d-flex flex-column justify-content-center">
               <div className="max-width">
@@ -80,7 +80,7 @@ const Slider = () => {
               />
             </div>
           </div>
-        </Carousel.Item>
+        </Carousel.Item> */}
       </Carousel>
     </div>
   );
