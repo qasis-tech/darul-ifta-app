@@ -1,5 +1,5 @@
 import React from "react";
-
+import parse from "html-react-parser";
 import { Divider, Grid, Paper, Typography } from "@mui/material";
 
 import "./written.styles.scss";
@@ -21,7 +21,7 @@ export default function WrittenSection({ data }) {
             variant="paragraph"
             sx={{ lineHeight: 1.5, textAlign: "justify" }}
           >
-            {data?.answer || "N/A"}
+            {parse(data?.answer) || "N/A"}
           </Typography>
         </div>
       </div>
@@ -30,20 +30,18 @@ export default function WrittenSection({ data }) {
 
       <div className="container d-flex main-section my-2">
         <div className="col-md-6  d-flex ">
-          <Grid  item xs={3}>
+          <Grid item xs={3}>
             <Typography variant="subtitle1" className="heading">
               Written By
             </Typography>
           </Grid>
-          <Grid  item xs={1}>
-          <Typography variant="subtitle1">
-            :
-          </Typography>
+          <Grid item xs={1}>
+            <Typography variant="subtitle1">:</Typography>
           </Grid>
-          <Grid  item xs={8}>
-          <Typography variant="subtitle1">
-            {data?.mufti?.display_title || "N/A"}
-          </Typography>
+          <Grid item xs={8}>
+            <Typography variant="subtitle1">
+              {data?.mufti?.display_title || "N/A"}
+            </Typography>
           </Grid>
         </div>
         <div className="col-md-6  d-flex">
@@ -52,15 +50,13 @@ export default function WrittenSection({ data }) {
               Verified By
             </Typography>
           </Grid>
-          <Grid  item xs={1}>
-          <Typography variant="subtitle1">
-            :
-          </Typography>
+          <Grid item xs={1}>
+            <Typography variant="subtitle1">:</Typography>
           </Grid>
-          <Grid  item xs={8}>
-          <Typography variant="subtitle1">
-             {data?.verifier?.display_title || "N/A"}
-          </Typography>
+          <Grid item xs={8}>
+            <Typography variant="subtitle1">
+              {data?.verifier?.display_title || "N/A"}
+            </Typography>
           </Grid>
         </div>
       </div>
