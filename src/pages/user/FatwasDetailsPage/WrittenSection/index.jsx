@@ -21,7 +21,7 @@ export default function WrittenSection({ data }) {
             variant="paragraph"
             sx={{ lineHeight: 1.5, textAlign: "justify" }}
           >
-            {parse(data?.answer) || "N/A"}
+            {data?.answer ? parse(data?.answer) : "N/A"}
           </Typography>
         </div>
       </div>
