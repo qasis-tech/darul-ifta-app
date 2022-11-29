@@ -54,7 +54,7 @@ export default function FatwasDetailsPage() {
             <Divider sx={{ marginY: 1 }} />
             <SingleQuestionComponent data={questionDetails} />
             <PublishedDateComponent data={questionDetails} />
-            <Grid container spacing={3} paddingBottom={5}>
+            <Grid container spacing={3} paddingBottom={5} marginBottom={3}>
               <Grid item md={0.5} xs={12}>
                 <SocialComponent />
               </Grid>
