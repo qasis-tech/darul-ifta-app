@@ -2,7 +2,14 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { Tabs, Tab, Typography, Box, TablePagination, Paper } from "@mui/material";
+import {
+  Tabs,
+  Tab,
+  Typography,
+  Box,
+  TablePagination,
+  Paper,
+} from "@mui/material";
 
 import QuestionContainer from "./QuestionContainer";
 import { formatDate } from "../utils/dateformat";
@@ -93,45 +100,46 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
 
   return (
     <div className="user-tab-section">
-      <Box sx={{ width: "80%" }}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <Tabs
-            className="main-tab"
-            value={value}
-            onChange={handleChange}
-            aria-label="basic tabs example"
-          >
-            <Tab className="tab-name" label="My Questions" />
-            <Tab label="Published Fatwas" />
-            <Tab label="Pending Fatwas" />
-            <Tab label="Rejected Fatwas" />
-          </Tabs>
-        </Box>
-        {isLoading ? (
-          <div className="w-100 px-5">
-            <Loader skeleton />
-          </div>
-        ) : (
-          <>
-            {[0, 1, 2, 3, 4].map((item) => {
-              return (
-                <TabPanel value={value} index={item} key={item}>
-                  {questionData?.data?.length ? (
-                    questionData?.data?.map((question) => {
-                      return (
-                        <div>
+      <div className="container">
+        <Box>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <Tabs
+              className="main-tab"
+              value={value}
+              onChange={handleChange}
+              aria-label="basic tabs example"
+            >
+              <Tab className="tab-name" label="My Questions" />
+              <Tab label="Published Fatwas" />
+              <Tab label="Pending Fatwas" />
+              <Tab label="Rejected Fatwas" />
+            </Tabs>
+          </Box>
+          {isLoading ? (
+            <div className="w-100 px-5">
+              <Loader skeleton />
+            </div>
+          ) : (
+            <>
+              {[0, 1, 2, 3, 4].map((item) => {
+                return (
+                  <TabPanel value={value} index={item} key={item}>
+                    {questionData?.data?.length ? (
+                      questionData?.data?.map((question) => {
+                        return (
                           <div>
-                            <QuestionContainer
-                              key={question._id}
-                              id={question?.slNo}
-                              shortquestion={question.short_question}
-                              question={question.question}
-                              questionCount={question.slNo}
-                              createdDate={formatDate(question.createdAt)}
-                              views={question.views}
-                              data={question}
-                            />
-                          </div>
+                            <div>
+                              <QuestionContainer
+                                key={question._id}
+                                id={question?.slNo}
+                                shortquestion={question.short_question}
+                                question={question.question}
+                                questionCount={question.slNo}
+                                createdDate={formatDate(question.createdAt)}
+                                views={question.views}
+                                data={question}
+                              />
+                            </div>
                             <TablePagination
                               rowsPerPageOptions={[5]}
                               component="div"
@@ -140,23 +148,24 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
                               page={page}
                               onPageChange={handleChangePage}
                             />
-                        </div>
-                      )
-                    })
-                  ) : (
-                    <div
-                      className="d-flex justify-content-center align-items-center"
-                      style={{ minHeight: "200px" }}
-                    >
-                      <NoDataAvailable noStyle noBg />
-                    </div>
-                  )}
-                </TabPanel>
-              );
-            })}
-          </>
-        )}
-      </Box>
+                          </div>
+                        );
+                      })
+                    ) : (
+                      <div
+                        className="d-flex justify-content-center align-items-center"
+                        style={{ minHeight: "200px" }}
+                      >
+                        <NoDataAvailable noStyle noBg />
+                      </div>
+                    )}
+                  </TabPanel>
+                );
+              })}
+            </>
+          )}
+        </Box>
+      </div>
       {/* <div className="pagination-section">
         <TablePagination
           rowsPerPageOptions={[5]}
