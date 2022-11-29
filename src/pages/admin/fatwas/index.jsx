@@ -295,33 +295,21 @@ export default function Fatwas() {
                 />
               </div>
               <div className="col-md-2">
-                {userData?.length ? (
-                  <Autocomplete
-                    disablePortal
-                    id="fatwaListMustafthi"
-                    size="small"
-                    options={userData}
-                    getOptionLabel={(option) => option?.name || ""}
-                    isOptionEqualToValue={(option, value) =>
-                      option._id === value._id
-                    }
-                    onChange={(e, val) => setSelectedUserData(val)}
-                    value={selectedUserData || ""}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Mustafthi" />
-                    )}
-                  />
-                ) : (
-                  <Autocomplete
-                    disablePortal
-                    size="small"
-                    id="combo-box-demo"
-                    options={[]}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Mustafthi" />
-                    )}
-                  />
-                )}
+                <Autocomplete
+                  disablePortal
+                  id="fatwaListMustafthi"
+                  size="small"
+                  options={userData}
+                  getOptionLabel={(option) => option?.name || ""}
+                  isOptionEqualToValue={(option, value) =>
+                    option._id === value._id
+                  }
+                  onChange={(e, val) => setSelectedUserData(val)}
+                  value={selectedUserData || ""}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Mustafthi" />
+                  )}
+                />
               </div>
               <div className="col-md-2">
                 <Autocomplete

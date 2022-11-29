@@ -45,6 +45,25 @@ export default function ArticleDetails() {
     { id: 2, title: "Drafted" },
   ];
 
+  const editor = useRef(null);
+  const config = {
+    autofocus: true,
+    removeButtons: [
+      "copyformat",
+      "brush",
+      "table",
+      "eraser",
+      "font",
+      "selectall",
+      "fontsize",
+    ],
+    uploader: {
+      insertImageAsBase64URI: true,
+    },
+    placeholder: "Start typings...",
+    minHeight: 450,
+  };
+
   const {
     register,
     handleSubmit,
@@ -145,25 +164,6 @@ export default function ArticleDetails() {
         });
         console.log("Error in Article Add", err);
       });
-  };
-
-  const editor = useRef(null);
-  const config = {
-    autofocus: true,
-    removeButtons: [
-      "copyformat",
-      "brush",
-      "table",
-      "eraser",
-      "font",
-      "selectall",
-      "fontsize",
-    ],
-    uploader: {
-      insertImageAsBase64URI: true,
-    },
-    placeholder: "Start typings...",
-    minHeight: 450,
   };
 
   return (

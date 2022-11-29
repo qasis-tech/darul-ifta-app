@@ -16,17 +16,15 @@ import { toast } from "react-toastify";
 import routerList from "../../../routes/routerList";
 
 export default function UserDetails() {
+  const navigate = useNavigate();
+
   const [madhabData, setMadhabData] = useState([]);
-  const [selectedMadhab, setSelectedMadhab] = useState([]);
-  const [selectedRoles, setSelectedRoles] = useState([]);
-  const [selectedStatus, setSelectedStatus] = useState([]);
-  const [userDetails, setUserDetails] = useState(null);
   const [userToken, setUserToken] = useState([]);
   const [userData, setUserData] = useState([]);
   const [isLoading, setLoader] = useState(false);
   const roles = [
     { label: "Mufthi", value: "mufti" },
-    { label: "Student", value: "student" },
+    { label: "Students", value: "students" },
     { label: "User", value: "user" },
   ];
   const status = [
@@ -51,7 +49,7 @@ export default function UserDetails() {
     const user = JSON.parse(
       localStorage.getItem("@darul-ifta-user-login-details")
     );
-    console.log("user", user);
+
     if (user) {
       setUserToken(user.initial_token);
     }
@@ -81,21 +79,25 @@ export default function UserDetails() {
     password,
     address,
     madhab,
+    roles,
+    status,
   }) => {
-    setLoader(true);
+    // setLoader(true);
+
     let payload = {
       email: email,
       name: name,
       display_title: displayName,
       phone: mobileNumber,
-      user_type: selectedRoles.label,
+      user_type: roles.label,
       madhab: madhab.title,
       address: address,
       user_password: password,
-      user_status: selectedStatus.title,
+      user_status: status.title,
       password,
     };
 
+    console.log("1111 22222", payload);
     axios
       .put(`${URLS.user}${URLS.signup}/${id}`, payload, {
         headers: {
@@ -135,7 +137,6 @@ export default function UserDetails() {
     axios
       .get(`${URLS.user}${URLS.signup}/${id}`)
       .then(({ data }) => {
-        console.log("555555555==>", data);
         setLoader(false);
         setUserData(data);
         setValue("address", data?.address);
@@ -147,26 +148,25 @@ export default function UserDetails() {
         let indexRoles = roles.findIndex(
           (value) => value.label === data.user_type
         );
-        setSelectedRoles(roles[indexRoles]);
+        if (indexRoles !== -1) setValue("roles", roles[indexRoles]);
 
         let index = madhabList.findIndex(
           (value) => value.title === data?.madhab
         );
-        setValue("madhab", madhabList[index]);
+        if (index !== -1) setValue("madhab", madhabList[index]);
 
         let indexStatus = status?.findIndex(
           (value) => value.title === data?.user_status
         );
-        setValue("status", status[indexStatus]);
+        if (indexStatus !== -1) setValue("status", status[indexStatus]);
       })
       .catch((err) => {
         setLoader(false);
         console.log("error userr--", err);
+        toast(err?.message);
         setUserData([]);
       });
   };
-
-  const navigate = useNavigate();
 
   return (
     <Container>
@@ -238,15 +238,15 @@ export default function UserDetails() {
                   rules={{ required: true }}
                   render={({ field: { onChange, value } }) => (
                     <Autocomplete
-                      id="combo-box-demo"
+                      id="userDetailsRoles"
                       size="small"
                       options={roles}
                       getOptionLabel={(option) => option.label || ""}
                       isOptionEqualToValue={(option, value) =>
                         option.label === value.label
                       }
-                      onChange={(e, val) => onChange(val)}
                       value={value}
+                      onChange={(e, val) => onChange(val)}
                       renderInput={(params) => (
                         <TextField {...params} label="Roles" />
                       )}
@@ -308,7 +308,7 @@ export default function UserDetails() {
                   render={({ field: { onChange, value } }) => (
                     <Autocomplete
                       disablePortal
-                      id="combo-box-demo"
+                      id="userStatus"
                       size="small"
                       options={status}
                       getOptionLabel={(option) => option.title || ""}
