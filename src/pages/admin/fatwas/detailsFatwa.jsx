@@ -701,12 +701,11 @@ export default function FatwasDetails() {
                       </div>
 
                       {/* reference */}
-                      {referenceList && (
-                        <FatwaAddComponent
-                          referenceList={referenceList}
-                          setReferance={setReferance}
-                        />
-                      )}
+
+                      <FatwaAddComponent
+                        referenceList={referenceList}
+                        setReferance={setReferance}
+                      />
                     </>
                   )}
                 </>
