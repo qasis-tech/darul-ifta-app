@@ -43,7 +43,7 @@ export default function RelatedFatwas({ data }) {
   const navigate = useNavigate();
 
   return (
-    <div className="related-fatwas-section mt-3 pb-2">
+    <div className="related-fatwas-section mt-3 mb-3 pb-2">
       <div className="related-fatwas-container">
         <div className="col-md-12 main-head">
           <Typography className="heading">Related Fatwas</Typography>

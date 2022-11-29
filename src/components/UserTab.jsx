@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { Tabs, Tab, Typography, Box, TablePagination } from "@mui/material";
+import { Tabs, Tab, Typography, Box, TablePagination, Paper } from "@mui/material";
 
 import QuestionContainer from "./QuestionContainer";
 import { formatDate } from "../utils/dateformat";
