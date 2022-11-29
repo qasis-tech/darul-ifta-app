@@ -37,7 +37,7 @@ const QuestionContainer = (props) => {
                 </Typography>
               </Grid>
               <Grid item xs={6} md={6} className="w-name d-flex">
-                <Grid item xs={3} md={3}>
+                <Grid item xs={3} md={3}  className="writtenby-section">
                   <Typography variant="subtitle1" className="writtenby-section">
                     Written By
                   </Typography>
@@ -49,14 +49,14 @@ const QuestionContainer = (props) => {
                     :{" "}
                   </Typography>
                 </Grid>
-                <Grid item xs={9} md={8}>
+                <Grid item xs={9} md={8} >
                   <Typography variant="subtitle1">
                     {props?.data?.mufti?.display_title || "N/A"}
                   </Typography>
                 </Grid>
               </Grid>
               <Grid item md={3} xs={12} className="w-name d-flex">
-                <Grid item xs={3} md={3}>
+                <Grid item xs={3} md={3}  className="writtenby-section">
                   <Typography variant="subtitle1" className="writtenby-section">
                     Date
                   </Typography>
@@ -74,7 +74,7 @@ const QuestionContainer = (props) => {
                 </Grid>
               </Grid>
               <Grid item md={2} xs={12} className="w-name d-flex">
-                <Grid item xs={3} md={5}>
+                <Grid item xs={3} md={5}  className="writtenby-section">
                   <Typography variant="subtitle1" className="writtenby-section">
                     Views
                   </Typography>
