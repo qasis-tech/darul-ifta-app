@@ -11,7 +11,7 @@ export default function QuestionNumber({ data }) {
   return (
     <Box className="question-number-section">
       <Grid container className=" qid" p={1} spacing={1}>
-        <Grid container item sm={12} direction="row">
+        <Grid container item sm={12} direction="row" className="ps-0">
           <Typography variant="subtitle1">
             QID : {`Q-${data?.slNo?.toString()?.padStart(3, "0")}`}, Madhab :{" "}
             {data?.madhab?.title}, Category :{" "}

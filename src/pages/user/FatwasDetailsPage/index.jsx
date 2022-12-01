@@ -49,7 +49,8 @@ export default function FatwasDetailsPage() {
         </div>
       ) : (
         <>
-          <Container sx={{ paddingTop: 14 }}>
+          {/* <Container sx={{ paddingTop: 14 }}> */}
+          <div className="container question-details-section ">
             <QuestionNumberComponent data={questionDetails} />
             <Divider sx={{ marginY: 1 }} />
             <SingleQuestionComponent data={questionDetails} />
@@ -68,7 +69,8 @@ export default function FatwasDetailsPage() {
                 <RelatedFatwasComponent data={questionDetails} />
               </Grid>
             </Grid>
-          </Container>
+            </div>
+          {/* </Container> */}
           <FooterComponent />
         </>
       )}
