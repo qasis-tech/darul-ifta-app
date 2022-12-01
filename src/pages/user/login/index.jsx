@@ -228,7 +228,7 @@ const Login = (props) => {
             lg={7}
             className="main-div d-flex justify-content-center"
           >
-            <Grid item md={12} sx={{width:"370px",height:"450px"}}>
+            <Grid item md={12} className="login-form" sx={{width:"370px",height:"450px"}}>
               <Paper elevation={2} className="formDiv p-4" sx={{width:"100%",height:"100%"}}>
                 <h2>Sign in</h2>
 

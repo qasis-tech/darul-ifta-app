@@ -328,7 +328,7 @@ const HomePage = (props) => {
                               ) : (
                                 <div
                                   className="d-flex justify-content-center align-items-center"
-                                  style={{ minHeight: "326px" }}
+                                  style={{ minHeight: "470px" }}
                                 >
                                   <NoDataAvailable noStyle noBg />
                                 </div>
