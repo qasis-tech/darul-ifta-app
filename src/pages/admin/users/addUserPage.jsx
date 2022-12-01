@@ -28,8 +28,6 @@ export default function AddUser() {
 
   const [isLoading, setLoader] = useState(false);
   const roles = [
-    { label: "Mufthi", value: "mufti" },
-    { label: "Students", value: "students" },
     { label: "User", value: "user" },
   ];
 

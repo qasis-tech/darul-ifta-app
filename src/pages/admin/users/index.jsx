@@ -31,7 +31,7 @@ import "./user.styles.scss";
 export default function User() {
   const [userData, setUserData] = useState([]);
   const [isLoading, setLoader] = useState(false);
-  const [roles, setRoles] = useState("User");
+  const [roles, setRoles] = useState("");
   const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
