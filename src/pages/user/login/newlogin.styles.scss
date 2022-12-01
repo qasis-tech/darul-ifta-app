@@ -1,0 +1,16 @@
+@import "../../../styles/common.styles.scss";
+
+.login-section{
+    height: 100vh;
+    font-family: "Source Sans Pro", sans-serif;
+    .login-container{
+        height: 100%;
+        max-width: 100% !important;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
