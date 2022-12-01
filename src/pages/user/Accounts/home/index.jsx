@@ -153,10 +153,16 @@ const AccountHome = ({
             <div className="">
               <div className="row">
                 <div className="col pointer">
+                <IconButton
+                    color="primary"
+                    aria-label="Setting"
+                    component="label"
+                  >
                   <SettingsIcon
                     className="profile-icons"
                     onClick={() => setProfilePopup(true)}
                   />
+                  </IconButton>
                 </div>
 
                 <div className="col">
