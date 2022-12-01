@@ -17,12 +17,16 @@ export default function WrittenSection({ data }) {
           <Divider className="divider-section" />
         </div>
         <div className="col-md-12 mb-5">
+          <Typography textAlign={"right"}>
+            الجواب وبالله التوفيق حامداً و مصلّياً
+          </Typography>
           <Typography
             variant="paragraph"
             sx={{ lineHeight: 1.5, textAlign: "justify" }}
           >
             {data?.answer ? parse(data?.answer) : "N/A"}
           </Typography>
+          <Typography textAlign={"right"}>والله أعلم بالصواب</Typography>
         </div>
       </div>
       <Divider className="divider-section" />
