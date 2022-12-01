@@ -90,6 +90,7 @@ function DashboardPage() {
       title: "CATEGORY",
       icon: <SummarizeIcon />,
     },
+    { path: RouterList.admin.mufthiAndStudent, title: "MUFTHI AND STUDENT",icon: <PeopleIcon/>},
     { path: RouterList.admin.user, title: "USER", icon: <PeopleIcon /> },
     // {
     //   path: RouterList.admin.musthafthies,
