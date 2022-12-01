@@ -231,25 +231,26 @@ export default function Dashboard() {
                               <TableCell>
                                 <span
                                   className={
-                                    items?.status === "Pending"
-                                      ? "pending"
+                                    items?.status
+                                     === "Pending"
+                                      ? "pending fatwa-status"
                                       : items?.status === "Rejected"
-                                      ? "rejected"
+                                      ? "rejected fatwa-status"
                                       : items?.status === "Re Submitted"
-                                      ? "reSUbmitted"
+                                      ? "reSUbmitted fatwa-status"
                                       : items?.status ===
                                         "Received to Darul Ifta"
-                                      ? "recievedToDI"
+                                      ? "recievedToDI fatwa-status"
                                       : items?.status === "Assigned Mufti"
-                                      ? "assMufthi"
+                                      ? "assMufthi fatwa-status"
                                       : items?.status === "Mufti Answered"
-                                      ? "mufthiAns"
+                                      ? "mufthiAns fatwa-status"
                                       : items?.status ===
                                         "Completed Verification"
-                                      ? "completeVerification"
+                                      ? "completeVerification fatwa-status"
                                       : items?.status === "Published"
-                                      ? "published"
-                                      : ""
+                                      ? "published fatwa-status"
+                                      : ""  
                                   }
                                 >
                                   {items?.status}
