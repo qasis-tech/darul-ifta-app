@@ -23,15 +23,15 @@ import SearchIcon from "@mui/icons-material/Search";
 
 import {URLS} from "../../../config/urls.config"
 import Loader from "../../../components/common/Loader"
-import NoDataAvailable from "../../../components/NoDataAvailable"
-import routerList from "../../../routes/routerList"
+import NoDataAvailable from "../../../components/NoDataAvailable";
+import routerList from "../../../routes/routerList";
 
 // import "./user.styles.scss";
 
 export default function MufthiAndStudent() {
   const [userData, setUserData] = useState([]);
   const [isLoading, setLoader] = useState(false);
-  const [roles, setRoles] = useState("User");
+  const [roles, setRoles] = useState("");
   const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
