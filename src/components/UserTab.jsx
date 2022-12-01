@@ -54,28 +54,29 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
   const STATUS = ["", "Published", "Pending", "Rejected"];
 
   useEffect(() => {
-    console.log("pagination", page, rowsPerPage);
-    getQuestionList(
-      `?userid=${userLoginDetails?._id}&skip=${
-        page * rowsPerPage
-      }&limit=${limit}`
-    );
-  }, [page]);
+    getQuestionList(`?userid=${userLoginDetails?._id}`);
+    // &skip=${
+    //   page * rowsPerPage
+    // }&limit=${limit}
+  }, []);
 
   const getQuestionList = (params) => {
     setLoader(true);
+    console.log("params", params);
     getQuestionListApi(params)
       .then((res) => {
         setLoader(false);
-        if (params === `?userid=${userLoginDetails?._id}`) {
-          setQuestionData(res);
-        } else if (
-          params === `?status=Published&userid=${userLoginDetails?._id}`
-        ) {
-          setQuestionData(res);
-        } else {
-          setQuestionData(res);
-        }
+
+        console.log("111111111", res);
+        // if (params === `?userid=${userLoginDetails?._id}`) {
+        //   setQuestionData(res);
+        // } else if (
+        //   params === `?status=Published&userid=${userLoginDetails?._id}`
+        // ) {
+        //   setQuestionData(res);
+        // } else {
+        setQuestionData(res);
+        // }
       })
       .catch((err) => {
         console.error("Error in getQuestionListApi", err);
@@ -85,12 +86,13 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
   };
 
   const handleChange = (event, newValue) => {
+    console.log("22222222222");
     setValue(newValue);
-    getQuestionList(
-      newValue === 0
-        ? `?userid=${userLoginDetails?._id}`
-        : `?status=${STATUS[newValue]}&userid=${userLoginDetails?._id}`
-    );
+    // getQuestionList(
+    //   newValue === 0
+    //     ? `?userid=${userLoginDetails?._id}`
+    //     : `?status=${STATUS[newValue]}&userid=${userLoginDetails?._id}`
+    // );
   };
   const handleChangePage = (e, newPage) => setPage(newPage);
   const handleChangeRowsPerPage = (event) => {

@@ -11,73 +11,13 @@ export default function QuestionNumber({ data }) {
   return (
     <Box className="question-number-section">
       <Grid container className=" qid" p={1} spacing={1}>
-        <Grid
-          container
-          item
-          sm={12}
-          md={1.6}
-          direction="row"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Grid item xs={4}>
-            <Typography variant="subtitle1">QID</Typography>
-          </Grid>
-          <Grid item xs={8}>
-            :
-            <Chip
-              label={`Q-${data?.slNo?.toString()?.padStart(3, "0")}`}
-              size="small"
-              sx={{ marginLeft: 1 }}
-            />
-          </Grid>
-        </Grid>
-        <Grid
-          container
-          item
-          sm={2}
-          md={3}
-          direction="row"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Grid item xs={4}>
-            <Typography variant="subtitle1">Madhab </Typography>
-          </Grid>
-          <Grid item xs={8}>
-            :
-            <Chip
-              label={data?.madhab?.title}
-              size="small"
-              sx={{ marginLeft: 1 }}
-            />
-          </Grid>
-        </Grid>
-        <Grid
-          container
-          item
-          sm={2}
-          md={3}
-          direction="row"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Grid item xs={4}>
-            <Typography variant="subtitle1">Category</Typography>
-          </Grid>
-          <Grid container item xs={8}>
-            :
-            {tempSubCategory?.map((item, index) => {
-              return (
-                <Chip
-                  key={index}
-                  label={item}
-                  size="small"
-                  sx={{ marginLeft: 1 }}
-                />
-              );
-            })}
-          </Grid>
+        <Grid container item sm={12} direction="row">
+          <Typography variant="subtitle1">
+            QID : {`Q-${data?.slNo?.toString()?.padStart(3, "0")}`}, Madhab :{" "}
+            {data?.madhab?.title}, Category :{" "}
+            {tempSubCategory && tempSubCategory?.length && tempSubCategory[0]},
+            Status : {data?.status}
+          </Typography>
         </Grid>
       </Grid>
     </Box>
