@@ -31,7 +31,8 @@ import routerList from "../../../routes/routerList";
 export default function MufthiAndStudent() {
   const [userData, setUserData] = useState([]);
   const [isLoading, setLoader] = useState(false);
-  const [roles, setRoles] = useState("");
+  const [roles, setRoles] = useState("Mufthi");
+  const [student,setStudent]=useState("Students")
   const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
@@ -46,13 +47,17 @@ export default function MufthiAndStudent() {
 
   const getUserListApi = () => {
     setLoader(true);
-    let URL =
-      searchInput !== ""
-        ? `${URLS.user}${URLS.signup}?userType=${roles}&search=${searchInput}`
-        : `${URLS.user}${URLS.signup}`;
+    let params=""
+    if(searchInput !== ""){
+        params= `?userType=${roles}&search=${searchInput}`
+    
     // `${URLS.user}${URLS.signup}?userType=${roles}`;
+    }
+    else{
+      params=`?userType=${roles},${student}`;
+    }
     axios
-      .get(URL, {
+      .get(`${URLS.user}${URLS.signup}${params}`, {
         headers: {
           "Content-Type": "application/json",
         },
