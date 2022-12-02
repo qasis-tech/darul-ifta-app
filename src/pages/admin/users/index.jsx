@@ -31,8 +31,9 @@ import "./user.styles.scss";
 export default function User() {
   const [userData, setUserData] = useState([]);
   const [isLoading, setLoader] = useState(false);
-  const [roles, setRoles] = useState("");
+  const [roles, setRoles] = useState("User");
   const [searchInput, setSearchInput] = useState("");
+  const [selectedRole,setSelectedRole]=useState()
 
   useEffect(() => {
     getUserListApi();
@@ -46,13 +47,17 @@ export default function User() {
 
   const getUserListApi = () => {
     setLoader(true);
-    let URL =
-      searchInput !== ""
-        ? `${URLS.user}${URLS.signup}?userType=${roles}&search=${searchInput}`
-        : `${URLS.user}${URLS.signup}`;
+    let params=""
+    if(searchInput !== ""){
+        params= `?userType=${roles}&search=${searchInput}`
+    
     // `${URLS.user}${URLS.signup}?userType=${roles}`;
+    }
+    else{
+      params=`?userType=${roles}`;
+    }
     axios
-      .get(URL, {
+      .get(`${URLS.user}${URLS.signup}${params}`, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -143,6 +148,7 @@ export default function User() {
                   <TableBody>
                     {userData.length ? (
                       userData.map((user) => {
+                        console.log("filterrrr",user)
                         return (
                           <TableRow
                             hover
