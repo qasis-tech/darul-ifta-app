@@ -47,10 +47,8 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
   const [value, setValue] = useState(0);
   const [questionData, setQuestionData] = useState([]);
   const [isLoading, setLoader] = useState(false);
-  const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
-  const [nodata, setNodata] = useState();
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(2);
   const STATUS = ["", "Published", "Pending", "Rejected"];
 
   useEffect(() => {
@@ -96,10 +94,9 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
   };
   const handleChangePage = (e, newPage) => setPage(newPage);
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(event.target.value);
+    setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
   return (
     <div className="user-tab-section">
       <div className="container">
@@ -150,18 +147,16 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
                       </div>
                     )}
 
-                    {questionData && (
                       <div className="pagination-section">
                         <TablePagination
-                          rowsPerPageOptions={[5]}
                           component="div"
                           count={questionData && questionData?.count}
                           rowsPerPage={rowsPerPage}
                           page={page}
                           onPageChange={handleChangePage}
+                          onRowsPerPageChange={handleChangeRowsPerPage}
                         />
                       </div>
-                    )}
                   </TabPanel>
                 );
               })}

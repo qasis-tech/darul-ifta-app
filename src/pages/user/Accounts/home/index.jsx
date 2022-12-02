@@ -52,25 +52,25 @@ const AccountHome = ({
     setUserDetails(userLoginDetails);
     let params = `?userid=${userLoginDetails?._id}`;
     let params2 = `?status=Published&userid=${userLoginDetails?._id}`;
-    // getQuestionListApi(params)
-    //   .then((res) => {
-    //     setLoader(false);
-    //     setQuestionCount(res.count);
-    //   })
-    //   .catch((err) => {
-    //     console.error("Error in getQuestionListApi", err);
-    //     setQuestionCount(0);
-    //   });
+    getQuestionListApi(params)
+      .then((res) => {
+        setLoader(false);
+        setQuestionCount(res.count);
+      })
+      .catch((err) => {
+        console.error("Error in getQuestionListApi", err);
+        setQuestionCount(0);
+      });
 
-    // getQuestionListApi(params2)
-    //   .then((res) => {
-    //     setLoader(false);
-    //     setAnswerCount(res.count);
-    //   })
-    //   .catch((err) => {
-    //     console.error("Error in getQuestionListApi", err);
-    //     setAnswerCount(0);
-    //   });
+    getQuestionListApi(params2)
+      .then((res) => {
+        setLoader(false);
+        setAnswerCount(res.count);
+      })
+      .catch((err) => {
+        console.error("Error in getQuestionListApi", err);
+        setAnswerCount(0);
+      });
   }, []);
 
   useEffect(() => {}, [userLoginDetails]);
