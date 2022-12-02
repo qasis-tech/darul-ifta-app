@@ -32,7 +32,7 @@ export default function MufthiAndStudent() {
   const [userData, setUserData] = useState([]);
   const [isLoading, setLoader] = useState(false);
   const [roles, setRoles] = useState("Mufthi");
-  const [student,setStudent]=useState("Students")
+  const [student,setStudent]=useState("Student")
   const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {

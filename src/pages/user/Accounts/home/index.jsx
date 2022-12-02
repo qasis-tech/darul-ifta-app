@@ -34,10 +34,8 @@ const AccountHome = ({
   apiTriggeres,
   addUserLoginDetails,
 }) => {
-  const [showImage, setShowImage] = useState(true);
   const [questionCount, setQuestionCount] = useState(0);
   const [answerCount, setAnswerCount] = useState(0);
-  const [closePopup, setClosePopup] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
   const [isLoading, setLoader] = useState(false);
   const [profilePopup, setProfilePopup] = useState(false);
@@ -48,7 +46,6 @@ const AccountHome = ({
   const notify = () => toast("Wow so easy!");
 
   useEffect(() => {
-    console.log("777777777", userLoginDetails);
     setUserDetails(userLoginDetails);
     let params = `?userid=${userLoginDetails?._id}`;
     let params2 = `?status=Published&userid=${userLoginDetails?._id}`;

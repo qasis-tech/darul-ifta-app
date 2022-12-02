@@ -27,7 +27,7 @@ export default function AddMufthiAndStudent() {
   const [isLoading, setLoader] = useState(false);
   const roles = [
     { label: "Mufthi", value: "mufti" },
-    { label: "Students", value: "students" },
+    { label: "Student", value: "student" },
   ];
 
   const {
