@@ -467,7 +467,6 @@ export default function Fatwas() {
                             </TableCell>
                             <TableCell>
                             <Tooltip title={question?.status} arrow>
-                              
                               <span
                                 className={
                                   question?.status === "Pending"

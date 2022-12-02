@@ -8,6 +8,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import LanguageIcon from "@mui/icons-material/Language";
 import SearchIcon from "@mui/icons-material/Search";
 import SnackBar from "../../../components/common/Snackbar";
+import Tooltip from '@mui/material/Tooltip';
 import {
   Table,
   TableBody,
@@ -229,6 +230,7 @@ export default function Dashboard() {
                                 {items?.madhab?.title || "N/A"}
                               </TableCell>
                               <TableCell>
+                              <Tooltip title={items?.status} arrow>
                                 <span
                                   className={
                                     items?.status
@@ -255,6 +257,7 @@ export default function Dashboard() {
                                 >
                                   {items?.status}
                                 </span>
+                                </Tooltip>
                               </TableCell>
                             </TableRow>
                           );
