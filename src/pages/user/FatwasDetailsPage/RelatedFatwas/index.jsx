@@ -36,7 +36,7 @@ export default function RelatedFatwas({ data }) {
         );
       })
       .catch((err) => {
-        //  console.error("Error in getQuestionListApi", err);
+         console.error("Error in getQuestionListApi", err);
         setLoader(false);
         setQuestionList([]);
       });

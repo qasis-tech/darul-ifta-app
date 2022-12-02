@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { toast } from "react-toastify";
 
 import {
   Tabs,
@@ -78,8 +79,9 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
         // }
       })
       .catch((err) => {
-        console.error("Error in getQuestionListApi", err);
         setLoader(false);
+        toast("Somthing went wrong, please try again later");
+        console.error("Error in getQuestionListApi", err);
         setQuestionData([]);
       });
   };

@@ -97,11 +97,11 @@ const AskFatwasComponent = ({ close, triggerApiCallStatus, apiTriggeres }) => {
       })
       .catch((err) => {
         setLoader(false);
-        toast("Somthing went wrong, please try again later", {
-          onClose: () => {
-            setLoader(false);
-          },
-        });
+        // toast("Somthing went wrong, please try again later", {
+        //   onClose: () => {
+        //     setLoader(false);
+        //   },
+        // });
         console.log("error madhab", err);
       });
   };
@@ -169,7 +169,12 @@ const AskFatwasComponent = ({ close, triggerApiCallStatus, apiTriggeres }) => {
       })
       .catch((err) => {
         setLoader(false);
-        toast(err.message);
+        toast("Somthing went wrong, please try again later", {
+          onClose: () => {
+            setLoader(false);
+          },
+        });
+        // toast(err.message);
         console.log("Errors in ask fatwa", err);
       });
   };
