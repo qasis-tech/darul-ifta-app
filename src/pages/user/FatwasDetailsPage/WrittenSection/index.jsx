@@ -1,12 +1,10 @@
 import React from "react";
 import parse from "html-react-parser";
-import { Divider, Grid, Paper, Typography } from "@mui/material";
+import { Divider, Grid, Paper, Typography, Box } from "@mui/material";
 
 import "./written.styles.scss";
-import { Box } from "@mui/system";
 
 export default function WrittenSection({ data }) {
-  console.log("data ===>", data);
   return (
     <div className="written-section">
       <div className="container">
