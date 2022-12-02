@@ -48,15 +48,16 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
   const [questionData, setQuestionData] = useState([]);
   const [isLoading, setLoader] = useState(false);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(2);
+  const [limit,setLimit]=useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const STATUS = ["", "Published", "Pending", "Rejected"];
 
   useEffect(() => {
-    getQuestionList(`?userid=${userLoginDetails?._id}`);
+    getQuestionList(`?userid=${userLoginDetails?._id}&skip=${page*rowsPerPage}&limit=${rowsPerPage}`);
     // &skip=${
     //   page * rowsPerPage
     // }&limit=${limit}
-  }, []);
+  }, [page,rowsPerPage]);
 
   const getQuestionList = (params) => {
     setLoader(true);
