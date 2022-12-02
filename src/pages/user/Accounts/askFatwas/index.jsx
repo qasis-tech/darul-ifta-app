@@ -83,13 +83,6 @@ const AskFatwasComponent = ({ close, triggerApiCallStatus, apiTriggeres }) => {
       })
       .catch((err) => {
         setLoader(false);
-        if (err.message === "Network Error") {
-          toast(
-            "Connection cannot establish, Please check your internet connection"
-          );
-        } else {
-          toast(err.message);
-        }
         console.log("error category", err);
       });
   };
@@ -104,13 +97,11 @@ const AskFatwasComponent = ({ close, triggerApiCallStatus, apiTriggeres }) => {
       })
       .catch((err) => {
         setLoader(false);
-        if (err.message === "Network Error") {
-          toast(
-            "Connection cannot establish, Please check your internet connection"
-          );
-        } else {
-          toast(err.message);
-        }
+        toast("Somthing went wrong, please try again later", {
+          onClose: () => {
+            setLoader(false);
+          },
+        });
         console.log("error madhab", err);
       });
   };

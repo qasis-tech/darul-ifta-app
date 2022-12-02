@@ -88,11 +88,11 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
   const handleChange = (event, newValue) => {
     console.log("22222222222");
     setValue(newValue);
-    // getQuestionList(
-    //   newValue === 0
-    //     ? `?userid=${userLoginDetails?._id}`
-    //     : `?status=${STATUS[newValue]}&userid=${userLoginDetails?._id}`
-    // );
+    getQuestionList(
+      newValue === 0
+        ? `?userid=${userLoginDetails?._id}`
+        : `?status=${STATUS[newValue]}&userid=${userLoginDetails?._id}`
+    );
   };
   const handleChangePage = (e, newPage) => setPage(newPage);
   const handleChangeRowsPerPage = (event) => {
