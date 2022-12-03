@@ -12,23 +12,26 @@ import { CollectionsOutlined } from "@mui/icons-material";
 export default function RelatedFatwas({ data }) {
   const [questionList, setQuestionList] = useState([]);
   const [isLoader, setLoader] = useState(false);
+  // const [limit,setLimit]=useState(3)
 
   const subCategoryLabel = data?.sub_category?.map((sub) => sub?.label)[0];
 
   console.log("subCategoryLabel ==", subCategoryLabel);
 
   useEffect(() => {
-    getQuestionList(
-      `?status=Published&subCategory=${encodeURIComponent(
-        subCategoryLabel
-      )}&limit=3`
-    );
+    // getQuestionList(
+    //   `?status=Published&subCategory=${encodeURIComponent(
+    //     subCategoryLabel
+    //   )}&limit=3`
+    // );
+     getQuestionList()
   }, []);
 
   const getQuestionList = () => {
     setLoader(true);
     // getQuestionListApi()
-    let params = `?status=Published&limit=3`;
+    let params = `?status=Published&limit=3&skip=3`;
+    console.log("parammmm",params)
     axios
       .get(`${URLS.question}${params}`, {
         headers: {
