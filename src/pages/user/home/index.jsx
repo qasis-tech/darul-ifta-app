@@ -280,7 +280,13 @@ const HomePage = (props) => {
                     }}
                   />
                   <Box sx={{ width: "100%" }}>
-                    <Box sx={{ borderBottom: 1, borderColor: "divider",padding:0 }}>
+                    <Box
+                      sx={{
+                        borderBottom: 1,
+                        borderColor: "divider",
+                        padding: 0,
+                      }}
+                    >
                       <Tabs
                         className="main-tab"
                         value={value}
@@ -307,13 +313,18 @@ const HomePage = (props) => {
                       <>
                         {[0, 1, 2, 3, 4].map((item, i) => {
                           return (
-                            <TabPanel value={value} index={item} key={i} className="main-tab">
+                            <TabPanel
+                              value={value}
+                              index={item}
+                              key={i}
+                              className="main-tab"
+                            >
                               {questionsData?.length ? (
                                 questionsData?.map((questions) => {
                                   return (
                                     <QuestionComponent
                                       key={questions?._id}
-                                      id={questions?._id}
+                                      id={questions?.slNo}
                                       shortquestion={questions?.short_question}
                                       question={questions?.question}
                                       questionCount={questions?.slNo}

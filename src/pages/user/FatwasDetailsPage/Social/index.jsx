@@ -1,9 +1,20 @@
 import React from "react";
+
+import {
+  FacebookShareButton,
+  InstapaperShareButton,
+  TwitterShareButton,
+  WhatsappShareButton,
+  FacebookIcon,
+} from "react-share";
+
 import WhatsappImage from "../../../../assets/whatsapp.png";
 import FacebookImage from "../../../../assets/facebook.png";
 import InstagramImage from "../../../../assets/insta1.png";
 import TwitterImage from "../../../../assets/twitter.png";
+
 import "./social.styles.scss";
+
 export default function Social() {
   return (
     <div className="social-section mt-4">
@@ -22,14 +33,21 @@ export default function Social() {
           </a>
         </div>
         <div className="col py-2 d-flex">
-          <a href="https://www.facebook.com/Kauzariyya" target="_blank">
+          <FacebookShareButton
+            url={"https://www.facebook.com"}
+            quote="please share this post"
+            hashtag="#darulifta-kauzariyyaa"
+          >
+            <FacebookIcon />
+          </FacebookShareButton>
+          {/* <a href="https://www.facebook.com/Kauzariyya" target="_blank">
             <img
               src={FacebookImage}
               alt="Facebook Image"
               width="200"
               className="img"
             />
-          </a>
+          </a> */}
         </div>
         <div className="col py-2 d-flex">
           <a href="https://instagram.com/kauzariyya" target="_blank">

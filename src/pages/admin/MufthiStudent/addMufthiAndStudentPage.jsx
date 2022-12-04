@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
 import { toast } from "react-toastify";
 import "yup-phone";
-// import "./adduser.styles.scss";
 
-import {URLS} from "../../../config/urls.config"
-import Loader from "../../../components/common/Loader"
+import COL from "country-codes-list";
+
+import { URLS } from "../../../config/urls.config";
+import Loader from "../../../components/common/Loader";
 import { Paper } from "@mui/material";
 
 export default function AddMufthiAndStudent() {
@@ -25,6 +26,8 @@ export default function AddMufthiAndStudent() {
   const [userToken, setUserToken] = useState([]);
 
   const [isLoading, setLoader] = useState(false);
+  const [country, setCountry] = useState([]);
+
   const roles = [
     { label: "Mufthi", value: "mufti" },
     { label: "Student", value: "student" },
@@ -33,6 +36,8 @@ export default function AddMufthiAndStudent() {
   const {
     register,
     handleSubmit,
+    control,
+    setValue,
     formState: { errors },
   } = useForm({
     // resolver: yupResolver(profileSchema),
@@ -40,7 +45,10 @@ export default function AddMufthiAndStudent() {
 
   useEffect(() => {
     getmadhabApi();
+    setCountry(COL.all());
   }, []);
+
+  console.log("COL", country);
 
   useEffect(() => {
     const user = JSON.parse(
@@ -79,7 +87,7 @@ export default function AddMufthiAndStudent() {
       display_title: displayName,
       phone: mobileNumber,
       user_type: selectedRoles.label,
-      madhab: selectedMadhab.title,
+      madhab: selectedMadhab?.title || null,
       address: address,
       user_password: password,
       user_status: selectedStatus.title,
@@ -88,12 +96,7 @@ export default function AddMufthiAndStudent() {
     console.log("payload====>", payload);
 
     axios
-      .post(`${URLS.user}${URLS.signup}`, payload, {
-        headers: {
-          Authorization: `${userToken}`,
-          "Content-Type": "application/json",
-        },
-      })
+      .post(`${URLS.user}${URLS.signup}`, payload)
       .then((res) => {
         console.log("res user save ===>>", res);
         if (res?.success) {
@@ -177,7 +180,40 @@ export default function AddMufthiAndStudent() {
                     />
                     <div className="error">{errors?.email?.message}</div>
                   </div>
-                  <div className="col-md-6 second-col">
+
+                  <div className="col-md-3 second-col">
+                    <Controller
+                      control={control}
+                      name="country"
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field: { onChange, value } }) => (
+                        <Autocomplete
+                          disablePortal
+                          id="userCountry"
+                          size="small"
+                          options={country}
+                          getOptionLabel={(option) =>
+                            option.countryNameEn || ""
+                          }
+                          isOptionEqualToValue={(option, value) => {
+                            return option.label === value.label;
+                          }}
+                          onChange={(e, val) => onChange(val)}
+                          value={value}
+                          renderInput={(params) => (
+                            <TextField {...params} label="Country" />
+                          )}
+                        />
+                      )}
+                    />
+                  </div>
+                  {country?.errors && (
+                    <div className="error">Country is required</div>
+                  )}
+
+                  <div className="col-md-3 second-col">
                     <TextField
                       id="userAddMobileNumber"
                       label="Whatsapp Number"
@@ -185,9 +221,6 @@ export default function AddMufthiAndStudent() {
                       type="number"
                       fullWidth
                       variant="outlined"
-                      // {...register("mobileNumber", {
-                      //   required: "Mobile Number is required",
-                      // })}
                       {...register("mobileNumber", {
                         required: "Please enter Mobile Number",
                         minLength: {
@@ -195,7 +228,7 @@ export default function AddMufthiAndStudent() {
                           message: "Mobile Number length must be 10 digit. ",
                         },
                         maxLength: {
-                          value: 10,
+                          value: 13,
                           message: "Mobile Number length must be 10 digit. ",
                         },
                       })}
@@ -265,7 +298,7 @@ export default function AddMufthiAndStudent() {
                           {...params}
                           label="Madhab"
                           {...register("madhab", {
-                            required: "Madhab is required",
+                            required: false,
                           })}
                         />
                       )}

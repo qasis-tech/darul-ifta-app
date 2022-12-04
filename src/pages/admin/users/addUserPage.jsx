@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import COL from "country-codes-list";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
 import { toast } from "react-toastify";
-import * as yup from "yup";
 import "yup-phone";
 import "./adduser.styles.scss";
 
 import { URLS } from "../../../config/urls.config";
 import Loader from "../../../components/common/Loader";
-import { Paper } from "@mui/material";
+import { Container, Grid, Paper } from "@mui/material";
 
 export default function AddUser() {
   const [madhabData, setMadhabData] = useState([]);
@@ -27,20 +27,19 @@ export default function AddUser() {
   const [userToken, setUserToken] = useState([]);
 
   const [isLoading, setLoader] = useState(false);
-  const roles = [
-    { label: "User", value: "user" },
-  ];
+  const roles = [{ label: "User", value: "user" }];
+  const [country, setCountry] = useState([]);
 
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
-  } = useForm({
-    // resolver: yupResolver(profileSchema),
-  });
+  } = useForm({});
 
   useEffect(() => {
     getmadhabApi();
+    setCountry(COL.all());
   }, []);
 
   useEffect(() => {
@@ -130,11 +129,11 @@ export default function AddUser() {
         <Loader absolute />
       ) : (
         <Paper elevation={2}>
-          <div className="add-user-section  bg-white">
-            <form onSubmit={handleSubmit(handleSave)}>
-              <div className="add-user-container">
-                <div className="add-user-row">
-                  <div className="col-md-6 first-col">
+          <div>
+            <form onSubmit={handleSubmit(handleSave)} style={{ padding: 15 }}>
+              <Container sx={{ p: 1 }}>
+                <Grid container spacing={4}>
+                  <Grid item md={6}>
                     <TextField
                       id="userAddName"
                       label="Name"
@@ -144,23 +143,8 @@ export default function AddUser() {
                       {...register("name", { required: "Name is required" })}
                     />
                     <div className="error">{errors?.name?.message}</div>
-                  </div>
-                  <div className="col-md-6 second-col">
-                    <TextField
-                      id="userAddDisplayName"
-                      label="Display Name"
-                      size="small"
-                      fullWidth
-                      variant="outlined"
-                      {...register("displayName", {
-                        required: "Display Name is required",
-                      })}
-                    />
-                    <div className="error">{errors?.displayName?.message}</div>
-                  </div>
-                </div>
-                <div className="add-user-row">
-                  <div className="col-md-6 first-col">
+                  </Grid>
+                  <Grid item md={6}>
                     <TextField
                       id="userAddEmail"
                       label="Email"
@@ -177,18 +161,46 @@ export default function AddUser() {
                       })}
                     />
                     <div className="error">{errors?.email?.message}</div>
-                  </div>
-                  <div className="col-md-6 second-col">
+                  </Grid>
+                  <Grid item md={6}>
+                    <Controller
+                      control={control}
+                      name="country"
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field: { onChange, value } }) => (
+                        <Autocomplete
+                          disablePortal
+                          id="userCountry"
+                          size="small"
+                          options={country}
+                          getOptionLabel={(option) =>
+                            option.countryNameEn || ""
+                          }
+                          isOptionEqualToValue={(option, value) => {
+                            return option.label === value.label;
+                          }}
+                          onChange={(e, val) => onChange(val)}
+                          value={value}
+                          renderInput={(params) => (
+                            <TextField {...params} label="Country" />
+                          )}
+                        />
+                      )}
+                    />
+                  </Grid>
+                  {country?.errors && (
+                    <div className="error">Country is required</div>
+                  )}
+                  <Grid item md={6}>
                     <TextField
-                      id="userAddMobileNumber"
+                      id="userWhatsappeNumber"
                       label="Whatsapp Number"
                       size="small"
                       type="number"
                       fullWidth
                       variant="outlined"
-                      // {...register("mobileNumber", {
-                      //   required: "Mobile Number is required",
-                      // })}
                       {...register("mobileNumber", {
                         required: "Please enter Mobile Number",
                         minLength: {
@@ -202,10 +214,8 @@ export default function AddUser() {
                       })}
                     />
                     <div className="error">{errors?.mobileNumber?.message}</div>
-                  </div>
-                </div>
-                <div className="add-user-row">
-                  <div className="col-md-6 first-col">
+                  </Grid>
+                  <Grid item md={6}>
                     <TextField
                       id="userAddPassword"
                       label="Password"
@@ -222,52 +232,29 @@ export default function AddUser() {
                       })}
                     />
                     <div className="error">{errors?.password?.message}</div>
-                  </div>
-                  <div className="col-md-3 second-col">
-                    <Autocomplete
-                      disablePortal
-                      id="userAddRoles"
-                      size="small"
-                      options={roles}
-                      getOptionLabel={(option) => option.label || ""}
-                      isOptionEqualToValue={(option, value) => {
-                        return option.label === value.label;
+                  </Grid>
+                  <Grid item md={6}>
+                    <Controller
+                      control={control}
+                      name="madhab"
+                      rules={{
+                        required: true,
                       }}
-                      onChange={(e, val) => setSelectedRoles(val)}
-                      value={selectedRoles || null}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Roles"
-                          {...register("roles", {
-                            required: "Roles is required",
-                          })}
-                        />
-                      )}
-                    />
-                    {!selectedRoles?.label && (
-                      <div className="error">{errors?.roles?.message}</div>
-                    )}
-                  </div>
-                  <div className="col-md-3 second-col">
-                    <Autocomplete
-                      disablePortal
-                      id="userAddMadhab"
-                      size="small"
-                      options={madhabData}
-                      getOptionLabel={(option) => option.title || ""}
-                      isOptionEqualToValue={(option, value) =>
-                        option._id === value._id
-                      }
-                      onChange={(e, val) => setSelectedMadhab(val)}
-                      value={selectedMadhab}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Madhab"
-                          {...register("madhab", {
-                            required: "Madhab is required",
-                          })}
+                      render={({ field: { onChange, value } }) => (
+                        <Autocomplete
+                          disablePortal
+                          id="userAddMadhab"
+                          size="small"
+                          options={madhabData}
+                          getOptionLabel={(option) => option.title || ""}
+                          isOptionEqualToValue={(option, value) =>
+                            option?._id === value?._id
+                          }
+                          onChange={(e, val) => onChange(val)}
+                          value={value}
+                          renderInput={(params) => (
+                            <TextField {...params} label="Madhab" />
+                          )}
                         />
                       )}
                     />
@@ -275,14 +262,11 @@ export default function AddUser() {
                     {!selectedMadhab?.title && (
                       <div className="error">{errors?.madhab?.message}</div>
                     )}
-                  </div>
-                </div>
-                <div className="add-user-row">
-                  <div className="col-md-6 first-col">
+                  </Grid>
+                  <Grid item md={12}>
                     <TextField
                       id="userAddAddress"
                       label="Address"
-                      // size="small"
                       rows={3}
                       multiline
                       fullWidth
@@ -292,49 +276,22 @@ export default function AddUser() {
                       })}
                     />
                     <div className="error">{errors?.address?.message}</div>
-                  </div>
-                  <div className="col-md-6 second-col">
-                    {status?.length && (
-                      <Autocomplete
-                        disablePortal
-                        id="userAddStatus"
-                        size="small"
-                        options={status}
-                        getOptionLabel={(option) => option.title || ""}
-                        isOptionEqualToValue={(option, value) =>
-                          option.id === value.id
-                        }
-                        onChange={(e, val) => setSelectedStatus(val)}
-                        value={selectedStatus}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            label="Active Status"
-                            {...register("status", {
-                              required: "Status is required",
-                            })}
-                          />
-                        )}
-                      />
-                    )}
-                    {!selectedStatus?.title && (
-                      <div className="error">{errors?.status?.message}</div>
-                    )}
-                  </div>
-                </div>
-                <div className="btn-section">
-                  <div className="col-md-1">
-                    <Button
-                      variant="contained"
-                      className="form-btn"
-                      type="submit"
-                      fullWidth
-                    >
-                      SAVE
-                    </Button>
-                  </div>
-                </div>
-              </div>
+                  </Grid>
+                </Grid>
+              </Container>
+
+              <Grid container justifyContent="center">
+                <Grid item>
+                  <Button
+                    variant="contained"
+                    className="form-btn"
+                    type="submit"
+                    fullWidth
+                  >
+                    Save Profile
+                  </Button>
+                </Grid>
+              </Grid>
             </form>
           </div>
         </Paper>
