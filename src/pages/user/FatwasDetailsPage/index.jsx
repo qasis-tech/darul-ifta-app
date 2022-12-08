@@ -49,7 +49,8 @@ export default function FatwasDetailsPage() {
         </div>
       ) : (
         <>
-          <Container sx={{ paddingTop: 14 }}>
+          {/* <Container sx={{ paddingTop: 14 }}> */}
+          <div className="container question-details-section ">
             <QuestionNumberComponent data={questionDetails} />
             <Divider sx={{ marginY: 1 }} />
             <SingleQuestionComponent data={questionDetails} />
@@ -60,13 +61,16 @@ export default function FatwasDetailsPage() {
               </Grid>
               <Grid item md={8.5} xs={12}>
                 <DetailedQuestionComponent data={questionDetails} />
-                <WrittenComponent data={questionDetails} />
+                {questionDetails?.status === "Published" && (
+                  <WrittenComponent data={questionDetails} />
+                )}
               </Grid>
               <Grid item md={3} xs={12}>
                 <RelatedFatwasComponent data={questionDetails} />
               </Grid>
             </Grid>
-          </Container>
+            </div>
+          {/* </Container> */}
           <FooterComponent />
         </>
       )}

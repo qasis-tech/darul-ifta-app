@@ -85,11 +85,12 @@ const Profile = ({ close, userLoginDetails, addUserLoginDetails }) => {
       })
       .catch((err) => {
         setLoader(false);
-        toast("Somthing went wrong, please try again later", {
-          onClose: () => {
-            setLoader(false);
-          },
-        });
+        toast("Somthing went wrong, please try again later");
+        // toast("Somthing went wrong, please try again later", {
+        //   onClose: () => {
+        //     setLoader(false);
+        //   },
+        // });
         console.error("Error in profile edit", err);
       });
   };

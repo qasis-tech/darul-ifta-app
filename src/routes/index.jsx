@@ -23,18 +23,21 @@ import AdminHome from "../pages/admin/dashsboard";
 import Dashboard from "../pages/admin/dashsboard";
 import Categories from "../pages/admin/category";
 import AdminFatwas from "../pages/admin/fatwas";
-import Musthafthies from "../pages/admin/musthafthies";
+// import Musthafthies from "../pages/admin/musthafthies";
 import User from "../pages/admin/users";
 import Category from "../pages/admin/category";
 import CategoryDetails from "../pages/admin/category/categoryDetails";
 import Article from "../pages/admin/article";
 import AddCategories from "../pages/admin/category/addCategoryPage";
-import AddMufthi from "../pages/admin/musthafthies/addMusthafthiesPage";
-import MufthiDetails from "../pages/admin/musthafthies/musthafthiesDetailsPage";
+// import AddMufthi from "../pages/admin/musthafthies/addMusthafthiesPage";
+// import MufthiDetails from "../pages/admin/musthafthies/musthafthiesDetailsPage";
 import AddUser from "../pages/admin/users/addUserPage";
 import FatwasDetails from "../pages/admin/fatwas/detailsFatwa";
 import AddArticle from "../pages/admin/article/addArticle";
 import ArticleDetails from "../pages/admin/article/articleDetails";
+import MufthiAndStudent from "../pages/admin/MufthiStudent/index"
+import AddMufthiAndStudent from "../pages/admin/MufthiStudent/addMufthiAndStudentPage";
+import MufthiAndStudentDetails from "../pages/admin/MufthiStudent/mufthiAndStudentDetailsPage";
 import UserAccountRouting from "./userAccounts";
 import { connect } from "react-redux";
 import { addHomeFilter } from "../redux/actions";
@@ -95,29 +98,40 @@ const CustomRouters = (props) => {
         <Route path="login" element={<AdminLogin />} />
         <Route path="/admin" element={<Dashboard />} />
         <Route path={RouterList.admin.adminfatwas} element={<AdminFatwas />} />
-        <Route path="musthafthies" element={<Musthafthies />} />
+        {/* <Route path="musthafthies" element={<Musthafthies />} /> */}
         <Route path={RouterList.admin.user} element={<User />} />
+        <Route
+          path={RouterList.admin.mufthiAndStudent}
+          element={<MufthiAndStudent />}
+        />
         <Route path={"user/:id"} element={<UserDetails />} />
         <Route path="category" element={<Category />} />
         <Route path={"category/:id"} element={<CategoryDetails />} />
         <Route path="article" element={<Article />} />
         <Route path={"article/:id"} element={<ArticleDetails />} />
         <Route path="addCategories" element={<AddCategories />} />
-        <Route path="addMufthi" element={<AddMufthi />} />
+        {/* <Route path="addMufthi" element={<AddMufthi />} /> */}
         <Route path="addUser" element={<AddUser />} />
+        <Route
+          path={RouterList.admin.addMufthiAndStudent}
+          element={<AddMufthiAndStudent />}
+        />
         <Route
           path={`${RouterList.admin.adminfatwas}/${RouterList.admin.fatwasDetails}/:id`}
           element={<FatwasDetails />}
         />
-        <Route
+        {/* <Route
           path={`${RouterList.admin.mufthiDetails}/:id`}
           element={<MufthiDetails />}
+        /> */}
+        <Route
+          path={`${RouterList.admin.mufthiAndStudentDetails}/:id`}
+          element={<MufthiAndStudentDetails />}
         />
         <Route
           path={`${RouterList.admin.fatwasDetails}/:id`}
           element={<FatwasDetails />}
         />
-
         <Route path="addArticle" element={<AddArticle />} />
 
         <Route path={RouterList.admin.categoryList} element={<Categories />} />

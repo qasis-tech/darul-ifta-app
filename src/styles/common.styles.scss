@@ -145,13 +145,17 @@ p{
   padding: 0.2em 1em;
   border-radius: 20px;
   color: white;
-  
+}
+.fatwa-status{
   display: inline-block;
   width: 100px;
   white-space: nowrap;
   overflow: hidden !important;
   text-overflow: ellipsis;
-  
+  text-align: center;
+  @media screen and (min-width:2000px) and (max-width:4000px) {
+    width: 175px;
+  }
 }
 .activestatus {
   background-color: green;
@@ -298,3 +302,6 @@ p{
   overflow: hidden;
 }
 
+#root{
+  height: 100vh;
+}

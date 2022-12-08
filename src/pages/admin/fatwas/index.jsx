@@ -466,27 +466,27 @@ export default function Fatwas() {
                               </span>
                             </TableCell>
                             <TableCell>
-                            <Tooltip title="Pending" arrow>
+                            <Tooltip title={question?.status} arrow>
                               <span
                                 className={
                                   question?.status === "Pending"
-                                    ? "pending"
+                                    ? "pending fatwa-status"
                                     : question?.status === "Rejected"
-                                    ? "rejected"
+                                    ? "rejected fatwa-status"
                                     : question?.status === "Re Submitted"
-                                    ? "reSUbmitted"
+                                    ? "reSUbmitted fatwa-status"
                                     : question?.status ===
                                       "Received to Darul Ifta"
-                                    ? "recievedToDI"
+                                    ? "recievedToDI fatwa-status"
                                     : question?.status === "Assigned Mufti"
-                                    ? "assMufthi"
+                                    ? "assMufthi fatwa-status"
                                     : question?.status === "Mufti Answered"
-                                    ? "mufthiAns"
+                                    ? "mufthiAns fatwa-status"
                                     : question?.status ===
                                       "Completed Verification"
-                                    ? "completeVerification"
+                                    ? "completeVerification fatwa-status"
                                     : question?.status === "Published"
-                                    ? "published"
+                                    ? "published fatwa-status"
                                     : ""
                                 }
                               >

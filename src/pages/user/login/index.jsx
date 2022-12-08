@@ -216,104 +216,112 @@ const Login = (props) => {
         className="container login-container"
         style={{ backgroundImage: `url(${BackgroundImage})` }}
       >
-        <Grid  spacing={2} className="formWraper">
-          <Grid item md={6} xs={6} lg={6}  className="welcome-section">
+        <Grid spacing={2} className="formWraper">
+          <Grid item md={5} xs={5} lg={5} className="welcome-section">
             {/* <div className="welcomeDiv"> <h2>Welcome Back!</h2> </div> */}
           </Grid>
 
-          <Grid item md={6} sm={6} lg={6}   className="main-div d-flex justify-content-center">
-            <Paper elevation={2} className="formDiv">
-              <h2>Sign in</h2>
+          <Grid
+            item
+            md={7}
+            sm={7}
+            lg={7}
+            className="main-div d-flex justify-content-center"
+          >
+            <Grid item md={12} className="login-form" sx={{width:"370px",height:"450px"}}>
+              <Paper elevation={2} className="formDiv p-4" sx={{width:"100%",height:"100%"}}>
+                <h2>Sign in</h2>
 
-              {screens === "email" ? (
-                <>
-                  <form onSubmit={handleSubmit(handleContinue)}>
-                    <TextField
-                      fullWidth
-                      id="standard-basic"
-                      label="Email Address"
-                      variant="standard"
-                      className="email"
-                      {...register("email", {
-                        required: "Email ID is required",
-                        pattern: {
-                          value:
-                            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                          message: "Invalid email Id ( eg: example@mail.com ) ",
-                        },
-                      })}
-                    />
-                    <div className="error">{errors?.email?.message}</div>
+                {screens === "email" ? (
+                  <>
+                    <form onSubmit={handleSubmit(handleContinue)}>
+                      <TextField
+                        fullWidth
+                        id="standard-basic"
+                        label="Email Address"
+                        variant="standard"
+                        className="email"
+                        {...register("email", {
+                          required: "Email ID is required",
+                          pattern: {
+                            value:
+                              /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                            message:
+                              "Invalid email Id ( eg: example@mail.com ) ",
+                          },
+                        })}
+                      />
+                      <div className="error">{errors?.email?.message}</div>
+                      <div className="signin-btn">
+                        {isLoading ? (
+                          <Loader skeleton layers={1} />
+                        ) : (
+                          <button className="btn" type="submit">
+                            Continue
+                          </button>
+                        )}
+                      </div>
+                    </form>
+                  </>
+                ) : (
+                  <form onSubmit={handleSubmit(handleLogin)}>
+                    <div className="password-row">
+                      <div className="col-md-2 avatar">
+                        <Avatar alt="pro_image" src={imgSrc} />
+                      </div>
+                      <div className="col-md-10">
+                        <TextField
+                          fullWidth
+                          id="standard-basic"
+                          label="Password"
+                          variant="standard"
+                          className="email"
+                          type={isVisible ? "text" : "password"}
+                          {...register("password", {
+                            required: "Password is required",
+                            minLength: {
+                              value: 8,
+                              message: "Minimum 8 character",
+                            },
+                          })}
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <IconButton
+                                  onClick={() => setVisible(!isVisible)}
+                                  edge="end"
+                                >
+                                  {!isVisible ? (
+                                    <VisibilityOff />
+                                  ) : (
+                                    <Visibility />
+                                  )}
+                                </IconButton>
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                        <div className="error">{errors?.password?.message}</div>
+                      </div>
+                    </div>
                     <div className="signin-btn">
-                      {isLoading ? (
-                        <Loader skeleton layers={1} />
-                      ) : (
-                        <button className="btn" type="submit">
-                          Continue
+                      {!isLoading && (
+                        <button className="btn " type="submit">
+                          Login
                         </button>
                       )}
                     </div>
                   </form>
-                </>
-              ) : (
-                <form onSubmit={handleSubmit(handleLogin)}>
-                  <div className="password-row">
-                    <div className="col-md-2 avatar">
-                      <Avatar alt="pro_image" src={imgSrc} />
-                    </div>
-                    <div className="col-md-10">
-                      <TextField
-                        fullWidth
-                        id="standard-basic"
-                        label="Password"
-                        variant="standard"
-                        className="email"
-                        type={isVisible ? "text" : "password"}
-                        {...register("password", {
-                          required: "Password is required",
-                          minLength: {
-                            value: 8,
-                            message: "Minimum 8 character",
-                          },
-                        })}
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <IconButton
-                                onClick={() => setVisible(!isVisible)}
-                                edge="end"
-                              >
-                                {!isVisible ? (
-                                  <VisibilityOff />
-                                ) : (
-                                  <Visibility />
-                                )}
-                              </IconButton>
-                            </InputAdornment>
-                          ),
-                        }}
-                      />
-                      <div className="error">{errors?.password?.message}</div>
-                    </div>
-                  </div>
-                  <div className="signin-btn">
-                    {!isLoading && (
-                      <button className="btn " type="submit">
-                        Login
-                      </button>
-                    )}
-                  </div>
-                </form>
-              )}
+                )}
 
-              <div className="separator">Or</div>
+                <div className="separator">Or</div>
 
-              <div className="socialBtn">
-                {isLoading ? (
-                  <Loader skeleton layers={1} />
-                ) : (
-                  <>
-                    {/* <GoogleLogin
+                <div className="socialBtn">
+                  {isLoading ? (
+                    <Loader skeleton layers={1} />
+                  ) : (
+                    <>
+                      {/* <GoogleLogin
                       clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                       buttonText="Continue with Google"
                       onSuccess={(aa) => {
@@ -324,37 +332,38 @@ const Login = (props) => {
                       }}
                       cookiePolicy={"single_host_origin"}
                     /> */}
-                    <GoogleLogin
-                      onSuccess={(res) => {
-                        const decoded = jwt_decode(res?.credential);
-                        handleRegister({
-                          email: decoded.email,
-                          name: decoded.name,
-                          imageUrl: decoded.picture,
-                          googleId: decoded.sub,
-                        });
-                      }}
-                      onError={(e) => {
-                        console.log("Login Failed", e);
-                      }}
-                    />
+                      <GoogleLogin
+                        onSuccess={(res) => {
+                          const decoded = jwt_decode(res?.credential);
+                          handleRegister({
+                            email: decoded.email,
+                            name: decoded.name,
+                            imageUrl: decoded.picture,
+                            googleId: decoded.sub,
+                          });
+                        }}
+                        onError={(e) => {
+                          console.log("Login Failed", e);
+                        }}
+                      />
 
-                    {/* <div className="facebook icon text">
+                      {/* <div className="facebook icon text">
                       <FacebookIcon className="icons-size " />
                       Continue with Facebook
                     </div> */}
-                  </>
-                )}
-              </div>
+                    </>
+                  )}
+                </div>
 
-              <div className="back-btn">
-                <a className="text" onClick={() => navigate("/")}>
-                  Back to home
-                </a>
-              </div>
-            </Paper>
+                <div className="back-btn">
+                  <a className="text" onClick={() => navigate("/")}>
+                    Back to home
+                  </a>
+                </div>
+              </Paper>
+            </Grid>
           </Grid>
-        </Grid> 
+        </Grid>
       </div>
     </section>
   );

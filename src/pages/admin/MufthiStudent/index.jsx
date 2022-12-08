@@ -21,19 +21,19 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
 
-import { URLS } from "../../../config/urls.config";
-import Loader from "../../../components/common/Loader";
+import {URLS} from "../../../config/urls.config"
+import Loader from "../../../components/common/Loader"
 import NoDataAvailable from "../../../components/NoDataAvailable";
-import RouterList from "../../../routes/routerList";
+import routerList from "../../../routes/routerList";
 
-import "./user.styles.scss";
+// import "./user.styles.scss";
 
-export default function User() {
+export default function MufthiAndStudent() {
   const [userData, setUserData] = useState([]);
   const [isLoading, setLoader] = useState(false);
-  const [roles, setRoles] = useState("User");
+  const [roles, setRoles] = useState("Mufthi");
+  const [student,setStudent]=useState("Student")
   const [searchInput, setSearchInput] = useState("");
-  const [selectedRole,setSelectedRole]=useState()
 
   useEffect(() => {
     getUserListApi();
@@ -54,7 +54,7 @@ export default function User() {
     // `${URLS.user}${URLS.signup}?userType=${roles}`;
     }
     else{
-      params=`?userType=${roles}`;
+      params=`?userType=${roles},${student}`;
     }
     axios
       .get(`${URLS.user}${URLS.signup}${params}`, {
@@ -116,7 +116,7 @@ export default function User() {
             <Button
               variant="contained"
               className="add-btn"
-              onClick={() => navigate(`${"/admin/addUser"}`)}
+              onClick={() => navigate(`${"/admin/addMufthiAndStudent"}`)}
               fullWidth
             >
               ADD
@@ -148,7 +148,6 @@ export default function User() {
                   <TableBody>
                     {userData.length ? (
                       userData.map((user) => {
-                        console.log("filterrrr",user)
                         return (
                           <TableRow
                             hover
@@ -156,7 +155,7 @@ export default function User() {
                               "&:last-child td, &:last-child th": { border: 0 },
                             }}
                             key={user._id}
-                            onClick={() => navigate(`${user?._id}`)}
+                            onClick={() => navigate(`${routerList.admin.admin}/${routerList.admin.mufthiAndStudentDetails}/${user._id}`)}
                           >
                             <TableCell>
                               <span>{user?.name || "N/A"}</span>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { toast } from "react-toastify";
 
 import {
   Tabs,
@@ -47,44 +48,46 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
   const [value, setValue] = useState(0);
   const [questionData, setQuestionData] = useState([]);
   const [isLoading, setLoader] = useState(false);
-  const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
-  const [nodata, setNodata] = useState();
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const STATUS = ["", "Published", "Pending", "Rejected"];
 
   useEffect(() => {
-    console.log("pagination", page, rowsPerPage);
     getQuestionList(
       `?userid=${userLoginDetails?._id}&skip=${
         page * rowsPerPage
-      }&limit=${limit}`
+      }&limit=${rowsPerPage}`
     );
-  }, [page]);
+  }, [page, rowsPerPage]);
 
   const getQuestionList = (params) => {
     setLoader(true);
+    console.log("params", params);
     getQuestionListApi(params)
       .then((res) => {
         setLoader(false);
-        if (params === `?userid=${userLoginDetails?._id}`) {
-          setQuestionData(res);
-        } else if (
-          params === `?status=Published&userid=${userLoginDetails?._id}`
-        ) {
-          setQuestionData(res);
-        } else {
-          setQuestionData(res);
-        }
+
+        console.log("111111111", res);
+        // if (params === `?userid=${userLoginDetails?._id}`) {
+        //   setQuestionData(res);
+        // } else if (
+        //   params === `?status=Published&userid=${userLoginDetails?._id}`
+        // ) {
+        //   setQuestionData(res);
+        // } else {
+        setQuestionData(res);
+        // }
       })
       .catch((err) => {
-        console.error("Error in getQuestionListApi", err);
         setLoader(false);
+        toast("Somthing went wrong, please try again later");
+        console.error("Error in getQuestionListApi", err);
         setQuestionData([]);
       });
   };
 
   const handleChange = (event, newValue) => {
+    console.log("22222222222");
     setValue(newValue);
     getQuestionList(
       newValue === 0
@@ -94,10 +97,9 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
   };
   const handleChangePage = (e, newPage) => setPage(newPage);
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(event.target.value);
+    setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
   return (
     <div className="user-tab-section">
       <div className="container">
@@ -147,19 +149,18 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
                         <NoDataAvailable noStyle noBg />
                       </div>
                     )}
-
-                    {questionData && (
+                    {questionData?.count > 10 ? (
                       <div className="pagination-section">
                         <TablePagination
-                          rowsPerPageOptions={[5]}
                           component="div"
                           count={questionData && questionData?.count}
                           rowsPerPage={rowsPerPage}
                           page={page}
                           onPageChange={handleChangePage}
+                          onRowsPerPageChange={handleChangeRowsPerPage}
                         />
                       </div>
-                    )}
+                    ) : null}
                   </TabPanel>
                 );
               })}

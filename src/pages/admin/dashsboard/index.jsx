@@ -8,6 +8,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import LanguageIcon from "@mui/icons-material/Language";
 import SearchIcon from "@mui/icons-material/Search";
 import SnackBar from "../../../components/common/Snackbar";
+import Tooltip from '@mui/material/Tooltip';
 import {
   Table,
   TableBody,
@@ -229,31 +230,34 @@ export default function Dashboard() {
                                 {items?.madhab?.title || "N/A"}
                               </TableCell>
                               <TableCell>
+                              <Tooltip title={items?.status} arrow>
                                 <span
                                   className={
-                                    items?.status === "Pending"
-                                      ? "pending"
+                                    items?.status
+                                     === "Pending"
+                                      ? "pending fatwa-status"
                                       : items?.status === "Rejected"
-                                      ? "rejected"
+                                      ? "rejected fatwa-status"
                                       : items?.status === "Re Submitted"
-                                      ? "reSUbmitted"
+                                      ? "reSUbmitted fatwa-status"
                                       : items?.status ===
                                         "Received to Darul Ifta"
-                                      ? "recievedToDI"
+                                      ? "recievedToDI fatwa-status"
                                       : items?.status === "Assigned Mufti"
-                                      ? "assMufthi"
+                                      ? "assMufthi fatwa-status"
                                       : items?.status === "Mufti Answered"
-                                      ? "mufthiAns"
+                                      ? "mufthiAns fatwa-status"
                                       : items?.status ===
                                         "Completed Verification"
-                                      ? "completeVerification"
+                                      ? "completeVerification fatwa-status"
                                       : items?.status === "Published"
-                                      ? "published"
-                                      : ""
+                                      ? "published fatwa-status"
+                                      : ""  
                                   }
                                 >
                                   {items?.status}
                                 </span>
+                                </Tooltip>
                               </TableCell>
                             </TableRow>
                           );

@@ -2,19 +2,19 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import COL from "country-codes-list";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
 import { toast } from "react-toastify";
 import "yup-phone";
-import "./adduser.styles.scss";
+
+import COL from "country-codes-list";
 
 import { URLS } from "../../../config/urls.config";
 import Loader from "../../../components/common/Loader";
-import { Container, Grid, Paper } from "@mui/material";
+import { Paper } from "@mui/material";
 
-export default function AddUser() {
+export default function AddMufthiAndStudent() {
   const [madhabData, setMadhabData] = useState([]);
   const [selectedMadhab, setSelectedMadhab] = useState([]);
   const [status, setStatus] = useState([
@@ -23,24 +23,32 @@ export default function AddUser() {
   ]);
   const [selectedStatus, setSelectedStatus] = useState([]);
   const [selectedRoles, setSelectedRoles] = useState([]);
-  const [userDetails, setUserDetails] = useState(null);
   const [userToken, setUserToken] = useState([]);
 
   const [isLoading, setLoader] = useState(false);
-  const roles = [{ label: "User", value: "user" }];
   const [country, setCountry] = useState([]);
+
+  const roles = [
+    { label: "Mufthi", value: "mufti" },
+    { label: "Student", value: "student" },
+  ];
 
   const {
     register,
     handleSubmit,
     control,
+    setValue,
     formState: { errors },
-  } = useForm({});
+  } = useForm({
+    // resolver: yupResolver(profileSchema),
+  });
 
   useEffect(() => {
     getmadhabApi();
     setCountry(COL.all());
   }, []);
+
+  console.log("COL", country);
 
   useEffect(() => {
     const user = JSON.parse(
@@ -79,7 +87,7 @@ export default function AddUser() {
       display_title: displayName,
       phone: mobileNumber,
       user_type: selectedRoles.label,
-      madhab: selectedMadhab.title,
+      madhab: selectedMadhab?.title || null,
       address: address,
       user_password: password,
       user_status: selectedStatus.title,
@@ -88,12 +96,7 @@ export default function AddUser() {
     console.log("payload====>", payload);
 
     axios
-      .post(`${URLS.user}${URLS.signup}`, payload, {
-        headers: {
-          Authorization: `${userToken}`,
-          "Content-Type": "application/json",
-        },
-      })
+      .post(`${URLS.user}${URLS.signup}`, payload)
       .then((res) => {
         console.log("res user save ===>>", res);
         if (res?.success) {
@@ -129,11 +132,11 @@ export default function AddUser() {
         <Loader absolute />
       ) : (
         <Paper elevation={2}>
-          <div>
-            <form onSubmit={handleSubmit(handleSave)} style={{ padding: 15 }}>
-              <Container sx={{ p: 1 }}>
-                <Grid container spacing={4}>
-                  <Grid item md={6}>
+          <div className="add-user-section  bg-white">
+            <form onSubmit={handleSubmit(handleSave)}>
+              <div className="add-user-container">
+                <div className="add-user-row">
+                  <div className="col-md-6 first-col">
                     <TextField
                       id="userAddName"
                       label="Name"
@@ -143,8 +146,23 @@ export default function AddUser() {
                       {...register("name", { required: "Name is required" })}
                     />
                     <div className="error">{errors?.name?.message}</div>
-                  </Grid>
-                  <Grid item md={6}>
+                  </div>
+                  <div className="col-md-6 second-col">
+                    <TextField
+                      id="userAddDisplayName"
+                      label="Display Name"
+                      size="small"
+                      fullWidth
+                      variant="outlined"
+                      {...register("displayName", {
+                        required: "Display Name is required",
+                      })}
+                    />
+                    <div className="error">{errors?.displayName?.message}</div>
+                  </div>
+                </div>
+                <div className="add-user-row">
+                  <div className="col-md-6 first-col">
                     <TextField
                       id="userAddEmail"
                       label="Email"
@@ -161,8 +179,9 @@ export default function AddUser() {
                       })}
                     />
                     <div className="error">{errors?.email?.message}</div>
-                  </Grid>
-                  <Grid item md={6}>
+                  </div>
+
+                  <div className="col-md-3 second-col">
                     <Controller
                       control={control}
                       name="country"
@@ -189,13 +208,14 @@ export default function AddUser() {
                         />
                       )}
                     />
-                  </Grid>
+                  </div>
                   {country?.errors && (
                     <div className="error">Country is required</div>
                   )}
-                  <Grid item md={6}>
+
+                  <div className="col-md-3 second-col">
                     <TextField
-                      id="userWhatsappeNumber"
+                      id="userAddMobileNumber"
                       label="Whatsapp Number"
                       size="small"
                       type="number"
@@ -208,14 +228,16 @@ export default function AddUser() {
                           message: "Mobile Number length must be 10 digit. ",
                         },
                         maxLength: {
-                          value: 10,
+                          value: 13,
                           message: "Mobile Number length must be 10 digit. ",
                         },
                       })}
                     />
                     <div className="error">{errors?.mobileNumber?.message}</div>
-                  </Grid>
-                  <Grid item md={6}>
+                  </div>
+                </div>
+                <div className="add-user-row">
+                  <div className="col-md-6 first-col">
                     <TextField
                       id="userAddPassword"
                       label="Password"
@@ -232,29 +254,52 @@ export default function AddUser() {
                       })}
                     />
                     <div className="error">{errors?.password?.message}</div>
-                  </Grid>
-                  <Grid item md={6}>
-                    <Controller
-                      control={control}
-                      name="madhab"
-                      rules={{
-                        required: true,
+                  </div>
+                  <div className="col-md-3 second-col">
+                    <Autocomplete
+                      disablePortal
+                      id="userAddRoles"
+                      size="small"
+                      options={roles}
+                      getOptionLabel={(option) => option.label || ""}
+                      isOptionEqualToValue={(option, value) => {
+                        return option.label === value.label;
                       }}
-                      render={({ field: { onChange, value } }) => (
-                        <Autocomplete
-                          disablePortal
-                          id="userAddMadhab"
-                          size="small"
-                          options={madhabData}
-                          getOptionLabel={(option) => option.title || ""}
-                          isOptionEqualToValue={(option, value) =>
-                            option?._id === value?._id
-                          }
-                          onChange={(e, val) => onChange(val)}
-                          value={value}
-                          renderInput={(params) => (
-                            <TextField {...params} label="Madhab" />
-                          )}
+                      onChange={(e, val) => setSelectedRoles(val)}
+                      value={selectedRoles || null}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Roles"
+                          {...register("roles", {
+                            required: "Roles is required",
+                          })}
+                        />
+                      )}
+                    />
+                    {!selectedRoles?.label && (
+                      <div className="error">{errors?.roles?.message}</div>
+                    )}
+                  </div>
+                  <div className="col-md-3 second-col">
+                    <Autocomplete
+                      disablePortal
+                      id="userAddMadhab"
+                      size="small"
+                      options={madhabData}
+                      getOptionLabel={(option) => option.title || ""}
+                      isOptionEqualToValue={(option, value) =>
+                        option._id === value._id
+                      }
+                      onChange={(e, val) => setSelectedMadhab(val)}
+                      value={selectedMadhab}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Madhab"
+                          {...register("madhab", {
+                            required: false,
+                          })}
                         />
                       )}
                     />
@@ -262,11 +307,14 @@ export default function AddUser() {
                     {!selectedMadhab?.title && (
                       <div className="error">{errors?.madhab?.message}</div>
                     )}
-                  </Grid>
-                  <Grid item md={12}>
+                  </div>
+                </div>
+                <div className="add-user-row">
+                  <div className="col-md-6 first-col">
                     <TextField
                       id="userAddAddress"
                       label="Address"
+                      // size="small"
                       rows={3}
                       multiline
                       fullWidth
@@ -276,22 +324,49 @@ export default function AddUser() {
                       })}
                     />
                     <div className="error">{errors?.address?.message}</div>
-                  </Grid>
-                </Grid>
-              </Container>
-
-              <Grid container justifyContent="center">
-                <Grid item>
-                  <Button
-                    variant="contained"
-                    className="form-btn"
-                    type="submit"
-                    fullWidth
-                  >
-                    Save Profile
-                  </Button>
-                </Grid>
-              </Grid>
+                  </div>
+                  <div className="col-md-6 second-col">
+                    {status?.length && (
+                      <Autocomplete
+                        disablePortal
+                        id="userAddStatus"
+                        size="small"
+                        options={status}
+                        getOptionLabel={(option) => option.title || ""}
+                        isOptionEqualToValue={(option, value) =>
+                          option.id === value.id
+                        }
+                        onChange={(e, val) => setSelectedStatus(val)}
+                        value={selectedStatus}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Active Status"
+                            {...register("status", {
+                              required: "Status is required",
+                            })}
+                          />
+                        )}
+                      />
+                    )}
+                    {!selectedStatus?.title && (
+                      <div className="error">{errors?.status?.message}</div>
+                    )}
+                  </div>
+                </div>
+                <div className="btn-section">
+                  <div className="col-md-1">
+                    <Button
+                      variant="contained"
+                      className="form-btn"
+                      type="submit"
+                      fullWidth
+                    >
+                      SAVE
+                    </Button>
+                  </div>
+                </div>
+              </div>
             </form>
           </div>
         </Paper>

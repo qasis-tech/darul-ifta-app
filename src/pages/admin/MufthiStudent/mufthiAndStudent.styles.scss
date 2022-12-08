@@ -1,0 +1,15 @@
+@import "../../../styles/common.styles.scss";
+.user-section {
+  .user-container {
+    .user-row {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+  .user-table-section {
+    margin-top: 2em;
+    .view-icon{
+        margin-left: 1em;
+    }
+  }
+}

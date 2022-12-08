@@ -599,79 +599,83 @@ export default function FatwasDetails() {
                       )}
                     </div>
 
-                    {watch("assignedTo")?.user_type === "Students" && (
-                      <div className="col-md-3">
-                        <Controller
-                          control={control}
-                          name="check_approved"
-                          rules={{ required: true }}
-                          render={({ field: { onChange, value } }) => (
-                            <Autocomplete
-                              id="fatwasDetailsCheckedApproved"
-                              size="small"
-                              fullWidth
-                              options={mufthiList?.filter(
-                                (fl) =>
-                                  fl?._id !== getValues("assignedTo._id") &&
-                                  fl?.user_type !== "Students" &&
-                                  fl?._id !== getValues("verifier._id")
-                              )}
-                              getOptionLabel={(option) => option?.name || ""}
-                              isOptionEqualToValue={(option, value) =>
-                                option._id === value._id
-                              }
-                              value={watch("check_approved") || ""}
-                              onChange={(e, val) => onChange(val)}
-                              renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                  label="Checked & Approve"
-                                />
-                              )}
-                            />
-                          )}
-                        />
-
-                        {errors?.check_approved && (
-                          <div className="error py-1">
-                            checked and approved is required
-                          </div>
-                        )}
-                      </div>
-                    )}
-
-                    <div className="col-md-3">
-                      <Controller
-                        control={control}
-                        name="verifier"
-                        rules={{ required: true }}
-                        render={({ field: { onChange, value } }) => (
-                          <Autocomplete
-                            id="fatwaDetailsVerifier"
-                            size="small"
-                            fullWidth
-                            options={mufthiList.filter(
-                              (fl) =>
-                                fl?.user_type !== "Students" &&
-                                fl?._id !== getValues("assignedTo._id") &&
-                                fl?._id !== getValues("check_approved._id")
-                            )}
-                            getOptionLabel={(option) => option?.name || ""}
-                            isOptionEqualToValue={(option, value) =>
-                              option?._id === value?._id
-                            }
-                            value={watch("verifier") || ""}
-                            onChange={(e, val) => onChange(val)}
-                            renderInput={(params) => (
-                              <TextField {...params} label="Verified By" />
+                    {state?.status !== "Received to Darul Ifta" &&
+                      watch("assignedTo")?.user_type === "Students" && (
+                        <div className="col-md-3">
+                          <Controller
+                            control={control}
+                            name="check_approved"
+                            rules={{ required: true }}
+                            render={({ field: { onChange, value } }) => (
+                              <Autocomplete
+                                id="fatwasDetailsCheckedApproved"
+                                size="small"
+                                fullWidth
+                                options={mufthiList?.filter(
+                                  (fl) =>
+                                    fl?._id !== getValues("assignedTo._id") &&
+                                    fl?.user_type !== "Students" &&
+                                    fl?._id !== getValues("verifier._id")
+                                )}
+                                getOptionLabel={(option) => option?.name || ""}
+                                isOptionEqualToValue={(option, value) =>
+                                  option._id === value._id
+                                }
+                                value={watch("check_approved") || ""}
+                                onChange={(e, val) => onChange(val)}
+                                renderInput={(params) => (
+                                  <TextField
+                                    {...params}
+                                    label="Checked & Approve"
+                                  />
+                                )}
+                              />
                             )}
                           />
-                        )}
-                      />
-                      {errors?.verifier && (
-                        <div className="error py-1">Mufthi is required</div>
+
+                          {errors?.check_approved && (
+                            <div className="error py-1">
+                              checked and approved is required
+                            </div>
+                          )}
+                        </div>
                       )}
-                    </div>
+
+                    {state?.status !== "Received to Darul Ifta" &&
+                      state?.status !== "Assigned Mufti" && (
+                        <div className="col-md-3">
+                          <Controller
+                            control={control}
+                            name="verifier"
+                            rules={{ required: true }}
+                            render={({ field: { onChange, value } }) => (
+                              <Autocomplete
+                                id="fatwaDetailsVerifier"
+                                size="small"
+                                fullWidth
+                                options={mufthiList.filter(
+                                  (fl) =>
+                                    fl?.user_type !== "Students" &&
+                                    fl?._id !== getValues("assignedTo._id") &&
+                                    fl?._id !== getValues("check_approved._id")
+                                )}
+                                getOptionLabel={(option) => option?.name || ""}
+                                isOptionEqualToValue={(option, value) =>
+                                  option?._id === value?._id
+                                }
+                                value={watch("verifier") || ""}
+                                onChange={(e, val) => onChange(val)}
+                                renderInput={(params) => (
+                                  <TextField {...params} label="Verified By" />
+                                )}
+                              />
+                            )}
+                          />
+                          {errors?.verifier && (
+                            <div className="error py-1">Mufthi is required</div>
+                          )}
+                        </div>
+                      )}
                   </div>
 
                   {state?.status !== "Received to Darul Ifta" && (
@@ -693,10 +697,12 @@ export default function FatwasDetails() {
                   )}
 
                   {/* reference */}
-                  <FatwaAddComponent
-                    referenceList={referenceList}
-                    setReferance={setReferance}
-                  />
+                  {state?.status !== "Received to Darul Ifta" && (
+                    <FatwaAddComponent
+                      referenceList={referenceList}
+                      setReferance={setReferance}
+                    />
+                  )}
                 </>
               )}
 
