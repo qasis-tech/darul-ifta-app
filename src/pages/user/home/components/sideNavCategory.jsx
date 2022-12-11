@@ -59,7 +59,7 @@ const SideNavCategory = ({ addHomeFilter, homeFilter, ...other }) => {
     <div className="col">
       <Paper elevation={2} className="side-accord-container">
         <div className="green">
-          <Typography variant="subtitle1" className="text-white">
+          <Typography variant="subtitle1" className="text-white en_head">
             Categories
           </Typography>
         </div>
@@ -116,43 +116,43 @@ const SideNavCategory = ({ addHomeFilter, homeFilter, ...other }) => {
           )}
         </div>
         <Paper elevation={2}>
-        <div className="madhab-category">
-          <div className="green mt-4">
-            <Typography variant="subtitle1" className="text-white">
-              Madhab
-            </Typography>
-          </div>
-          <div className="l-green"></div>
+          <div className="madhab-category">
+            <div className="green mt-4">
+              <Typography variant="subtitle1" className="text-white">
+                Madhab
+              </Typography>
+            </div>
+            <div className="l-green"></div>
 
-          <div className="">
-            {isloading ? (
-              <Loader skeleton />
-            ) : madhabData?.length ? (
-              <ul className="ms-2 mb-0">
-                {madhabData?.map((madhab) => {
-                  return (
-                    <li
-                      className="py-2"
-                      key={madhab?._id}
-                      onClick={() => {
-                        let temp = { ...homeFilter };
-                        temp.madhab = madhab;
-                        addHomeFilter(temp);
-                      }}
-                    >
-                      <Typography variant="subtitle2">
-                        {madhab?.title}
-                      </Typography>
-                    </li>
-                  );
-                })}
-              </ul>
-            ) : (
-              <NoDataAvailable noStyle text noBg />
-            )}
+            <div className="">
+              {isloading ? (
+                <Loader skeleton />
+              ) : madhabData?.length ? (
+                <ul className="ms-2 mb-0">
+                  {madhabData?.map((madhab) => {
+                    return (
+                      <li
+                        className="py-2"
+                        key={madhab?._id}
+                        onClick={() => {
+                          let temp = { ...homeFilter };
+                          temp.madhab = madhab;
+                          addHomeFilter(temp);
+                        }}
+                      >
+                        <Typography variant="subtitle2">
+                          {madhab?.title}
+                        </Typography>
+                      </li>
+                    );
+                  })}
+                </ul>
+              ) : (
+                <NoDataAvailable noStyle text noBg />
+              )}
+            </div>
           </div>
-        </div>
-      </Paper>
+        </Paper>
       </Paper>
     </div>
   );

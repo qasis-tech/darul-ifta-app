@@ -13,9 +13,10 @@ import RelatedFatwasComponent from "./RelatedFatwas";
 import SocialComponent from "./Social";
 
 import getQuestionListApi from "../../../services/getQuestionsList";
+import Loader from "../../../components/common/Loader";
 
 import "./fatwas.details.styles.scss";
-import Loader from "../../../components/common/Loader";
+
 
 export default function FatwasDetailsPage() {
   const { id } = useParams();
@@ -29,8 +30,10 @@ export default function FatwasDetailsPage() {
         .then((res) => {
           setLoader(false);
           setQuestionDetails(res?.data);
+          console.log("id ==> ", res?.data)
         })
         .catch((err) => {
+          setQuestionDetails(null);
           setLoader(false);
           console.error(
             "getQuestionListApi Error in user/FatwasDetailsPage ",
@@ -49,28 +52,28 @@ export default function FatwasDetailsPage() {
         </div>
       ) : (
         <>
-          {/* <Container sx={{ paddingTop: 14 }}> */}
-          <div className="container question-details-section ">
+
+          <div className="container">
             <QuestionNumberComponent data={questionDetails} />
             <Divider sx={{ marginY: 1 }} />
             <SingleQuestionComponent data={questionDetails} />
             <PublishedDateComponent data={questionDetails} />
-            <Grid container spacing={3} paddingBottom={5} marginBottom={5}>
-              <Grid item md={0.5} xs={12}>
-                <SocialComponent />
+            <Grid container>
+              <Grid item md={0.5} xs={1.5} >
+                <SocialComponent {...questionDetails} />
               </Grid>
-              <Grid item md={8.5} xs={12}>
+              <Grid item md={8.5} xs={10.5}>
                 <DetailedQuestionComponent data={questionDetails} />
                 {questionDetails?.status === "Published" && (
                   <WrittenComponent data={questionDetails} />
                 )}
               </Grid>
-              <Grid item md={3} xs={12}>
+              <Grid item md={3} xs={12} >
                 <RelatedFatwasComponent data={questionDetails} />
               </Grid>
             </Grid>
-            </div>
-          {/* </Container> */}
+          </div>
+
           <FooterComponent />
         </>
       )}

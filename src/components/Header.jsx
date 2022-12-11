@@ -96,7 +96,7 @@ const HeaderComponent = ({ closePopup, userLoginDetails }) => {
                     onClick={() => navigate(`${routerList.user.fatwas}`)}
                   >
                     <a className="nav-link custom-menu" aria-current="page">
-                      Fatwa
+                      Latest Fatwa
                     </a>
                   </li>
                   <li className="nav-item nav-profile-section" dropdown>

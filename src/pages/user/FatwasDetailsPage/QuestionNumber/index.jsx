@@ -1,15 +1,16 @@
-import { Chip, Divider, Grid, Paper, Typography } from "@mui/material";
-import { Box } from "@mui/system";
 import React from "react";
+import { Chip, Grid, Typography, Box } from "@mui/material";
+
 import "./question.number.styles.scss";
 
 export default function QuestionNumber({ data }) {
+
   const tempSubCategory = data?.sub_category?.map(
     (subcategory) => subcategory.label
   );
 
   return (
-    <Box className="question-number-section">
+    <Box className="question-number-section mt-5 pt-5">
       <Grid container className=" qid" p={1} spacing={1}>
         <Grid container item sm={12} direction="row" className="ps-0">
           <Typography variant="subtitle1">

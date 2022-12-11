@@ -15,7 +15,7 @@ export default function WrittenSection({ data }) {
           <Divider className="divider-section" />
         </div>
         <div className="col-md-12 mb-5">
-          <Typography textAlign={"right"}>
+          <Typography textAlign={"right"} sx={{ marginY: 2 }}>
             الجواب وبالله التوفيق حامداً و مصلّياً
           </Typography>
           <Typography
@@ -32,7 +32,7 @@ export default function WrittenSection({ data }) {
         <div className="col-md-6  d-flex ">
           <Grid item xs={3}>
             <Typography variant="subtitle1" className="heading">
-              Written By
+              Written by
             </Typography>
           </Grid>
           <Grid item xs={1}>
@@ -47,7 +47,7 @@ export default function WrittenSection({ data }) {
         <div className="col-md-6  d-flex">
           <Grid item xs={3}>
             <Typography variant="subtitle1" className="heading">
-              Verified By
+              Verified by
             </Typography>
           </Grid>
           <Grid item xs={1}>
@@ -62,7 +62,7 @@ export default function WrittenSection({ data }) {
       </div>
       <Divider className="divider-section" />
 
-      <Box sx={{ marginY: 2 }} elevation={0}>
+      <Box sx={{ marginY: 2, marginBottom: 5 }} elevation={0}>
         {data?.reference?.length ? (
           data.reference.map((item, index) => (
             <Box sx={{ p: 1, textAlign: "right" }} elevation={0} key={index}>
@@ -101,11 +101,9 @@ export default function WrittenSection({ data }) {
             <div className="col-md-12 written-desc">
               <Typography
                 variant="paragraph"
-                className=""
                 sx={{ lineHeight: 1.8 }}
-              >
-                {/* { || "N/A"} */}
-              </Typography>
+              />
+
             </div>
           </div>
         )}

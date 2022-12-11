@@ -27,12 +27,14 @@
   background-color: #fff;
   z-index: 1;
 }
-.MuiAccordionSummary-content{
-  .MuiTypography-root{
 
-    font-family: $font-style!important;
+.MuiAccordionSummary-content {
+  .MuiTypography-root {
+
+    font-family: $font-style !important;
   }
 }
+
 .custom-question-icon i {
   font-size: xx-large;
   font-weight: 100;
@@ -48,19 +50,24 @@
   font-family: $font-style;
   font-weight: 600;
 }
+
 .desc {
   font-family: "Mulish" serif;
-  h5{
-    font-size: $main-font-size - 1!important;
+
+  h5 {
+    font-size: $main-font-size - 1 !important;
   }
 }
+
 .accordian {
   background: transparent !important;
   color: white !important;
-  font-family: $font-style!important;
+  font-family: $font-style !important;
+
   .arrow-color {
     color: white;
   }
+
   .MuiAccordionDetails-root {
     .accordion-sub {
       margin-left: 1em;
@@ -73,6 +80,7 @@
     }
   }
 }
+
 .arabic-desc {
   font-family: "Amiri";
   text-align: right;
@@ -88,11 +96,12 @@
 }
 
 .side-accord-container {
-  background-color: $theme-primary-color!important;
+  background-color: $theme-primary-color !important;
   padding: 1em;
+
   .MuiPaper-root {
     background-color: transparent !important;
-}
+  }
 }
 
 .accordian ::ng-deep .panel-title .btn:focus {
@@ -106,10 +115,12 @@
   border-top-left-radius: 4px;
   margin: 0;
 }
+
 .l-green {
   background-color: $theme-l-green;
   height: 3px;
 }
+
 .body-section {
   ul li {
     color: #fff;
@@ -128,13 +139,15 @@
   padding: 2em;
   margin-top: 3em;
 }
-.custom-details-column{
+
+.custom-details-column {
   border-radius: 4px;
   background-color: $theme-l-green;
   padding: 10px;
   text-align: center;
   color: $theme-primary-color;
-  .value{
+
+  .value {
     font-weight: 100;
     background-color: $theme-primary-color;
     font-size: $theme-f1;
@@ -163,6 +176,7 @@
   text-align: center;
   margin: 1em 0;
 }
+
 .fsize-2 {
   font-size: $theme-f1;
 }
@@ -171,21 +185,24 @@
 .tab-container {
   background-color: #eeeeeed9;
   height: 100%;
+
   // @media screen and (max-width:430px) {
   //   width: 85%!important;
   // }
   @media screen and (max-width: 1000px) {
     margin-top: 2em !important;
     height: auto;
-    padding: 0!important;
-   // overflow-x: scroll !important;
+    padding: 0 !important;
+    // overflow-x: scroll !important;
   }
+
   .MuiTabs-scroller {
     @media screen and (max-width: 1000px) {
       overflow-x: scroll !important;
     }
   }
 }
+
 // tab-container End
 
 // article colum style
@@ -195,6 +212,7 @@
   color: $theme-primary-color;
   font-weight: bolder;
 }
+
 .article-col {
   background-color: $theme-l-green;
   padding: 10px;
@@ -213,6 +231,7 @@
   background-color: #000;
   color: #fff;
 }
+
 //  End
 
 .accordian-wrapper ::ng-deep .card-header {
@@ -230,20 +249,23 @@
 @media only screen and (min-width: 960px) {
   /* styles for browsers larger than 960px; */
 }
+
 @media only screen and (min-width: 1440px) {
   /* styles for browsers larger than 1440px; */
 }
+
 @media only screen and (min-width: 2000px) {
   /* for sumo sized (mac) screens */
 }
 
-.carousel-hero{
-  .main-slider-section{
+.carousel-hero {
+  .main-slider-section {
     @media screen and (max-width:480px) {
       margin-bottom: 2em;
     }
   }
-  .logo-slider{
+
+  .logo-slider {
     @media screen and (max-width:480px) {
       display: none;
     }
@@ -254,28 +276,34 @@
   .article-container {
     width: 100%;
   }
+
   .article-col {
     width: 90%;
     margin: 10px auto;
   }
+
   .max-width {
     max-width: 100%;
     padding: 0 10px;
   }
 }
+
 @media only screen and (device-width: 768px) {
   .article-container {
     width: 100%;
   }
+
   .article-col {
     width: 90%;
     margin: 10px auto;
   }
+
   .max-width {
     max-width: 100%;
     padding: 0 10px;
   }
 }
+
 /* different techniques for iPad screening */
 @media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation: portrait) {
   /* For portrait layouts only */
@@ -284,37 +312,47 @@
 @media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation: landscape) {
   /* For landscape layouts only */
 }
+
 .home-page {
   background-color: #f8f9fa;
   font-family: $font-style;
-  padding-top: 5em;
+  padding-top: 5.5em;
+
   .bg-custom {
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
   }
-  .image-slider{
-    width:360px;
-    @media screen and (min-width:320px) and (max-width:375px){
+
+  .image-slider {
+    width: 360px;
+
+    @media screen and (min-width:320px) and (max-width:375px) {
       width: 263px;
     }
-    img{
+
+    img {
       width: 100%;
     }
   }
+
   .body-section {
     padding-bottom: 4em;
-    .main-tab{
-      .MuiBox-root{
-        padding: 0!important;
+
+    .main-tab {
+      .MuiBox-root {
+        padding: 0 !important;
       }
     }
-    .side-row{
+
+    .side-row {
       @media screen and (max-width:430px) {
-      justify-content: center;
+        justify-content: center;
       }
-      .main-madhub-section{
+
+      .main-madhub-section {
         padding-right: 2em;
+
         @media screen and (max-width:430px) {
           padding-right: 1em;
           width: 85%;
@@ -322,27 +360,35 @@
       }
     }
   }
+
   .search-btn {
     margin-top: 1em;
+
     .MuiInputLabel-root {
       font-family: $font-style;
     }
   }
+
   .chip-section {
-   // margin-top: 1em;
+
+    // margin-top: 1em;
     .single-chip {
       margin-left: 0.5em;
       color: white !important;
       background-color: $primary;
       font-family: $main-font-style;
+
       .MuiSvgIcon-root {
         color: white !important;
       }
     }
   }
+
   .main-tab {
     margin-top: 1em;
+
     .tab-name {
+
       // color: #409ea1 !important;
       //font-weight: bolder!important;
       // font-size: 17px!important;
@@ -350,19 +396,22 @@
         padding: 1em 4em;
       }
     }
+
     .MuiButtonBase-root {
       color: $primary !important;
       font-weight: bolder !important;
-      font-size: $main-font-size - 2!important;
+      font-size: $main-font-size - 2 !important;
     }
+
     .MuiTab-root.Mui-selected {
       background-color: #a3a3a433 !important;
       font-weight: bolder;
       font-size: 14px;
-      color: $theme-primary-color!important;
+      color: $theme-primary-color !important;
       border-top-left-radius: 5px;
       border-top-right-radius: 5px;
     }
+
     .MuiTabs-indicator {
       background-color: #a3a3a400;
     }
@@ -370,28 +419,33 @@
 }
 
 .accordian-wrapper {
- .MuiAccordion-root{
-  .MuiAccordionSummary-root{
+  .MuiAccordion-root {
+    .MuiAccordionSummary-root {
+      .Mui-expanded {
+        // min-height: 45px!important;
+        //margin: 0px!important;
+      }
+
+      .MuiAccordionSummary-content {
+        margin: 11px 0 !important;
+      }
+    }
+
     .Mui-expanded {
-     // min-height: 45px!important;
-      //margin: 0px!important;
-    }
-    .MuiAccordionSummary-content{
-      margin: 11px 0!important;
+      min-height: 20px !important;
     }
   }
-  .Mui-expanded{
-    min-height: 20px!important;
-  }
- }
-  .main-category-accordian{
+
+  .main-category-accordian {
     border-bottom: 1px solid #dee2e6;
     border-radius: 4px;
   }
+
   .MuiButtonBase-root,
   .MuiSvgIcon-root {
     color: #fff;
   }
+
   .MuiPaper-root {
     background-color: transparent;
   }

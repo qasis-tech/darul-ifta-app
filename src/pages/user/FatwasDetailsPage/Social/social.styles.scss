@@ -1,19 +1,28 @@
 @import "../../../../styles/common.styles.scss";
-.social-section{
+
+.social-section {
     cursor: pointer;
-    .social-container{
-        @media screen  and (max-width:991px) {
+
+    .social-container {
+        @media screen and (max-width:991px) {
             display: flex;
             flex-direction: row;
         }
-        .col{
+
+        .col {
             justify-content: start;
-            @media screen  and (max-width:991px) {
-               justify-content: center;
+
+            @media screen and (max-width:991px) {
+                justify-content: center;
             }
-            .img{
-                width: 35px;
-            }
+
         }
     }
+
+}
+
+.img {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
 }

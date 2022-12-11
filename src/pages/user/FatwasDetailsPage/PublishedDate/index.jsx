@@ -12,7 +12,7 @@ export default function PublishedDate({ data }) {
         <div className="container ">
           <div className="published-date d-flex ">
             <Grid container>
-              <Grid container item xs={12} md={4}>
+              {/* <Grid container item xs={12} md={4}>
                 <Grid item md={4} xs={5}>
                   <Typography variant="subtitle1" className="pub-date">
                     Created Date
@@ -27,9 +27,9 @@ export default function PublishedDate({ data }) {
                       "N/A"}
                   </Typography>
                 </Grid>
-              </Grid>
+              </Grid> */}
               {data?.status === "Published" && (
-                <Grid container item xs={12} md={4}>
+                <Grid container item xs={12} md={5}>
                   <Grid item md={4} xs={5}>
                     <Typography variant="subtitle1" className="pub-date">
                       Published Date

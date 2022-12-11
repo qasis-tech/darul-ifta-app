@@ -1,27 +1,26 @@
 @import "../../../styles/common.styles.scss";
+
 .question-details-section {
   padding-top: 6em;
+
   .main-section {
     display: flex;
-   // max-width: 1405px !important;
-    // margin-right: 4%!important;
 
     @media screen and (max-width: 991px) {
       flex-direction: column;
     }
+
     .details,
     .related {
       @media screen and(min-width:768px) and (max-width: 1020px) {
         width: 100%;
       }
     }
-    .details{
+
+    .details {
       @media screen and (max-width:1000px) {
         flex-direction: column;
       }
     }
-    // .related{
-    //     margin-right: 1%;
-    // }
   }
 }

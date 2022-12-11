@@ -8,8 +8,10 @@ import "./related.fatwas.styles.scss";
 
 import routerList from "../../../../routes/routerList";
 import NoDataAvailable from "../../../../components/NoDataAvailable";
-import { CollectionsOutlined } from "@mui/icons-material";
+
 export default function RelatedFatwas({ data }) {
+  const navigate = useNavigate();
+
   const [questionList, setQuestionList] = useState([]);
   const [isLoader, setLoader] = useState(false);
   // const [limit,setLimit]=useState(3)
@@ -24,14 +26,14 @@ export default function RelatedFatwas({ data }) {
     //     subCategoryLabel
     //   )}&limit=3`
     // );
-     getQuestionList()
+    getQuestionList()
   }, []);
 
   const getQuestionList = () => {
     setLoader(true);
     // getQuestionListApi()
     let params = `?status=Published&limit=3&skip=3`;
-    console.log("parammmm",params)
+    console.log("parammmm", params)
     axios
       .get(`${URLS.question}${params}`, {
         headers: {
@@ -54,12 +56,11 @@ export default function RelatedFatwas({ data }) {
         setQuestionList([]);
       });
   };
-  console.log("1212121212121212==========>", questionList);
-  const navigate = useNavigate();
+
 
   return (
-    <div className="related-fatwas-section mt-3 mb-2 pb-2">
-      <div className="related-fatwas-container">
+    <div className="related-fatwas-section mt-3 pb-5" style={{ marginBottom: '4em' }}>
+      <div className="related-fatwas-container mb-1">
         <div className="col-md-12 main-head">
           <Typography className="heading">Related Fatwas</Typography>
         </div>
@@ -92,10 +93,10 @@ export default function RelatedFatwas({ data }) {
                             `${routerList.user.fatwasDetailsPage}/${slicedques?.slNo}`
                           )
                         }
-                        //  {
-                        //   state: { data: slicedques },
-                        // })
-                        // }
+                      //  {
+                      //   state: { data: slicedques },
+                      // })
+                      // }
                       />
                     </div>
                   </div>
