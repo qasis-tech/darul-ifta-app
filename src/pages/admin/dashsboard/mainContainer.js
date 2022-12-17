@@ -90,13 +90,9 @@ function DashboardPage() {
       title: "CATEGORY",
       icon: <SummarizeIcon />,
     },
-    { path: RouterList.admin.mufthiAndStudent, title: "Mufthi & Student",icon: <PeopleIcon/>},
+    { path: RouterList.admin.mufthiAndStudent, title: "Mufthi & Student", icon: <PeopleIcon /> },
     { path: RouterList.admin.user, title: "Musthafti (User)", icon: <PeopleIcon /> },
-    // {
-    //   path: RouterList.admin.musthafthies,
-    //   title: "Mufthi",
-    //   icon: <ReorderIcon />,
-    // },
+
   ]);
   const getPathName = () =>
     startCase(
@@ -106,7 +102,7 @@ function DashboardPage() {
     );
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", }}>
       <AppBar
         position="fixed"
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -119,9 +115,7 @@ function DashboardPage() {
                 src={LogoImage}
                 alt="logo image"
               />
-              {/* <Typography variant="h6" noWrap component="div">
-                Company Logo
-              </Typography> */}
+
             </div>
             <div className="row col-md-8">
               <div className="col-auto px-0 pointer">
@@ -190,6 +184,7 @@ function DashboardPage() {
           [`& .MuiDrawer-paper`]: {
             width: drawerWidth,
             boxSizing: "border-box",
+            backgroundColor: '#000', color: "#fff"
           },
         }}
       >
@@ -201,7 +196,7 @@ function DashboardPage() {
                 return (
                   <ListItem key={index} disablePadding>
                     <ListItemButton onClick={() => navigate(item.path)}>
-                      <ListItemIcon>
+                      <ListItemIcon style={{ color: '#fff' }} >
                         {item.icon || <HomeIcon />}
                         {/* {index % 2 === 0 ? <HomeIcon /> : <ViewListIcon />} */}
                       </ListItemIcon>
