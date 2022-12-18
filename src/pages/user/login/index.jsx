@@ -216,7 +216,7 @@ const Login = (props) => {
         className="container login-container"
         style={{ backgroundImage: `url(${BackgroundImage})` }}
       >
-        <Grid spacing={2} className="formWraper">
+        <Grid container spacing={2} className="formWraper">
           <Grid item md={5} xs={5} lg={5} className="welcome-section">
             {/* <div className="welcomeDiv"> <h2>Welcome Back!</h2> </div> */}
           </Grid>
@@ -228,8 +228,8 @@ const Login = (props) => {
             lg={7}
             className="main-div d-flex justify-content-center"
           >
-            <Grid item md={12} className="login-form" sx={{width:"370px",height:"450px"}}>
-              <Paper elevation={2} className="formDiv p-4" sx={{width:"100%",height:"100%"}}>
+            <Grid item md={12} className="login-form" sx={{ width: "370px", height: "450px" }}>
+              <Paper elevation={2} className="formDiv p-4" sx={{ width: "100%", height: "100%" }}>
                 <h2>Sign in</h2>
 
                 {screens === "email" ? (

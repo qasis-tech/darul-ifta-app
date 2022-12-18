@@ -44,7 +44,7 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-const UserTab = ({ userLoginDetails, apiTriggeres }) => {
+const UserTab = ({ userLoginDetails, apiTriggeres, isAskedFatwa }) => {
   const [value, setValue] = useState(0);
   const [questionData, setQuestionData] = useState([]);
   const [isLoading, setLoader] = useState(false);
@@ -54,11 +54,10 @@ const UserTab = ({ userLoginDetails, apiTriggeres }) => {
 
   useEffect(() => {
     getQuestionList(
-      `?userid=${userLoginDetails?._id}&skip=${
-        page * rowsPerPage
+      `?userid=${userLoginDetails?._id}&skip=${page * rowsPerPage
       }&limit=${rowsPerPage}`
     );
-  }, [page, rowsPerPage]);
+  }, [page, rowsPerPage, isAskedFatwa]);
 
   const getQuestionList = (params) => {
     setLoader(true);

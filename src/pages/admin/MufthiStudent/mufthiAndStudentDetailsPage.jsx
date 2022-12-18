@@ -8,7 +8,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import Button from "@mui/material/Button";
 // import "./adduser.styles.scss";
 
-import {URLS} from "../../../config/urls.config"
+import { URLS } from "../../../config/urls.config"
 import Loader from "../../../components/common/Loader"
 import { Container, Grid, Paper } from "@mui/material";
 import { toast } from "react-toastify";
@@ -23,7 +23,7 @@ export default function MufthiAndStudentDetails() {
   const [isLoading, setLoader] = useState(false);
   const roles = [
     { label: "Mufthi", value: "mufti" },
-    { label: "Students", value: "students" },
+    { label: "Student", value: "student" },
   ];
   const status = [
     { id: 1, title: "Active" },

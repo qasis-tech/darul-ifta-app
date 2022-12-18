@@ -26,7 +26,7 @@ root.render(
             <App />
             <ToastContainer
               position="top-right"
-              autoClose={2000}
+              autoClose={500}
               hideProgressBar={false}
               newestOnTop={false}
               closeOnClick
@@ -35,8 +35,8 @@ root.render(
               draggable
               pauseOnHover
               theme="light"
-              // bodyClassName
-              // toastClassName
+            // bodyClassName
+            // toastClassName
             />
           </GoogleOAuthProvider>
         </BrowserRouter>

@@ -1,35 +1,39 @@
 @import "../../../../styles/common.styles.scss";
+
 .form-section {
   display: flex;
   justify-content: center;
+
   //margin-top: 2em;
   @media screen and (max-width: 1000px) {
     margin-top: 0;
   }
+
   .form-container {
     width: 100%;
+
     @media screen and (max-width: 1000px) {
       width: 100%;
     }
+
     .row {
       margin-top: 1em;
+
       .col-md-4 {
         @media screen and (max-width: 1000px) {
           margin-top: 1em;
         }
       }
     }
-    .btn-section {
-      display: flex;
-      justify-content: center;
-      padding-bottom: 1em;
-      .submit-btn {
-        background-color: $theme-primary-color;
-        @media screen and (max-width: 1000px) {
-          width: 100%;
-        }
+
+    .submit-btn {
+      background-color: $theme-primary-color;
+
+      @media screen and (max-width: 1000px) {
+        width: 100%;
       }
     }
+
   }
 }
 
@@ -57,10 +61,10 @@
   }
 }
 
-.MuiDialog-container{
-  .MuiDialog-paper{
+.MuiDialog-container {
+  .MuiDialog-paper {
     margin-top: 11em;
-   padding-bottom: 3em;
-  // margin-bottom: 10em;
+    padding-bottom: 3em;
+    // margin-bottom: 10em;
   }
 }

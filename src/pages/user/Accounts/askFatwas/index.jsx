@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { TextField, Autocomplete, Button } from "@mui/material";
+import { TextField, Autocomplete, Button, Grid } from "@mui/material";
 import { PropaneSharp } from "@mui/icons-material";
 
 import { URLS } from "../../../../config/urls.config";
@@ -19,7 +19,7 @@ import { authLogout } from "../../../../routes/auth";
 import routerList from "../../../../routes/routerList";
 import { toast } from "react-toastify";
 
-const AskFatwasComponent = ({ close, triggerApiCallStatus, apiTriggeres }) => {
+const AskFatwasComponent = ({ close, triggerApiCallStatus, apiTriggeres, setIsAskedFatwa }) => {
   const navigate = useNavigate();
 
   const languageList = [
@@ -66,7 +66,6 @@ const AskFatwasComponent = ({ close, triggerApiCallStatus, apiTriggeres }) => {
     const user = JSON.parse(
       localStorage.getItem("@darul-ifta-user-login-details")
     );
-    console.log("user", user);
     if (user) {
       setUserId(user._id);
       setUserToken(user.initial_token);
@@ -107,8 +106,7 @@ const AskFatwasComponent = ({ close, triggerApiCallStatus, apiTriggeres }) => {
   };
 
   const handleSubmitQuestion = ({ shortQuestion, question }) => {
-    // setLoader(true);
-    console.log("close();", close);
+
     let category;
     for (let i = 0; i < categoryData.length; i++) {
       let subCat = categoryData[i]?.subCategory;
@@ -154,6 +152,7 @@ const AskFatwasComponent = ({ close, triggerApiCallStatus, apiTriggeres }) => {
               onClose: () => {
                 setLoader(false);
                 close();
+                setIsAskedFatwa(true)
               },
             });
           }, 500);
@@ -174,7 +173,6 @@ const AskFatwasComponent = ({ close, triggerApiCallStatus, apiTriggeres }) => {
             setLoader(false);
           },
         });
-        // toast(err.message);
         console.log("Errors in ask fatwa", err);
       });
   };
@@ -189,8 +187,8 @@ const AskFatwasComponent = ({ close, triggerApiCallStatus, apiTriggeres }) => {
         <form onSubmit={handleSubmit(handleSubmitQuestion)}>
           <div className="form-section">
             <div className="form-container">
-              <div className="row">
-                <div className="col-md-4">
+              <Grid container spacing={2} sx={{ marginTop: 1 }}>
+                <Grid item md={4}>
                   <Autocomplete
                     disablePortal
                     id="combo-box-demo"
@@ -216,8 +214,8 @@ const AskFatwasComponent = ({ close, triggerApiCallStatus, apiTriggeres }) => {
                   {!selectedLanguage?.title && (
                     <div className="error">{errors?.language?.message}</div>
                   )}
-                </div>
-                <div className="col-md-4">
+                </Grid>
+                <Grid item md={4}>
                   <Autocomplete
                     id="outlined-basic"
                     size="small"
@@ -242,8 +240,8 @@ const AskFatwasComponent = ({ close, triggerApiCallStatus, apiTriggeres }) => {
                   {!selectedMadhab?.title ? (
                     <div className="error">{errors?.madhab?.message}</div>
                   ) : null}
-                </div>
-                <div className="col-md-4">
+                </Grid>
+                <Grid item md={4}>
                   <Autocomplete
                     id="combo-box-demo"
                     size="small"
@@ -267,29 +265,32 @@ const AskFatwasComponent = ({ close, triggerApiCallStatus, apiTriggeres }) => {
                   {!selectedCategory?.label && (
                     <div className="error">{errors?.category?.message}</div>
                   )}
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-12">
+                </Grid>
+              </Grid>
+              <Grid container>
+                <Grid item md={12}>
                   <TextField
                     id="outlined-basic"
                     size="small"
                     fullWidth
+                    multiline
+                    rows={2}
+                    maxRows={2}
                     label="Short Question"
                     variant="outlined"
                     {...register("shortQuestion", {
-                      required: "ShortQuestion is required",
+                      required: "Short Question is required",
                       maxLength: {
-                        value: 80,
-                        message: "Max 80 Characters",
+                        value: 120,
+                        message: "Max 120 Characters",
                       },
                     })}
                   />
                   <div className="error">{errors?.shortQuestion?.message}</div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-12">
+                </Grid>
+              </Grid>
+              <Grid container>
+                <Grid item md={12}>
                   <TextField
                     id="outlined-multiline-static"
                     label="Question "
@@ -301,19 +302,17 @@ const AskFatwasComponent = ({ close, triggerApiCallStatus, apiTriggeres }) => {
                     })}
                   />
                   <div className="error">{errors?.question?.message}</div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="btn-section">
-                  <Button
-                    type="submit"
-                    className="submit-btn"
-                    variant="contained"
-                  >
-                    Submit Question
-                  </Button>
-                </div>
-              </div>
+                </Grid>
+              </Grid>
+              <Grid container justifyContent="center">
+                <Button
+                  type="submit"
+                  className="submit-btn"
+                  variant="contained"
+                >
+                  Submit Question
+                </Button>
+              </Grid>
             </div>
           </div>
         </form>
@@ -327,6 +326,7 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
   triggerApiCallStatus: (payload) => dispatch(triggerApiCallStatus(payload)),
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AskFatwasComponent);

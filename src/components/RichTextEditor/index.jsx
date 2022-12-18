@@ -1,10 +1,11 @@
 import React, { useMemo, useRef, useState } from "react";
 import JoditEditor, { Jodit } from "jodit-react";
 
-const TextEditor = ({ content, setContent }) => {
+const TextEditor = ({ content, setContent, placeholder }) => {
   const editor = useRef(null);
 
-  const config = {
+
+  const config = useMemo(() => ({
     autofocus: true,
     removeButtons: [
       "copyformat",
@@ -18,37 +19,38 @@ const TextEditor = ({ content, setContent }) => {
     uploader: {
       insertImageAsBase64URI: true,
     },
-    placeholder: "Start typings...",
+    placeholder: placeholder || "Start typings...",
     minHeight: 450,
-    cleanHTML: {
-      removeEmptyElements: true,
-      fillEmptyParagraph: false,
+    editHTMLDocumentMode: true,
+    beautifyHTML: true,
+    hidePoweredByJodit: true,
+    imageProcessor: {
+      replaceDataURIToBlobIdInView: true
     },
-  };
-  console.log("content 007", content);
-
-  return useMemo(
-    () => (
-      <JoditEditor
-        ref={editor}
-        value={content}
-        config={config}
-        onChange={(val) => setContent(val)}
-      />
-    ),
-    [content]
+    mediaInFakeBlock: false,
+    processPasteHTML: true
+    // cleanHTML: {
+    //   removeEmptyElements: true,
+    //   fillEmptyParagraph: false,
+    // },
+  }),
+    [placeholder]
   );
 
-  // return (
-  //   <JoditEditor
-  //     ref={editor}
-  //     value={content}
-  //     config={config}
-  //     tabIndex={1} // tabIndex of textarea
-  //     // onBlur={(newContent) => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
-  //     onChange={(newContent) => setContent(newContent)}
-  //   />
-  // );
+
+
+
+  return (
+    <JoditEditor
+      ref={editor}
+      value={content}
+      config={config}
+      // tabIndex={1} // tabIndex of textarea
+      onBlur={(newContent) => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
+      onChange={(newContent) => { }}
+    />
+  );
+
 };
 
 export default TextEditor;

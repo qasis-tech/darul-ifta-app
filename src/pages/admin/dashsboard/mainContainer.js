@@ -98,7 +98,7 @@ function DashboardPage() {
     startCase(
       location?.pathname.split("/").pop() === "admin"
         ? "Dashboard"
-        : location?.pathname.split("/").pop()
+        : location?.pathname.split("/").at(-2) === "fatwa-details" ? `Question Id ${location?.pathname.split("/").pop()}` : location?.pathname.split("/").pop()
     );
 
   return (

@@ -1,6 +1,7 @@
 import React from "react";
 import parse from "html-react-parser";
 import { Divider, Grid, Paper, Typography, Box } from "@mui/material";
+import Linkify from 'react-linkify';
 
 import "./written.styles.scss";
 
@@ -22,7 +23,11 @@ export default function WrittenSection({ data }) {
             variant="paragraph"
             sx={{ lineHeight: 1.5, textAlign: "justify" }}
           >
-            {data?.answer ? parse(data?.answer) : "N/A"}
+            {data?.answer ?
+              <Linkify>
+                {parse(data?.answer)}
+              </Linkify>
+              : "N/A"}
           </Typography>
           <Typography textAlign={"right"}>والله أعلم بالصواب</Typography>
         </div>

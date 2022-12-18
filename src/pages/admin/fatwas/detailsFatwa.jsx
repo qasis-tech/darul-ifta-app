@@ -4,7 +4,6 @@ import { useForm, Controller } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 import { toast } from "react-toastify";
-import JoditEditor from "jodit-react";
 
 import {
   Button,
@@ -25,13 +24,13 @@ import getCategoryListApi from "../../../services/getCategoryList";
 import getmadhabList from "../../../services/getMadhabList";
 
 import { URLS } from "../../../config/urls.config";
-import "./fatwas.details.styles.scss";
 import Loader from "../../../components/common/Loader";
-
 import RejectedReasonSection from "./components/RejectedReasonSection";
 import getQuestionListApi from "../../../services/getQuestionsList";
 import routerList from "../../../routes/routerList";
 import TextEditor from "../../../components/RichTextEditor";
+
+import "./fatwas.details.styles.scss";
 
 export default function FatwasDetails() {
   const { id } = useParams();
@@ -108,7 +107,7 @@ export default function FatwasDetails() {
     if (id) {
       getQuestionListApi(`/${id}`)
         .then(async (res) => {
-          console.log(res);
+          console.log("RES DATA", res);
           setReferance(res?.data?.reference);
           setQuestionDetails(res.data);
           setSelectedCategory(res.data?.category[0]);
@@ -191,7 +190,7 @@ export default function FatwasDetails() {
   const getMufthiApi = () => {
     setLoader(true);
     axios
-      .get(`${URLS.user}${URLS.signup}?userType=Mufthi,Students`)
+      .get(`${URLS.user}${URLS.signup}?userType=Mufthi,Student`)
       .then(({ data }) => {
         setLoader(false);
         setMufthiList(data);
@@ -285,7 +284,8 @@ export default function FatwasDetails() {
     } else if (state.status === "Completed Verification") {
       payload.status = "Published";
     } else {
-      alert("Somthing wrong");
+      payload.status = "Published";
+      alert("Updated");
     }
     console.log("Result ===> ", payload);
 
@@ -378,20 +378,20 @@ export default function FatwasDetails() {
               state?.status === "Pending"
                 ? "pending"
                 : state?.status === "Rejected"
-                ? "rejected"
-                : state?.status === "Re Submitted"
-                ? "reSUbmitted"
-                : state?.status === "Received to Darul Ifta"
-                ? "recievedToDI"
-                : state?.status === "Assigned Mufti"
-                ? "assMufthi"
-                : state?.status === "Mufti Answered"
-                ? "mufthiAns"
-                : state?.status === "Completed Verification"
-                ? "completeVerification"
-                : state?.status === "Published"
-                ? "published"
-                : ""
+                  ? "rejected"
+                  : state?.status === "Re Submitted"
+                    ? "reSUbmitted"
+                    : state?.status === "Received to Darul Ifta"
+                      ? "recievedToDI"
+                      : state?.status === "Assigned Mufti"
+                        ? "assMufthi"
+                        : state?.status === "Mufti Answered"
+                          ? "mufthiAns"
+                          : state?.status === "Completed Verification"
+                            ? "completeVerification"
+                            : state?.status === "Published"
+                              ? "published"
+                              : ""
             }
           >
             {state?.status}
@@ -600,7 +600,7 @@ export default function FatwasDetails() {
                     </div>
 
                     {state?.status !== "Received to Darul Ifta" &&
-                      watch("assignedTo")?.user_type === "Students" && (
+                      watch("assignedTo")?.user_type === "Student" && (
                         <div className="col-md-3">
                           <Controller
                             control={control}
@@ -688,6 +688,7 @@ export default function FatwasDetails() {
                                 ref={editor}
                                 content={content}
                                 setContent={setContent}
+                                placeholder="Type here..."
                               />
                             </div>
                           </div>
@@ -718,29 +719,29 @@ export default function FatwasDetails() {
                   {(state?.status === "Mufti Answered" ||
                     state?.status === "Completed Verification" ||
                     state?.status === "Published") && (
-                    <Autocomplete
-                      id="status"
-                      size="small"
-                      options={status}
-                      value={selectedStatus || ""}
-                      onChange={(event, val) => handleChangeStatus(val)}
-                      getOptionLabel={(option) => option?.title || ""}
-                      isOptionEqualToValue={(option, value) =>
-                        option?.title === value?.title
-                      }
-                      renderInput={(params) => (
-                        <TextField {...params} label="Status" />
-                      )}
-                    />
-                  )}
+                      <Autocomplete
+                        id="status"
+                        size="small"
+                        options={status}
+                        value={selectedStatus || ""}
+                        onChange={(event, val) => handleChangeStatus(val)}
+                        getOptionLabel={(option) => option?.title || ""}
+                        isOptionEqualToValue={(option, value) =>
+                          option?.title === value?.title
+                        }
+                        renderInput={(params) => (
+                          <TextField {...params} label="Status" />
+                        )}
+                      />
+                    )}
                 </Grid>
-                {state?.status !== "Published" && (
+                {(
                   <Grid item sm={3}>
                     {state?.status === "Pending" ||
-                    state?.status === "Received to Darul Ifta" ||
-                    state?.status === "Assigned Mufti" ||
-                    state?.status === "Mufti Answered" ||
-                    state?.status === "Completed Verification" ? (
+                      state?.status === "Received to Darul Ifta" ||
+                      state?.status === "Assigned Mufti" ||
+                      state?.status === "Mufti Answered" ||
+                      state?.status === "Completed Verification" || state?.status === "Published" ? (
                       <Grid
                         container
                         direction="row"
@@ -755,14 +756,14 @@ export default function FatwasDetails() {
                           {state?.status === "Pending"
                             ? "Accept"
                             : state?.status === "Received to Darul Ifta"
-                            ? "Assigned to mufti"
-                            : state?.status === "Assigned Mufti"
-                            ? "Mufthi Answered"
-                            : state?.status === "Mufti Answered"
-                            ? "Completed Verification"
-                            : state?.status === "Completed Verification"
-                            ? "Publish"
-                            : "Submit"}
+                              ? "Assigned to mufti"
+                              : state?.status === "Assigned Mufti"
+                                ? "Mufthi Answered"
+                                : state?.status === "Mufti Answered"
+                                  ? "Completed Verification"
+                                  : state?.status === "Completed Verification"
+                                    ? "Publish"
+                                    : "Update"}
                         </Button>
 
                         {state?.status === "Pending" && (

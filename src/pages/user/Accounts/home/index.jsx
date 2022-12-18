@@ -28,6 +28,7 @@ import getQuestionListApi from "../../../../services/getQuestionsList";
 
 import "./account.home.styles.scss";
 import { addUserLoginDetails } from "../../../../redux/actions";
+import getUserDetailsApi from "../../../../services/getUserDetails";
 
 const AccountHome = ({
   userLoginDetails,
@@ -40,37 +41,46 @@ const AccountHome = ({
   const [isLoading, setLoader] = useState(false);
   const [profilePopup, setProfilePopup] = useState(false);
   const [askPopup, setAskPopup] = useState(false);
+  const [isAskedFatwa, setIsAskedFatwa] = useState(false);
 
   const uploadedImage = React.useRef(null);
 
-  const notify = () => toast("Wow so easy!");
 
   useEffect(() => {
-    setUserDetails(userLoginDetails);
-    let params = `?userid=${userLoginDetails?._id}`;
-    let params2 = `?status=Published&userid=${userLoginDetails?._id}`;
-    getQuestionListApi(params)
-      .then((res) => {
-        setLoader(false);
-        setQuestionCount(res.count);
-      })
-      .catch((err) => {
-        console.error("Error in getQuestionListApi", err);
-        setQuestionCount(0);
-      });
+    getUserDetailsApi(`/${userLoginDetails?._id}`).then(res => {
+      addUserLoginDetails(res)
+      setUserDetails(res);
+      let params = `?userid=${res?._id}`;
+      let params2 = `?status=Published&userid=${res?._id}`;
+      getQuestionListApi(params)
+        .then((res) => {
+          setLoader(false);
+          setQuestionCount(res.count);
+        })
+        .catch((err) => {
+          console.error("Error in getQuestionListApi", err);
+          setQuestionCount(0);
+        });
 
-    getQuestionListApi(params2)
-      .then((res) => {
-        setLoader(false);
-        setAnswerCount(res.count);
-      })
-      .catch((err) => {
-        console.error("Error in getQuestionListApi", err);
-        setAnswerCount(0);
-      });
+      getQuestionListApi(params2)
+        .then((res) => {
+          setLoader(false);
+          setAnswerCount(res.count);
+        })
+        .catch((err) => {
+          console.error("Error in getQuestionListApi", err);
+          setAnswerCount(0);
+        });
+    })
+    console.log("user Login Details", userLoginDetails)
   }, []);
 
-  useEffect(() => {}, [userLoginDetails]);
+  useEffect(() => {
+    if (isAskedFatwa) {
+
+    }
+  }, [isAskedFatwa])
+
 
   const handleImageUpload = (e) => {
     setLoader(true);
@@ -144,21 +154,21 @@ const AccountHome = ({
                 className="profile-img"
                 alt="profile images"
                 onError={(e) => (e.target.src = DefaultImg1)}
-                onClick={notify}
+
               />
             </div>
             <div className="">
               <div className="row">
                 <div className="col pointer">
-                <IconButton
+                  <IconButton
                     color="primary"
                     aria-label="Setting"
                     component="label"
                   >
-                  <SettingsIcon
-                    className="profile-icons"
-                    onClick={() => setProfilePopup(true)}
-                  />
+                    <SettingsIcon
+                      className="profile-icons"
+                      onClick={() => setProfilePopup(true)}
+                    />
                   </IconButton>
                 </div>
 
@@ -184,7 +194,7 @@ const AccountHome = ({
               </div>
               <div className="second-section">
                 <Typography variant="subtitle2">
-                  {userLoginDetails?.phone || (
+                  {userDetails?.phone || (
                     <span className="text-danger fs-6">
                       Mobile Number - Not Found
                     </span>
@@ -192,7 +202,7 @@ const AccountHome = ({
                 </Typography>
 
                 <Typography variant="subtitle2">
-                  {userLoginDetails?.email || (
+                  {userDetails?.email || (
                     <span className="text-danger fs-6">
                       Email ID - Not Found
                     </span>
@@ -202,7 +212,7 @@ const AccountHome = ({
 
               <div className="mb-2">
                 <Typography variant="subtitle2">
-                  {userLoginDetails?.address || (
+                  {userDetails?.address || (
                     <span className="text-danger fs-6">
                       Address - Not Found
                     </span>
@@ -244,10 +254,10 @@ const AccountHome = ({
                     onClose={() => setAskPopup(false)}
                     aria-describedby="alert-dialog-slide-description"
                   >
-                    <DialogTitle>Ask Fatwas</DialogTitle>
+                    <DialogTitle>Ask New Fatwa (Question) </DialogTitle>
                     <Divider />
                     <DialogContent>
-                      <AskFatwasComponent close={() => setAskPopup(false)} />
+                      <AskFatwasComponent close={() => setAskPopup(false)} setIsAskedFatwa={setIsAskedFatwa} />
                     </DialogContent>
                   </Dialog>
 
@@ -268,7 +278,7 @@ const AccountHome = ({
             </div>
           </div>
         </div>
-        <UserTab />
+        <UserTab isAskedFatwa={isAskedFatwa} />
         <Dialog
           fullWidth
           maxWidth="md"

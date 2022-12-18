@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 // User
 import HomePage from "../pages/user/home";
 import UserLoginPage from "../pages/user/login";
-import AskFatwas from "../pages/user/askFatwas";
+
 import Fatwas from "../pages/user/fatwas";
 import FatwasDetailsPage from "../pages/user/FatwasDetailsPage";
 import AboutUs from "../pages/user/aboutUs";
@@ -67,7 +67,7 @@ const CustomRouters = (props) => {
         />
 
         <Route path={RouterList.user.login} element={<UserLoginPage />} />
-        <Route path={RouterList.user.askFatwas} element={<AskFatwas />} />
+
         <Route path={RouterList.user.fatwas} element={<Fatwas />} />
         <Route
           path={`${RouterList.user.fatwasDetailsPage}/:id`}

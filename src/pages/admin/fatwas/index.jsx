@@ -81,15 +81,6 @@ export default function Fatwas() {
     setLoader(true);
     getQuestionListApi(params)
       .then((res) => {
-        // if (res?.success) {
-        //   setSelectedMadhab("");
-        //   setSelectedStatus("");
-        //   setSelectedCategory("");
-        //   setSelectedSubCategory("");
-        //   setSelectedLanguage("");
-        //   setSelectedMufthi("");
-        //   setSelectedUserData("");
-        // }
         setLoader(false);
         setQuestionList(res);
       })
@@ -438,7 +429,7 @@ export default function Fatwas() {
                             }}
                             onClick={() =>
                               navigate(
-                                `${routerList.admin.fatwasDetails}/${question?._id}`
+                                `${routerList.admin.fatwasDetails}/${question?.slNo}`
                               )
                             }
                           >
@@ -466,32 +457,32 @@ export default function Fatwas() {
                               </span>
                             </TableCell>
                             <TableCell>
-                            <Tooltip title={question?.status} arrow>
-                              <span
-                                className={
-                                  question?.status === "Pending"
-                                    ? "pending fatwa-status"
-                                    : question?.status === "Rejected"
-                                    ? "rejected fatwa-status"
-                                    : question?.status === "Re Submitted"
-                                    ? "reSUbmitted fatwa-status"
-                                    : question?.status ===
-                                      "Received to Darul Ifta"
-                                    ? "recievedToDI fatwa-status"
-                                    : question?.status === "Assigned Mufti"
-                                    ? "assMufthi fatwa-status"
-                                    : question?.status === "Mufti Answered"
-                                    ? "mufthiAns fatwa-status"
-                                    : question?.status ===
-                                      "Completed Verification"
-                                    ? "completeVerification fatwa-status"
-                                    : question?.status === "Published"
-                                    ? "published fatwa-status"
-                                    : ""
-                                }
-                              >
-                                {question?.status}
-                              </span>
+                              <Tooltip title={question?.status} arrow>
+                                <span
+                                  className={
+                                    question?.status === "Pending"
+                                      ? "pending fatwa-status"
+                                      : question?.status === "Rejected"
+                                        ? "rejected fatwa-status"
+                                        : question?.status === "Re Submitted"
+                                          ? "reSUbmitted fatwa-status"
+                                          : question?.status ===
+                                            "Received to Darul Ifta"
+                                            ? "recievedToDI fatwa-status"
+                                            : question?.status === "Assigned Mufti"
+                                              ? "assMufthi fatwa-status"
+                                              : question?.status === "Mufti Answered"
+                                                ? "mufthiAns fatwa-status"
+                                                : question?.status ===
+                                                  "Completed Verification"
+                                                  ? "completeVerification fatwa-status"
+                                                  : question?.status === "Published"
+                                                    ? "published fatwa-status"
+                                                    : ""
+                                  }
+                                >
+                                  {question?.status}
+                                </span>
                               </Tooltip>
                             </TableCell>
                           </TableRow>
