@@ -17,12 +17,13 @@ import {
   TableRow,
   Paper,
   Chip,
+  TablePagination,
 } from "@mui/material";
 
 import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
 
-import Tooltip from '@mui/material/Tooltip';
+import Tooltip from "@mui/material/Tooltip";
 
 import "./admin.fatwas.styles.scss";
 
@@ -67,6 +68,9 @@ export default function Fatwas() {
   const [selectedUserData, setSelectedUserData] = useState([]);
   const [searchInput, setSearchInput] = useState("");
 
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
   const { register } = useForm();
 
   useEffect(() => {
@@ -76,6 +80,17 @@ export default function Fatwas() {
     getMufthiApi();
     getUserApi();
   }, []);
+
+  useEffect(() => {
+    handleApply();
+  }, [page]);
+
+  const handleChangePage = (event, newPage) => setPage(newPage);
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
 
   const getQuestionList = (params) => {
     setLoader(true);
@@ -161,7 +176,7 @@ export default function Fatwas() {
   };
 
   const handleApply = (e) => {
-    e.stopPropagation();
+    e?.stopPropagation();
     let params = "";
     if (selectedStatus?.title) params += `status=${selectedStatus?.title}`;
     if (selectedMadhab?.title) params += `-madhab=${selectedMadhab?.title}`;
@@ -180,7 +195,9 @@ export default function Fatwas() {
     } else if (params[0] !== "-") {
       params = "?" + params;
     }
+    params = `${params}-skip=${page * rowsPerPage}-limit=10`;
     params = params.replace(/-/g, "&");
+
     getQuestionList(params);
   };
 
@@ -445,13 +462,13 @@ export default function Fatwas() {
                             <TableCell component="th" scope="row">
                               {question.slNo}
                             </TableCell>
-                            <TableCell>{question.user.name}</TableCell>
-                            <TableCell>{question.short_question}</TableCell>
+                            <TableCell>{question?.user?.name}</TableCell>
+                            <TableCell>{question?.short_question}</TableCell>
                             <TableCell>
-                              {formatDate(question.createdAt)}
+                              {formatDate(question?.createdAt)}
                             </TableCell>
                             <TableCell>
-                              {question?.sub_category.map((item) => (
+                              {question?.sub_category?.map((item) => (
                                 <Chip
                                   key={item?._id}
                                   label={item?.label}
@@ -466,32 +483,32 @@ export default function Fatwas() {
                               </span>
                             </TableCell>
                             <TableCell>
-                            <Tooltip title={question?.status} arrow>
-                              <span
-                                className={
-                                  question?.status === "Pending"
-                                    ? "pending fatwa-status"
-                                    : question?.status === "Rejected"
-                                    ? "rejected fatwa-status"
-                                    : question?.status === "Re Submitted"
-                                    ? "reSUbmitted fatwa-status"
-                                    : question?.status ===
-                                      "Received to Darul Ifta"
-                                    ? "recievedToDI fatwa-status"
-                                    : question?.status === "Assigned Mufti"
-                                    ? "assMufthi fatwa-status"
-                                    : question?.status === "Mufti Answered"
-                                    ? "mufthiAns fatwa-status"
-                                    : question?.status ===
-                                      "Completed Verification"
-                                    ? "completeVerification fatwa-status"
-                                    : question?.status === "Published"
-                                    ? "published fatwa-status"
-                                    : ""
-                                }
-                              >
-                                {question?.status}
-                              </span>
+                              <Tooltip title={question?.status} arrow>
+                                <span
+                                  className={
+                                    question?.status === "Pending"
+                                      ? "pending fatwa-status"
+                                      : question?.status === "Rejected"
+                                      ? "rejected fatwa-status"
+                                      : question?.status === "Re Submitted"
+                                      ? "reSUbmitted fatwa-status"
+                                      : question?.status ===
+                                        "Received to Darul Ifta"
+                                      ? "recievedToDI fatwa-status"
+                                      : question?.status === "Assigned Mufti"
+                                      ? "assMufthi fatwa-status"
+                                      : question?.status === "Mufti Answered"
+                                      ? "mufthiAns fatwa-status"
+                                      : question?.status ===
+                                        "Completed Verification"
+                                      ? "completeVerification fatwa-status"
+                                      : question?.status === "Published"
+                                      ? "published fatwa-status"
+                                      : ""
+                                  }
+                                >
+                                  {question?.status}
+                                </span>
                               </Tooltip>
                             </TableCell>
                           </TableRow>
@@ -506,6 +523,16 @@ export default function Fatwas() {
                     )}
                   </TableBody>
                 </Table>
+
+                <TablePagination
+                  rowsPerPageOptions={[]}
+                  component="div"
+                  count={questionList?.count}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  // onRowsPerPageChange={handleChangeRowsPerPage}
+                />
               </TableContainer>
             )}
           </div>

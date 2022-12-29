@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-import { URLS } from "../config/urls.config"
+import { URLS } from "../config/urls.config";
 
 import {
   TextField,
@@ -14,6 +14,7 @@ import {
   Button,
   Grid,
   Paper,
+  TablePagination,
 } from "@mui/material";
 
 import CloseIcon from "@mui/icons-material/Close";
@@ -80,12 +81,14 @@ function a11yProps(index) {
 }
 
 const HomePage = (props) => {
-
-  const location = useLocation()
+  const location = useLocation();
   const [value, setValue] = useState(0);
   const [searchInput, setSearchInput] = useState("");
   const [questionsData, setQuestionsData] = useState([]);
+  const [questionsDataCount, setQuestionsDataCount] = useState(0);
   const [isLoading, setLoader] = useState(false);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const languages = ["", "English", "Malayalam", "Urdu", "Arabic"];
 
@@ -98,10 +101,10 @@ const HomePage = (props) => {
   }, []);
 
   useEffect(() => {
-    if (props?.homeFilter?.category || props?.homeFilter?.madhab) {
+    if (props?.homeFilter?.category || props?.homeFilter?.madhab || page) {
       categoryMadhabFilter();
     }
-  }, [props?.homeFilter?.category, props?.homeFilter?.madhab]);
+  }, [props?.homeFilter?.category, props?.homeFilter?.madhab, page]);
 
   useEffect(() => {
     if (searchInput === "") {
@@ -111,6 +114,7 @@ const HomePage = (props) => {
 
   const handleChange = (event, newValue) => {
     setSearchInput("");
+    setPage(0);
 
     let parms = "";
 
@@ -119,14 +123,18 @@ const HomePage = (props) => {
     } else {
       parms = `?status=Published&language=${languages[newValue]}`;
     }
+
     if (props?.homeFilter?.category?.label) {
       parms = `${parms}&subCategory=${encodeURIComponent(
         props?.homeFilter?.category?.label
       )}`;
     }
+
     if (props?.homeFilter?.madhab?.title) {
       parms = `${parms}&madhab=${props?.homeFilter?.madhab?.title}`;
     }
+
+    parms = `${parms}&skip=0&limit=5`;
 
     getQuestionList(parms);
     setValue(newValue);
@@ -186,6 +194,8 @@ const HomePage = (props) => {
       } else params = `${params}&search=${searchInput}`;
     }
 
+    params = `${params}&skip=${page * rowsPerPage}&limit=10`;
+
     getQuestionList(params);
   };
 
@@ -201,13 +211,13 @@ const HomePage = (props) => {
   };
 
   const getQuestionList = (params) => {
-
     setLoader(true);
     getQuestionListApi(params)
       .then((res) => {
         setLoader(false);
-
         setQuestionsData(res.data);
+        console.log("============ params ================", res.count);
+        setQuestionsDataCount(res.count);
       })
       .catch((err) => {
         setLoader(false);
@@ -216,18 +226,33 @@ const HomePage = (props) => {
       });
   };
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
 
-  console.log("PARAMS ====>", location);
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+  console.log("============ HomePage ================", questionsData);
+
   return (
     <div className="home-page">
       <div
         className="bg-custom slider-section"
         style={{ backgroundImage: `url(${BackgroundImage})` }}
       >
-        {location?.pathname !== "/fatwas" && < Slider />}
+        {location?.pathname !== "/fatwas" && <Slider />}
         <section className="body-section pt-2">
           <div className="container">
-            <Typography variant="h4" align="center" sx={{ paddingY: 4, fontWeight: 'bold' }} className="en_head">Latest Fatwas</Typography>
+            <Typography
+              variant="h4"
+              align="center"
+              sx={{ paddingY: 4, fontWeight: "bold" }}
+              className="en_head"
+            >
+              Latest Fatwas
+            </Typography>
             <div className="row side-row">
               <div className="col-md-3 col-sm-2 col-xs-2 main-madhub-section">
                 <SideNavCategory />
@@ -235,8 +260,6 @@ const HomePage = (props) => {
               </div>
               <div className="col-md-9 ">
                 <Paper elevation={2} className="tab-container p-4">
-
-
                   <div className="row chip-section">
                     <div className="">
                       {props?.homeFilter?.category && (
@@ -286,7 +309,13 @@ const HomePage = (props) => {
                     }}
                   />
                   <Box sx={{ width: "100%" }}>
-                    <Box sx={{ borderBottom: 1, borderColor: "divider", padding: 0 }}>
+                    <Box
+                      sx={{
+                        borderBottom: 1,
+                        borderColor: "divider",
+                        padding: 0,
+                      }}
+                    >
                       <Tabs
                         className="main-tab"
                         value={value}
@@ -313,7 +342,12 @@ const HomePage = (props) => {
                       <>
                         {[0, 1, 2, 3, 4].map((item, i) => {
                           return (
-                            <TabPanel value={value} index={item} key={i} className="main-tab">
+                            <TabPanel
+                              value={value}
+                              index={item}
+                              key={i}
+                              className="main-tab"
+                            >
                               {questionsData?.length ? (
                                 questionsData?.map((questions) => {
                                   return (
@@ -342,13 +376,22 @@ const HomePage = (props) => {
                             </TabPanel>
                           );
                         })}
+
+                        <TablePagination
+                          rowsPerPageOptions={[]}
+                          component="div"
+                          count={questionsDataCount}
+                          rowsPerPage={rowsPerPage}
+                          page={page}
+                          onPageChange={handleChangePage}
+                          // onRowsPerPageChange={handleChangeRowsPerPage}
+                        />
                       </>
                     )}
                   </Box>
                 </Paper>
               </div>
             </div>
-
           </div>
         </section>
         {props.children}
