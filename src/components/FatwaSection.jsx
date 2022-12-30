@@ -216,7 +216,6 @@ const HomePage = (props) => {
       .then((res) => {
         setLoader(false);
         setQuestionsData(res.data);
-        console.log("============ params ================", res.count);
         setQuestionsDataCount(res.count);
       })
       .catch((err) => {
@@ -234,7 +233,6 @@ const HomePage = (props) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-  console.log("============ HomePage ================", questionsData);
 
   return (
     <div className="home-page">
@@ -353,7 +351,7 @@ const HomePage = (props) => {
                                   return (
                                     <QuestionComponent
                                       key={questions?._id}
-                                      id={questions?._id}
+                                      id={questions?.slNo}
                                       shortquestion={questions?.short_question}
                                       question={questions?.question}
                                       questionCount={questions?.slNo}
