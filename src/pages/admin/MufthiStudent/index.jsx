@@ -14,6 +14,7 @@ import {
   TextField,
   Paper,
   InputAdornment,
+  TablePagination,
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
@@ -21,8 +22,8 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
 
-import {URLS} from "../../../config/urls.config"
-import Loader from "../../../components/common/Loader"
+import { URLS } from "../../../config/urls.config";
+import Loader from "../../../components/common/Loader";
 import NoDataAvailable from "../../../components/NoDataAvailable";
 import routerList from "../../../routes/routerList";
 
@@ -32,12 +33,16 @@ export default function MufthiAndStudent() {
   const [userData, setUserData] = useState([]);
   const [isLoading, setLoader] = useState(false);
   const [roles, setRoles] = useState("Mufthi");
-  const [student,setStudent]=useState("Student")
+  const [student, setStudent] = useState("Student");
   const [searchInput, setSearchInput] = useState("");
+  const [userCount, setUserCount] = useState(0);
+
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
     getUserListApi();
-  }, []);
+  }, [page]);
 
   useEffect(() => {
     if (searchInput === "") {
@@ -45,27 +50,27 @@ export default function MufthiAndStudent() {
     }
   }, [searchInput]);
 
+  const handleChangePage = (e, newPage) => setPage(newPage);
+
   const getUserListApi = () => {
     setLoader(true);
-    let params=""
-    if(searchInput !== ""){
-        params= `?userType=${roles}&search=${searchInput}`
-    
-    // `${URLS.user}${URLS.signup}?userType=${roles}`;
-    }
-    else{
-      params=`?userType=${roles},${student}`;
+    let params = "";
+    if (searchInput !== "") {
+      params = `?userType=${roles}&search=${searchInput}&skip=${
+        page * rowsPerPage
+      }&limit=10`;
+    } else {
+      params = `?userType=${roles},${student}&skip=${
+        page * rowsPerPage
+      }&limit=10`;
     }
     axios
-      .get(`${URLS.user}${URLS.signup}${params}`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then(({ data }) => {
+      .get(`${URLS.user}${URLS.signup}${params}`)
+      .then((data) => {
         setLoader(false);
         console.log("res userss1111", data);
-        setUserData(data);
+        setUserCount(data?.count);
+        setUserData(data?.data);
       })
       .catch((err) => {
         setLoader(false);
@@ -155,7 +160,11 @@ export default function MufthiAndStudent() {
                               "&:last-child td, &:last-child th": { border: 0 },
                             }}
                             key={user._id}
-                            onClick={() => navigate(`${routerList.admin.admin}/${routerList.admin.mufthiAndStudentDetails}/${user._id}`)}
+                            onClick={() =>
+                              navigate(
+                                `${routerList.admin.admin}/${routerList.admin.mufthiAndStudentDetails}/${user._id}`
+                              )
+                            }
                           >
                             <TableCell>
                               <span>{user?.name || "N/A"}</span>
@@ -184,17 +193,25 @@ export default function MufthiAndStudent() {
                     ) : (
                       <TableRow>
                         <TableCell colSpan={6}>
-                        <div
-                                  className="d-flex justify-content-center align-items-center"
-                                  // style={{ minHeight: "326px" }}
-                                >
-                                  <NoDataAvailable noStyle noBg />
-                                </div>
+                          <div
+                            className="d-flex justify-content-center align-items-center"
+                            // style={{ minHeight: "326px" }}
+                          >
+                            <NoDataAvailable noStyle noBg />
+                          </div>
                         </TableCell>
                       </TableRow>
                     )}
                   </TableBody>
                 </Table>
+                <TablePagination
+                  rowsPerPageOptions={[]}
+                  component="div"
+                  count={userCount}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handleChangePage}
+                />
               </TableContainer>
             )}
           </div>

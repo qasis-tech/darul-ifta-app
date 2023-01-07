@@ -51,7 +51,7 @@ const SideNavCategory = ({ addHomeFilter, homeFilter, ...other }) => {
       })
       .catch((err) => {
         setLoader(false);
-        console.log("error madhab", err);
+        console.log("error in madhab", err);
       });
   };
 
@@ -94,7 +94,6 @@ const SideNavCategory = ({ addHomeFilter, homeFilter, ...other }) => {
                           className="accordion-sub"
                           onClick={() => {
                             let temp = { ...homeFilter };
-                            console.log("categoriesChip ==> ", temp);
                             temp.category = subcategory;
                             addHomeFilter(temp);
                           }}

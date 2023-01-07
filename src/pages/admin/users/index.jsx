@@ -14,6 +14,7 @@ import {
   TextField,
   Paper,
   InputAdornment,
+  TablePagination,
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
@@ -29,15 +30,19 @@ import RouterList from "../../../routes/routerList";
 import "./user.styles.scss";
 
 export default function User() {
+  const navigate = useNavigate();
+
   const [userData, setUserData] = useState([]);
   const [isLoading, setLoader] = useState(false);
   const [roles, setRoles] = useState("User");
   const [searchInput, setSearchInput] = useState("");
-  const [selectedRole,setSelectedRole]=useState()
+  const [userCount, setUserCount] = useState(0);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
     getUserListApi();
-  }, []);
+  }, [page]);
 
   useEffect(() => {
     if (searchInput === "") {
@@ -47,25 +52,21 @@ export default function User() {
 
   const getUserListApi = () => {
     setLoader(true);
-    let params=""
-    if(searchInput !== ""){
-        params= `?userType=${roles}&search=${searchInput}`
-    
-    // `${URLS.user}${URLS.signup}?userType=${roles}`;
-    }
-    else{
-      params=`?userType=${roles}`;
+    let params = "";
+    if (searchInput !== "") {
+      params = `?userType=${roles}&search=${searchInput}&skip=${
+        page * rowsPerPage
+      }&limit=10`;
+    } else {
+      params = `?userType=${roles}&skip=${page * rowsPerPage}&limit=10`;
     }
     axios
-      .get(`${URLS.user}${URLS.signup}${params}`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then(({ data }) => {
+      .get(`${URLS.user}${URLS.signup}${params}`)
+      .then((data) => {
         setLoader(false);
         console.log("res userss1111", data);
-        setUserData(data);
+        setUserCount(data?.count);
+        setUserData(data?.data);
       })
       .catch((err) => {
         setLoader(false);
@@ -73,7 +74,7 @@ export default function User() {
       });
   };
 
-  const navigate = useNavigate();
+  const handleChangePage = (e, newPage) => setPage(newPage);
 
   return (
     <div className="user-section ">
@@ -142,13 +143,12 @@ export default function User() {
                       <TableCell>Email</TableCell>
                       <TableCell>USer Type</TableCell>
                       <TableCell>Status</TableCell>
-                      {/* <TableCell>Action</TableCell> */}
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {userData.length ? (
                       userData.map((user) => {
-                        console.log("filterrrr",user)
+                        console.log("filterrrr", user);
                         return (
                           <TableRow
                             hover
@@ -175,27 +175,28 @@ export default function User() {
                                 </span>
                               )}
                             </TableCell>
-                            {/* <TableCell>
-                              <EditIcon className="edit-icon" />
-                              <VisibilityIcon className="view-icon" />
-                            </TableCell> */}
                           </TableRow>
                         );
                       })
                     ) : (
                       <TableRow>
                         <TableCell colSpan={6}>
-                        <div
-                                  className="d-flex justify-content-center align-items-center"
-                                  // style={{ minHeight: "326px" }}
-                                >
-                                  <NoDataAvailable noStyle noBg />
-                                </div>
+                          <div className="d-flex justify-content-center align-items-center">
+                            <NoDataAvailable noStyle noBg />
+                          </div>
                         </TableCell>
                       </TableRow>
                     )}
                   </TableBody>
                 </Table>
+                <TablePagination
+                  rowsPerPageOptions={[]}
+                  component="div"
+                  count={userCount}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handleChangePage}
+                />
               </TableContainer>
             )}
           </div>

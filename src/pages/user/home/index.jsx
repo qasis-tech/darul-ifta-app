@@ -153,7 +153,7 @@ const HomePage = (props) => {
     let params = "?status=Published";
     if (category === null || madhab === null) {
       if (category === null && madhab !== null) {
-        params = `&madhab=${props.homeFilter.madhab.title}&language=${languages[value]}`;
+        params = `${params}&madhab=${props.homeFilter.madhab.title}&language=${languages[value]}`;
       } else if (madhab === null && category !== null) {
         params = `&subCategory=${encodeURIComponent(
           props?.homeFilter?.category?.label
@@ -161,26 +161,26 @@ const HomePage = (props) => {
       }
     } else {
       if (props?.homeFilter?.category && props.homeFilter.madhab) {
-        params = `&subCategory=${encodeURIComponent(
+        params = `${params}&subCategory=${encodeURIComponent(
           props?.homeFilter?.category?.label
         )}&madhab=${props.homeFilter.madhab.title}`;
       } else if (props?.homeFilter?.category) {
-        params = `&subCategory=${encodeURIComponent(
+        params = `${params}&subCategory=${encodeURIComponent(
           props?.homeFilter?.category?.label
         )}`;
       } else if (props?.homeFilter?.madhab) {
-        params = `&madhab=${props.homeFilter.madhab.title}`;
+        params = `${params}&madhab=${props.homeFilter.madhab.title}`;
       }
     }
     if (value > 0) {
       if (params === "") {
-        params = `&language=${languages[value]}`;
+        params = `${params}&language=${languages[value]}`;
       } else params = `${params}&language=${languages[value]}`;
     }
 
     if (searchInput !== "") {
       if (params === "") {
-        params = `&search=${searchInput}`;
+        params = `${params}&search=${searchInput}`;
       } else params = `${params}&search=${searchInput}`;
     }
 

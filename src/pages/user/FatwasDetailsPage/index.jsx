@@ -17,7 +17,6 @@ import Loader from "../../../components/common/Loader";
 
 import "./fatwas.details.styles.scss";
 
-
 export default function FatwasDetailsPage() {
   const { id } = useParams();
   const [questionDetails, setQuestionDetails] = useState(null);
@@ -30,7 +29,6 @@ export default function FatwasDetailsPage() {
         .then((res) => {
           setLoader(false);
           setQuestionDetails(res?.data);
-          console.log("id ==> ", res?.data)
         })
         .catch((err) => {
           setQuestionDetails(null);
@@ -42,7 +40,7 @@ export default function FatwasDetailsPage() {
         });
     }
     window.scrollTo(0, 0);
-  }, []);
+  }, [id]);
 
   return (
     <>
@@ -52,14 +50,13 @@ export default function FatwasDetailsPage() {
         </div>
       ) : (
         <>
-
           <div className="container">
             <QuestionNumberComponent data={questionDetails} />
             <Divider sx={{ marginY: 1 }} />
             <SingleQuestionComponent data={questionDetails} />
             <PublishedDateComponent data={questionDetails} />
             <Grid container>
-              <Grid item md={0.5} xs={1.5} >
+              <Grid item md={0.5} xs={1.5}>
                 <SocialComponent {...questionDetails} />
               </Grid>
               <Grid item md={8.5} xs={10.5}>
@@ -68,7 +65,7 @@ export default function FatwasDetailsPage() {
                   <WrittenComponent data={questionDetails} />
                 )}
               </Grid>
-              <Grid item md={3} xs={12} >
+              <Grid item md={3} xs={12}>
                 <RelatedFatwasComponent data={questionDetails} />
               </Grid>
             </Grid>

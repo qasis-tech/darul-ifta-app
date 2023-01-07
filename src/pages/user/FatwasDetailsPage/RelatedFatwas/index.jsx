@@ -14,26 +14,18 @@ export default function RelatedFatwas({ data }) {
 
   const [questionList, setQuestionList] = useState([]);
   const [isLoader, setLoader] = useState(false);
-  // const [limit,setLimit]=useState(3)
 
   const subCategoryLabel = data?.sub_category?.map((sub) => sub?.label)[0];
 
-  console.log("subCategoryLabel ==", subCategoryLabel);
-
   useEffect(() => {
-    // getQuestionList(
-    //   `?status=Published&subCategory=${encodeURIComponent(
-    //     subCategoryLabel
-    //   )}&limit=3`
-    // );
-    getQuestionList()
+    getQuestionList();
   }, []);
 
   const getQuestionList = () => {
     setLoader(true);
     // getQuestionListApi()
     let params = `?status=Published&limit=3&skip=3`;
-    console.log("parammmm", params)
+    console.log("parammmm", params);
     axios
       .get(`${URLS.question}${params}`, {
         headers: {
@@ -41,7 +33,6 @@ export default function RelatedFatwas({ data }) {
         },
       })
       .then((res) => {
-        console.log("responseeeeeeeeee=====>", res);
         setLoader(false);
 
         setQuestionList(
@@ -57,34 +48,46 @@ export default function RelatedFatwas({ data }) {
       });
   };
 
-
   return (
-    <div className="related-fatwas-section mt-3 pb-5" style={{ marginBottom: '4em' }}>
+    <div
+      className="related-fatwas-section mt-3 pb-5"
+      style={{ marginBottom: "4em" }}
+    >
       <div className="related-fatwas-container mb-1">
         <div className="col-md-12 main-head">
           <Typography className="heading">Related Fatwas</Typography>
         </div>
         {questionList?.length ? (
           questionList?.map((slicedques) => {
-            console.log("sliced==========>", questionList);
             return (
               <div key={slicedques?._id} className="container">
-                <div className="col-md-12 sub-details my-3  py-2 px-2">
+                <div
+                  className="col-md-12 sub-details my-3  py-2 px-2"
+                  onClick={() => {
+                    console.log(
+                      "slicedques",
+                      `${routerList.user.fatwasDetailsPage}/${slicedques?.slNo}`
+                    );
+                    navigate(
+                      `${routerList.user.fatwasDetailsPage}/${slicedques.slNo}`
+                    );
+                  }}
+                >
                   <Grid item xs={12} md={12} className="line-clamp">
                     <Typography variant="paragraph" className="title">
                       {slicedques?.short_question}
                     </Typography>
                   </Grid>
                   <div className="row d-flex sub-btn justify-content-between mt-2 pb-1">
-                    <div className="col-md-6">
+                    {/* <div className="col-md-6">
                       <Chip
                         label={`Q${slicedques?.slNo
                           ?.toString()
                           ?.padStart(3, "0")}`}
                         className="id-button"
                       />
-                    </div>
-                    <div className="col-md-6">
+                    </div> */}
+                    {/* <div className="col-md-6">
                       <Chip
                         label="Read More"
                         className="id-button"
@@ -93,12 +96,8 @@ export default function RelatedFatwas({ data }) {
                             `${routerList.user.fatwasDetailsPage}/${slicedques?.slNo}`
                           )
                         }
-                      //  {
-                      //   state: { data: slicedques },
-                      // })
-                      // }
                       />
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
