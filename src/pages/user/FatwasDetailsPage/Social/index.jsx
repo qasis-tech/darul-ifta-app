@@ -5,28 +5,36 @@ import {
   FacebookShareButton,
   TwitterShareButton,
   WhatsappShareButton,
-  FacebookIcon, WhatsappIcon, TwitterIcon
+  FacebookIcon,
+  WhatsappIcon,
+  TwitterIcon,
 } from "react-share";
 
 import "./social.styles.scss";
 
 export default function Social(questionDetails) {
-
-  const { pathname } = useLocation()
-  const BaseUrl = process.env.REACT_APP_PUBLIC_URL
-
-
+  const { pathname } = useLocation();
+  const BaseUrl = process.env.REACT_APP_PUBLIC_URL;
 
   return (
     <Grid className="pt-3">
       <div className="social-container">
         <div className="col py-2 d-flex">
-          <WhatsappShareButton url={`${BaseUrl}${pathname}`} title={questionDetails.question} separator="" >
+          <WhatsappShareButton
+            url={`${BaseUrl}${pathname}`}
+            title={`madhab : ${
+              questionDetails?.madhab?.title
+            }${"\n"}category : ${questionDetails?.sub_category
+              ?.map((li) => li.label)
+              .join(",")}${"\n\n"}Question : ${questionDetails.question}`}
+            separator=""
+          >
             <WhatsappIcon className="img" />
           </WhatsappShareButton>
         </div>
         <div>
-          <FacebookShareButton className="col py-2 d-flex"
+          <FacebookShareButton
+            className="col py-2 d-flex"
             url={`${BaseUrl}/${pathname}`}
             quote="Fatwas"
             hashtag={"#daruliftakauzariyya"}
@@ -36,14 +44,14 @@ export default function Social(questionDetails) {
         </div>
         <div className="col py-2 d-flex">
           <TwitterShareButton
-            url={`${BaseUrl}${pathname}`} title={questionDetails?.short_question}
+            url={`${BaseUrl}${pathname}`}
+            title={questionDetails?.short_question}
             hashtags={["daruliftakaurariyya"]}
           >
             <TwitterIcon className="img" />
           </TwitterShareButton>
         </div>
       </div>
-
     </Grid>
   );
 }

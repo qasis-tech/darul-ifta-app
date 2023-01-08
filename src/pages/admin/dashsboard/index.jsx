@@ -36,12 +36,7 @@ export default function Dashboard() {
   const [questionList, setQuestionList] = useState([]);
   const [counteList, setCounteList] = useState(null);
   const [searchInput, setSearchInput] = useState("");
-  const [errorPopup, setError] = useState({
-    visible: false,
-    message: "",
-    type: "error",
-    titile: "",
-  });
+
   useEffect(() => {
     getQuestions("?updatedDate=DESC");
     getGeneralsList();
@@ -71,15 +66,6 @@ export default function Dashboard() {
         console.log("Errr in get QUestion API", err);
         setQuestionList([]);
       });
-  };
-
-  const handleCloseError = () => {
-    setError({
-      visible: false,
-      message: "",
-      type: "",
-      title: "",
-    });
   };
 
   const navigate = useNavigate();
@@ -276,15 +262,6 @@ export default function Dashboard() {
                     </TableBody>
                   </Table>
                 </TableContainer>
-              )}
-              {errorPopup.visible && (
-                <SnackBar
-                  visible={errorPopup.visible}
-                  message={errorPopup.message}
-                  type={errorPopup.type}
-                  title={errorPopup.titile}
-                  onClose={() => handleCloseError()}
-                />
               )}
             </div>
           </div>

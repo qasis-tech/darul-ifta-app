@@ -43,8 +43,6 @@ import {
   addHomeFilter,
 } from "../../../redux/actions";
 import { getLocal } from "../../../utils/localStore";
-import { minHeight } from "@mui/system";
-import { Grade } from "@mui/icons-material";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -328,7 +326,7 @@ const HomePage = (props) => {
                                       question={questions?.question}
                                       questionCount={questions?.slNo}
                                       createdDate={formatDate(
-                                        questions?.createdAt
+                                        questions?.answered_date
                                       )}
                                       views={questions?.views}
                                       data={questions}

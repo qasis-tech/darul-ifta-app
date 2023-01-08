@@ -166,7 +166,10 @@ const HeaderComponent = ({ closePopup, userLoginDetails }) => {
                             onClick={() => {
                               authLogout(() => {
                                 navigate(`${routerList.user.home}`);
-                                toast("logged out sucessfully")
+                                setTimeout(() => {
+                                  toast("logged out sucessfully");
+                                  window.reload();
+                                }, 100);
                               });
                             }}
                           >

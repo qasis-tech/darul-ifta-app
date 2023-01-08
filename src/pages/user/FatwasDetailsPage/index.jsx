@@ -16,6 +16,7 @@ import getQuestionListApi from "../../../services/getQuestionsList";
 import Loader from "../../../components/common/Loader";
 
 import "./fatwas.details.styles.scss";
+import { Helmet } from "react-helmet";
 
 export default function FatwasDetailsPage() {
   const { id } = useParams();
@@ -42,8 +43,17 @@ export default function FatwasDetailsPage() {
     window.scrollTo(0, 0);
   }, [id]);
 
+  console.log("questionDetails ==>", questionDetails);
   return (
     <>
+      <Helmet>
+        <title>{`QID : ${
+          questionDetails?.slNo
+        } - Category : ${questionDetails?.sub_category
+          ?.map((li) => li.label)
+          .join(",")} - Madhab : ${questionDetails?.madhab?.title} `}</title>
+        <meta name="description" content="Helmet application" />
+      </Helmet>
       {isLoading ? (
         <div className="mt-5 pt-5">
           <Loader />

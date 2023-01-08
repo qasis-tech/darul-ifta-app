@@ -30,32 +30,33 @@ const QuestionContainer = (props) => {
               spacing={1}
               columns={{ xs: 4, md: 12 }}
               className="q-footer d-flex"
+              alignItems="center"
             >
               <Grid item xs={1} md={1} className="number-btn">
                 <Typography variant="subtitle2" className="q-no" align="center">
                   Q{props?.questionCount?.toString().padStart(3, "0")}
                 </Typography>
               </Grid>
-              <Grid item xs={6} md={6} className="w-name d-flex">
-                <Grid item xs={3} md={3} className="writtenby-section">
+              <Grid item xs={7} md={7.5} className="w-name d-flex">
+                <Grid item xs={3} md={2.5} className="writtenby-section">
                   <Typography variant="subtitle1" className="writtenby-section">
                     Written By
                   </Typography>
                 </Grid>
 
-                <Grid item xs={1} md={1}>
+                <Grid item xs={0.5} md={0.5}>
                   <Typography variant="subtitle1" className="colon mx-1">
                     {" "}
                     :{" "}
                   </Typography>
                 </Grid>
-                <Grid item xs={9} md={8}>
+                <Grid item xs={9} md={9}>
                   <Typography variant="subtitle1">
                     {props?.data?.mufti?.display_title || "N/A"}
                   </Typography>
                 </Grid>
               </Grid>
-              <Grid item md={3} xs={12} className="w-name d-flex">
+              <Grid item md={2} xs={12} className="w-name d-flex">
                 <Grid item xs={3} md={3} className="writtenby-section">
                   <Typography variant="subtitle1" className="writtenby-section">
                     Date
@@ -73,7 +74,7 @@ const QuestionContainer = (props) => {
                   </Typography>
                 </Grid>
               </Grid>
-              <Grid item md={2} xs={12} className="w-name d-flex">
+              <Grid item md={1.5} xs={12} className="w-name d-flex">
                 <Grid item xs={3} md={5} className="writtenby-section">
                   <Typography variant="subtitle1" className="writtenby-section">
                     Views
@@ -85,7 +86,7 @@ const QuestionContainer = (props) => {
                     :{" "}
                   </Typography>
                 </Grid>
-                <Grid item xs={8} md={6}>
+                <Grid item xs={8} md={3}>
                   <Typography variant="subtitle1">{props?.views}</Typography>
                 </Grid>
               </Grid>
