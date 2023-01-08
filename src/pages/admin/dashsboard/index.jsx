@@ -8,7 +8,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import LanguageIcon from "@mui/icons-material/Language";
 import SearchIcon from "@mui/icons-material/Search";
 import SnackBar from "../../../components/common/Snackbar";
-import Tooltip from '@mui/material/Tooltip';
+import Tooltip from "@mui/material/Tooltip";
 import {
   Table,
   TableBody,
@@ -43,7 +43,7 @@ export default function Dashboard() {
     titile: "",
   });
   useEffect(() => {
-    getQuestions();
+    getQuestions("?updatedDate=DESC");
     getGeneralsList();
   }, []);
 
@@ -146,7 +146,7 @@ export default function Dashboard() {
                                   searchInput !== "" ? "visible" : "hidden",
                               }}
                               onClick={() => {
-                                getQuestions("");
+                                getQuestions("?updatedDate=DESC");
                                 setSearchInput("");
                               }}
                             >
@@ -184,7 +184,7 @@ export default function Dashboard() {
                         <TableCell>Q ID</TableCell>
                         <TableCell>Mustafthi</TableCell>
                         <TableCell>Short Question</TableCell>
-                        <TableCell>Created Date</TableCell>
+                        <TableCell>Updated Date</TableCell>
                         <TableCell>Category</TableCell>
                         <TableCell>Madhab</TableCell>
                         <TableCell>Status</TableCell>
@@ -204,7 +204,7 @@ export default function Dashboard() {
                               }}
                               onClick={() =>
                                 navigate(
-                                  `${routerList?.admin?.fatwasDetails}/${items?._id}`,
+                                  `${routerList?.admin?.fatwasDetails}/${items?.slNo}`,
                                   {
                                     state: items,
                                   }
@@ -219,8 +219,8 @@ export default function Dashboard() {
                                 {items?.short_question || "N/A"}
                               </TableCell>
                               <TableCell>
-                                {items?.createdAt
-                                  ? formatDate(items?.createdAt)
+                                {items?.updatedAt
+                                  ? formatDate(items?.updatedAt)
                                   : "N/A"}
                               </TableCell>
                               <TableCell>
@@ -230,33 +230,32 @@ export default function Dashboard() {
                                 {items?.madhab?.title || "N/A"}
                               </TableCell>
                               <TableCell>
-                              <Tooltip title={items?.status} arrow>
-                                <span
-                                  className={
-                                    items?.status
-                                     === "Pending"
-                                      ? "pending fatwa-status"
-                                      : items?.status === "Rejected"
-                                      ? "rejected fatwa-status"
-                                      : items?.status === "Re Submitted"
-                                      ? "reSUbmitted fatwa-status"
-                                      : items?.status ===
-                                        "Received to Darul Ifta"
-                                      ? "recievedToDI fatwa-status"
-                                      : items?.status === "Assigned Mufti"
-                                      ? "assMufthi fatwa-status"
-                                      : items?.status === "Mufti Answered"
-                                      ? "mufthiAns fatwa-status"
-                                      : items?.status ===
-                                        "Completed Verification"
-                                      ? "completeVerification fatwa-status"
-                                      : items?.status === "Published"
-                                      ? "published fatwa-status"
-                                      : ""  
-                                  }
-                                >
-                                  {items?.status}
-                                </span>
+                                <Tooltip title={items?.status} arrow>
+                                  <span
+                                    className={
+                                      items?.status === "Pending"
+                                        ? "pending fatwa-status"
+                                        : items?.status === "Rejected"
+                                        ? "rejected fatwa-status"
+                                        : items?.status === "Re Submitted"
+                                        ? "reSUbmitted fatwa-status"
+                                        : items?.status ===
+                                          "Received to Darul Ifta"
+                                        ? "recievedToDI fatwa-status"
+                                        : items?.status === "Assigned Mufti"
+                                        ? "assMufthi fatwa-status"
+                                        : items?.status === "Mufti Answered"
+                                        ? "mufthiAns fatwa-status"
+                                        : items?.status ===
+                                          "Completed Verification"
+                                        ? "completeVerification fatwa-status"
+                                        : items?.status === "Published"
+                                        ? "published fatwa-status"
+                                        : ""
+                                    }
+                                  >
+                                    {items?.status}
+                                  </span>
                                 </Tooltip>
                               </TableCell>
                             </TableRow>

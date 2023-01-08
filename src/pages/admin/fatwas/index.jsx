@@ -455,7 +455,7 @@ export default function Fatwas() {
                             }}
                             onClick={() =>
                               navigate(
-                                `${routerList.admin.fatwasDetails}/${question?._id}`
+                                `${routerList.admin.fatwasDetails}/${question?.slNo}`
                               )
                             }
                           >

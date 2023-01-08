@@ -191,14 +191,16 @@ export default function FatwasDetails() {
   const getMufthiApi = () => {
     setLoader(true);
     axios
-      .get(`${URLS.user}${URLS.signup}?userType=Mufthi,Students`)
+      .get(
+        `${URLS.user}${URLS.signup}?userType=Mufthi,Student&skip=0&limit=500`
+      )
       .then(({ data }) => {
         setLoader(false);
         setMufthiList(data);
       })
       .catch((err) => {
         setLoader(false);
-        console.log("error mufthii--", err);
+        console.log("error mufthii-- fatwas details Admin", err);
         setMufthiList([]);
       });
   };

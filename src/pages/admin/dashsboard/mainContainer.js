@@ -90,9 +90,16 @@ function DashboardPage() {
       title: "CATEGORY",
       icon: <SummarizeIcon />,
     },
-    { path: RouterList.admin.mufthiAndStudent, title: "Mufthi & Student", icon: <PeopleIcon /> },
-    { path: RouterList.admin.user, title: "Musthafti (User)", icon: <PeopleIcon /> },
-
+    {
+      path: RouterList.admin.mufthiAndStudent,
+      title: "Mufthi & Student",
+      icon: <PeopleIcon />,
+    },
+    {
+      path: RouterList.admin.user,
+      title: "Musthafti (User)",
+      icon: <PeopleIcon />,
+    },
   ]);
   const getPathName = () =>
     startCase(
@@ -102,22 +109,21 @@ function DashboardPage() {
     );
 
   return (
-    <Box sx={{ display: "flex", }}>
+    <Box sx={{ display: "flex" }}>
       <AppBar
         position="fixed"
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
         <div className="row appbar-heading-section">
           <Toolbar>
-            <div className="col-md-2  logo">
+            <div className="col-md-2 logo pointer">
               <img
                 className="bg-light logo-image rounded"
                 src={LogoImage}
                 alt="logo image"
               />
-
             </div>
-            <div className="row col-md-8">
+            <div className="row col-md-8 ">
               <div className="col-auto px-0 pointer">
                 {getPathName() !== "Dashboard" && (
                   <ArrowBackIosIcon onClick={() => navigate(-1)} />
@@ -184,7 +190,8 @@ function DashboardPage() {
           [`& .MuiDrawer-paper`]: {
             width: drawerWidth,
             boxSizing: "border-box",
-            backgroundColor: '#000', color: "#fff"
+            backgroundColor: "#000",
+            color: "#fff",
           },
         }}
       >
@@ -196,7 +203,7 @@ function DashboardPage() {
                 return (
                   <ListItem key={index} disablePadding>
                     <ListItemButton onClick={() => navigate(item.path)}>
-                      <ListItemIcon style={{ color: '#fff' }} >
+                      <ListItemIcon style={{ color: "#fff" }}>
                         {item.icon || <HomeIcon />}
                         {/* {index % 2 === 0 ? <HomeIcon /> : <ViewListIcon />} */}
                       </ListItemIcon>
